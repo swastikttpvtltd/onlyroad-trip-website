@@ -16,15 +16,27 @@ import newMultiStatePackages from "./packages/multi-state/new-multi-state-packag
 import kashmirPackages from "./packages/kashmir/kashmir-packages";
 import himachalPackages from "./packages/himachal-packages";
 import ladakhPackages from "./packages/ladakh-packages";
-import nextStatesPackages from "./packages/next-states-packages";
-import islandPackages from "./packages/island-packages";
+import punjabPackages from "./packages/punjab/punjab-packages";
+import keralaPackages from "./packages/kerala/kerala-packages";
+import goaPackages from "./packages/goa/goa-packages";
+import maharashtraPackages from "./packages/maharashtra/maharashtra-packages";
+import madhyaPradeshPackages from "./packages/madhya-pradesh/madhya-pradesh-packages";
+import sikkimPackages from "./packages/sikkim/sikkim-packages";
+import westBengalPackages from "./packages/west-bengal/west-bengal-packages";
+import assamPackages from "./packages/assam/assam-packages";
+import meghalayaPackages from "./packages/meghalaya/meghalaya-packages";
+import karnatakaPackages from "./packages/karnataka/karnataka-packages";
+import tamilNaduPackages from "./packages/tamil-nadu/tamil-nadu-packages";
+import andamanPackages from "./packages/andaman-nicobar/andaman-nicobar-packages";
+import lakshadweepPackages from "./packages/lakshadweep/lakshadweep-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 import { makePackageRates } from "./packagePricing";
 import { getBestTime } from "./packageBestTime";
 import { packageImageGalleries } from "./packageImages";
 
-const rawPackages=[...islandPackages,...nextStatesPackages,...ladakhPackages,...himachalPackages,...kashmirPackages,...newMultiStatePackages,...uttarPradeshPackages,...uttarakhandPackages,rajasthanGrandTour,jaipurJodhpurUdaipur,jodhpurJaisalmer,udaipurMountAbu,jaipurAjmerPushkar,jaipurHeritage,gujaratGrandTour,dwarkaSomnath,girNationalPark,ramUtsav,saputara,statueOfUnity];
+const stateWisePackages=[...andamanPackages,...lakshadweepPackages,...punjabPackages,...keralaPackages,...goaPackages,...maharashtraPackages,...madhyaPradeshPackages,...sikkimPackages,...westBengalPackages,...assamPackages,...meghalayaPackages,...karnatakaPackages,...tamilNaduPackages];
+const rawPackages=[...stateWisePackages,...ladakhPackages,...himachalPackages,...kashmirPackages,...newMultiStatePackages,...uttarPradeshPackages,...uttarakhandPackages,rajasthanGrandTour,jaipurJodhpurUdaipur,jodhpurJaisalmer,udaipurMountAbu,jaipurAjmerPushkar,jaipurHeritage,gujaratGrandTour,dwarkaSomnath,girNationalPark,ramUtsav,saputara,statueOfUnity];
 const standardHotels=[{name:"3-Star Hotel / Similar",category:"3-Star",star:"3-Star Hotel"}];
 const standardMeals=["Buffet Breakfast at hotel (subject to hotel service format and occupancy)","Buffet Dinner at hotel (subject to hotel service format and occupancy)"];
 
