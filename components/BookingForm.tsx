@@ -1,23 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
-import { packages } from "@/data/packages";
 
 type Rates = Record<string, number>;
 type Props = { packageTitle?: string; packageId?: string; groupRates?: Rates };
 
-const blocked: Record<string,string> = {
-  "2026-10-20":"Dussehra", "2026-11-08":"Diwali", "2026-11-24":"Dev Deepawali",
-  "2026-12-25":"Christmas", "2026-12-31":"New Year's Eve", "2027-01-01":"New Year", "2027-01-26":"Republic Day",
-};
+const blocked: Record<string,string> = {"2026-10-20":"Dussehra","2026-11-08":"Diwali","2026-11-24":"Dev Deepawali","2026-12-25":"Christmas","2026-12-31":"New Year's Eve","2027-01-01":"New Year","2027-01-26":"Republic Day"};
 const iso=(d:Date)=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const addDays=(n:number)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return iso(d)};
 function rateForPax(rates:Rates|undefined,pax:number){if(!rates)return 0;if(pax<=2)return rates["2"]??0;if(pax<=4)return rates["4"]??rates["2"]??0;if(pax<=6)return rates["6"]??rates["4"]??0;if(pax<=12)return rates["12"]??rates["6"]??0;if(pax<=16)return rates["16"]??rates["12"]??0;if(pax<=20)return rates["20"]??rates["16"]??0;if(pax<=25)return rates["25"]??rates["20"]??0;if(pax<=30)return rates["30"]??rates["25"]??0;return rates["30+"]??rates["30"]??0;}
 
-export default function BookingForm(props:Props) {
-  const pathname=usePathname(); const slug=pathname.split("/").filter(Boolean).pop(); const current=packages.find(p=>p.slug===slug);
-  const packageTitle=props.packageTitle??current?.title??"Tour Package"; const packageId=props.packageId??current?.packageId??""; const groupRates=(props.groupRates??current?.groupRates) as Rates|undefined;
+export default function BookingForm({packageTitle,packageId,groupRates}:Props) {
+  if(!packageTitle || !groupRates) return null;
   const [name,setName]=useState(""); const [phone,setPhone]=useState(""); const [email,setEmail]=useState(""); const [travelDate,setTravelDate]=useState(""); const [adults,setAdults]=useState(2); const [children,setChildren]=useState(0); const [nationality,setNationality]=useState("Indian"); const [dob,setDob]=useState(""); const [idType,setIdType]=useState("Aadhaar"); const [idNumber,setIdNumber]=useState(""); const [message,setMessage]=useState("");
   const totalPax=Math.max(1,adults+children),pp=rateForPax(groupRates,totalPax),total=pp*totalPax,minBookDate=addDays(7),festival=blocked[travelDate];
   const selectedLead=useMemo(()=>travelDate?Math.ceil((new Date(`${travelDate}T12:00:00`).getTime()-new Date().setHours(12,0,0,0))/86400000):999,[travelDate]); const enquiryOnly=selectedLead>=0&&selectedLead<7;
