@@ -16,20 +16,11 @@ import newMultiStatePackages from "./packages/multi-state/new-multi-state-packag
 import kashmirPackages from "./packages/kashmir/kashmir-packages";
 import himachalPackages from "./packages/himachal-packages";
 import ladakhPackages from "./packages/ladakh-packages";
+import nextStatesPackages from "./packages/next-states-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
-
-const rawPackages = [
-  ...ladakhPackages,
-  ...himachalPackages,
-  ...kashmirPackages,
-  ...newMultiStatePackages,
-  ...uttarPradeshPackages,
-  ...uttarakhandPackages,
-  rajasthanGrandTour, jaipurJodhpurUdaipur, jodhpurJaisalmer, udaipurMountAbu, jaipurAjmerPushkar, jaipurHeritage,
-  gujaratGrandTour, dwarkaSomnath, girNationalPark, ramUtsav, saputara, statueOfUnity,
-];
-const standardHotels = [{ name: "3-Star Hotel / Similar", category: "3-Star", star: "3-Star Hotel" }];
-const standardMeals = ["Buffet Breakfast at hotel (subject to hotel service format and occupancy)","Buffet Dinner at hotel (subject to hotel service format and occupancy)"];
-export const packages = rawPackages.map((pkg) => ({...pkg,hotels: standardHotels.map((hotel) => ({ ...hotel })),meals: [...standardMeals],exclusions: [...defaultPackageExclusions, "Lunch and any meals other than the included breakfast and dinner"],inclusions: [...defaultPackageInclusions, "Accommodation in 3-Star Hotels / Similar", "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy"],}));
+const rawPackages = [...nextStatesPackages,...ladakhPackages,...himachalPackages,...kashmirPackages,...newMultiStatePackages,...uttarPradeshPackages,...uttarakhandPackages,rajasthanGrandTour,jaipurJodhpurUdaipur,jodhpurJaisalmer,udaipurMountAbu,jaipurAjmerPushkar,jaipurHeritage,gujaratGrandTour,dwarkaSomnath,girNationalPark,ramUtsav,saputara,statueOfUnity];
+const standardHotels=[{name:"3-Star Hotel / Similar",category:"3-Star",star:"3-Star Hotel"}];
+const standardMeals=["Buffet Breakfast at hotel (subject to hotel service format and occupancy)","Buffet Dinner at hotel (subject to hotel service format and occupancy)"];
+export const packages=rawPackages.map((pkg)=>({...pkg,hotels:standardHotels.map((hotel)=>({...hotel})),meals:[...standardMeals],exclusions:[...defaultPackageExclusions,"Lunch and any meals other than the included breakfast and dinner"],inclusions:[...defaultPackageInclusions,"Accommodation in 3-Star Hotels / Similar","Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy"]}));
 export default packages;
