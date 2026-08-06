@@ -15,13 +15,43 @@ function normalizePackage(pkg:RawPackage):Package&{themes:string[];rawSearch:str
 const packageList=packages.map(normalizePackage);
 export const metadata:Metadata={title:"Tour Packages | Only Road Trip",description:"Explore premium India tour packages, pilgrimage tours, road trips and curated travel experiences at Only Road Trip.",alternates:{canonical:"https://www.onlyroadtrip.com/packages"},robots:{index:true,follow:true}};
 const aliases:Record<string,string[]>={spiritual:["spiritual","pilgrimage","temple","dham","jyotirlinga","yatra"],pilgrimage:["pilgrimage","spiritual","temple","dham","jyotirlinga","yatra"],trekking:["trek","trekking","tungnath","chopta","madhyameshwar"],adventure:["adventure","trek","bike","safari","water sports","road trip"],women:["women","woman","ladies","female"],senior:["senior","pilgrimage","spiritual","easy"],honeymoon:["honeymoon","romantic","couple"],family:["family"],wildlife:["wildlife","safari","national park","tiger","gir","corbett","kaziranga"],beach:["beach","island","goa","andaman","lakshadweep","kovalam"],heritage:["heritage","culture","fort","palace","hampi","ajanta","ellora"],hill:["hill","mountain","manali","shimla","mussoorie","nainital","munnar","darjeeling","ooty","kodaikanal"],weekend:["weekend","short break","2 nights","3 days"],road:["road trip","bike","manali","ladakh"],corporate:["corporate","mice","offsite","incentive","team"],nature:["nature","valley","lake","backwater","forest","mountain"]};
+
 export default async function PackagesPage({searchParams}:{searchParams:Promise<SearchParams>|SearchParams}){
- const sp=await Promise.resolve(searchParams);const query=sp?.q?.trim().toLowerCase()??"";const activeCategory=sp?.category;const activeState=sp?.state;const activeTheme=sp?.theme;const sort=sp?.sort;
- const categories=Array.from(new Set(packageList.map(p=>p.category)));const states=Array.from(new Set(packageList.map(p=>p.state)));let filteredPackages=packageList;
+ const sp=await Promise.resolve(searchParams);
+ const query=sp?.q?.trim().toLowerCase()??"";
+ const activeCategory=sp?.category;
+ const activeState=sp?.state;
+ const activeTheme=sp?.theme;
+ const sort=sp?.sort;
+ let filteredPackages=packageList;
  if(query)filteredPackages=filteredPackages.filter(p=>p.rawSearch.includes(query));
  if(activeCategory)filteredPackages=filteredPackages.filter(p=>p.category===activeCategory);
  if(activeState)filteredPackages=filteredPackages.filter(p=>p.state===activeState);
  if(activeTheme){const key=activeTheme.toLowerCase();const terms=aliases[key]??[key];filteredPackages=filteredPackages.filter(p=>terms.some(term=>p.rawSearch.includes(term)));}
- if(sort==="price-low")filteredPackages=[...filteredPackages].sort((a,b)=>a.price-b.price);if(sort==="price-high")filteredPackages=[...filteredPackages].sort((a,b)=>b.price-a.price);
- return <main className="bg-slate-50"><section className="bg-slate-900 py-20 text-white"><div className="mx-auto max-w-7xl px-6 lg:px-8"><div className="max-w-3xl space-y-5"><p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Only Road Trip Experiences</p><h1 className="text-5xl font-bold tracking-tight">{activeTheme?`${activeTheme} Tour Experiences`:"Discover the best holiday packages across India"}</h1><p className="text-lg leading-8 text-slate-300">Choose journeys by travel style — spiritual, adventure, family, honeymoon, wildlife, beach, heritage, corporate and more.</p></div></div></section><section className="mx-auto max-w-7xl px-6 py-12 lg:px-8"><div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div><p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-600">{filteredPackages.length} Packages Available</p><h2 className="mt-2 text-3xl font-bold text-slate-900">{activeTheme?`Explore ${activeTheme}`:"Find your next experience"}</h2></div><div className="flex flex-wrap gap-2">{activeTheme&&<span className="rounded-full bg-blue-900 px-4 py-2 text-sm font-semibold text-white">Experience: {activeTheme}</span>}{activeCategory&&<span className="rounded-full bg-slate-100 px-4 py-2 text-sm">{activeCategory}</span>}{activeState&&<span className="rounded-full bg-slate-100 px-4 py-2 text-sm">{activeState}</span>}<Link href="/packages" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700">Clear Filters</Link></div></div><div className="mb-10 grid gap-4 md:grid-cols-2"><div className="rounded-3xl border border-slate-200 bg-white p-6"><p className="text-sm font-semibold text-slate-500">Categories</p><div className="mt-4 flex flex-wrap gap-2">{categories.map(c=><Link key={c} href={`/packages?category=${encodeURIComponent(c)}`} className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-blue-100">{c}</Link>)}</div></div><div className="rounded-3xl border border-slate-200 bg-white p-6"><p className="text-sm font-semibold text-slate-500">States & Regions</p><div className="mt-4 flex flex-wrap gap-2">{states.map(s=><Link key={s} href={`/packages?state=${encodeURIComponent(s)}`} className="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-blue-100">{s}</Link>)}</div></div></div>{filteredPackages.length>0?<div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">{filteredPackages.map(pkg=><PackageCard key={pkg.slug} pkg={pkg}/>)}</div>:<div className="rounded-3xl bg-white p-12 text-center shadow-lg"><h2 className="text-3xl font-bold text-slate-900">No matching packages yet</h2><p className="mt-4 text-slate-600">We can add dedicated packages for this experience, or browse all current tours.</p><Link href="/packages" className="mt-8 inline-block rounded-full bg-cyan-600 px-8 py-3 text-sm font-semibold text-white">View All Packages</Link></div>}</section></main>;
+ if(sort==="price-low")filteredPackages=[...filteredPackages].sort((a,b)=>a.price-b.price);
+ if(sort==="price-high")filteredPackages=[...filteredPackages].sort((a,b)=>b.price-a.price);
+
+ return <main className="min-h-screen bg-slate-50">
+  <section className="bg-gradient-to-br from-blue-950 via-slate-900 to-blue-950 pb-14 pt-32 text-white">
+   <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <div className="max-w-3xl space-y-4">
+     <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Only Road Trip Experiences</p>
+     <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{activeTheme?`${activeTheme} Tour Experiences`:"Discover the best holiday packages across India"}</h1>
+     <p className="text-lg leading-8 text-slate-200">{activeTheme?`Explore our ${activeTheme.toLowerCase()} journeys and choose the package that fits your travel style.`:"Choose journeys by travel style — spiritual, adventure, family, honeymoon, wildlife, beach, heritage, corporate and more."}</p>
+    </div>
+   </div>
+  </section>
+
+  <section className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
+   <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <div>
+     <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-600">{filteredPackages.length} Packages Available</p>
+     <h2 className="mt-2 text-3xl font-bold text-slate-900">{activeTheme?`${activeTheme} Packages`:"All Tour Packages"}</h2>
+    </div>
+    {(activeTheme||activeCategory||activeState||query)&&<Link href="/packages" className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-blue-600 hover:text-blue-700">View All Packages</Link>}
+   </div>
+
+   {filteredPackages.length>0?<div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">{filteredPackages.map(pkg=><PackageCard key={pkg.slug} pkg={pkg}/>)}</div>:<div className="rounded-3xl bg-white p-12 text-center shadow-lg"><h2 className="text-3xl font-bold text-slate-900">No matching packages yet</h2><p className="mt-4 text-slate-600">Dedicated packages for this experience will be added here.</p><Link href="/packages" className="mt-8 inline-block rounded-full bg-cyan-600 px-8 py-3 text-sm font-semibold text-white">View All Packages</Link></div>}
+  </section>
+ </main>;
 }
