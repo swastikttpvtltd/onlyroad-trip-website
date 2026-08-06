@@ -21,10 +21,12 @@ const galleries:Record<string,PackagePhoto[]>={
 "kanha-bandhavgarh":[P("Kanha National Park Madhya Pradesh.jpg","Kanha"),P("Tiger at Bandhavgarh National Park.jpg","Bandhavgarh tiger"),P("Tiger Kanha National Park.jpg","Kanha tiger"),P("Bandhavgarh National Park.jpg","Bandhavgarh"),P("Barasingha Kanha National Park.jpg","Kanha barasingha")],
 "gangtok-tsomgo":[P("Tsomgo Lake Sikkim.jpg","Tsomgo Lake"),P("Gangtok from Ganesh Tok.jpg","Gangtok"),P("Rumtek Monastery Sikkim.jpg","Rumtek Monastery"),P("MG Marg Gangtok.jpg","MG Marg"),P("Tsomgo lake in Sikkim.jpg","Tsomgo mountain scenery")],
 "gangtok-lachen-lachung":[P("Yumthang Valley Sikkim.jpg","Yumthang Valley"),P("Lachung Sikkim.jpg","Lachung"),P("Lachen Sikkim.jpg","Lachen"),P("Yumthang valley.jpg","Yumthang"),P("North Sikkim mountains.jpg","North Sikkim mountains")],
-
-// West Bengal
 "darjeeling-kalimpong":[P("Darjeeling view with Kanchenjunga.jpg","Darjeeling with Kanchenjunga"),P("Darjeeling Himalayan Railway.jpg","Darjeeling Himalayan Railway"),P("Tea garden Darjeeling.jpg","Darjeeling tea gardens"),P("Tiger Hill Darjeeling.jpg","Tiger Hill, Darjeeling"),P("Kalimpong West Bengal.jpg","Kalimpong Himalayan landscape")],
-"kolkata-sundarbans":[P("Victoria Memorial Kolkata.jpg","Victoria Memorial, Kolkata"),P("Howrah Bridge Kolkata.jpg","Howrah Bridge, Kolkata"),P("Sundarbans National Park.jpg","Sundarbans mangrove landscape"),P("Royal Bengal Tiger Sundarbans.jpg","Royal Bengal tiger in Sundarbans"),P("Sundarbans boat.jpg","Boat safari landscape in Sundarbans")]
+"kolkata-sundarbans":[P("Victoria Memorial Kolkata.jpg","Victoria Memorial, Kolkata"),P("Howrah Bridge Kolkata.jpg","Howrah Bridge, Kolkata"),P("Sundarbans National Park.jpg","Sundarbans mangrove landscape"),P("Royal Bengal Tiger Sundarbans.jpg","Royal Bengal tiger in Sundarbans"),P("Sundarbans boat.jpg","Boat safari landscape in Sundarbans")],
+
+// Karnataka
+"bangalore-mysore-coorg":[P("Mysore Palace Morning.jpg","Mysore Palace, Karnataka"),P("Bangalore Palace.jpg","Bangalore Palace"),P("Abbey Falls, Coorg.jpg","Abbey Falls, Coorg"),P("Coffee plantation in Coorg.jpg","Coffee plantation in Coorg"),P("Raja's Seat, Madikeri, Coorg.jpg","Raja's Seat, Coorg")],
+"hampi-heritage":[P("Stone Chariot Hampi.jpg","Stone Chariot at Hampi"),P("Virupaksha Temple Hampi.jpg","Virupaksha Temple, Hampi"),P("Hampi landscape Karnataka.jpg","Hampi boulder landscape"),P("Vittala Temple Hampi.jpg","Vittala Temple complex, Hampi"),P("Lotus Mahal Hampi.jpg","Lotus Mahal, Hampi")]
 };
 export const packageImageGalleries=galleries;
 export default packageImageGalleries;
