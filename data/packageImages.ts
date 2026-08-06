@@ -23,10 +23,13 @@ const galleries:Record<string,PackagePhoto[]>={
 "gangtok-lachen-lachung":[P("Yumthang Valley Sikkim.jpg","Yumthang Valley"),P("Lachung Sikkim.jpg","Lachung"),P("Lachen Sikkim.jpg","Lachen"),P("Yumthang valley.jpg","Yumthang"),P("North Sikkim mountains.jpg","North Sikkim mountains")],
 "darjeeling-kalimpong":[P("Darjeeling view with Kanchenjunga.jpg","Darjeeling with Kanchenjunga"),P("Darjeeling Himalayan Railway.jpg","Darjeeling Himalayan Railway"),P("Tea garden Darjeeling.jpg","Darjeeling tea gardens"),P("Tiger Hill Darjeeling.jpg","Tiger Hill, Darjeeling"),P("Kalimpong West Bengal.jpg","Kalimpong Himalayan landscape")],
 "kolkata-sundarbans":[P("Victoria Memorial Kolkata.jpg","Victoria Memorial, Kolkata"),P("Howrah Bridge Kolkata.jpg","Howrah Bridge, Kolkata"),P("Sundarbans National Park.jpg","Sundarbans mangrove landscape"),P("Royal Bengal Tiger Sundarbans.jpg","Royal Bengal tiger in Sundarbans"),P("Sundarbans boat.jpg","Boat safari landscape in Sundarbans")],
-
-// Karnataka
 "bangalore-mysore-coorg":[P("Mysore Palace Morning.jpg","Mysore Palace, Karnataka"),P("Bangalore Palace.jpg","Bangalore Palace"),P("Abbey Falls, Coorg.jpg","Abbey Falls, Coorg"),P("Coffee plantation in Coorg.jpg","Coffee plantation in Coorg"),P("Raja's Seat, Madikeri, Coorg.jpg","Raja's Seat, Coorg")],
-"hampi-heritage":[P("Stone Chariot Hampi.jpg","Stone Chariot at Hampi"),P("Virupaksha Temple Hampi.jpg","Virupaksha Temple, Hampi"),P("Hampi landscape Karnataka.jpg","Hampi boulder landscape"),P("Vittala Temple Hampi.jpg","Vittala Temple complex, Hampi"),P("Lotus Mahal Hampi.jpg","Lotus Mahal, Hampi")]
+"hampi-heritage":[P("Stone Chariot Hampi.jpg","Stone Chariot at Hampi"),P("Virupaksha Temple Hampi.jpg","Virupaksha Temple, Hampi"),P("Hampi landscape Karnataka.jpg","Hampi boulder landscape"),P("Vittala Temple Hampi.jpg","Vittala Temple complex, Hampi"),P("Lotus Mahal Hampi.jpg","Lotus Mahal, Hampi")],
+
+// Tamil Nadu
+"madurai-rameswaram-kanyakumari":[P("Ramanathaswamy Temple Rameswaram.jpg","Ramanathaswamy Temple, Rameswaram"),P("Meenakshi Amman Temple Madurai.jpg","Meenakshi Amman Temple, Madurai"),P("Pamban Bridge Rameswaram.jpg","Pamban Bridge, Rameswaram"),P("Dhanushkodi beach.jpg","Dhanushkodi coast"),P("Vivekananda Rock Memorial Kanyakumari.jpg","Vivekananda Rock Memorial, Kanyakumari")],
+"tamil-nadu-temple-tour":[P("Brihadeeswarar Temple Thanjavur.jpg","Brihadeeswarar Temple, Thanjavur"),P("Shore Temple Mahabalipuram.jpg","Shore Temple, Mahabalipuram"),P("Kailasanathar Temple Kanchipuram.jpg","Kailasanathar Temple, Kanchipuram"),P("Meenakshi Amman Temple Madurai.jpg","Meenakshi Amman Temple, Madurai"),P("Pancha Rathas Mahabalipuram.jpg","Pancha Rathas, Mahabalipuram")],
+"ooty-kodaikanal":[P("Ooty lake Tamil Nadu.jpg","Ooty Lake, Tamil Nadu"),P("Nilgiri Mountain Railway.jpg","Nilgiri Mountain Railway"),P("Botanical Gardens Ooty.jpg","Government Botanical Garden, Ooty"),P("Kodaikanal Lake.jpg","Kodaikanal Lake"),P("Pillar Rocks Kodaikanal.jpg","Pillar Rocks, Kodaikanal")]
 };
 export const packageImageGalleries=galleries;
 export default packageImageGalleries;
