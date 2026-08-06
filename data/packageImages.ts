@@ -25,11 +25,13 @@ const galleries:Record<string,PackagePhoto[]>={
 "kolkata-sundarbans":[P("Victoria Memorial Kolkata.jpg","Victoria Memorial, Kolkata"),P("Howrah Bridge Kolkata.jpg","Howrah Bridge, Kolkata"),P("Sundarbans National Park.jpg","Sundarbans mangrove landscape"),P("Royal Bengal Tiger Sundarbans.jpg","Royal Bengal tiger in Sundarbans"),P("Sundarbans boat.jpg","Boat safari landscape in Sundarbans")],
 "bangalore-mysore-coorg":[P("Mysore Palace Morning.jpg","Mysore Palace, Karnataka"),P("Bangalore Palace.jpg","Bangalore Palace"),P("Abbey Falls, Coorg.jpg","Abbey Falls, Coorg"),P("Coffee plantation in Coorg.jpg","Coffee plantation in Coorg"),P("Raja's Seat, Madikeri, Coorg.jpg","Raja's Seat, Coorg")],
 "hampi-heritage":[P("Stone Chariot Hampi.jpg","Stone Chariot at Hampi"),P("Virupaksha Temple Hampi.jpg","Virupaksha Temple, Hampi"),P("Hampi landscape Karnataka.jpg","Hampi boulder landscape"),P("Vittala Temple Hampi.jpg","Vittala Temple complex, Hampi"),P("Lotus Mahal Hampi.jpg","Lotus Mahal, Hampi")],
-
-// Tamil Nadu
 "madurai-rameswaram-kanyakumari":[P("Ramanathaswamy Temple Rameswaram.jpg","Ramanathaswamy Temple, Rameswaram"),P("Meenakshi Amman Temple Madurai.jpg","Meenakshi Amman Temple, Madurai"),P("Pamban Bridge Rameswaram.jpg","Pamban Bridge, Rameswaram"),P("Dhanushkodi beach.jpg","Dhanushkodi coast"),P("Vivekananda Rock Memorial Kanyakumari.jpg","Vivekananda Rock Memorial, Kanyakumari")],
 "tamil-nadu-temple-tour":[P("Brihadeeswarar Temple Thanjavur.jpg","Brihadeeswarar Temple, Thanjavur"),P("Shore Temple Mahabalipuram.jpg","Shore Temple, Mahabalipuram"),P("Kailasanathar Temple Kanchipuram.jpg","Kailasanathar Temple, Kanchipuram"),P("Meenakshi Amman Temple Madurai.jpg","Meenakshi Amman Temple, Madurai"),P("Pancha Rathas Mahabalipuram.jpg","Pancha Rathas, Mahabalipuram")],
-"ooty-kodaikanal":[P("Ooty lake Tamil Nadu.jpg","Ooty Lake, Tamil Nadu"),P("Nilgiri Mountain Railway.jpg","Nilgiri Mountain Railway"),P("Botanical Gardens Ooty.jpg","Government Botanical Garden, Ooty"),P("Kodaikanal Lake.jpg","Kodaikanal Lake"),P("Pillar Rocks Kodaikanal.jpg","Pillar Rocks, Kodaikanal")]
+"ooty-kodaikanal":[P("Ooty lake Tamil Nadu.jpg","Ooty Lake, Tamil Nadu"),P("Nilgiri Mountain Railway.jpg","Nilgiri Mountain Railway"),P("Botanical Gardens Ooty.jpg","Government Botanical Garden, Ooty"),P("Kodaikanal Lake.jpg","Kodaikanal Lake"),P("Pillar Rocks Kodaikanal.jpg","Pillar Rocks, Kodaikanal")],
+
+// Assam & Meghalaya
+"guwahati-shillong-cherrapunji":[P("Umiam Lake Meghalaya.jpg","Umiam Lake near Shillong"),P("Kamakhya Temple Guwahati.jpg","Kamakhya Temple, Guwahati"),P("Nohkalikai Falls Cherrapunji.jpg","Nohkalikai Falls, Cherrapunji"),P("Dawki River Meghalaya.jpg","Umngot River at Dawki"),P("Living root bridge Meghalaya.jpg","Living root bridge, Meghalaya")],
+"kaziranga-shillong":[P("Indian rhinoceros Kaziranga National Park.jpg","One-horned rhinoceros in Kaziranga"),P("Kaziranga National Park Assam.jpg","Kaziranga National Park landscape"),P("Shillong Meghalaya.jpg","Shillong hill landscape"),P("Nohkalikai Falls Cherrapunji.jpg","Nohkalikai Falls, Cherrapunji"),P("Elephant grass Kaziranga.jpg","Kaziranga grassland landscape")]
 };
 export const packageImageGalleries=galleries;
 export default packageImageGalleries;
