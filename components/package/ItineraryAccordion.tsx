@@ -1,79 +1,8 @@
 "use client";
-
 import { useState } from "react";
-
-type ItineraryDay = {
-  day: string | number;
-  title: string;
-  morning: string[];
-  afternoon: string[];
-  evening: string[];
-};
-
-type Props = {
-  itinerary: ItineraryDay[];
-  destination: string;
-  category: string;
-};
-
-export default function ItineraryAccordion({ itinerary, destination, category }: Props) {
-  const [openDay, setOpenDay] = useState<number | null>(0);
-
-  return (
-    <div className="space-y-5">
-      {itinerary.map((day, index) => {
-        const isOpen = openDay === index;
-        const allActivities = [...day.morning, ...day.afternoon, ...day.evening];
-        return (
-          <div key={`${day.day}-${index}`} className="relative border-l-2 border-orange-300 pl-7">
-            <span className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{index + 1}</span>
-            <div className="overflow-hidden rounded-xl border bg-white">
-              <button type="button" onClick={() => setOpenDay(isOpen ? null : index)} className="flex w-full items-start justify-between gap-5 p-5 text-left hover:bg-slate-50" aria-expanded={isOpen}>
-                <div>
-                  <p className="text-xs font-bold uppercase text-orange-600">Day {index + 1}</p>
-                  <h3 className="mt-1 text-xl font-bold text-slate-900">{day.title}</h3>
-                  <p className="mt-2 text-sm text-slate-500">{allActivities.slice(0, 2).join(" • ")}</p>
-                </div>
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-orange-500 text-2xl font-light text-orange-600 transition-transform">{isOpen ? "−" : "+"}</span>
-              </button>
-
-              {isOpen && (
-                <div className="border-t bg-slate-50/60 p-5 md:p-6">
-                  <div className="grid gap-5 md:grid-cols-3">
-                    {(["morning", "afternoon", "evening"] as const).map((period) => (
-                      <div key={period} className="rounded-xl bg-white p-4 shadow-sm">
-                        <h4 className="font-bold capitalize text-[#153e75]">{period}</h4>
-                        <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-600">
-                          {day[period].map((item) => <li key={item} className="flex gap-2"><span className="text-orange-500">•</span><span>{item}</span></li>)}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 grid gap-4 md:grid-cols-2">
-                    <div className="rounded-xl border border-orange-100 bg-orange-50 p-4">
-                      <h4 className="font-bold text-slate-900">Today&apos;s Experience</h4>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">This day focuses on <b>{day.title}</b>. The schedule covers the listed sightseeing and activities at a comfortable pace, with practical breaks for meals, transfers, photography and local exploration.</p>
-                    </div>
-                    <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
-                      <h4 className="font-bold text-slate-900">What this day is known for</h4>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">Experience the key character of {destination} through {category.toLowerCase()} highlights connected with this day. Your trip coordinator can adjust visit timing according to local conditions, opening hours and travel time.</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 rounded-xl border bg-white p-4">
-                    <h4 className="font-bold text-slate-900">Detailed Day Schedule</h4>
-                    <ol className="mt-3 space-y-2 text-sm leading-6 text-slate-600">
-                      {allActivities.map((item, activityIndex) => <li key={`${item}-${activityIndex}`}><b className="text-[#153e75]">{activityIndex + 1}.</b> {item}</li>)}
-                    </ol>
-                    <p className="mt-4 text-xs leading-5 text-slate-500">Note: Exact timings may change depending on weather, traffic, safari/monument slots, local restrictions and hotel location.</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+type ItineraryDay={day:string|number;title:string;morning:string[];afternoon:string[];evening:string[]};
+type Props={itinerary:ItineraryDay[];destination:string;category:string};
+function clean(items:string[]){return items.filter(Boolean).filter(x=>!/^breakfast|^dinner|^stay$|^drop$|^departure$/i.test(x.trim()));}
+function experience(day:ItineraryDay){const acts=clean([...day.morning,...day.afternoon,...day.evening]);if(/arrival|check.?in/i.test(day.title))return `Arrival and settling-in day for ${day.title.replace(/arrival|check.?in/gi,"").replace(/^\s*[-–&]\s*/,"").trim()||"the destination"}. ${acts.length?`Key experiences include ${acts.slice(0,3).join(", ")}.`:"The pace is intentionally comfortable after the journey."}`;if(/departure|return|drop/i.test(day.title))return `A comfortable onward/return travel day following the ${day.title} route, with planned meal, checkout and transfer stops. ${acts.length?`The schedule also includes ${acts.slice(0,2).join(" and ")}.`:""}`;if(/safari/i.test(day.title))return `A wildlife-focused day built around ${day.title}. Safari timing, zone and entry remain subject to confirmed permits, park rules and local operating conditions.`;if(/corporate|team|meeting/i.test(day.title))return `A corporate-focused day combining ${day.title} with structured group time, team engagement and practical breaks for meals and transfers.`;return `Today is dedicated to ${day.title}. ${acts.length?`The planned experience includes ${acts.slice(0,4).join(", ")}.`:"Sightseeing and transfers follow the package route at a comfortable pace."}`;}
+function knownFor(day:ItineraryDay,destination:string,category:string){const t=day.title.toLowerCase();if(/temple|darshan|jyotirlinga|sahib|spiritual|pilgrimage/.test(t))return `This day is known for its spiritual significance, sacred landmarks and pilgrimage experience connected with ${day.title}.`;if(/beach|island|lagoon|pangong|lake|backwater/.test(t))return `This day is known for scenic waterscapes, relaxed leisure, photography and the natural character of ${day.title}.`;if(/safari|wildlife|kanha|bandhavgarh|gir|kaziranga/.test(t))return `This day is known for wildlife landscapes and nature experiences; sightings are natural and never guaranteed.`;if(/fort|palace|heritage|ajanta|ellora|hampi|khajuraho|orchha/.test(t))return `This day is known for architecture, history, local heritage and the cultural stories connected with ${day.title}.`;if(/valley|solang|kufri|munnar|darjeeling|ooty|kodaikanal|spiti|nubra|yumthang/.test(t))return `This day is known for mountain scenery, viewpoints, local landscapes and memorable road-trip photography around ${day.title}.`;if(/corporate|team|meeting/.test(t))return `This day is designed for ${category.toLowerCase()} groups, balancing productive group engagement with destination experiences and leisure.`;if(/arrival/.test(t))return `This is the orientation day for the journey, allowing travellers to settle in and begin experiencing ${destination} without an unnecessarily rushed schedule.`;if(/departure|return/.test(t))return `This is the transition/return day, planned around a smooth checkout and onward journey while keeping the route practical and comfortable.`;return `${day.title} is the focus of the day, highlighting the most relevant ${category.toLowerCase()} experiences, local character and sightseeing connected with this part of ${destination}.`;}
+export default function ItineraryAccordion({itinerary,destination,category}:Props){const[openDay,setOpenDay]=useState<number|null>(0);return <div className="space-y-5">{itinerary.map((day,index)=>{const isOpen=openDay===index;const allActivities=[...day.morning,...day.afternoon,...day.evening];return <div key={`${day.day}-${index}`} className="relative border-l-2 border-orange-300 pl-7"><span className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{index+1}</span><div className="overflow-hidden rounded-xl border bg-white"><button type="button" onClick={()=>setOpenDay(isOpen?null:index)} className="flex w-full items-start justify-between gap-5 p-5 text-left hover:bg-slate-50" aria-expanded={isOpen}><div><p className="text-xs font-bold uppercase text-orange-600">Day {index+1}</p><h3 className="mt-1 text-xl font-bold text-slate-900">{day.title}</h3><p className="mt-2 text-sm text-slate-500">{allActivities.slice(0,2).join(" • ")}</p></div><span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-orange-500 text-2xl font-light text-orange-600">{isOpen?"−":"+"}</span></button>{isOpen&&<div className="border-t bg-slate-50/60 p-5 md:p-6"><div className="grid gap-5 md:grid-cols-3">{(["morning","afternoon","evening"] as const).map(period=><div key={period} className="rounded-xl bg-white p-4 shadow-sm"><h4 className="font-bold capitalize text-[#153e75]">{period}</h4><ul className="mt-3 space-y-2 text-sm leading-6 text-slate-600">{day[period].map((item,i)=><li key={`${item}-${i}`} className="flex gap-2"><span className="text-orange-500">•</span><span>{item}</span></li>)}</ul></div>)}</div><div className="mt-5 grid gap-4 md:grid-cols-2"><div className="rounded-xl border border-orange-100 bg-orange-50 p-4"><h4 className="font-bold text-slate-900">Today&apos;s Experience</h4><p className="mt-2 text-sm leading-6 text-slate-600">{experience(day)}</p></div><div className="rounded-xl border border-blue-100 bg-blue-50 p-4"><h4 className="font-bold text-slate-900">What this day is known for</h4><p className="mt-2 text-sm leading-6 text-slate-600">{knownFor(day,destination,category)}</p></div></div><div className="mt-4 rounded-xl border bg-white p-4"><h4 className="font-bold text-slate-900">Detailed Day Schedule</h4><ol className="mt-3 space-y-2 text-sm leading-6 text-slate-600">{allActivities.map((item,i)=><li key={`${item}-${i}`}><b className="text-[#153e75]">{i+1}.</b> {item}</li>)}</ol><p className="mt-4 text-xs leading-5 text-slate-500">Note: Exact timings may change depending on weather, traffic, ferry/safari/monument slots, local restrictions and hotel location.</p></div></div>}</div></div>})}</div>;}
