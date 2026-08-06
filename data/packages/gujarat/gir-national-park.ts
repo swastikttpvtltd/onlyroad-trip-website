@@ -1,116 +1,16 @@
-import type { Package } from "@/data/packageTypes";
-
-const packageData: Package = {
-  id: 1002,
-
-  slug: "gir-national-park",
-
-  title: "Gir National Park Wildlife Tour",
-
-  destination: "Gir",
-
-  state: "Gujarat",
-
-  category: "Wildlife",
-
-  hero: {
-    image: "/images/packages/gujarat/gir-national-park/hero.jpg",
-    shortDescription:
-      "Experience the thrill of Gir National Park with exciting jeep safaris, Asiatic lion sightings, and a comfortable wildlife holiday.",
-  },
-
-  image: "/images/packages/gujarat/gir-national-park/hero.jpg",
-
-  gallery: [
-    {
-      image: "/images/packages/gujarat/gir-national-park/hero.jpg",
-      alt: "Gir National Park",
-    },
+const packageData = {
+  id:"gir-national-park-3n4d",slug:"gir-national-park",state:"Gujarat",title:"Gir National Park Wildlife & Sasan Gir Tour",duration:"3 Nights / 4 Days",destination:"Sasan Gir • Gir National Park • Devalia Region",category:"Wildlife",themes:["Wildlife","Nature","Family","Photography","Adventure"],
+  hero:{image:"/images/packages/gujarat/gir-national-park/hero.jpg",shortDescription:"Explore Gujarat's Asiatic-lion country with a comfortable Sasan Gir stay, forest landscapes and safari experiences subject to official permits."},
+  gallery:[{image:"/images/packages/gujarat/gir-national-park/gallery1.jpg",alt:"Gir National Park forest landscape"},{image:"/images/packages/gujarat/gir-national-park/gallery2.jpg",alt:"Asiatic lion habitat in Gir"},{image:"/images/packages/gujarat/gir-national-park/gallery3.jpg",alt:"Gir wildlife safari landscape"},{image:"/images/packages/gujarat/gir-national-park/gallery4.jpg",alt:"Sasan Gir nature experience"},{image:"/images/packages/gujarat/gir-national-park/gallery5.jpg",alt:"Gir forest and wildlife"}],
+  overview:"A 3-night Gujarat wildlife holiday based around Sasan Gir and the Gir forest region. The itinerary provides time for a confirmed Gir safari where available, the Devalia interpretation region and relaxed nature experiences. Safari entry, zone, vehicle and reporting time remain subject to official permit availability and forest regulations.",
+  highlights:["Sasan Gir","Gir National Park safari region","Asiatic lion habitat","Devalia interpretation region","Birdlife and forest landscapes","Wildlife photography opportunities"],
+  quickFacts:{pickup:"Rajkot / Junagadh / Diu as booked",drop:"Rajkot / Junagadh / Diu as booked",transport:"Private AC Vehicle; forest safari vehicle as separately confirmed",meals:"Breakfast & Dinner",hotelCategory:"3-Star Wildlife Resort / Similar",bestSeason:"October – June, subject to official forest opening dates"},
+  itinerary:[
+    {day:"Day 1",title:"Arrival – Sasan Gir",morning:["Pickup from confirmed gateway according to arrival schedule","Drive towards Sasan Gir"],afternoon:["Hotel / resort check-in","Lunch at own expense","Rest after journey"],evening:["Nature walk / local leisure where permitted","Dinner and overnight near Sasan Gir"],meals:"Dinner",hotel:"3-Star Wildlife Resort / Similar",distance:"Depends on pickup point",driveTime:"Depends on pickup point",notes:["Carry original government photo ID for safari formalities"]},
+    {day:"Day 2",title:"Gir Wildlife Safari Experience",morning:["Early reporting for Gir safari if confirmed","Forest safari in allotted zone subject to permit","Return for breakfast"],afternoon:["Rest at resort","Lunch at own expense","Optional local nature experience"],evening:["Leisure at resort","Dinner and overnight stay"],meals:"Breakfast & Dinner",hotel:"3-Star Wildlife Resort / Similar",distance:"Local",driveTime:"Safari / local movement",notes:["Safari is subject to official permit, zone and forest rules","Wildlife sightings are never guaranteed"]},
+    {day:"Day 3",title:"Devalia Region & Sasan Gir",morning:["Breakfast","Visit Devalia interpretation / safari region subject to ticket availability and operating schedule"],afternoon:["Explore selected Sasan Gir surroundings","Lunch at own expense","Return to resort"],evening:["Relaxed evening","Dinner and overnight stay"],meals:"Breakfast & Dinner",hotel:"3-Star Wildlife Resort / Similar",distance:"Local circuit",driveTime:"Local sightseeing",notes:["Entry tickets and operating timings are subject to local authority rules"]},
+    {day:"Day 4",title:"Departure from Gir",morning:["Breakfast and checkout","Begin transfer to confirmed drop point"],afternoon:["Drop at Rajkot / Junagadh / Diu as booked","Tour concludes"],evening:["No scheduled activity"],meals:"Breakfast",hotel:"No stay",distance:"Depends on drop point",driveTime:"Depends on drop point",notes:["Keep sufficient buffer before onward flight/train"]}
   ],
-
-  duration: "3 Nights / 4 Days",
-
-  price: 19999,
-
-  rating: 4.7,
-
-  reviews: 78,
-
-  overview:
-    "Explore Gir National Park with wildlife safaris, Jeep tours, and comfortable stays.",
-
-  highlights: [
-    "Jeep Safari",
-    "Lion Sightings",
-    "Sasan Gir",
-    "Devaliya Safari Park",
-  ],
-
-  itinerary: [
-    {
-      day: 1,
-      title: "Arrival at Gir",
-
-      morning: ["Arrival and hotel check-in"],
-
-      afternoon: ["Lunch and leisure time"],
-
-      evening: ["Welcome dinner and trip briefing"],
-    },
-
-    {
-      day: 2,
-      title: "Gir Jungle Safari",
-
-      morning: ["Early morning Jeep Safari"],
-
-      afternoon: ["Visit Devaliya Safari Park"],
-
-      evening: ["Relax at resort"],
-    },
-
-    {
-      day: 3,
-      title: "Explore Gir",
-
-      morning: ["Bird watching"],
-
-      afternoon: ["Visit local attractions"],
-
-      evening: ["Free time"],
-    },
-
-    {
-      day: 4,
-      title: "Departure",
-
-      morning: ["Breakfast"],
-
-      afternoon: ["Check-out"],
-
-      evening: ["Return journey"],
-    },
-  ],
-
-  hotels: [
-    {
-      name: "Premium Wildlife Resort",
-      category: "4 Star",
-      location: "Sasan Gir",
-    },
-  ],
-
-  meals: ["Breakfast", "Dinner"],
-
-  inclusions: [],
-
-  exclusions: [],
-
-  bestTime: "October – March",
-
-  groupSize: "2-8 Persons",
-
-  difficulty: "Moderate",
+  hotels:[{name:"3-Star Wildlife Resort / Similar",category:"3-Star",star:"3-Star Resort"}],meals:["Breakfast","Dinner"],inclusions:[],exclusions:[],bestTime:"October – June",groupSize:"2-12 Persons",difficulty:"Easy to Moderate"
 };
-
 export default packageData;
