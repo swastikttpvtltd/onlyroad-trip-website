@@ -1,0 +1,80 @@
+import {
+  Landmark,
+  Trees,
+  Gem,
+  Briefcase,
+  CarFront,
+  Users,
+  ArrowRight,
+} from "lucide-react";
+
+import { categories } from "@/data/categories";
+
+const icons = {
+  Landmark,
+  Trees,
+  Gem,
+  Briefcase,
+  CarFront,
+  Users,
+};
+
+export default function Categories() {
+  return (
+    <section className="bg-gradient-to-b from-gray-50 to-white py-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        {/* Heading */}
+        <div className="mx-auto mb-16 max-w-3xl text-center">
+          <span className="rounded-full bg-cyan-100 px-5 py-2 text-sm font-bold uppercase tracking-widest text-cyan-700">
+            Travel Categories
+          </span>
+
+          <h2 className="mt-6 text-5xl font-extrabold text-gray-900">
+            Find Your Perfect Journey
+          </h2>
+
+          <p className="mt-5 text-lg leading-8 text-gray-600">
+            From spiritual pilgrimages to luxury holidays, discover travel
+            experiences crafted especially for you.
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+          {categories.map((category) => {
+            const Icon =
+              icons[category.icon as keyof typeof icons];
+
+            return (
+              <div
+                key={category.id}
+                className="group rounded-[30px] border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-3 hover:border-cyan-200 hover:shadow-2xl"
+              >
+                {/* Icon */}
+                <div className="mb-7 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0B3D91] to-cyan-600 text-white transition duration-300 group-hover:scale-110">
+                  <Icon size={32} />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-2xl font-bold text-gray-900">
+                  {category.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-4 leading-8 text-gray-600">
+                  {category.description}
+                </p>
+
+                {/* Button */}
+                <button className="mt-8 inline-flex items-center gap-2 font-semibold text-cyan-600 transition group-hover:gap-3">
+                  Explore
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
