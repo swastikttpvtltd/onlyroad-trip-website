@@ -15,10 +15,12 @@ import uttarPradeshPackages from "./packages/uttar-pradesh/uttar-pradesh-package
 import newMultiStatePackages from "./packages/multi-state/new-multi-state-packages";
 import kashmirPackages from "./packages/kashmir/kashmir-packages";
 import himachalPackages from "./packages/himachal-packages";
+import ladakhPackages from "./packages/ladakh-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 
 const rawPackages = [
+  ...ladakhPackages,
   ...himachalPackages,
   ...kashmirPackages,
   ...newMultiStatePackages,
