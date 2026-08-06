@@ -1,6 +1,6 @@
 import BookingForm from "@/components/BookingForm";
+import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
@@ -54,60 +54,19 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const places = destinationsFor(pkg);
 
   return <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
-    <section className="relative h-[430px] overflow-hidden">
-      <Image src={image} alt={pkg.title} fill priority className="object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
-      <div className="absolute inset-0 mx-auto flex max-w-7xl items-end px-5 pb-12 md:px-8">
-        <div className="max-w-4xl text-white">
-          <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span></div>
-          <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1>
-          <p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p>
-        </div>
-      </div>
-    </section>
-
-    <div className="sticky top-0 z-30 border-b bg-white shadow-sm">
-      <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
-        {[["overview","Overview"],["itinerary","Itinerary"],["places","Places Covered"],["inclusions","Inclusions"],["hotels","Stay & Meals"]].map(([id,label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}
-      </div>
-    </div>
-
+    <section className="relative h-[430px] overflow-hidden"><Image src={image} alt={pkg.title} fill priority className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" /><div className="absolute inset-0 mx-auto flex max-w-7xl items-end px-5 pb-12 md:px-8"><div className="max-w-4xl text-white"><div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span></div><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p></div></div></section>
+    <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[["overview","Overview"],["itinerary","Itinerary"],["places","Places Covered"],["inclusions","Inclusions"],["hotels","Stay & Meals"]].map(([id,label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
     <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]">
       <div className="space-y-7">
-        <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4">
-          <Fact label="Duration" value={pkg.duration} /><Fact label="Destination" value={pkg.destination} /><Fact label="Group Size" value={pkg.groupSize} /><Fact label="Best Time" value={pkg.bestTime} />
-        </section>
-
-        <ContentCard id="overview" title="Tour Overview">
-          <p className="leading-8 text-slate-600">{pkg.overview}</p>
-          <div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">Package Theme</h3><p className="mt-2 leading-7 text-slate-600">This {pkg.category.toLowerCase()} journey is planned around {pkg.destination}, combining the destination's signature attractions with comfortable road travel, meaningful local experiences and a practical day-wise route.</p></div>
-          <h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div>
-        </ContentCard>
-
-        <ContentCard id="places" title="Places Covered & What They Are Famous For">
-          <p className="mb-5 leading-7 text-slate-600">Know the character of every major destination included in this tour and what you can expect to experience there.</p>
-          <div className="space-y-4">{places.map((p,i) => <div key={`${p.name}-${i}`} className="rounded-xl border p-5"><div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i+1}</span><h3 className="text-xl font-bold">{p.name}</h3></div><p className="mt-4 text-sm font-bold text-slate-900">Famous for</p><p className="mt-1 leading-7 text-slate-600">{p.famous}</p><p className="mt-3 text-sm font-bold text-slate-900">What we cover</p><p className="mt-1 leading-7 text-slate-600">{p.experience}</p></div>)}</div>
-        </ContentCard>
-
-        <ContentCard id="itinerary" title="Day-wise Tour Itinerary">
-          <div className="space-y-5">{pkg.itinerary.map((day,index) => <div key={day.day} className="relative border-l-2 border-orange-300 pl-7"><span className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{index+1}</span><div className="rounded-xl border bg-white p-5"><p className="text-xs font-bold uppercase text-orange-600">{day.day}</p><h3 className="mt-1 text-xl font-bold">{day.title}</h3><div className="mt-5 grid gap-5 md:grid-cols-3">{(["morning","afternoon","evening"] as const).map(period => <div key={period}><h4 className="font-bold capitalize">{period}</h4><ul className="mt-2 space-y-2 text-sm leading-6 text-slate-600">{day[period].map(x => <li key={x}>• {x}</li>)}</ul></div>)}</div></div></div>)}</div>
-        </ContentCard>
-
-        <ContentCard id="inclusions" title="Tour Inclusions & Exclusions">
-          <div className="grid gap-6 md:grid-cols-2"><div><h3 className="mb-3 text-lg font-bold text-emerald-700">What's Included</h3>{pkg.inclusions.map(x => <p key={x} className="mb-2 rounded-lg bg-emerald-50 p-3 text-sm">✓ {x}</p>)}</div><div><h3 className="mb-3 text-lg font-bold text-red-700">What's Excluded</h3>{pkg.exclusions.map(x => <p key={x} className="mb-2 rounded-lg bg-red-50 p-3 text-sm">× {x}</p>)}</div></div>
-        </ContentCard>
-
-        <ContentCard id="hotels" title="Stay, Meals & Travel Information">
-          <div className="grid gap-6 md:grid-cols-2"><div><h3 className="font-bold">Suggested Hotels / Similar</h3><div className="mt-3 space-y-3">{pkg.hotels.map((h,i) => { const hotel=h as {name:string;category?:string;star?:string}; return <div key={`${hotel.name}-${i}`} className="rounded-lg border p-4"><b>{hotel.name}</b><p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p></div> })}</div></div><div><h3 className="font-bold">Meals</h3><div className="mt-3 space-y-2">{pkg.meals.map(x => <p key={x} className="rounded-lg border p-3">🍽 {x}</p>)}</div><div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7"><p><b>Difficulty:</b> {pkg.difficulty}</p><p><b>Best Time:</b> {pkg.bestTime}</p><p><b>Group:</b> {pkg.groupSize}</p></div></div></div>
-        </ContentCard>
-
-        <section className="rounded-2xl bg-white p-6 shadow-sm"><h2 className="text-2xl font-bold">Tour Gallery</h2><div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-3">{pkg.gallery.map((g,i) => <div key={`${g.image}-${i}`} className="relative h-52 overflow-hidden rounded-xl"><Image src={g.image} alt={g.alt ?? pkg.title} fill className="object-cover transition duration-500 hover:scale-105" /></div>)}</div></section>
-        <section className="rounded-2xl bg-white p-6 shadow-sm"><BookingForm /></section>
+        <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Duration" value={pkg.duration} /><Fact label="Destination" value={pkg.destination} /><Fact label="Group Size" value={pkg.groupSize} /><Fact label="Best Time" value={pkg.bestTime} /></section>
+        <ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">Package Theme</h3><p className="mt-2 leading-7 text-slate-600">This {pkg.category.toLowerCase()} journey is planned around {pkg.destination}, combining the destination&apos;s signature attractions with comfortable road travel, meaningful local experiences and a practical day-wise route.</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard>
+        <ContentCard id="places" title="Places Covered & What They Are Famous For"><p className="mb-5 leading-7 text-slate-600">Know the character of every major destination included in this tour and what you can expect to experience there.</p><div className="space-y-4">{places.map((p,i) => <div key={`${p.name}-${i}`} className="rounded-xl border p-5"><div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i+1}</span><h3 className="text-xl font-bold">{p.name}</h3></div><p className="mt-4 text-sm font-bold text-slate-900">Famous for</p><p className="mt-1 leading-7 text-slate-600">{p.famous}</p><p className="mt-3 text-sm font-bold text-slate-900">What we cover</p><p className="mt-1 leading-7 text-slate-600">{p.experience}</p></div>)}</div></ContentCard>
+        <ContentCard id="itinerary" title="Day-wise Tour Itinerary"><p className="mb-5 text-sm leading-6 text-slate-500">Click the + button on any day to open its complete morning-to-evening schedule, activities and travel notes.</p><ItineraryAccordion itinerary={pkg.itinerary} destination={pkg.destination} category={pkg.category} /></ContentCard>
+        <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><div className="grid gap-6 md:grid-cols-2"><div><h3 className="mb-3 text-lg font-bold text-emerald-700">What&apos;s Included</h3>{pkg.inclusions.map(x => <p key={x} className="mb-2 rounded-lg bg-emerald-50 p-3 text-sm">✓ {x}</p>)}</div><div><h3 className="mb-3 text-lg font-bold text-red-700">What&apos;s Excluded</h3>{pkg.exclusions.map(x => <p key={x} className="mb-2 rounded-lg bg-red-50 p-3 text-sm">× {x}</p>)}</div></div></ContentCard>
+        <ContentCard id="hotels" title="Stay, Meals & Travel Information"><div className="grid gap-6 md:grid-cols-2"><div><h3 className="font-bold">Suggested Hotels / Similar</h3><div className="mt-3 space-y-3">{pkg.hotels.map((h,i) => { const hotel=h as {name:string;category?:string;star?:string}; return <div key={`${hotel.name}-${i}`} className="rounded-lg border p-4"><b>{hotel.name}</b><p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p></div> })}</div></div><div><h3 className="font-bold">Meals</h3><div className="mt-3 space-y-2">{pkg.meals.map(x => <p key={x} className="rounded-lg border p-3">🍽 {x}</p>)}</div><div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7"><p><b>Difficulty:</b> {pkg.difficulty}</p><p><b>Best Time:</b> {pkg.bestTime}</p><p><b>Group:</b> {pkg.groupSize}</p></div></div></div></ContentCard>
+        <section className="rounded-2xl bg-white p-6 shadow-sm"><h2 className="text-2xl font-bold">Tour Gallery</h2><div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-3">{pkg.gallery.map((g,i) => <div key={`${g.image}-${i}`} className="relative h-52 overflow-hidden rounded-xl"><Image src={g.image} alt={g.alt ?? pkg.title} fill className="object-cover transition duration-500 hover:scale-105" /></div>)}</div></section><section className="rounded-2xl bg-white p-6 shadow-sm"><BookingForm /></section>
       </div>
-
-      <aside className="h-fit lg:sticky lg:top-20">
-        <div className="overflow-hidden rounded-2xl bg-white shadow-lg"><div className="bg-[#153e75] p-5 text-white"><p className="text-sm text-white/75">Starting From</p><div className="mt-1 text-3xl font-extrabold">{price ? `₹${price.toLocaleString("en-IN")}` : "Price on Request"}</div><p className="mt-1 text-xs">Per Person*</p></div><div className="p-5"><div className="grid grid-cols-2 gap-2 text-sm"><Mini label="Rating" value={rating ? `${rating} ★` : "New"}/><Mini label="Reviews" value={reviews ? String(reviews) : "—"}/></div><a href={`https://wa.me/919211796168?text=${encodeURIComponent(`Hi, I want details for ${pkg.title}`)}`} target="_blank" rel="noopener noreferrer" className="mt-5 block rounded-lg bg-orange-500 px-4 py-3 text-center font-bold text-white hover:bg-orange-600">Enquire on WhatsApp</a><a href="tel:+919211796168" className="mt-3 block rounded-lg border border-[#153e75] px-4 py-3 text-center font-bold text-[#153e75]">Call Now</a><div className="mt-5 border-t pt-4 text-xs leading-5 text-slate-500">Price may vary by travel date, hotel category, vehicle and group size. Final quotation is shared before booking.</div></div></div>
-      </aside>
+      <aside className="h-fit lg:sticky lg:top-20"><div className="overflow-hidden rounded-2xl bg-white shadow-lg"><div className="bg-[#153e75] p-5 text-white"><p className="text-sm text-white/75">Starting From</p><div className="mt-1 text-3xl font-extrabold">{price ? `₹${price.toLocaleString("en-IN")}` : "Price on Request"}</div><p className="mt-1 text-xs">Per Person*</p></div><div className="p-5"><div className="grid grid-cols-2 gap-2 text-sm"><Mini label="Rating" value={rating ? `${rating} ★` : "New"}/><Mini label="Reviews" value={reviews ? String(reviews) : "—"}/></div><a href={`https://wa.me/919211796168?text=${encodeURIComponent(`Hi, I want details for ${pkg.title}`)}`} target="_blank" rel="noopener noreferrer" className="mt-5 block rounded-lg bg-orange-500 px-4 py-3 text-center font-bold text-white hover:bg-orange-600">Enquire on WhatsApp</a><a href="tel:+919211796168" className="mt-3 block rounded-lg border border-[#153e75] px-4 py-3 text-center font-bold text-[#153e75]">Call Now</a><div className="mt-5 border-t pt-4 text-xs leading-5 text-slate-500">Price may vary by travel date, hotel category, vehicle and group size. Final quotation is shared before booking.</div></div></div></aside>
     </section>
   </main>;
 }
