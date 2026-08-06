@@ -23,24 +23,19 @@ const experienceThemes = [
 ];
 
 export default function Header() {
-  const navLinkClass = "group relative text-[15px] font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.55)] transition-all duration-300 hover:text-cyan-200";
+  const navLinkClass = "group relative text-[15px] font-bold tracking-[0.01em] text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_0_8px_rgba(0,0,0,0.45)] transition-all duration-300 hover:text-cyan-200";
 
   return (
     <header className="fixed inset-x-0 top-3 z-50 px-4">
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between rounded-2xl border border-white/30 bg-blue-950/25 px-4 shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between rounded-2xl border border-white/35 bg-blue-950/30 px-4 shadow-[0_10px_35px_rgba(15,23,42,0.18)] backdrop-blur-xl sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center -ml-4 lg:-ml-6">
           <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={185} height={55} priority className="h-[55px] w-auto object-contain transition-transform duration-300 hover:scale-105" />
         </Link>
-
         <nav className="hidden items-center gap-8 lg:flex">
           <Link href="/" className={navLinkClass}>Home<span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-300 transition-all duration-300 group-hover:w-full" /></Link>
           <Link href="/about" className={navLinkClass}>About Us<span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-300 transition-all duration-300 group-hover:w-full" /></Link>
           <div className="group/experiences relative flex h-[72px] items-center">
-            <Link href="/packages" className={`${navLinkClass} flex items-center gap-1.5`}>
-              Experiences
-              <svg className="h-3.5 w-3.5 transition-transform duration-300 group-hover/experiences:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z" clipRule="evenodd" /></svg>
-              <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-300 transition-all duration-300 group-hover/experiences:w-full" />
-            </Link>
+            <Link href="/packages" className={`${navLinkClass} flex items-center gap-1.5`}>Experiences<svg className="h-3.5 w-3.5 transition-transform duration-300 group-hover/experiences:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.51a.75.75 0 01-1.08 0l-4.25-4.51a.75.75 0 01.02-1.06z" clipRule="evenodd" /></svg><span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-300 transition-all duration-300 group-hover/experiences:w-full" /></Link>
             <div className="invisible absolute left-1/2 top-[66px] w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover/experiences:visible group-hover/experiences:translate-y-0 group-hover/experiences:opacity-100">
               <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
                 <div className="border-b border-blue-100 bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-4 text-white"><p className="text-lg font-bold">Explore by Experience</p><p className="mt-0.5 text-xs text-blue-50">Choose the way you want to travel</p></div>
@@ -53,7 +48,7 @@ export default function Header() {
           <Link href="/corporate-travel" className={navLinkClass}>Corporate Travel<span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-300 transition-all duration-300 group-hover:w-full" /></Link>
           <Link href="/contact" className={navLinkClass}>Contact<span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-cyan-300 transition-all duration-300 group-hover:w-full" /></Link>
         </nav>
-        <Link href="/contact" className="rounded-full border border-white/55 bg-white/15 px-6 py-2.5 text-sm font-semibold text-white shadow-md backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/25">Plan Your Trip</Link>
+        <Link href="/contact" className="rounded-full border border-white/70 bg-white/20 px-6 py-2.5 text-sm font-bold text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.65)] shadow-md backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/30">Plan Your Trip</Link>
       </div>
     </header>
   );
