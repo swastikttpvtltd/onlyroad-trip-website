@@ -1,8 +1,6 @@
 export type PackagePhoto={image:string;alt:string};
 const commons=(file:string)=>`https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file)}`;
 const P=(file:string,alt:string):PackagePhoto=>({image:commons(file),alt});
-
-// Existing state galleries
 const galleries:Record<string,PackagePhoto[]>={
 "amritsar-golden-temple-wagah":[P("Amritsar- The Golden Temple.jpg","Golden Temple, Amritsar"),P("Jallianwala bagh.jpg","Jallianwala Bagh"),P("Attari Wagah Border gate.jpg","Attari-Wagah Border"),P("Golden Temple, India.jpg","Golden Temple at night"),P("The Golden Temple in Amritsar.jpg","Golden Temple panorama")],
 "amritsar-anandpur-sahib":[P("Anandpur Sahib.jpg","Anandpur Sahib"),P("Amritsar- The Golden Temple.jpg","Golden Temple"),P("Anandpur Sahib (1) 03.jpg","Anandpur Sahib heritage"),P("Golden Temple, India.jpg","Golden Temple at night"),P("Jallianwala bagh.jpg","Jallianwala Bagh")],
@@ -21,10 +19,12 @@ const galleries:Record<string,PackagePhoto[]>={
 "ujjain-omkareshwar":[P("Mahakaleshwar Jyotirlinga Temple Ujjain.jpg","Mahakaleshwar"),P("Omkareshwar Temple Madhya Pradesh.jpg","Omkareshwar"),P("Ram Ghat Ujjain.jpg","Ram Ghat"),P("Omkareshwar Narmada River.jpg","Narmada"),P("Mahakaleshwar temple Ujjain.jpg","Ujjain")],
 "khajuraho-orchha":[P("Khajuraho temples.jpg","Khajuraho"),P("Orchha Fort Madhya Pradesh.jpg","Orchha"),P("Kandariya Mahadeva Temple Khajuraho.jpg","Kandariya Mahadeva"),P("Chaturbhuj Temple Orchha.jpg","Chaturbhuj Temple"),P("Orchha cenotaphs Betwa River.jpg","Orchha cenotaphs")],
 "kanha-bandhavgarh":[P("Kanha National Park Madhya Pradesh.jpg","Kanha"),P("Tiger at Bandhavgarh National Park.jpg","Bandhavgarh tiger"),P("Tiger Kanha National Park.jpg","Kanha tiger"),P("Bandhavgarh National Park.jpg","Bandhavgarh"),P("Barasingha Kanha National Park.jpg","Kanha barasingha")],
+"gangtok-tsomgo":[P("Tsomgo Lake Sikkim.jpg","Tsomgo Lake"),P("Gangtok from Ganesh Tok.jpg","Gangtok"),P("Rumtek Monastery Sikkim.jpg","Rumtek Monastery"),P("MG Marg Gangtok.jpg","MG Marg"),P("Tsomgo lake in Sikkim.jpg","Tsomgo mountain scenery")],
+"gangtok-lachen-lachung":[P("Yumthang Valley Sikkim.jpg","Yumthang Valley"),P("Lachung Sikkim.jpg","Lachung"),P("Lachen Sikkim.jpg","Lachen"),P("Yumthang valley.jpg","Yumthang"),P("North Sikkim mountains.jpg","North Sikkim mountains")],
 
-// Sikkim — unique cover + exactly five relevant images per package
-"gangtok-tsomgo":[P("Tsomgo Lake Sikkim.jpg","Tsomgo Lake, Sikkim"),P("Gangtok from Ganesh Tok.jpg","Gangtok Himalayan panorama"),P("Rumtek Monastery Sikkim.jpg","Rumtek Monastery"),P("MG Marg Gangtok.jpg","MG Marg, Gangtok"),P("Tsomgo lake in Sikkim.jpg","Tsomgo Lake mountain scenery")],
-"gangtok-lachen-lachung":[P("Yumthang Valley Sikkim.jpg","Yumthang Valley, North Sikkim"),P("Lachung Sikkim.jpg","Lachung village"),P("Lachen Sikkim.jpg","Lachen, North Sikkim"),P("Yumthang valley.jpg","Yumthang Himalayan valley"),P("North Sikkim mountains.jpg","North Sikkim mountain landscape")]
+// West Bengal
+"darjeeling-kalimpong":[P("Darjeeling view with Kanchenjunga.jpg","Darjeeling with Kanchenjunga"),P("Darjeeling Himalayan Railway.jpg","Darjeeling Himalayan Railway"),P("Tea garden Darjeeling.jpg","Darjeeling tea gardens"),P("Tiger Hill Darjeeling.jpg","Tiger Hill, Darjeeling"),P("Kalimpong West Bengal.jpg","Kalimpong Himalayan landscape")],
+"kolkata-sundarbans":[P("Victoria Memorial Kolkata.jpg","Victoria Memorial, Kolkata"),P("Howrah Bridge Kolkata.jpg","Howrah Bridge, Kolkata"),P("Sundarbans National Park.jpg","Sundarbans mangrove landscape"),P("Royal Bengal Tiger Sundarbans.jpg","Royal Bengal tiger in Sundarbans"),P("Sundarbans boat.jpg","Boat safari landscape in Sundarbans")]
 };
 export const packageImageGalleries=galleries;
 export default packageImageGalleries;
