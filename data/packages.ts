@@ -10,10 +10,12 @@ import udaipurMountAbu from "./packages/rajasthan/udaipur-mount-abu";
 import jaipurAjmerPushkar from "./packages/rajasthan/jaipur-ajmer-pushkar";
 import jaipurJodhpurUdaipur from "./packages/rajasthan/jaipur-jodhpur-udaipur";
 import rajasthanGrandTour from "./packages/rajasthan/rajasthan-grand-tour";
+import uttarakhandPackages from "./packages/uttarakhand/uttarakhand-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 
 const rawPackages = [
+  ...uttarakhandPackages,
   rajasthanGrandTour, jaipurJodhpurUdaipur, jodhpurJaisalmer, udaipurMountAbu, jaipurAjmerPushkar, jaipurHeritage,
   gujaratGrandTour, dwarkaSomnath, girNationalPark, ramUtsav, saputara, statueOfUnity,
 ];
