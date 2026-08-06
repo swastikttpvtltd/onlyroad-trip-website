@@ -1,61 +1,14 @@
 const packageData = {
-  id: 1005,
-  slug: "statue-of-unity",
-  state: "Gujarat",
-  title: "Statue of Unity Weekend Tour",
-  duration: "1 Night / 2 Days",
-  destination: "Kevadia",
-  category: "Monument",
-  themes: ["Heritage", "Monument", "Family"],
-  hero: {
-    image: "/images/packages/gujarat/statue-of-unity/hero.jpg",
-    shortDescription:
-      "Visit the Statue of Unity, Valley of Flowers, and enjoy a heritage weekend getaway in Gujarat.",
-  },
-  gallery: [],
-  overview: "A short heritage weekend tour to the Statue of Unity and nearby attractions.",
-  highlights: ["Statue of Unity", "Valley of Flowers", "Sardar Sarovar Dam"],
-  quickFacts: {
-    pickup: "Vadodara / Ahmedabad",
-    drop: "Vadodara / Ahmedabad",
-    transport: "Private AC Vehicle",
-    meals: "Breakfast & Dinner",
-    hotelCategory: "Deluxe",
-    bestSeason: "October – March",
-  },
-  itinerary: [
-    {
-      day: "Day 1",
-      title: "Arrival & Statue Visit",
-      morning: ["Arrive at Kevadia", "Check in to hotel"],
-      afternoon: ["Visit Statue of Unity", "Explore Valley of Flowers"],
-      evening: ["Dinner", "Overnight stay"],
-      meals: "Dinner",
-      hotel: "Statue View Resort / Similar",
-      distance: "N/A",
-      driveTime: "N/A",
-      notes: ["Carry ID for entry", "Reach early for the statue visit"],
-    },
-    {
-      day: "Day 2",
-      title: "Dam Visit & Departure",
-      morning: ["Breakfast", "Visit Sardar Sarovar Dam"],
-      afternoon: ["Check out from hotel", "Return to Vadodara/Ahmedabad"],
-      evening: ["Drop at station/airport"],
-      meals: "Breakfast",
-      hotel: "N/A",
-      distance: "100 KM",
-      driveTime: "2–3 Hours",
-      notes: ["Confirm return transfer timing", "Pack your belongings"],
-    },
+  id:"statue-of-unity-1n2d",slug:"statue-of-unity",state:"Gujarat",title:"Statue of Unity & Ekta Nagar Weekend Tour",duration:"1 Night / 2 Days",destination:"Ekta Nagar • Statue of Unity • Sardar Sarovar",category:"Heritage & Monument",themes:["Heritage","Monument","Family","Weekend","Sightseeing"],
+  hero:{image:"/images/packages/gujarat/statue-of-unity/hero.jpg",shortDescription:"A compact Ekta Nagar getaway covering the Statue of Unity and selected attractions around the Sardar Sarovar landscape."},
+  gallery:[{image:"/images/packages/gujarat/statue-of-unity/gallery1.jpg",alt:"Statue of Unity"},{image:"/images/packages/gujarat/statue-of-unity/gallery2.jpg",alt:"Statue of Unity and surrounding landscape"},{image:"/images/packages/gujarat/statue-of-unity/gallery3.jpg",alt:"Valley of Flowers Ekta Nagar"},{image:"/images/packages/gujarat/statue-of-unity/gallery4.jpg",alt:"Sardar Sarovar Dam region"},{image:"/images/packages/gujarat/statue-of-unity/gallery5.jpg",alt:"Ekta Nagar tourism landscape"}],
+  overview:"A 1-night weekend package to Ekta Nagar focused on the Statue of Unity and nearby attractions. The exact sightseeing sequence depends on arrival time, attraction operating days, ticket slots and local transport regulations.",
+  highlights:["Statue of Unity","Ekta Nagar","Valley of Flowers area","Sardar Sarovar landscape","Optional evening programme subject to ticket and schedule","Family-friendly short break"],
+  quickFacts:{pickup:"Vadodara / Ahmedabad as booked",drop:"Vadodara / Ahmedabad as booked",transport:"Private AC Vehicle; local attraction transport subject to local rules",meals:"Breakfast & Dinner",hotelCategory:"3-Star Hotel / Similar",bestSeason:"October – March; year-round travel possible subject to weather"},
+  itinerary:[
+    {day:"Day 1",title:"Arrival Ekta Nagar – Statue of Unity",morning:["Pickup from confirmed Vadodara / Ahmedabad point","Drive towards Ekta Nagar"],afternoon:["Hotel check-in subject to standard timing","Visit Statue of Unity according to confirmed entry slot","Explore selected nearby attraction such as Valley of Flowers area as time permits"],evening:["Optional scheduled evening attraction / programme if booked and operational","Dinner and overnight near Ekta Nagar"],meals:"Dinner",hotel:"3-Star Hotel / Similar",distance:"Approx. 90 KM from Vadodara / longer from Ahmedabad",driveTime:"Approx. 2 Hours from Vadodara; varies from Ahmedabad",notes:["Statue entry and viewing-gallery access require valid tickets where applicable","Carry original government photo ID"]},
+    {day:"Day 2",title:"Sardar Sarovar Region – Departure",morning:["Breakfast and checkout","Visit selected Sardar Sarovar / Ekta Nagar sightseeing points according to operating schedule"],afternoon:["Begin return transfer","Drop at confirmed Vadodara / Ahmedabad point","Tour concludes"],evening:["No scheduled activity"],meals:"Breakfast",hotel:"No stay",distance:"Depends on drop point",driveTime:"Approx. 2 Hours to Vadodara; varies for Ahmedabad",notes:["Attraction timings, closures and ticket availability may change","Keep sufficient buffer for onward travel"]}
   ],
-  hotels: [{ name: "Statue View Resort", category: "4 Star" }],
-  meals: ["Breakfast", "Dinner"],
-  inclusions: [],
-  exclusions: [],
-  bestTime: "October – March",
-  groupSize: "2-8 Persons",
-  difficulty: "Easy",
+  hotels:[{name:"3-Star Hotel / Similar",category:"3-Star",star:"3-Star Hotel"}],meals:["Breakfast","Dinner"],inclusions:[],exclusions:[],bestTime:"October – March",groupSize:"2-12 Persons",difficulty:"Easy"
 };
-
 export default packageData;
