@@ -23,23 +23,21 @@ const experienceThemes = [
   { name: "Nature", query: "Nature", description: "Valleys, lakes & landscapes" },
 ];
 
-function parseRgb(value: string) {
-  const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-  return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
+function parseColor(value: string): [number, number, number, number] | null {
+  const match = value.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/i);
+  if (!match) return null;
+  return [Number(match[1]), Number(match[2]), Number(match[3]), match[4] === undefined ? 1 : Number(match[4])];
 }
 
-function getEffectiveBackground(element: Element | null) {
+function findSolidBackground(element: Element | null): [number, number, number] | null {
   let current = element;
   while (current && current !== document.documentElement) {
-    const style = window.getComputedStyle(current);
-    const rgb = parseRgb(style.backgroundColor);
-    if (rgb) {
-      const [r, g, b] = rgb;
-      if (!(r === 0 && g === 0 && b === 0 && style.backgroundColor.includes(", 0)"))) return rgb;
-    }
+    const color = parseColor(window.getComputedStyle(current).backgroundColor);
+    if (color && color[3] > 0.15) return [color[0], color[1], color[2]];
     current = current.parentElement;
   }
-  return parseRgb(window.getComputedStyle(document.body).backgroundColor);
+  const body = parseColor(window.getComputedStyle(document.body).backgroundColor);
+  return body ? [body[0], body[1], body[2]] : null;
 }
 
 export default function Header() {
@@ -53,22 +51,27 @@ export default function Header() {
       frame = requestAnimationFrame(() => {
         if (!headerRef.current) return;
         const rect = headerRef.current.getBoundingClientRect();
-        const sampleY = Math.min(window.innerHeight - 1, Math.max(1, Math.round(rect.bottom + 8)));
-        const sampleXs = [0.38, 0.5, 0.62].map((ratio) => Math.round(window.innerWidth * ratio));
-        const oldPointer = headerRef.current.style.pointerEvents;
-        headerRef.current.style.pointerEvents = "none";
-        const samples = sampleXs.map((x) => getEffectiveBackground(document.elementFromPoint(x, sampleY))).filter(Boolean) as number[][];
-        headerRef.current.style.pointerEvents = oldPointer;
-        if (!samples.length) return;
-        const averageLuminance = samples.reduce((sum, [r, g, b]) => sum + (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255, 0) / samples.length;
-        setOverLight(averageLuminance > 0.58);
+        const y = Math.max(1, Math.min(window.innerHeight - 1, Math.round(rect.top + rect.height / 2)));
+        const xs = [0.34, 0.5, 0.66].map((ratio) => Math.round(window.innerWidth * ratio));
+
+        const previousVisibility = headerRef.current.style.visibility;
+        headerRef.current.style.visibility = "hidden";
+        const colors = xs.map((x) => findSolidBackground(document.elementFromPoint(x, y))).filter(Boolean) as [number, number, number][];
+        headerRef.current.style.visibility = previousVisibility;
+
+        if (!colors.length) return;
+        const luminance = colors.reduce((total, [r, g, b]) => total + (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255, 0) / colors.length;
+        setOverLight(luminance >= 0.62);
       });
     };
+
     detectContrast();
+    const timer = window.setTimeout(detectContrast, 300);
     window.addEventListener("scroll", detectContrast, { passive: true });
     window.addEventListener("resize", detectContrast);
     return () => {
       cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
       window.removeEventListener("scroll", detectContrast);
       window.removeEventListener("resize", detectContrast);
     };
@@ -79,7 +82,7 @@ export default function Header() {
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-3 z-50 px-4">
-      <div className={`mx-auto flex h-[72px] max-w-7xl items-center justify-between rounded-2xl border px-4 shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 sm:px-6 lg:px-8 ${overLight ? "border-slate-300/80 bg-white/65" : "border-white/40 bg-slate-950/35"}`}>
+      <div className={`mx-auto flex h-[72px] max-w-7xl items-center justify-between rounded-2xl border px-4 shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 sm:px-6 lg:px-8 ${overLight ? "border-slate-300/80 bg-white/65" : "border-white/45 bg-slate-950/35"}`}>
         <Link href="/" className="flex shrink-0 items-center -ml-4 lg:-ml-6"><Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={185} height={55} priority className="h-[55px] w-auto object-contain transition-transform duration-300 hover:scale-105" /></Link>
         <nav className="hidden items-center gap-8 lg:flex">
           <Link href="/" className={navLinkClass}>Home<span className={`absolute -bottom-1 left-0 h-[2px] w-0 transition-all duration-300 group-hover:w-full ${underlineClass}`} /></Link>
