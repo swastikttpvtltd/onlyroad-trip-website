@@ -20,9 +20,16 @@ import nextStatesPackages from "./packages/next-states-packages";
 import islandPackages from "./packages/island-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
+
 const rawPackages=[...islandPackages,...nextStatesPackages,...ladakhPackages,...himachalPackages,...kashmirPackages,...newMultiStatePackages,...uttarPradeshPackages,...uttarakhandPackages,rajasthanGrandTour,jaipurJodhpurUdaipur,jodhpurJaisalmer,udaipurMountAbu,jaipurAjmerPushkar,jaipurHeritage,gujaratGrandTour,dwarkaSomnath,girNationalPark,ramUtsav,saputara,statueOfUnity];
 const standardHotels=[{name:"3-Star Hotel / Similar",category:"3-Star",star:"3-Star Hotel"}];
 const standardMeals=["Buffet Breakfast at hotel (subject to hotel service format and occupancy)","Buffet Dinner at hotel (subject to hotel service format and occupancy)"];
-const makePackageId=(id:string)=>`ORT-${id.toUpperCase().replace(/[^A-Z0-9]+/g,"-").replace(/^-|-$/g,"")}`;
-export const packages=rawPackages.map((pkg)=>({...pkg,packageId:makePackageId(pkg.id),hotels:standardHotels.map((hotel)=>({...hotel})),meals:[...standardMeals],exclusions:[...defaultPackageExclusions,"Lunch and any meals other than the included breakfast and dinner"],inclusions:[...defaultPackageInclusions,"Accommodation in 3-Star Hotels / Similar","Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy"]}));
+
+const makePackageId=(id:unknown,slug?:unknown,title?:unknown)=>{
+  const source = id ?? slug ?? title ?? "package";
+  const safeId = String(source).trim();
+  return `ORT-${safeId.toUpperCase().replace(/[^A-Z0-9]+/g,"-").replace(/^-|-$/g,"")}`;
+};
+
+export const packages=rawPackages.map((pkg)=>({...pkg,packageId:makePackageId(pkg.id,pkg.slug,pkg.title),hotels:standardHotels.map((hotel)=>({...hotel})),meals:[...standardMeals],exclusions:[...defaultPackageExclusions,"Lunch and any meals other than the included breakfast and dinner"],inclusions:[...defaultPackageInclusions,"Accommodation in 3-Star Hotels / Similar","Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy"]}));
 export default packages;
