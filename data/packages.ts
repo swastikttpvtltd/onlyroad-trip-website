@@ -13,10 +13,12 @@ import rajasthanGrandTour from "./packages/rajasthan/rajasthan-grand-tour";
 import uttarakhandPackages from "./packages/uttarakhand/uttarakhand-packages";
 import uttarPradeshPackages from "./packages/uttar-pradesh/uttar-pradesh-packages";
 import newMultiStatePackages from "./packages/multi-state/new-multi-state-packages";
+import kashmirPackages from "./packages/kashmir/kashmir-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 
 const rawPackages = [
+  ...kashmirPackages,
   ...newMultiStatePackages,
   ...uttarPradeshPackages,
   ...uttarakhandPackages,
