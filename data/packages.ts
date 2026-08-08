@@ -5,7 +5,7 @@ import uttarPradeshPackages from "./packages/uttar-pradesh/uttar-pradesh-package
 import newMultiStatePackages from "./packages/multi-state/new-multi-state-packages";
 import kashmirPackages from "./packages/kashmir/kashmir-packages";
 import himachalPackages from "./packages/himachal-packages";
-import ladakhPackages from "./packages/ladakh-packages";
+import ladakhPackages from "./packages/ladakh/ladakh-packages";
 import punjabPackages from "./packages/punjab/punjab-packages";
 import keralaPackages from "./packages/kerala/kerala-packages";
 import goaPackages from "./packages/goa/goa-packages";
