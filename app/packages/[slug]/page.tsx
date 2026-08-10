@@ -79,7 +79,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
       <div className="sticky top-0 z-30 border-b bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
-          {[["overview", "Overview"], ["description", "Itinerary Description"], ["gallery", "Gallery"], ["itinerary", "Itinerary"], ["places", "Places Covered"], ["inclusions", "Inclusions"], ["hotels", "Stay & Meals"]].map(([id, label]) => (
+          {[["overview", "Overview"], ["gallery", "Gallery"], ["itinerary", "Itinerary"], ["places", "Places Covered"], ["inclusions", "Inclusions"], ["hotels", "Stay & Meals"]].map(([id, label]) => (
             <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>
           ))}
         </div>
@@ -105,8 +105,6 @@ export default async function PackageDetailsPage({ params }: PageProps) {
               {pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}
             </div>
           </ContentCard>
-
-          <ItineraryDescription title={pkg.title} overview={pkg.overview} />
 
           <ContentCard id="places" title="Places Covered & What They Are Famous For">
             <p className="mb-5 leading-7 text-slate-600">Every stop below is explained according to this package route.</p>
@@ -159,19 +157,6 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         </aside>
       </section>
     </main>
-  );
-}
-
-function ItineraryDescription({ title, overview }: { title: string; overview: string }) {
-  return (
-    <section id="description" className="scroll-mt-24 overflow-hidden rounded-2xl bg-white shadow-sm">
-      <div className="border-l-4 border-red-500 px-6 py-6 md:px-7">
-        <h2 className="text-2xl font-extrabold text-slate-950">Itinerary Description</h2>
-        <h3 className="mt-3 text-lg font-medium text-slate-950 md:text-xl">{title}</h3>
-        <p className="mt-3 line-clamp-3 text-base leading-7 text-slate-700">{overview}</p>
-        <button type="button" className="mt-4 text-sm font-medium text-red-600 hover:text-red-700">Read More</button>
-      </div>
-    </section>
   );
 }
 
