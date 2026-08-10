@@ -105,7 +105,6 @@ const getPackageMedia = (mediaFolder: string, title: string) =>
   }));
 
 const clean = (value: unknown) => String(value ?? "").replace(/\s+/g, " ").trim();
-
 const unique = (items: string[]) => Array.from(new Set(items.filter(Boolean)));
 
 const buildDetailedPackageDescription = (pkg: any) => {
@@ -119,9 +118,7 @@ const buildDetailedPackageDescription = (pkg: any) => {
     ? unique(pkg.highlights.map(clean)).slice(0, 6)
     : [];
   const itinerary = Array.isArray(pkg.itinerary) ? pkg.itinerary : [];
-  const dayTitles = unique(
-    itinerary.map((day: any) => clean(day?.title)).filter(Boolean)
-  );
+  const dayTitles = unique(itinerary.map((day: any) => clean(day?.title)).filter(Boolean));
   const activities = unique(
     itinerary
       .flatMap((day: any) => [
@@ -130,7 +127,7 @@ const buildDetailedPackageDescription = (pkg: any) => {
         ...(Array.isArray(day?.evening) ? day.evening : []),
       ])
       .map(clean)
-  ).slice(0, 7);
+  ).slice(0, 8);
   const meals = Array.isArray(pkg.meals) ? unique(pkg.meals.map(clean)).slice(0, 2) : [];
   const hotels = Array.isArray(pkg.hotels)
     ? pkg.hotels.map((hotel: any) => clean(hotel?.name)).filter(Boolean).slice(0, 2)
@@ -148,42 +145,34 @@ const buildDetailedPackageDescription = (pkg: any) => {
     "Honeymoon": "a relaxed romantic escape",
   };
 
-  const tone = categoryTone[category] ||
-    `a carefully planned ${category ? category.toLowerCase() : "holiday"} experience`;
+  const tone = categoryTone[category] || `a carefully planned ${category ? category.toLowerCase() : "holiday"} experience`;
 
   const intro = original && original.length > 40
     ? `${original.replace(/\.$/, "")}.`
     : `${title} is ${tone} across ${destination || "the destinations included in the itinerary"}${state ? ` in ${state}` : ""}.`;
 
-  let route = "";
-  if (dayTitles.length >= 2) {
-    const first = dayTitles[0];
-    const middle = dayTitles.slice(1, -1).slice(0, 3);
-    const last = dayTitles[dayTitles.length - 1];
-    route = middle.length
-      ? `The journey begins with ${first.toLowerCase()}, moves through ${middle.map((x: string) => x.toLowerCase()).join(", ")}, and concludes with ${last.toLowerCase()}.`
-      : `The journey begins with ${first.toLowerCase()} and concludes with ${last.toLowerCase()}.`;
-  } else if (dayTitles.length === 1) {
-    route = `The itinerary is centred around ${dayTitles[0].toLowerCase()}, with the remaining time arranged around the experiences included in the package.`;
-  }
+  const route = dayTitles.length >= 2
+    ? `The journey begins with ${dayTitles[0].toLowerCase()} and then moves through ${dayTitles.slice(1, -1).slice(0, 3).map((x: string) => x.toLowerCase()).join(", ")}${dayTitles.length > 2 ? `, before ${dayTitles[dayTitles.length - 1].toLowerCase()}` : ""}.`
+    : dayTitles.length === 1
+      ? `The itinerary is centred around ${dayTitles[0].toLowerCase()}, with the remaining time arranged around the experiences included in the package.`
+      : "The day-wise plan combines the main sightseeing and leisure experiences included in the package.";
 
   const experience = highlights.length
-    ? `The experience is shaped by ${highlights.slice(0, 4).join(", ")}${highlights.length > 4 ? `, along with ${highlights.slice(4).join(" and ")}` : ""}.`
-    : "The experience follows the sightseeing, leisure and local activities specifically included in the itinerary.";
+    ? `Travellers can look forward to ${highlights.slice(0, 4).join(", ")}${highlights.length > 4 ? `, along with ${highlights.slice(4).join(" and ")}` : ""}. The itinerary has been arranged to leave room for enjoying the destination rather than simply moving from one sightseeing point to another.`
+    : "The itinerary combines the sightseeing, local experiences and leisure time specifically included in the package, with enough room to enjoy the destination at a comfortable pace.";
 
   const activitySentence = activities.length
-    ? `Depending on the day, guests can expect ${activities.slice(0, 5).join(", ")}${activities.length > 5 ? ` and ${activities[5]}` : ""}, as detailed in the day-wise plan.`
-    : "Transfers, sightseeing and leisure time are arranged according to the day-wise itinerary.";
+    ? `Depending on the day, the planned experiences include ${activities.slice(0, 6).join(", ")}${activities.length > 6 ? ` and ${activities[6]}` : ""}. These follow the sequence and conditions mentioned in the day-wise itinerary.`
+    : "Transfers, sightseeing and leisure time follow the day-wise itinerary and the operating conditions of the destination.";
 
-  const staySentence = `The stay is planned at ${hotelText}, with ${meals.length ? meals.join(" and ").toLowerCase() : "the meals specified in the package"}.`;
+  const staySentence = `Accommodation is planned at ${hotelText}, with ${meals.length ? meals.join(" and ").toLowerCase() : "the meals specified in the package"}.`;
+  const closing = `Overall, ${title.toLowerCase()} is designed around the character of ${destination || "the destination"}, bringing together its key experiences in a comfortable and easy-going journey. Sightseeing, transfers and activities remain subject to local schedules, weather, access and other operating conditions mentioned in the package.`;
 
-  const closing = `The itinerary is paced around the character of ${destination || "the destination"}, giving travellers time to enjoy the main experiences without turning the trip into a rushed checklist. Any sightseeing, transfers or activities remain subject to the operating conditions and schedules mentioned in the package.`;
+  const paragraphOne = `${intro} ${route}`;
+  const paragraphTwo = `${experience} ${activitySentence}`;
+  const paragraphThree = `${staySentence} ${closing}`;
 
-  return [intro, route, experience, activitySentence, staySentence, closing]
-    .filter(Boolean)
-    .join(" ")
-    .replace(/\s+/g, " ")
-    .trim();
+  return `${paragraphOne}\n\n${paragraphTwo}\n\n${paragraphThree}`;
 };
 
 export const packages = rawPackages.map((pkg) => {
