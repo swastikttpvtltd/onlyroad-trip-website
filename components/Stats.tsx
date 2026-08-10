@@ -2,31 +2,29 @@ import { Users, MapPin, Headset, Star } from "lucide-react";
 import { stats } from "@/data/stats";
 
 const icons = [
-  <Users size={32} />,
-  <MapPin size={32} />,
-  <Headset size={32} />,
-  <Star size={32} />,
+  <Users size={28} />,
+  <MapPin size={28} />,
+  <Headset size={28} />,
+  <Star size={28} />,
 ];
 
 export default function Stats() {
   return (
-    <section className="relative z-10 bg-white pt-32 pb-24">
+    <section className="relative z-10 bg-white pt-20 pb-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((item, index) => (
             <div
               key={item.id}
-              className="group rounded-3xl border border-gray-100 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl"
+              className="group rounded-2xl border border-slate-100 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(15,23,42,0.12)]"
             >
-              <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0B3D91] to-cyan-600 text-white transition-transform duration-300 group-hover:scale-110">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0B3D91] to-cyan-600 text-white transition-transform duration-300 group-hover:scale-105">
                 {icons[index]}
               </div>
-
-              <h3 className="text-5xl font-extrabold text-[#0B3D91]">
+              <h3 className="text-4xl font-extrabold tracking-tight text-[#0B3D91]">
                 {item.value}
               </h3>
-
-              <p className="mt-3 text-lg font-medium text-gray-600">
+              <p className="mt-2 text-base font-medium text-slate-600">
                 {item.label}
               </p>
             </div>
