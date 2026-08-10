@@ -70,8 +70,10 @@ const makePackageId = (id: unknown, slug?: unknown, title?: unknown) => {
 export const packages = rawPackages.map((pkg) => {
   const groupRates = makePackageRates(pkg);
   const mappedGallery = packageImageGalleries[pkg.slug];
-  const gallery = mappedGallery?.length === 5 ? mappedGallery : pkg.gallery;
-  const cover = gallery?.[0]?.image ?? pkg.hero?.image ?? pkg.image;
+  const sourceGallery = mappedGallery?.length === 5 ? mappedGallery : pkg.gallery;
+  // Standard package media: 1 hero.jpg + 3 gallery images (gallery1.jpg–gallery3.jpg).
+  const gallery = (sourceGallery ?? []).slice(0, 3);
+  const cover = pkg.hero?.image ?? gallery[0]?.image ?? pkg.image;
 
   return {
     ...pkg,
