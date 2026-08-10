@@ -9,8 +9,30 @@ const experienceThemes = [
   { name: "Spiritual", query: "Spiritual", description: "Sacred journeys & peaceful escapes" }, { name: "Pilgrimage", query: "Pilgrimage", description: "Temples, dhams & holy circuits" }, { name: "Trekking", query: "Trekking", description: "Trails, peaks & Himalayan walks" }, { name: "Adventure", query: "Adventure", description: "Thrilling outdoor journeys" }, { name: "Women Special", query: "Women", description: "Curated journeys for women" }, { name: "Senior Citizen", query: "Senior", description: "Comfort-first relaxed holidays" }, { name: "Honeymoon", query: "Honeymoon", description: "Romantic couple getaways" }, { name: "Family", query: "Family", description: "Memorable holidays together" }, { name: "Wildlife", query: "Wildlife", description: "Safaris, forests & nature" }, { name: "Beach & Island", query: "Beach", description: "Coasts, islands & lagoons" }, { name: "Heritage & Culture", query: "Heritage", description: "Forts, palaces & traditions" }, { name: "Hill Stations", query: "Hill", description: "Mountains & scenic retreats" }, { name: "Weekend Getaways", query: "Weekend", description: "Quick refreshing escapes" }, { name: "Road Trips", query: "Road", description: "Iconic routes & driving holidays" }, { name: "Corporate & MICE", query: "Corporate", description: "Offsites, incentives & groups" }, { name: "Nature", query: "Nature", description: "Valleys, lakes & landscapes" },
 ];
 
+// Only states for which packages are currently available in the website data.
+// Do not add a state here until its packages are actually published.
 const packageStates = [
-  "Andaman & Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu & Kashmir", "Jharkhand", "Karnataka", "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Meghalaya", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  "Andaman & Nicobar Islands",
+  "Andhra Pradesh",
+  "Assam",
+  "Goa",
+  "Gujarat",
+  "Himachal Pradesh",
+  "Jammu & Kashmir",
+  "Karnataka",
+  "Kerala",
+  "Ladakh",
+  "Lakshadweep",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Meghalaya",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
 ];
 
 function parseColor(value:string):[number,number,number,number]|null{const m=value.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/i);return m?[+m[1],+m[2],+m[3],m[4]===undefined?1:+m[4]]:null}
