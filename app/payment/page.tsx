@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { CreditCard, ExternalLink, LockKeyhole, ShieldCheck } from "lucide-react";
+import { CreditCard, ExternalLink, ShieldCheck } from "lucide-react";
 
 export default function PaymentPage() {
   const [loading, setLoading] = useState(false);
@@ -41,49 +41,43 @@ export default function PaymentPage() {
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-200">Only Road Trip</p>
-              <h1 className="text-2xl font-bold md:text-3xl">Payment Link</h1>
+              <h1 className="text-2xl font-bold md:text-3xl">Cashfree Payment Link</h1>
             </div>
           </div>
           <p className="max-w-2xl text-sm leading-6 text-slate-200">
-            Create a Cashfree payment link for a customer booking. API credentials are used only by the server request and are never saved in the browser.
+            Create a secure Cashfree payment link for a customer booking. Your API credentials stay on the server and are never entered into or exposed by this page.
           </p>
         </div>
 
         <form onSubmit={createPaymentLink} className="grid gap-8 p-7 md:grid-cols-2 md:p-10">
           <section className="space-y-5">
             <div>
-              <h2 className="text-lg font-bold">Cashfree Configuration</h2>
-              <p className="mt-1 text-xs text-slate-500">For security, do not commit these credentials to GitHub.</p>
+              <h2 className="text-lg font-bold">Payment Setup</h2>
+              <p className="mt-1 text-xs text-slate-500">Cashfree credentials are loaded securely from server environment variables.</p>
             </div>
 
-            <label className="block text-sm font-semibold">
-              Environment
-              <select name="environment" defaultValue="sandbox" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500">
-                <option value="sandbox">Sandbox / Test</option>
-                <option value="production">Production</option>
-              </select>
-            </label>
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+              <div className="flex items-start gap-3">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
+                <div>
+                  <p className="font-semibold text-emerald-900">API keys are protected</p>
+                  <p className="mt-1 text-sm leading-5 text-emerald-800">
+                    Set CASHFREE_CLIENT_ID, CASHFREE_CLIENT_SECRET and CASHFREE_ENVIRONMENT in your local .env.local file and in your production hosting environment. Never commit the real keys to GitHub.
+                  </p>
+                </div>
+              </div>
+            </div>
 
-            <label className="block text-sm font-semibold">
-              Client ID
-              <input name="client_id" type="password" autoComplete="off" placeholder="Cashfree Client ID" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" />
-            </label>
-
-            <label className="block text-sm font-semibold">
-              Client Secret Key
-              <input name="client_secret" type="password" autoComplete="off" placeholder="Cashfree Secret Key" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" />
-            </label>
-
-            <div className="flex gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-5 text-amber-900">
-              <LockKeyhole className="mt-0.5 h-4 w-4 shrink-0" />
-              <span>For a live site, the safer setup is to keep these keys in server environment variables instead of entering them in a public page.</span>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-600">
+              <p className="font-semibold text-slate-900">Environment</p>
+              <p className="mt-1">Use <strong>sandbox</strong> while testing and change to <strong>production</strong> only when you are ready for live payments.</p>
             </div>
           </section>
 
           <section className="space-y-5">
             <div>
-              <h2 className="text-lg font-bold">Payment Details</h2>
-              <p className="mt-1 text-xs text-slate-500">Customer will receive the generated payment link.</p>
+              <h2 className="text-lg font-bold">Customer Payment</h2>
+              <p className="mt-1 text-xs text-slate-500">The generated Cashfree link can be shared with the customer.</p>
             </div>
 
             <label className="block text-sm font-semibold">Amount (INR)<input required name="amount" type="number" min="1" step="0.01" placeholder="25000" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
@@ -93,7 +87,6 @@ export default function PaymentPage() {
               <label className="block text-sm font-semibold">Email<input required name="customer_email" type="email" placeholder="customer@email.com" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
               <label className="block text-sm font-semibold">Mobile<input required name="customer_phone" inputMode="numeric" placeholder="9876543210" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
             </div>
-            <label className="block text-sm font-semibold">Return URL<input name="return_url" type="url" placeholder="https://www.onlyroadtrip.com/payment/success" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
 
             <button disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-600 px-5 py-3.5 font-bold text-white transition hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-60">
               <ShieldCheck className="h-5 w-5" />
