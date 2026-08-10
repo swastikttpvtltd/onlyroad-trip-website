@@ -19,6 +19,7 @@ import karnatakaPackages from "./packages/karnataka/karnataka-packages";
 import tamilNaduPackages from "./packages/tamil-nadu/tamil-nadu-packages";
 import andamanPackages from "./packages/andaman-nicobar/andaman-nicobar-packages";
 import lakshadweepPackages from "./packages/lakshadweep/lakshadweep-packages";
+import andhraPradeshPackages from "./packages/andhra-pradesh/andhra-pradesh-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 import { makePackageRates } from "./packagePricing";
@@ -41,6 +42,7 @@ const stateWisePackages = [
   ...meghalayaPackages,
   ...karnatakaPackages,
   ...tamilNaduPackages,
+  ...andhraPradeshPackages,
 ];
 
 const rawPackages = [
