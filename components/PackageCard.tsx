@@ -33,12 +33,24 @@ export default function PackageCard({ pkg }: Props) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
+        {/* Adaptive background only fills unused space. It is never used as the main photo. */}
+        <img
+          src={pkg.image || "/images/placeholder.jpg"}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-xl"
+        />
+        <div className="absolute inset-0 bg-white/10" />
+
+        {/* Sharp generated thumbnail: complete photo, no crop and no zoom. */}
         <img
           src={thumbnailSrc}
           alt={pkg.title}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-contain object-center"
         />
 
         <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2">
