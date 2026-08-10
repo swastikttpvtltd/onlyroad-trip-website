@@ -40,10 +40,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug);
   if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
+
+  const seoKeywords = Array.isArray(pkg.seoKeywords) ? pkg.seoKeywords : [pkg.title, pkg.destination, pkg.state];
+  const aliasText = seoKeywords.slice(0, 4).join(", ");
+
   return {
     title: `${pkg.title} | Only Road Trip`,
-    description: pkg.overview,
+    description: `${pkg.overview} Search for this journey as ${aliasText}.`,
+    keywords: seoKeywords,
     alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` },
+    openGraph: {
+      title: `${pkg.title} | Only Road Trip`,
+      description: `${pkg.overview} Explore ${aliasText}.`,
+      url: `https://www.onlyroadtrip.com/packages/${slug}`,
+      siteName: "Only Road Trip",
+      locale: "en_IN",
+      type: "website",
+      images: [
+        {
+          url: heroImage(pkg),
+          alt: pkg.title,
+        },
+      ],
+    },
   };
 }
 
