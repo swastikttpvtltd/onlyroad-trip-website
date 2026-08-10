@@ -25,18 +25,18 @@ export default function PackageCard({ pkg }: Props) {
   const hasSightseeing = pkg.highlights.length > 0;
 
   return (
-    <article className="group overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
-      {/* Complete source photo is visible. No crop, no zoom and no artificial grey gradient. */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
+    <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
+      {/* Fixed image frame: same size for every package, complete source photo visible without crop or zoom. */}
+      <div className="relative h-[210px] w-full shrink-0 overflow-hidden bg-slate-50 sm:h-[220px]">
         <img
           src={pkg.image || "/images/placeholder.jpg"}
           alt={pkg.title}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-[1.01]"
+          className="absolute inset-0 h-full w-full object-contain object-center"
         />
 
-        <div className="absolute left-3 top-3 right-3 flex items-start justify-between gap-2">
+        <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2">
           <span className="inline-flex max-w-[78%] rounded-full bg-cyan-600 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-md">
             {pkg.category}
           </span>
@@ -57,7 +57,7 @@ export default function PackageCard({ pkg }: Props) {
         </div>
       </div>
 
-      <div className="px-4 py-4">
+      <div className="flex flex-1 flex-col px-4 py-4">
         <p className="mb-1 text-xs font-medium text-slate-500">{pkg.category}</p>
         <h3 className="line-clamp-2 min-h-[48px] text-[19px] font-bold leading-[1.18] text-slate-950">{pkg.title}</h3>
 
