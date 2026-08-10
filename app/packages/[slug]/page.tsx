@@ -4,16 +4,181 @@ import PackageGallerySlider from "@/components/package/PackageGallerySlider";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
 import InclusionsExclusions from "@/components/package/InclusionsExclusions";
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
-type PackageItem=(typeof packages)[number];type PageProps={params:Promise<{slug:string}>};
-function heroImage(pkg:PackageItem){if("hero" in pkg&&pkg.hero?.image)return pkg.hero.image;if("image" in pkg&&typeof pkg.image==="string")return pkg.image;return pkg.gallery?.[0]?.image??"/images/package-placeholder.jpg"}function shortDescription(pkg:PackageItem){if("hero" in pkg&&pkg.hero?.shortDescription)return pkg.hero.shortDescription;return pkg.overview}function numberField(pkg:PackageItem,key:"price"|"rating"|"reviews"){if(key in pkg&&typeof pkg[key]==="number")return pkg[key];return undefined}
-const notes:Record<string,[string,string]>={Dwarka:["Dwarkadhish Temple, Gomti Ghat and Krishna heritage.","Dwarkadhish darshan, sacred ghats and the old pilgrimage-town atmosphere."],Somnath:["Somnath Jyotirlinga, Arabian Sea coast, Triveni Sangam and Bhalka Tirth.","Jyotirlinga darshan, coastal sacred sites and Somnath's historic temple precinct."],Jaipur:["Amber Fort, City Palace, Hawa Mahal, Jantar Mantar, bazaars and Rajput architecture.","Jaipur's principal fort-palace circuit, heritage landmarks and traditional market character."],Jodhpur:["Mehrangarh Fort, the Blue City, Marwari culture and handicrafts.","Mehrangarh, Jaswant Thada and the old-city heritage experience."],Jaisalmer:["Living fort, sandstone havelis, Gadisar Lake and Thar Desert culture.","Fort and haveli heritage with the desert circuit as scheduled."],Udaipur:["City Palace, Lake Pichola and Mewar's romantic lake-city heritage.","Principal palace, lakefront, garden and viewpoint experiences."],Amritsar:["Sri Harmandir Sahib (Golden Temple), Jallianwala Bagh, Punjabi food and Sikh heritage.","Golden Temple, heritage landmarks and the city's spiritual-cultural character."],Kochi:["Fort Kochi, colonial layers, waterfront heritage and Kerala's port-city culture.","Selected heritage, waterfront and city attractions according to the route."],Munnar:["Tea gardens, misty hills, viewpoints and Western Ghats scenery.","Tea-country landscapes, viewpoints and key local sightseeing."],Goa:["Beaches, Portuguese-era heritage, Old Goa churches, food and nightlife.","The package's selected North/South Goa sightseeing plus beach leisure."],Mumbai:["Gateway of India, Marine Drive, colonial-era architecture and India's film-city energy.","Key South Mumbai heritage and waterfront landmarks."],Ujjain:["Mahakaleshwar Jyotirlinga, Shipra River and ancient sacred-city heritage.","Mahakaleshwar darshan and selected Ujjain pilgrimage landmarks."],Gangtok:["Sikkimese culture, monasteries, viewpoints and Himalayan setting.","Selected city, monastery and viewpoint sightseeing."],Darjeeling:["Tea estates, Tiger Hill, Himalayan views and colonial hill-town heritage.","Key viewpoints, tea-country and town attractions."],Guwahati:["Kamakhya Temple, Brahmaputra River and Assam's main urban gateway.","Selected spiritual/city sights and onward Northeast connections."],Shillong:["Meghalaya's hill-city culture, viewpoints, waterfalls and music heritage.","Selected city sights, viewpoints and nearby nature stops."],Kaziranga:["One-horned rhinoceros habitat and Assam's celebrated national park.","Safari/nature experience subject to park season, permits and zone allocation."],Madurai:["Meenakshi Amman Temple and one of South India's oldest living cultural cities.","Temple darshan and selected heritage experiences."],Rameswaram:["Ramanathaswamy Temple, one of the Char Dham and a revered Jyotirlinga pilgrimage.","Temple darshan, sacred tirthas and the island's key pilgrimage points."],Leh:["Ladakhi Buddhist culture, monasteries, high-altitude landscapes and historic Leh town.","Acclimatisation-friendly Leh sightseeing and selected heritage/monastery stops."],Manali:["Beas Valley scenery, Hadimba Temple, mountain cafés and adventure gateway.","Key local sights and leisure around Manali."],Kasol:["Parvati Valley, riverside scenery, cafés and youth-travel culture.","Kasol market/riverside leisure and Parvati Valley atmosphere."],Shimla:["Colonial heritage, Ridge, Mall Road and Himalayan hill-station atmosphere.","Central Shimla heritage and selected viewpoints."],"Port Blair":["Cellular Jail, maritime history and gateway to the Andaman Islands.","Cellular Jail/selected city sights and ferry connections."],Kavaratti:["Turquoise lagoon, coral ecosystems and Lakshadweep island culture.","Permitted lagoon/island experiences subject to local operations."]};
-function fallback(name:string,pkg:PackageItem){const h=pkg.highlights.filter(x=>x.toLowerCase().includes(name.toLowerCase())||name.toLowerCase().includes(x.toLowerCase())).slice(0,3);return{famous:`${name} is a key stop on this ${pkg.category.toLowerCase()} route, known for its local landscape, culture and destination-specific attractions${h.length?`, especially ${h.join(", ")}`:""}.`,experience:`In this package we cover ${name} according to the day-wise itinerary, focusing on ${h.length?h.join(", "):"the most relevant local sightseeing, experiences and route highlights"}.`}}
-function destinationsFor(pkg:PackageItem){const names=pkg.destination.split(/[•,&/]/).map(x=>x.trim()).filter(Boolean);return names.map(name=>{const n=notes[name];return{name,...(n?{famous:n[0],experience:n[1]}:fallback(name,pkg))}})}
-export async function generateMetadata({params}:PageProps):Promise<Metadata>{const{slug}=await params;const pkg=packages.find(item=>item.slug===slug);if(!pkg)return{title:"Package Not Found | Only Road Trip",robots:"noindex"};return{title:`${pkg.title} | Only Road Trip`,description:pkg.overview,alternates:{canonical:`https://www.onlyroadtrip.com/packages/${slug}`}}}
-export default async function PackageDetailsPage({params}:PageProps){const{slug}=await params;const pkg=packages.find(item=>item.slug===slug);if(!pkg)notFound();const image=heroImage(pkg),price=numberField(pkg,"price"),rating=numberField(pkg,"rating"),reviews=numberField(pkg,"reviews")??0,places=destinationsFor(pkg);return <main className="min-h-screen bg-[#f6f6f6] text-slate-800"><section className="relative h-[430px] overflow-hidden"><Image src={image} alt={pkg.title} fill priority className="object-cover"/><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20"/><div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="absolute top-8 z-10"><BackToPackagesButton/></div><div className="flex h-full items-end pb-12"><div className="max-w-4xl text-white"><div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p></div></div></div></section><div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[["overview","Overview"],["description","Itinerary Description"],["gallery","Gallery"],["itinerary","Itinerary"],["places","Places Covered"],["inclusions","Inclusions"],["hotels","Stay & Meals"]].map(([id,label])=><a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div><section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]"><div className="space-y-7"><section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Package ID" value={pkg.packageId}/><Fact label="Duration" value={pkg.duration}/><Fact label="Destination" value={pkg.destination}/><Fact label="Best Time" value={pkg.bestTime}/></section><ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">Package Theme</h3><p className="mt-2 leading-7 text-slate-600">Designed as a {pkg.category.toLowerCase()} journey through {pkg.destination}. The route prioritises this package&apos;s actual highlights—{pkg.highlights.slice(0,4).join(", ")}—with comfortable transfers, sightseeing time and destination-appropriate experiences.</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{pkg.highlights.map(x=><div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard><ItineraryDescription title={pkg.title} overview={pkg.overview}/><ContentCard id="places" title="Places Covered & What They Are Famous For"><p className="mb-5 leading-7 text-slate-600">Every stop below is explained according to this package route—not with one repeated generic description.</p><div className="space-y-4">{places.map((p,i)=><div key={`${p.name}-${i}`} className="rounded-xl border p-5"><div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i+1}</span><h3 className="text-xl font-bold">{p.name}</h3></div><p className="mt-4 text-sm font-bold text-slate-900">Famous for</p><p className="mt-1 leading-7 text-slate-600">{p.famous}</p><p className="mt-3 text-sm font-bold text-slate-900">What we cover</p><p className="mt-1 leading-7 text-slate-600">{p.experience}</p></div>)}</div></ContentCard><div id="gallery" className="scroll-mt-24"><PackageGallerySlider gallery={pkg.gallery} title={pkg.title}/></div><ContentCard id="itinerary" title="Day-wise Tour Itinerary"><p className="mb-5 text-sm leading-6 text-slate-500">Click + to open the day schedule, Today&apos;s Experience and what that specific day is known for.</p><ItineraryAccordion itinerary={pkg.itinerary} destination={pkg.destination} category={pkg.category}/></ContentCard><ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={pkg.inclusions} exclusions={pkg.exclusions}/></ContentCard><ContentCard id="hotels" title="Stay, Meals & Travel Information"><div className="grid gap-6 md:grid-cols-2"><div><h3 className="font-bold">Suggested Hotels / Similar</h3><div className="mt-3 space-y-3">{pkg.hotels.map((h,i)=>{const hotel=h as{name:string;category?:string;star?:string};return <div key={`${hotel.name}-${i}`} className="rounded-lg border p-4"><b>{hotel.name}</b><p className="mt-1 text-sm text-slate-500">{hotel.star??hotel.category??"Comfort Stay"}</p></div>})}</div></div><div><h3 className="font-bold">Meals</h3><div className="mt-3 space-y-2">{pkg.meals.map(x=><p key={x} className="rounded-lg border p-3">🍽 {x}</p>)}</div><div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7"><p><b>Difficulty:</b> {pkg.difficulty}</p><p><b>Best Time:</b> {pkg.bestTime}</p><p><b>Group:</b> {pkg.groupSize}</p></div></div></div></ContentCard></div><aside className="h-fit lg:sticky lg:top-20"><BookingSummaryCard slug={pkg.slug} title={pkg.title} price={price} duration={pkg.duration} destination={pkg.destination}/></aside></section></main>}
-function ItineraryDescription({title,overview}:{title:string;overview:string}){return <section id="description" className="scroll-mt-24 overflow-hidden rounded-2xl bg-white shadow-sm"><div className="border-l-4 border-red-500 px-6 py-6 md:px-7"><h2 className="text-2xl font-extrabold text-slate-950">Itinerary Description</h2><h3 className="mt-3 text-lg font-medium text-slate-950 md:text-xl">{title}</h3><p className="mt-3 line-clamp-3 text-base leading-7 text-slate-700">{overview}</p><button type="button" className="mt-4 text-sm font-medium text-red-600 hover:text-red-700">Read More</button></div></section>}
-function ContentCard({id,title,children}:{id:string;title:string;children:React.ReactNode}){return <section id={id} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="border-b pb-4 text-2xl font-extrabold text-[#153e75]">{title}</h2><div className="pt-5">{children}</div></section>};function Fact({label,value}:{label:string;value:string}){return <div className="border-r last:border-0"><p className="text-xs uppercase tracking-wide text-slate-400">{label}</p><p className="mt-1 text-sm font-bold">{value}</p></div};
+
+type PackageItem = (typeof packages)[number];
+type PageProps = { params: Promise<{ slug: string }> };
+
+function heroImage(pkg: PackageItem) {
+  if ("hero" in pkg && pkg.hero?.image) return pkg.hero.image;
+  if ("image" in pkg && typeof pkg.image === "string") return pkg.image;
+  return pkg.gallery?.[0]?.image ?? "/images/package-placeholder.jpg";
+}
+
+function shortDescription(pkg: PackageItem) {
+  if ("hero" in pkg && pkg.hero?.shortDescription) return pkg.hero.shortDescription;
+  return pkg.overview;
+}
+
+function numberField(pkg: PackageItem, key: "price" | "rating" | "reviews") {
+  if (key in pkg && typeof pkg[key] === "number") return pkg[key];
+  return undefined;
+}
+
+function destinationsFor(pkg: PackageItem) {
+  const names = pkg.destination.split(/[•,&/]/).map((x) => x.trim()).filter(Boolean);
+  return names.map((name) => ({
+    name,
+    famous: `${name} is an important stop on this ${pkg.category.toLowerCase()} journey, known for its local attractions, culture and destination-specific experiences.`,
+    experience: `This package covers ${name} according to the published day-wise itinerary, focusing on the relevant sightseeing and route highlights.`,
+  }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const pkg = packages.find((item) => item.slug === slug);
+  if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
+  return {
+    title: `${pkg.title} | Only Road Trip`,
+    description: pkg.overview,
+    alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` },
+  };
+}
+
+export default async function PackageDetailsPage({ params }: PageProps) {
+  const { slug } = await params;
+  const pkg = packages.find((item) => item.slug === slug);
+  if (!pkg) notFound();
+
+  const image = heroImage(pkg);
+  const price = numberField(pkg, "price");
+  const places = destinationsFor(pkg);
+
+  return (
+    <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
+      <section className="relative h-[430px] overflow-hidden">
+        <Image src={image} alt={pkg.title} fill priority className="object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
+        <div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8">
+          <div className="absolute top-8 z-10"><BackToPackagesButton /></div>
+          <div className="flex h-full items-end pb-12">
+            <div className="max-w-4xl text-white">
+              <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide">
+                <span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span>
+                <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span>
+                <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span>
+              </div>
+              <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="sticky top-0 z-30 border-b bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
+          {[["overview", "Overview"], ["description", "Itinerary Description"], ["gallery", "Gallery"], ["itinerary", "Itinerary"], ["places", "Places Covered"], ["inclusions", "Inclusions"], ["hotels", "Stay & Meals"]].map(([id, label]) => (
+            <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>
+          ))}
+        </div>
+      </div>
+
+      <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]">
+        <div className="space-y-7">
+          <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4">
+            <Fact label="Package ID" value={pkg.packageId} />
+            <Fact label="Duration" value={pkg.duration} />
+            <Fact label="Destination" value={pkg.destination} />
+            <Fact label="Best Time" value={pkg.bestTime} />
+          </section>
+
+          <ContentCard id="overview" title="Tour Overview">
+            <p className="leading-8 text-slate-600">{pkg.overview}</p>
+            <div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5">
+              <h3 className="font-bold">Package Theme</h3>
+              <p className="mt-2 leading-7 text-slate-600">Designed as a {pkg.category.toLowerCase()} journey through {pkg.destination}. The route prioritises the package highlights with comfortable transfers, sightseeing time and destination-appropriate experiences.</p>
+            </div>
+            <h3 className="mt-7 text-xl font-bold">Tour Highlights</h3>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              {pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}
+            </div>
+          </ContentCard>
+
+          <ItineraryDescription title={pkg.title} overview={pkg.overview} />
+
+          <ContentCard id="places" title="Places Covered & What They Are Famous For">
+            <p className="mb-5 leading-7 text-slate-600">Every stop below is explained according to this package route.</p>
+            <div className="space-y-4">
+              {places.map((p, i) => (
+                <div key={`${p.name}-${i}`} className="rounded-xl border p-5">
+                  <div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i + 1}</span><h3 className="text-xl font-bold">{p.name}</h3></div>
+                  <p className="mt-4 text-sm font-bold text-slate-900">Famous for</p>
+                  <p className="mt-1 leading-7 text-slate-600">{p.famous}</p>
+                  <p className="mt-3 text-sm font-bold text-slate-900">What we cover</p>
+                  <p className="mt-1 leading-7 text-slate-600">{p.experience}</p>
+                </div>
+              ))}
+            </div>
+          </ContentCard>
+
+          <div id="gallery" className="scroll-mt-24"><PackageGallerySlider gallery={pkg.gallery} title={pkg.title} /></div>
+
+          <ContentCard id="itinerary" title="Day-wise Tour Itinerary">
+            <p className="mb-5 text-sm leading-6 text-slate-500">Click + to open the day schedule, Today&apos;s Experience and what that specific day is known for.</p>
+            <ItineraryAccordion itinerary={pkg.itinerary} destination={pkg.destination} category={pkg.category} />
+          </ContentCard>
+
+          <ContentCard id="inclusions" title="Tour Inclusions & Exclusions">
+            <InclusionsExclusions inclusions={pkg.inclusions} exclusions={pkg.exclusions} />
+          </ContentCard>
+
+          <ContentCard id="hotels" title="Stay, Meals & Travel Information">
+            <div className="grid gap-6 md:grid-cols-2">
+              <div>
+                <h3 className="font-bold">Suggested Hotels / Similar</h3>
+                <div className="mt-3 space-y-3">
+                  {pkg.hotels.map((h, i) => {
+                    const hotel = h as { name: string; category?: string; star?: string };
+                    return <div key={`${hotel.name}-${i}`} className="rounded-lg border p-4"><b>{hotel.name}</b><p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p></div>;
+                  })}
+                </div>
+              </div>
+              <div>
+                <h3 className="font-bold">Meals</h3>
+                <div className="mt-3 space-y-2">{pkg.meals.map((x) => <p key={x} className="rounded-lg border p-3">🍽 {x}</p>)}</div>
+                <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7"><p><b>Difficulty:</b> {pkg.difficulty}</p><p><b>Best Time:</b> {pkg.bestTime}</p><p><b>Group:</b> {pkg.groupSize}</p></div>
+              </div>
+            </div>
+          </ContentCard>
+        </div>
+
+        <aside className="h-fit lg:sticky lg:top-20">
+          <BookingSummaryCard slug={pkg.slug} title={pkg.title} price={price} duration={pkg.duration} destination={pkg.destination} />
+        </aside>
+      </section>
+    </main>
+  );
+}
+
+function ItineraryDescription({ title, overview }: { title: string; overview: string }) {
+  return (
+    <section id="description" className="scroll-mt-24 overflow-hidden rounded-2xl bg-white shadow-sm">
+      <div className="border-l-4 border-red-500 px-6 py-6 md:px-7">
+        <h2 className="text-2xl font-extrabold text-slate-950">Itinerary Description</h2>
+        <h3 className="mt-3 text-lg font-medium text-slate-950 md:text-xl">{title}</h3>
+        <p className="mt-3 line-clamp-3 text-base leading-7 text-slate-700">{overview}</p>
+        <button type="button" className="mt-4 text-sm font-medium text-red-600 hover:text-red-700">Read More</button>
+      </div>
+    </section>
+  );
+}
+
+function ContentCard({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
+  return <section id={id} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="border-b pb-4 text-2xl font-extrabold text-[#153e75]">{title}</h2><div className="pt-5">{children}</div></section>;
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return <div className="border-r last:border-0"><p className="text-xs uppercase tracking-wide text-slate-400">{label}</p><p className="mt-1 text-sm font-bold">{value}</p></div>;
+}
