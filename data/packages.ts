@@ -102,7 +102,7 @@ export const packages = rawPackages.map((pkg) => {
   const mediaFolder = getPackageImageFolder(pkg);
 
   // FINAL PACKAGE MEDIA STANDARD: exactly 4 AVIF files per package.
-  // 1 hero.avif + 3 gallery files. JPG/external image URLs are no longer used here.
+  // 1 hero.avif + 3 gallery files. JPG/external image URLs are not used here.
   const cover = `/images/packages/${mediaFolder}/hero.avif`;
   const gallery = [1, 2, 3].map((n) => ({
     image: `/images/packages/${mediaFolder}/gallery${n}.avif`,
