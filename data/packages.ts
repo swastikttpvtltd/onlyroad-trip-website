@@ -107,10 +107,62 @@ const getPackageMedia = (mediaFolder: string, title: string) =>
 const clean = (value: unknown) => String(value ?? "").replace(/\s+/g, " ").trim();
 const unique = (items: string[]) => Array.from(new Set(items.filter(Boolean)));
 
+/*
+ * Common search names/aliases are added only when the package itself
+ * mentions the corresponding destination. This keeps SEO natural and
+ * prevents unrelated destination keywords from being attached to a page.
+ */
+const destinationSearchAliases: Array<{ match: string[]; aliases: string[] }> = [
+  { match: ["varanasi", "kashi", "banaras"], aliases: ["Varanasi Tour", "Kashi Yatra", "Kashi Tour", "Banaras Tour", "Varanasi Yatra"] },
+  { match: ["ayodhya", "ram mandir"], aliases: ["Ayodhya Tour", "Ayodhya Yatra", "Ram Mandir Yatra", "Ram Mandir Tour"] },
+  { match: ["mathura", "vrindavan"], aliases: ["Mathura Vrindavan Tour", "Krishna Janmabhoomi Yatra", "Vrindavan Yatra", "Braj Yatra"] },
+  { match: ["kedarnath"], aliases: ["Kedarnath Yatra", "Kedarnath Dham Yatra", "Kedarnath Tour"] },
+  { match: ["badrinath"], aliases: ["Badrinath Yatra", "Badrinath Dham Yatra", "Badrinath Tour"] },
+  { match: ["char dham", "chardham"], aliases: ["Char Dham Yatra", "Chardham Yatra", "Char Dham Tour"] },
+  { match: ["haridwar"], aliases: ["Haridwar Yatra", "Haridwar Tour", "Ganga Aarti Tour"] },
+  { match: ["rishikesh"], aliases: ["Rishikesh Tour", "Rishikesh Trip", "Yoga Capital of India Tour"] },
+  { match: ["vaishno devi", "katra"], aliases: ["Vaishno Devi Yatra", "Mata Vaishno Devi Tour", "Katra Tour"] },
+  { match: ["amarnath"], aliases: ["Amarnath Yatra", "Amarnath Dham Yatra", "Amarnath Tour"] },
+  { match: ["dwarka", "somnath"], aliases: ["Dwarka Somnath Tour", "Dwarka Yatra", "Somnath Yatra", "Gujarat Pilgrimage Tour"] },
+  { match: ["goa"], aliases: ["Goa Tour Package", "Goa Holiday Package", "Goa Beach Holiday"] },
+  { match: ["kashmir", "srinagar", "gulmarg", "pahalgam", "sonamarg"], aliases: ["Kashmir Tour Package", "Kashmir Holiday", "Srinagar Tour", "Gulmarg Tour", "Kashmir Family Tour"] },
+  { match: ["ladakh", "leh"], aliases: ["Leh Ladakh Tour", "Ladakh Road Trip", "Leh Ladakh Bike Trip", "Ladakh Holiday"] },
+  { match: ["manali"], aliases: ["Manali Tour Package", "Manali Holiday", "Manali Trip from Delhi"] },
+  { match: ["shimla"], aliases: ["Shimla Tour Package", "Shimla Manali Tour", "Shimla Holiday"] },
+  { match: ["dharamshala", "dharamsala"], aliases: ["Dharamshala Tour", "McLeod Ganj Tour", "Dharamshala Holiday"] },
+  { match: ["dalhousie"], aliases: ["Dalhousie Tour", "Dalhousie Khajjiar Tour", "Dalhousie Holiday"] },
+  { match: ["rajasthan", "jaipur", "udaipur", "jaisalmer", "jodhpur"], aliases: ["Rajasthan Tour Package", "Rajasthan Holiday", "Rajasthan Heritage Tour", "Golden Triangle Tour"] },
+  { match: ["agra", "taj mahal"], aliases: ["Agra Tour", "Taj Mahal Tour", "Agra Jaipur Delhi Tour", "Golden Triangle Tour"] },
+  { match: ["kerala", "munnar", "alleppey", "alappuzha", "kovalam"], aliases: ["Kerala Tour Package", "Kerala Holiday", "Kerala Backwaters Tour", "Munnar Tour", "Alleppey Houseboat Tour"] },
+  { match: ["andaman", "havelock", "swaraj dweep", "shaheed dweep", "neil island"], aliases: ["Andaman Tour Package", "Andaman Holiday", "Havelock Island Tour", "Swaraj Dweep Tour", "Island Holiday"] },
+  { match: ["lakshadweep"], aliases: ["Lakshadweep Tour Package", "Lakshadweep Holiday", "Lakshadweep Island Tour"] },
+  { match: ["sikkim", "gangtok"], aliases: ["Sikkim Tour Package", "Gangtok Tour", "Sikkim Holiday", "North Sikkim Tour"] },
+  { match: ["darjeeling"], aliases: ["Darjeeling Tour Package", "Darjeeling Gangtok Tour", "Darjeeling Holiday"] },
+  { match: ["meghalaya", "shillong", "cherrapunji", "sohra"], aliases: ["Meghalaya Tour Package", "Shillong Tour", "Cherrapunji Tour", "Northeast India Tour"] },
+  { match: ["assam", "kaziranga", "guwahati"], aliases: ["Assam Tour Package", "Kaziranga National Park Tour", "Guwahati Tour", "Northeast India Tour"] },
+  { match: ["punjab", "amritsar", "golden temple"], aliases: ["Punjab Tour Package", "Amritsar Tour", "Golden Temple Yatra", "Golden Temple Tour"] },
+  { match: ["karnataka", "coorg", "kodagu", "mysore", "mysuru"], aliases: ["Karnataka Tour Package", "Coorg Tour", "Mysore Tour", "South India Tour"] },
+  { match: ["tamil nadu", "rameswaram", "madurai", "ooty", "kodaikanal"], aliases: ["Tamil Nadu Tour Package", "Rameswaram Tour", "Madurai Temple Tour", "South India Pilgrimage Tour"] },
+  { match: ["maharashtra", "mumbai", "lonavala", "shirdi", "nashik"], aliases: ["Maharashtra Tour Package", "Mumbai Tour", "Lonavala Tour", "Shirdi Tour", "Maharashtra Pilgrimage Tour"] },
+  { match: ["madhya pradesh", "khajuraho", "ujjain", "omkareshwar", "kanha", "bandhavgarh"], aliases: ["Madhya Pradesh Tour Package", "Khajuraho Tour", "Ujjain Mahakal Yatra", "Omkareshwar Yatra", "Madhya Pradesh Wildlife Tour"] },
+  { match: ["gujarat", "rann of kutch", "kutch", "ahmedabad", "statue of unity"], aliases: ["Gujarat Tour Package", "Rann of Kutch Tour", "Kutch Holiday", "Statue of Unity Tour", "Gujarat Heritage Tour"] },
+  { match: ["andhra pradesh", "tirupati", "visakhapatnam", "vizag", "araku"], aliases: ["Andhra Pradesh Tour Package", "Tirupati Balaji Yatra", "Tirupati Tour", "Vizag Tour"] },
+];
+
+const getPackageSeoAliases = (pkg: any) => {
+  const haystack = [pkg.title, pkg.destination, pkg.state, pkg.overview, ...(Array.isArray(pkg.highlights) ? pkg.highlights : [])]
+    .map(clean)
+    .join(" ")
+    .toLowerCase();
+  const aliases = destinationSearchAliases
+    .filter(({ match }) => match.some((term) => haystack.includes(term.toLowerCase())))
+    .flatMap(({ aliases }) => aliases);
+  return unique([clean(pkg.title), clean(pkg.destination), clean(pkg.state), ...aliases]);
+};
+
 const buildDetailedPackageDescription = (pkg: any) => {
   const title = clean(pkg.title);
   const destination = clean(pkg.destination);
-  const duration = clean(pkg.duration);
   const category = clean(pkg.category);
   const state = clean(pkg.state);
   const original = clean(pkg.overview);
@@ -181,6 +233,7 @@ export const packages = rawPackages.map((pkg) => {
   const gallery = getPackageMedia(mediaFolder, pkg.title);
   const cover = gallery[0]?.image ?? "/images/package-placeholder.jpg";
   const detailedDescription = buildDetailedPackageDescription(pkg);
+  const seoKeywords = getPackageSeoAliases(pkg);
 
   return {
     ...pkg,
@@ -189,6 +242,7 @@ export const packages = rawPackages.map((pkg) => {
     groupRates,
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
+    seoKeywords,
     priceBasis: "Per Person | 3-Star Hotel / Similar | Breakfast & Dinner | Standard Transport & Sightseeing",
     image: cover,
     hero: {
