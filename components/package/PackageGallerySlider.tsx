@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -15,13 +14,14 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
-  const slides = useMemo(() => gallery.slice(0, 5), [gallery]);
+  const slides = useMemo(() => gallery, [gallery]);
   const [active, setActive] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   useEffect(() => {
+    setActive((current) => Math.min(current, Math.max(slides.length - 1, 0)));
     setAspectRatio(16 / 9);
-  }, [slides]);
+  }, [slides.length]);
 
   useEffect(() => {
     if (slides.length < 2) return;
@@ -53,13 +53,12 @@ export default function PackageGallerySlider({
                 index === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
-              <Image
+              <img
                 src={slide.image}
                 alt={slide.alt || `${title} gallery photo ${index + 1}`}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1000px"
-                className="object-contain"
-                priority={index === 0}
+                className="h-full w-full object-contain"
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
                 onLoad={(event) => {
                   const image = event.currentTarget;
                   if (image.naturalWidth && image.naturalHeight) {
@@ -89,14 +88,14 @@ export default function PackageGallerySlider({
               >
                 <ChevronRight />
               </button>
-              <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-black/20 px-3 py-2 backdrop-blur-md">
+              <div className="absolute bottom-5 left-1/2 z-10 flex max-w-[80%] -translate-x-1/2 gap-2 overflow-x-auto rounded-full bg-black/20 px-3 py-2 backdrop-blur-md">
                 {slides.map((_, index) => (
                   <button
                     key={index}
                     type="button"
                     aria-label={`Show photo ${index + 1}`}
                     onClick={() => setActive(index)}
-                    className={`h-2 rounded-full transition-all ${
+                    className={`h-2 shrink-0 rounded-full transition-all ${
                       index === active ? "w-7 bg-white" : "w-2 bg-white/55"
                     }`}
                   />
