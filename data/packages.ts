@@ -24,6 +24,7 @@ import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 import { makePackageRates } from "./packagePricing";
 import { getBestTime } from "./packageBestTime";
+import { packageMedia } from "./packageMedia";
 
 const stateWisePackages = [
   ...gujaratPackages,
@@ -97,17 +98,17 @@ const getPackageImageFolder = (pkg: any) => {
   return stateFolder ? `${stateFolder}/${pkg.slug}` : `multi-state/${pkg.slug}`;
 };
 
+const getPackageMedia = (mediaFolder: string, title: string) =>
+  (packageMedia[mediaFolder] ?? []).map((image, index) => ({
+    image,
+    alt: `${title} – image ${index + 1}`,
+  }));
+
 export const packages = rawPackages.map((pkg) => {
   const groupRates = makePackageRates(pkg);
   const mediaFolder = getPackageImageFolder(pkg);
-
-  // FINAL PACKAGE MEDIA STANDARD: exactly 4 AVIF files per package.
-  // 1 hero.avif + 3 gallery files. JPG/external image URLs are not used here.
-  const cover = `/images/packages/${mediaFolder}/hero.avif`;
-  const gallery = [1, 2, 3].map((n) => ({
-    image: `/images/packages/${mediaFolder}/gallery${n}.avif`,
-    alt: `${pkg.title} – image ${n}`,
-  }));
+  const gallery = getPackageMedia(mediaFolder, pkg.title);
+  const cover = gallery[0]?.image ?? "/images/package-placeholder.jpg";
 
   return {
     ...pkg,
