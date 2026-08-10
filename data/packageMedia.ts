@@ -714,5 +714,26 @@ export const packageMedia: Record<string, string[]> = {
     "/images/packages/west-bengal/sundarbans-wildlife/gallery3.jpg",
     "/images/packages/west-bengal/sundarbans-wildlife/gallery4.jpg",
     "/images/packages/west-bengal/sundarbans-wildlife/hero.jpg"
+  ],
+  "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya": [
+    "/images/packages/uttar-pradesh/varanasi-prayagraj-ayodhya/gallery1.webp",
+    "/images/packages/uttar-pradesh/varanasi-prayagraj-ayodhya/gallery2.jpg",
+    "/images/packages/uttar-pradesh/varanasi-prayagraj-ayodhya/gallery3.jpg",
+    "/images/packages/uttar-pradesh/varanasi-prayagraj-ayodhya/gallery4.jpg",
+    "/images/packages/uttar-pradesh/varanasi-prayagraj-ayodhya/hero.jpg"
+  ],
+  "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya-deoghar": [
+    "/images/packages/bihar/bihar-buddhist-circuit/gallery1.jpg",
+    "/images/packages/bihar/bihar-buddhist-circuit/gallery2.jpg",
+    "/images/packages/bihar/bihar-buddhist-circuit/gallery3.jpg",
+    "/images/packages/bihar/bihar-buddhist-circuit/gallery4.jpg",
+    "/images/packages/bihar/bihar-buddhist-circuit/gallery5.jpg",
+    "/images/packages/bihar/bihar-buddhist-circuit/hero.jpg"
+  ],
+  "multi-state/delhi-agra-jaipur-golden-triangle": [
+    "/images/packages/delhi/delhi-agra-jaipur/gallery1.avif",
+    "/images/packages/delhi/delhi-agra-jaipur/gallery2.avif",
+    "/images/packages/delhi/delhi-agra-jaipur/gallery3.avif",
+    "/images/packages/delhi/delhi-agra-jaipur/hero.avif"
   ]
 };
