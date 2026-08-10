@@ -56,57 +56,70 @@ export default function PackageFilterSidebar({ packages }: Props) {
 
   return (
     <aside className="lg:sticky lg:top-24 lg:self-start">
-      <form onSubmit={applyFilters} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-        <div className="border-b border-slate-200 px-7 py-6">
-          <h3 className="text-2xl font-bold text-slate-900">Filter Your Trip</h3>
+      <form onSubmit={applyFilters} className="overflow-hidden rounded-[28px] border border-slate-200/80 bg-white shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+        <div className="relative overflow-hidden border-b border-slate-100 bg-gradient-to-br from-slate-50 via-white to-cyan-50/60 px-6 py-6">
+          <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-cyan-100/60 blur-2xl" />
+          <div className="relative">
+            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.22em] text-cyan-600">Plan Your Journey</p>
+            <h3 className="text-[22px] font-bold tracking-tight text-slate-900">Filter Your Trip</h3>
+            <p className="mt-1 text-xs text-slate-500">Find the right experience in seconds.</p>
+          </div>
         </div>
 
-        <div className="space-y-7 px-7 py-7">
+        <div className="space-y-6 px-6 py-6">
           <div>
-            <label htmlFor="package-search" className="mb-3 block text-sm font-bold uppercase tracking-wider text-slate-500">Search</label>
-            <input
-              id="package-search"
-              list="package-suggestions"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Package, destination or state"
-              autoComplete="off"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base text-slate-900 outline-none transition focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10"
-            />
+            <label htmlFor="package-search" className="mb-2.5 block text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Search</label>
+            <div className="relative">
+              <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8"/>
+                  <path d="m16 16 4.2 4.2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+              </span>
+              <input
+                id="package-search"
+                list="package-suggestions"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Package, destination or state"
+                autoComplete="off"
+                className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50 pl-11 pr-4 text-[15px] font-medium text-slate-900 placeholder:text-slate-400 outline-none transition duration-200 hover:border-slate-300 hover:bg-white focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10"
+              />
+            </div>
+            <p className="mt-2 text-[11px] text-slate-400">Type a letter like <span className="font-bold text-slate-500">V</span> for Varanasi and other matches.</p>
             <datalist id="package-suggestions">
               {suggestions.map((item) => <option key={item} value={item} />)}
             </datalist>
-            <p className="mt-2 text-xs text-slate-400">Type “V” to see matching destinations such as Varanasi.</p>
           </div>
 
           <div>
-            <label htmlFor="package-state" className="mb-3 block text-sm font-bold uppercase tracking-wider text-slate-500">State / Region</label>
-            <select id="package-state" value={state} onChange={(e) => setState(e.target.value)} className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base text-slate-800 outline-none focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10">
+            <label htmlFor="package-state" className="mb-2.5 block text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">State / Region</label>
+            <select id="package-state" value={state} onChange={(e) => setState(e.target.value)} className="h-[52px] w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-medium text-slate-800 outline-none transition hover:border-slate-300 hover:bg-white focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10">
               <option value="">All States & Regions</option>
               {states.map((item) => <option key={item} value={item}>{item}</option>)}
             </select>
           </div>
 
           <div>
-            <label htmlFor="package-category" className="mb-3 block text-sm font-bold uppercase tracking-wider text-slate-500">Package Type</label>
-            <select id="package-category" value={category} onChange={(e) => setCategory(e.target.value)} className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base text-slate-800 outline-none focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10">
+            <label htmlFor="package-category" className="mb-2.5 block text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Package Type</label>
+            <select id="package-category" value={category} onChange={(e) => setCategory(e.target.value)} className="h-[52px] w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-medium text-slate-800 outline-none transition hover:border-slate-300 hover:bg-white focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10">
               <option value="">All Package Types</option>
               {categories.map((item) => <option key={item} value={item}>{item}</option>)}
             </select>
           </div>
 
           <div>
-            <label htmlFor="package-sort" className="mb-3 block text-sm font-bold uppercase tracking-wider text-slate-500">Sort By</label>
-            <select id="package-sort" value={sort} onChange={(e) => setSort(e.target.value)} className="w-full appearance-none rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-base text-slate-800 outline-none focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10">
+            <label htmlFor="package-sort" className="mb-2.5 block text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-500">Sort By</label>
+            <select id="package-sort" value={sort} onChange={(e) => setSort(e.target.value)} className="h-[52px] w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-medium text-slate-800 outline-none transition hover:border-slate-300 hover:bg-white focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10">
               <option value="">Recommended</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
             </select>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            <button type="submit" className="rounded-2xl bg-cyan-600 px-4 py-3 font-semibold text-white transition hover:bg-cyan-700">Apply Filters</button>
-            <button type="button" onClick={resetFilters} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">Reset</button>
+          <div className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-5">
+            <button type="submit" className="rounded-2xl bg-cyan-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-cyan-600/15 transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-700 hover:shadow-xl">Apply Filters</button>
+            <button type="button" onClick={resetFilters} className="rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-sm font-bold text-slate-700 transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50">Reset</button>
           </div>
         </div>
       </form>
