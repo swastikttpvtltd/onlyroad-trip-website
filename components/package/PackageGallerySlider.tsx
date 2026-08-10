@@ -5,6 +5,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type GalleryItem = { image: string; alt?: string };
 
+function buildImageAlt(title: string, image: string, index: number) {
+  const cleanTitle = title.replace(/\s+/g, " ").trim();
+  const fileName = image.split("/").pop()?.split(".")[0]?.replace(/[-_]+/g, " ").trim();
+
+  if (fileName && fileName.toLowerCase() !== "hero" && !/^gallery\d+$/i.test(fileName)) {
+    return `${cleanTitle} – ${fileName} travel experience`;
+  }
+
+  return `${cleanTitle} – travel package experience photo ${index + 1}`;
+}
+
 export default function PackageGallerySlider({
   gallery,
   title,
@@ -52,7 +63,7 @@ export default function PackageGallerySlider({
             >
               <img
                 src={slide.image}
-                alt={slide.alt || `${title} gallery photo ${index + 1}`}
+                alt={slide.alt || buildImageAlt(title, slide.image, index)}
                 className="block h-full w-full object-contain object-center"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
