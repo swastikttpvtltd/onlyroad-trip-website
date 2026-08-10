@@ -24,7 +24,6 @@ import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 import { makePackageRates } from "./packagePricing";
 import { getBestTime } from "./packageBestTime";
-import { packageImageGalleries } from "./packageImages";
 
 const stateWisePackages = [
   ...gujaratPackages,
@@ -67,13 +66,48 @@ const makePackageId = (id: unknown, slug?: unknown, title?: unknown) => {
   return `ORT-${safeId.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
 };
 
+const packageStateFolders: Record<string, string> = {
+  "Gujarat": "gujarat",
+  "Rajasthan": "rajasthan",
+  "Uttarakhand": "uttarakhand",
+  "Uttar Pradesh": "uttar-pradesh",
+  "Kashmir": "kashmir",
+  "Jammu & Kashmir": "kashmir",
+  "Himachal Pradesh": "himachal-pradesh",
+  "Ladakh": "ladakh",
+  "Punjab": "punjab",
+  "Kerala": "kerala",
+  "Goa": "goa",
+  "Maharashtra": "maharashtra",
+  "Madhya Pradesh": "madhya-pradesh",
+  "Sikkim": "sikkim",
+  "West Bengal": "west-bengal",
+  "Assam": "assam",
+  "Meghalaya": "meghalaya",
+  "Karnataka": "karnataka",
+  "Tamil Nadu": "tamil-nadu",
+  "Andaman & Nicobar Islands": "andaman-nicobar",
+  "Andaman and Nicobar Islands": "andaman-nicobar",
+  "Lakshadweep": "lakshadweep",
+  "Andhra Pradesh": "andhra-pradesh",
+};
+
+const getPackageImageFolder = (pkg: any) => {
+  const stateFolder = packageStateFolders[String(pkg.state ?? "").trim()];
+  return stateFolder ? `${stateFolder}/${pkg.slug}` : `multi-state/${pkg.slug}`;
+};
+
 export const packages = rawPackages.map((pkg) => {
   const groupRates = makePackageRates(pkg);
-  const mappedGallery = packageImageGalleries[pkg.slug];
-  const sourceGallery = mappedGallery?.length === 5 ? mappedGallery : pkg.gallery;
-  // Standard package media: 1 hero.jpg + 3 gallery images (gallery1.jpg–gallery3.jpg).
-  const gallery = (sourceGallery ?? []).slice(0, 3);
-  const cover = pkg.hero?.image ?? gallery[0]?.image ?? pkg.image;
+  const mediaFolder = getPackageImageFolder(pkg);
+
+  // FINAL PACKAGE MEDIA STANDARD: exactly 4 AVIF files per package.
+  // 1 hero.avif + 3 gallery files. JPG/external image URLs are no longer used here.
+  const cover = `/images/packages/${mediaFolder}/hero.avif`;
+  const gallery = [1, 2, 3].map((n) => ({
+    image: `/images/packages/${mediaFolder}/gallery${n}.avif`,
+    alt: `${pkg.title} – image ${n}`,
+  }));
 
   return {
     ...pkg,
