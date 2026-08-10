@@ -6,6 +6,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type GalleryItem = { image: string; alt?: string };
 
+type SliderStyle = React.CSSProperties & { "--ratio"?: number };
+
 export default function PackageGallerySlider({
   gallery,
   title,
@@ -15,6 +17,11 @@ export default function PackageGallerySlider({
 }) {
   const slides = useMemo(() => gallery.slice(0, 5), [gallery]);
   const [active, setActive] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
+
+  useEffect(() => {
+    setAspectRatio(16 / 9);
+  }, [slides]);
 
   useEffect(() => {
     if (slides.length < 2) return;
@@ -30,10 +37,15 @@ export default function PackageGallerySlider({
   const move = (step: number) =>
     setActive((current) => (current + step + slides.length) % slides.length);
 
+  const sliderStyle: SliderStyle = { "--ratio": aspectRatio };
+
   return (
     <section className="bg-[#f6f6f6] px-5 pb-3 pt-7 md:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="relative h-[300px] overflow-hidden rounded-[28px] bg-slate-900 shadow-xl sm:h-[390px] lg:h-[500px]">
+      <div className="mx-auto flex max-w-7xl justify-center">
+        <div
+          className="relative h-[300px] w-full max-w-[calc(var(--ratio)*300px)] overflow-hidden rounded-[28px] bg-slate-900 shadow-xl sm:h-[390px] sm:max-w-[calc(var(--ratio)*390px)] lg:h-[500px] lg:max-w-[calc(var(--ratio)*500px)]"
+          style={sliderStyle}
+        >
           {slides.map((slide, index) => (
             <div
               key={`${slide.image}-${index}`}
@@ -45,9 +57,15 @@ export default function PackageGallerySlider({
                 src={slide.image}
                 alt={slide.alt || `${title} gallery photo ${index + 1}`}
                 fill
-                sizes="100vw"
-                className="object-contain p-2"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1000px"
+                className="object-contain"
                 priority={index === 0}
+                onLoad={(event) => {
+                  const image = event.currentTarget;
+                  if (image.naturalWidth && image.naturalHeight) {
+                    setAspectRatio(image.naturalWidth / image.naturalHeight);
+                  }
+                }}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/5" />
             </div>
