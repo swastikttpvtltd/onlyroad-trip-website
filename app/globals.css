@@ -77,3 +77,24 @@ a {
   background: #0891b2;
   color: #ffffff;
 }
+
+/* Homepage compact spacing: keep every section intact while reducing excessive vertical gaps. */
+main > section {
+  scroll-margin-top: 80px;
+}
+
+main > section.bg-gradient-to-b.from-slate-50.to-white,
+main > section.bg-white,
+main > section.bg-gradient-to-b.from-white.to-slate-100 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+@media (min-width: 768px) {
+  main > section.bg-gradient-to-b.from-slate-50.to-white,
+  main > section.bg-white,
+  main > section.bg-gradient-to-b.from-white.to-slate-100 {
+    padding-top: 1.75rem !important;
+    padding-bottom: 1.75rem !important;
+  }
+}
