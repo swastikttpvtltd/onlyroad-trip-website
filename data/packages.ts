@@ -99,7 +99,7 @@ const getPackageImageFolder = (pkg: any) => {
 };
 
 const getPackageMedia = (mediaFolder: string, title: string) =>
-  (packageMedia[mediaFolder] ?? []).map((image, index) => ({
+  (packageMedia[mediaFolder] ?? []).slice(0, 10).map((image, index) => ({
     image,
     alt: `${title} – image ${index + 1}`,
   }));
