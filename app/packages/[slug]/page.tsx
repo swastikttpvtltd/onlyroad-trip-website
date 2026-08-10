@@ -79,7 +79,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
       <div className="sticky top-0 z-30 border-b bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
-          {[["overview", "Overview"], ["gallery", "Gallery"], ["itinerary", "Itinerary"], ["places", "Places Covered"], ["inclusions", "Inclusions"], ["hotels", "Stay & Meals"]].map(([id, label]) => (
+          {[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['places', 'Places Covered'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals']].map(([id, label]) => (
             <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>
           ))}
         </div>
@@ -133,21 +133,36 @@ export default async function PackageDetailsPage({ params }: PageProps) {
           </ContentCard>
 
           <ContentCard id="hotels" title="Stay, Meals & Travel Information">
-            <div className="grid gap-6 md:grid-cols-2">
-              <div>
-                <h3 className="font-bold">Suggested Hotels / Similar</h3>
-                <div className="mt-3 space-y-3">
+            <div className="grid gap-4 md:grid-cols-3">
+              <InfoColumn title="Suggested Hotels / Similar">
+                <div className="space-y-3">
                   {pkg.hotels.map((h, i) => {
                     const hotel = h as { name: string; category?: string; star?: string };
-                    return <div key={`${hotel.name}-${i}`} className="rounded-lg border p-4"><b>{hotel.name}</b><p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p></div>;
+                    return (
+                      <div key={`${hotel.name}-${i}`} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                        <p className="font-bold text-slate-900">{hotel.name}</p>
+                        <p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p>
+                      </div>
+                    );
                   })}
                 </div>
-              </div>
-              <div>
-                <h3 className="font-bold">Meals</h3>
-                <div className="mt-3 space-y-2">{pkg.meals.map((x) => <p key={x} className="rounded-lg border p-3">🍽 {x}</p>)}</div>
-                <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7"><p><b>Difficulty:</b> {pkg.difficulty}</p><p><b>Best Time:</b> {pkg.bestTime}</p><p><b>Group:</b> {pkg.groupSize}</p></div>
-              </div>
+              </InfoColumn>
+
+              <InfoColumn title="Meals">
+                <div className="space-y-2.5">
+                  {pkg.meals.map((x) => (
+                    <p key={x} className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm leading-6 text-slate-700">🍽 {x}</p>
+                  ))}
+                </div>
+              </InfoColumn>
+
+              <InfoColumn title="Travel Information">
+                <div className="space-y-3 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                  <p><b>Difficulty:</b> {pkg.difficulty}</p>
+                  <p><b>Best Time:</b> {pkg.bestTime}</p>
+                  <p><b>Group:</b> {pkg.groupSize}</p>
+                </div>
+              </InfoColumn>
             </div>
           </ContentCard>
         </div>
@@ -157,6 +172,15 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         </aside>
       </section>
     </main>
+  );
+}
+
+function InfoColumn({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="min-w-0">
+      <h3 className="mb-3 text-base font-bold text-slate-900">{title}</h3>
+      {children}
+    </div>
   );
 }
 
