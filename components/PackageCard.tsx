@@ -17,34 +17,28 @@ interface Props {
   pkg: Package;
 }
 
+function getThumbnailSrc(image: string | undefined) {
+  if (!image) return "/images/placeholder.jpg";
+  return image.replace(/^\/images\/packages\//, "/images/package-thumbnails/").replace(/\.[^.]+$/, ".webp");
+}
+
 export default function PackageCard({ pkg }: Props) {
   const mapQuery = encodeURIComponent(`${pkg.destination}, ${pkg.state}`);
   const inclusionText = pkg.inclusions.join(" ").toLowerCase();
   const hasTransport = /transport|transfer|vehicle|cab|bus|car/.test(inclusionText);
   const hasMeals = pkg.meals.length > 0 || /meal|breakfast|lunch|dinner/.test(inclusionText);
   const hasSightseeing = pkg.highlights.length > 0;
+  const thumbnailSrc = getThumbnailSrc(pkg.image);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
-      {/* Fixed thumbnail frame. The original photo stays completely visible; the blurred background fills any aspect-ratio gap without cropping or zooming the actual photo. */}
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
         <img
-          src={pkg.image || "/images/placeholder.jpg"}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-xl"
-        />
-
-        <div className="absolute inset-0 bg-white/10" />
-
-        <img
-          src={pkg.image || "/images/placeholder.jpg"}
+          src={thumbnailSrc}
           alt={pkg.title}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-contain object-center"
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
 
         <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2">
