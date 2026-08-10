@@ -4,16 +4,21 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const amount = Number(body.amount);
-    const environment = body.environment === "production" ? "production" : "sandbox";
-    const clientId = String(body.client_id || process.env.CASHFREE_CLIENT_ID || "").trim();
-    const clientSecret = String(body.client_secret || process.env.CASHFREE_CLIENT_SECRET || "").trim();
+    const environment = process.env.CASHFREE_ENVIRONMENT === "production" ? "production" : "sandbox";
+    const clientId = String(process.env.CASHFREE_CLIENT_ID || "").trim();
+    const clientSecret = String(process.env.CASHFREE_CLIENT_SECRET || "").trim();
 
     if (!clientId || !clientSecret) {
-      return NextResponse.json({ error: "Cashfree Client ID and Secret Key are required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Cashfree API credentials are not configured on the server. Add them to .env.local or your production environment variables." },
+        { status: 500 },
+      );
     }
+
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json({ error: "Enter a valid payment amount." }, { status: 400 });
     }
+
     if (!body.customer_name || !body.customer_email || !body.customer_phone || !body.purpose) {
       return NextResponse.json({ error: "Customer name, email, mobile and payment purpose are required." }, { status: 400 });
     }
@@ -23,17 +28,19 @@ export async function POST(request: Request) {
       : "https://sandbox.cashfree.com/pg/links";
 
     const linkId = `ORT-${Date.now()}`;
+    const configuredReturnUrl = String(process.env.CASHFREE_RETURN_URL || "").trim();
+
     const payload = {
       link_id: linkId,
       link_amount: amount,
       link_currency: "INR",
       link_purpose: String(body.purpose).slice(0, 500),
       customer_details: {
-        customer_name: String(body.customer_name),
-        customer_email: String(body.customer_email),
-        customer_phone: String(body.customer_phone),
+        customer_name: String(body.customer_name).trim(),
+        customer_email: String(body.customer_email).trim(),
+        customer_phone: String(body.customer_phone).trim(),
       },
-      link_meta: body.return_url ? { return_url: String(body.return_url) } : undefined,
+      ...(configuredReturnUrl ? { link_meta: { return_url: configuredReturnUrl } } : {}),
       link_notify: { send_sms: true, send_email: true },
       link_auto_reminders: true,
     };
@@ -56,8 +63,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: message }, { status: response.status });
     }
 
-    return NextResponse.json({ link_url: data?.link_url, link_id: data?.link_id || linkId });
+    if (!data?.link_url) {
+      return NextResponse.json({ error: "Cashfree responded successfully but did not return a payment link." }, { status: 502 });
+    }
+
+    return NextResponse.json({ link_url: data.link_url, link_id: data?.link_id || linkId });
   } catch {
-    return NextResponse.json({ error: "Unable to create payment link. Please check the credentials and try again." }, { status: 500 });
+    return NextResponse.json({ error: "Unable to create payment link. Please check the server configuration and try again." }, { status: 500 });
   }
 }
