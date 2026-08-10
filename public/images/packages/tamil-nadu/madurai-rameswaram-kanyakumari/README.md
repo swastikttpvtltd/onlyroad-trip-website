@@ -1,1 +1,0 @@
-Put hero.jpg and gallery1.jpg through gallery5.jpg here.
