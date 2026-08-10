@@ -14,7 +14,7 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
-  const slides = useMemo(() => gallery, [gallery]);
+  const slides = useMemo(() => gallery.slice(0, 10), [gallery]);
   const [active, setActive] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
