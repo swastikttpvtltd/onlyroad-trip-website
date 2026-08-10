@@ -26,8 +26,19 @@ export default function PackageCard({ pkg }: Props) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
-      {/* Fixed image frame: same size for every package, complete source photo visible without crop or zoom. */}
-      <div className="relative h-[210px] w-full shrink-0 overflow-hidden bg-slate-50 sm:h-[220px]">
+      {/* Fixed thumbnail frame. The original photo stays completely visible; the blurred background fills any aspect-ratio gap without cropping or zooming the actual photo. */}
+      <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
+        <img
+          src={pkg.image || "/images/placeholder.jpg"}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-20 blur-xl"
+        />
+
+        <div className="absolute inset-0 bg-white/10" />
+
         <img
           src={pkg.image || "/images/placeholder.jpg"}
           alt={pkg.title}
