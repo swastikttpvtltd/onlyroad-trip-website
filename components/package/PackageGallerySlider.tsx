@@ -5,8 +5,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type GalleryItem = { image: string; alt?: string };
 
-type SliderStyle = React.CSSProperties & { "--ratio"?: number };
-
 export default function PackageGallerySlider({
   gallery,
   title,
@@ -14,21 +12,23 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
+  // Every package slider uses one fixed 16:9 frame.
+  // Maximum 10 photos per package.
   const slides = useMemo(() => gallery.slice(0, 10), [gallery]);
   const [active, setActive] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   useEffect(() => {
     setActive((current) => Math.min(current, Math.max(slides.length - 1, 0)));
-    setAspectRatio(16 / 9);
   }, [slides.length]);
 
   useEffect(() => {
     if (slides.length < 2) return;
+
     const timer = window.setInterval(
       () => setActive((current) => (current + 1) % slides.length),
       4200,
     );
+
     return () => window.clearInterval(timer);
   }, [slides.length]);
 
@@ -37,15 +37,11 @@ export default function PackageGallerySlider({
   const move = (step: number) =>
     setActive((current) => (current + step + slides.length) % slides.length);
 
-  const sliderStyle: SliderStyle = { "--ratio": aspectRatio };
-
   return (
     <section className="bg-[#f6f6f6] px-5 pb-3 pt-7 md:px-8">
-      <div className="mx-auto flex max-w-7xl justify-center">
-        <div
-          className="relative h-[300px] w-full max-w-[calc(var(--ratio)*300px)] overflow-hidden rounded-[28px] bg-slate-900 shadow-xl sm:h-[390px] sm:max-w-[calc(var(--ratio)*390px)] lg:h-[500px] lg:max-w-[calc(var(--ratio)*500px)]"
-          style={sliderStyle}
-        >
+      <div className="mx-auto w-full max-w-7xl">
+        {/* Fixed 16:9 slider frame for every package and every image */}
+        <div className="relative aspect-video w-full overflow-hidden rounded-[28px] bg-slate-900 shadow-xl">
           {slides.map((slide, index) => (
             <div
               key={`${slide.image}-${index}`}
@@ -56,15 +52,9 @@ export default function PackageGallerySlider({
               <img
                 src={slide.image}
                 alt={slide.alt || `${title} gallery photo ${index + 1}`}
-                className="h-full w-full object-contain"
+                className="h-full w-full object-cover object-center"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
-                onLoad={(event) => {
-                  const image = event.currentTarget;
-                  if (image.naturalWidth && image.naturalHeight) {
-                    setAspectRatio(image.naturalWidth / image.naturalHeight);
-                  }
-                }}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/5" />
             </div>
@@ -80,6 +70,7 @@ export default function PackageGallerySlider({
               >
                 <ChevronLeft />
               </button>
+
               <button
                 type="button"
                 aria-label="Next photo"
@@ -88,6 +79,7 @@ export default function PackageGallerySlider({
               >
                 <ChevronRight />
               </button>
+
               <div className="absolute bottom-5 left-1/2 z-10 flex max-w-[80%] -translate-x-1/2 gap-2 overflow-x-auto rounded-full bg-black/20 px-3 py-2 backdrop-blur-md">
                 {slides.map((_, index) => (
                   <button
