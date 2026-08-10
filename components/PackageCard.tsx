@@ -26,9 +26,16 @@ export default function PackageCard({ pkg }: Props) {
 
   return (
     <article className="group overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-200">
-        <img src={pkg.image || "/images/placeholder.jpg"} alt={pkg.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/45" />
+      {/* Keep the complete source photo visible. We deliberately do not crop package thumbnails. */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
+        <img
+          src={pkg.image || "/images/placeholder.jpg"}
+          alt={pkg.title}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-contain object-center transition-transform duration-500 group-hover:scale-[1.01]"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/35" />
 
         <div className="absolute left-3 top-3 right-3 flex items-start justify-between gap-2">
           <span className="inline-flex max-w-[78%] rounded-full bg-cyan-600 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-md">
