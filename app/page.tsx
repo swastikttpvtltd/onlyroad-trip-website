@@ -10,31 +10,45 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.onlyroadtrip.com"),
 
   title: {
-    default: "Only Road Trip | Premium Tours & Travel Company in India",
+    default: "Only Road Trip | Travel Agency in Gurugram | India Tour Packages",
     template: "%s | Only Road Trip",
   },
 
   description:
-    "Explore India with Only Road Trip. Premium pilgrimage tours, domestic holidays, luxury road trips, corporate travel, family vacations and customized travel packages across India.",
+    "Only Road Trip is a Gurugram travel agency offering India tour packages, pilgrimage tours, customized holidays, road trips, family vacations and corporate travel solutions across India.",
 
   keywords: [
     "Only Road Trip",
     "Swastik Tour And Travels",
+    "Travel Agency in Gurugram",
+    "Travel Agency in Gurgaon",
+    "Tour Operator in Delhi NCR",
+    "Travel Agent in Gurgaon",
     "India Tour Packages",
-    "Pilgrimage Tours",
+    "Customized Tour Packages India",
+    "Road Trip Packages India",
+    "Pilgrimage Tour Packages",
     "Kedarnath Package",
     "Char Dham Yatra",
     "Amarnath Yatra",
     "Vaishno Devi Tour",
+    "Ayodhya Tour Package",
+    "Varanasi Tour Package",
     "Leh Ladakh Tour",
-    "Kashmir Tour",
-    "Manali Tour",
-    "Goa Tour",
-    "Kerala Tour",
-    "Corporate Travel",
+    "Kashmir Tour Package",
+    "Himachal Tour Package",
+    "Manali Tour Package",
+    "Goa Tour Package",
+    "Kerala Tour Package",
+    "Rajasthan Tour Package",
+    "Uttarakhand Tour Packages",
+    "Corporate Travel Management India",
+    "Corporate Travel Agency Gurgaon",
+    "Corporate Offsite Packages",
+    "MICE Travel India",
     "Luxury Road Trips",
-    "Family Holidays",
-    "Senior Citizen Tours",
+    "Family Holiday Packages India",
+    "Senior Citizen Tours India",
   ],
 
   alternates: {
@@ -42,9 +56,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Only Road Trip | Premium Tours & Travel Company in India",
+    title: "Only Road Trip | Travel Agency in Gurugram | India Tour Packages",
     description:
-      "Premium pilgrimage tours, luxury road trips, corporate travel and customized holiday packages across India.",
+      "India tour packages, pilgrimage tours, customized holidays, road trips and corporate travel solutions from Only Road Trip.",
     url: "https://www.onlyroadtrip.com",
     siteName: "Only Road Trip",
     locale: "en_IN",
@@ -54,22 +68,28 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Only Road Trip",
+        alt: "Only Road Trip India Tour Packages",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Only Road Trip",
-    description:
-      "Premium Tours & Customized Holidays Across India.",
+    title: "Only Road Trip | India Tour Packages",
+    description: "Premium tours, pilgrimage journeys, road trips and customized holidays across India.",
     images: ["/og-image.jpg"],
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -139,14 +159,7 @@ const localBusinessSchema = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       opens: "10:00",
       closes: "19:00",
     },
@@ -170,8 +183,7 @@ const faqSchema = {
       name: "What destinations does Only Road Trip offer?",
       acceptedAnswer: {
         "@type": "Answer",
-        text:
-          "Only Road Trip offers pilgrimage tours, family holidays, luxury road trips, corporate travel, Leh Ladakh, Kashmir, Goa, Kerala, Rajasthan, Kedarnath, Char Dham, Vaishno Devi, Amarnath and many more destinations across India.",
+        text: "Only Road Trip offers pilgrimage tours, family holidays, luxury road trips, corporate travel, Leh Ladakh, Kashmir, Goa, Kerala, Rajasthan, Kedarnath, Char Dham, Vaishno Devi, Amarnath and many more destinations across India.",
       },
     },
     {
@@ -179,8 +191,7 @@ const faqSchema = {
       name: "Does Only Road Trip provide customized tour packages?",
       acceptedAnswer: {
         "@type": "Answer",
-        text:
-          "Yes. We create fully customized travel packages according to your budget, destination, duration and travel preferences.",
+        text: "Yes. We create fully customized travel packages according to your budget, destination, duration and travel preferences.",
       },
     },
     {
@@ -188,8 +199,7 @@ const faqSchema = {
       name: "Do you provide corporate travel services?",
       acceptedAnswer: {
         "@type": "Answer",
-        text:
-          "Yes. We provide complete corporate travel solutions including hotel bookings, transport, meetings, conferences and business travel management.",
+        text: "Yes. We provide complete corporate travel solutions including hotel bookings, transport, meetings, conferences and business travel management.",
       },
     },
     {
@@ -197,8 +207,7 @@ const faqSchema = {
       name: "Are your tours suitable for senior citizens?",
       acceptedAnswer: {
         "@type": "Answer",
-        text:
-          "Yes. We organize senior citizen friendly tours with comfortable transportation, medical assistance support and carefully planned itineraries.",
+        text: "Yes. We organize senior citizen friendly tours with comfortable transportation, medical assistance support and carefully planned itineraries.",
       },
     },
     {
@@ -206,8 +215,7 @@ const faqSchema = {
       name: "How can I contact Only Road Trip?",
       acceptedAnswer: {
         "@type": "Answer",
-        text:
-          "You can contact us by phone at +91-9211796168 or email us at info@onlyroadtrip.com.",
+        text: "You can contact us by phone at +91-9211796168 or email us at info@onlyroadtrip.com.",
       },
     },
   ],
@@ -230,8 +238,7 @@ const websiteSchema = {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate:
-        "https://www.onlyroadtrip.com/search?q={search_term_string}",
+      urlTemplate: "https://www.onlyroadtrip.com/search?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },
@@ -240,45 +247,16 @@ const websiteSchema = {
 export default function Home() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationSchema),
-        }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(localBusinessSchema),
-        }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema),
-        }}
-      />
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(websiteSchema),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
 
       <Hero />
-
       <Categories />
-
       <FeaturedDestinations />
-
       <WhyChooseUs />
-
       <Testimonials />
-
-      {/* Stats section intentionally placed immediately before the Footer. */}
       <Stats />
     </>
   );
