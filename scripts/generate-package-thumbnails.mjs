@@ -37,27 +37,16 @@ async function makeThumbnail(relativeFile) {
   fs.mkdirSync(path.dirname(output), { recursive: true });
 
   try {
-    const image = sharp(input, { animated: false }).rotate();
-    const metadata = await image.metadata();
-    if (!metadata.width || !metadata.height) return false;
-
-    // The actual photo is never cropped. A blurred, cover-sized copy fills
-    // the canvas behind it, while the complete original photo is fitted inside.
-    const background = await image
-      .resize(WIDTH, HEIGHT, { fit: "cover" })
-      .blur(18)
-      .modulate({ brightness: 0.82, saturation: 0.9 })
-      .png()
-      .toBuffer();
-
-    const foreground = await image
-      .resize(WIDTH, HEIGHT, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-      .png()
-      .toBuffer();
-
-    await sharp(background)
-      .composite([{ input: foreground, blend: "over" }])
-      .webp({ quality: 86, effort: 4 })
+    // Generate ONLY a sharp, transparent foreground thumbnail.
+    // No blur, crop or artificial background is baked into the thumbnail.
+    await sharp(input, { animated: false })
+      .rotate()
+      .resize(WIDTH, HEIGHT, {
+        fit: "contain",
+        background: { r: 255, g: 255, b: 255, alpha: 0 },
+        withoutEnlargement: false,
+      })
+      .webp({ quality: 88, effort: 4, alphaQuality: 90 })
       .toFile(output);
 
     return true;
@@ -80,7 +69,7 @@ async function main() {
     if (await makeThumbnail(file)) generated += 1;
   }
 
-  console.log(`Package thumbnails generated: ${generated} image(s), ${WIDTH}x${HEIGHT}, maximum ${MAX_PACKAGE_PHOTOS} per package.`);
+  console.log(`Package thumbnails generated: ${generated} sharp image(s), ${WIDTH}x${HEIGHT}, maximum ${MAX_PACKAGE_PHOTOS} per package.`);
 }
 
 main().catch((error) => {
