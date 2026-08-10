@@ -12,8 +12,9 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
-  // Every package slider uses one fixed 16:9 frame.
-  // Maximum 10 photos per package.
+  // Maximum 10 photos per package. The complete source photo is always shown;
+  // we do not crop/zoom package gallery images because source photos can have
+  // portrait, landscape, or an already-framed composition.
   const slides = useMemo(() => gallery.slice(0, 10), [gallery]);
   const [active, setActive] = useState(0);
 
@@ -40,23 +41,22 @@ export default function PackageGallerySlider({
   return (
     <section className="bg-[#f6f6f6] px-5 pb-3 pt-7 md:px-8">
       <div className="mx-auto w-full max-w-7xl">
-        {/* Fixed 16:9 slider frame for every package and every image */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-[28px] bg-slate-900 shadow-xl">
+        {/* Fixed presentation frame, but NEVER crop the actual source photo. */}
+        <div className="relative aspect-video w-full overflow-hidden rounded-[28px] bg-slate-950 shadow-xl">
           {slides.map((slide, index) => (
             <div
               key={`${slide.image}-${index}`}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${
                 index === active ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
               <img
                 src={slide.image}
                 alt={slide.alt || `${title} gallery photo ${index + 1}`}
-                className="h-full w-full object-cover object-center"
+                className="block h-full w-full object-contain object-center"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/5" />
             </div>
           ))}
 
