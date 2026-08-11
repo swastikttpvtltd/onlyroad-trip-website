@@ -10,10 +10,19 @@ type LocationOption = {
   type: 'State / UT' | 'District';
 };
 
-const locations: LocationOption[] = getAllStatesWithDistricts().flatMap(({ state, districts }) => [
-  { name: state.name, state: state.name, type: 'State / UT' as const },
-  ...districts.map((district) => ({ name: district, state: state.name, type: 'District' as const })),
-]);
+const locations: LocationOption[] = getAllStatesWithDistricts().flatMap((entry) => {
+  const stateName = entry.state?.name ?? '';
+  if (!stateName) return [];
+
+  return [
+    { name: stateName, state: stateName, type: 'State / UT' as const },
+    ...(entry.districts ?? []).map((district) => ({
+      name: district,
+      state: stateName,
+      type: 'District' as const,
+    })),
+  ];
+});
 
 const normalise = (value: string) => value.toLowerCase().trim().replace(/\s+/g, ' ');
 
