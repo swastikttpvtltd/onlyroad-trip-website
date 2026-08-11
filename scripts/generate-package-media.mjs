@@ -75,12 +75,20 @@ async function main() {
     grouped[packageKey].push(`/images/packages/${file}`);
   }
 
-  // Multi-State packages use dedicated package slugs but their source photos
-  // currently live in the closest matching existing package folders.
+  // Some existing package folders have descriptive names that are not an
+  // exact copy of the package slug. Keep those folder names untouched while
+  // exposing the canonical package slug as an additional manifest key.
   const mediaAliases = {
     "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya": "uttar-pradesh/varanasi-prayagraj-ayodhya",
     "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya-deoghar": "bihar/bihar-buddhist-circuit",
     "multi-state/delhi-agra-jaipur-golden-triangle": "delhi/delhi-agra-jaipur",
+
+    // Lakshadweep package slugs intentionally differ from the descriptive
+    // folder names used in public/images/packages/lakshadweep.
+    "lakshadweep/lakshadweep-kavaratti-island": "lakshadweep/lakshadweep-kavaratti-island-escape",
+    "lakshadweep/lakshadweep-agatti-island": "lakshadweep/lakshadweep-agatti-island-holiday",
+    "lakshadweep/lakshadweep-honeymoon": "lakshadweep/romantic-lakshadweep-honeymoon",
+    "lakshadweep/lakshadweep-water-sports": "lakshadweep/lakshadweep-lagoon-water-sports-escape",
   };
 
   for (const [alias, source] of Object.entries(mediaAliases)) {
