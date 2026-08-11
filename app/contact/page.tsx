@@ -36,9 +36,7 @@ export default function ContactPage() {
         <div className="relative mx-auto max-w-7xl px-6 pb-16 pt-28 lg:px-8 lg:pb-24 lg:pt-36">
           <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr] lg:gap-20">
             <div className="max-w-3xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-blue-800">
-                Plan Your Trip
-              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-blue-800">Plan Your Trip</span>
               <h1 className="mt-6 text-5xl font-semibold leading-[1.04] tracking-[-0.035em] text-slate-950 md:text-6xl lg:text-[72px]">
                 Tell us where you want to go.
                 <span className="block text-blue-800">We&apos;ll help plan the rest.</span>
@@ -58,9 +56,7 @@ export default function ContactPage() {
                 <div className="rounded-[27px] bg-slate-950 p-7 text-white md:p-9">
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-blue-300">Travel Planning Desk</p>
                   <h2 className="mt-3 text-3xl font-semibold leading-tight md:text-4xl">Start with a conversation.</h2>
-                  <p className="mt-5 text-sm leading-7 text-slate-300">
-                    You do not need to have the whole trip figured out before contacting us. Share whatever details you have and we can take it from there.
-                  </p>
+                  <p className="mt-5 text-sm leading-7 text-slate-300">You do not need to have the whole trip figured out before contacting us. Share whatever details you have and we can take it from there.</p>
                   <div className="mt-7 space-y-3">
                     {["Destination and approximate dates", "Number of travellers and trip type", "Budget, hotel or transport preferences"].map((item) => (
                       <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
@@ -83,11 +79,8 @@ export default function ContactPage() {
               <div className="max-w-2xl">
                 <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-700">Trip Enquiry</p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">Let&apos;s plan your trip</h2>
-                <p className="mt-4 text-base leading-7 text-slate-600">
-                  Fill in the details below. The more you tell us, the better we can understand what you are looking for and suggest suitable options.
-                </p>
+                <p className="mt-4 text-base leading-7 text-slate-600">Fill in the details below. The more you tell us, the better we can understand what you are looking for and suggest suitable options.</p>
               </div>
-
               <form className="mt-9 space-y-5">
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Full Name</span><input required type="text" placeholder="Your name" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
@@ -103,7 +96,7 @@ export default function ContactPage() {
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Trip Type</span><select defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>Family Holiday</option><option>Couple / Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Corporate / MICE</option><option>Group Tour</option></select></label>
                 </div>
                 <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Tell us what you have in mind</span><textarea rows={5} placeholder="Hotel preference, budget, transport, places you want to cover or anything else we should know..." className="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
-                <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 px-7 py-4 text-sm font-bold text-white shadow-lg shadow-blue-900/15 transition hover:-translate-y-0.5 hover:bg-blue-900 md:w-auto">Send Trip Enquiry <ArrowRight size={18} /></button>
+                <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 px-7 py-4 text-sm font-bold !text-white shadow-lg shadow-blue-900/15 transition hover:-translate-y-0.5 hover:bg-blue-900 md:w-auto">Send Trip Enquiry <ArrowRight size={18} /></button>
               </form>
             </div>
 
@@ -113,8 +106,8 @@ export default function ContactPage() {
                 <h2 className="mt-3 text-3xl font-semibold">Need help deciding?</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-300">Call or WhatsApp us if you would rather discuss the trip first. We can understand your requirements over a conversation and take the planning forward from there.</p>
                 <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                  <a href="tel:+919211796168" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3.5 text-sm font-bold text-slate-950 transition hover:bg-slate-100"><Phone size={18} /> Call +91 92117 96168</a>
-                  <a href="https://wa.me/919211796168" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3.5 text-sm font-bold text-white transition hover:bg-blue-600"><MessageCircle size={18} /> WhatsApp Us</a>
+                  <a href="tel:+919211796168" className="relative z-10 inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3.5 text-sm font-extrabold !text-slate-950 shadow-sm transition hover:bg-slate-100" style={{ color: "#020617" }}><Phone size={18} /> Call +91 92117 96168</a>
+                  <a href="https://wa.me/919211796168" target="_blank" rel="noopener noreferrer" className="relative z-10 inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-[#16a34a] px-5 py-3.5 text-sm font-extrabold !text-white shadow-sm transition hover:bg-[#15803d]" style={{ color: "#ffffff" }}><MessageCircle size={18} /> WhatsApp Us</a>
                 </div>
               </div>
 
@@ -144,7 +137,12 @@ export default function ContactPage() {
       <section className="py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid overflow-hidden rounded-[34px] border border-slate-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.07)] lg:grid-cols-[1.05fr_.95fr]">
-            <div className="p-7 md:p-10 lg:p-12"><p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-700">Visit Us</p><h2 className="mt-3 text-3xl font-semibold text-slate-950 md:text-4xl">Prefer to speak in person?</h2><p className="mt-4 max-w-xl text-base leading-7 text-slate-600">Our office is in New Palam Vihar, Gurugram. If you would like to discuss a detailed itinerary, group requirement or corporate travel plan, get in touch with the team before visiting.</p><a href="https://www.google.com/maps?q=F163%20PH-1%20New%20Palam%20Vihar%20Gurugram%20Haryana%20122001" target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full border border-slate-200 px-6 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-200 hover:bg-blue-50">Open Office Location <ArrowRight size={17} /></a></div>
+            <div className="p-7 md:p-10 lg:p-12">
+              <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-700">Visit Us</p>
+              <h2 className="mt-3 text-3xl font-semibold text-slate-950 md:text-4xl">Prefer to speak in person?</h2>
+              <p className="mt-4 max-w-xl text-base leading-7 text-slate-600">Our office is in New Palam Vihar, Gurugram. If you would like to discuss a detailed itinerary, group requirement or corporate travel plan, get in touch with the team before visiting.</p>
+              <a href="https://www.google.com/maps?q=F163%20PH-1%20New%20Palam%20Vihar%20Gurugram%20Haryana%20122001" target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full border border-slate-200 px-6 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-200 hover:bg-blue-50">Open Office Location <ArrowRight size={17} /></a>
+            </div>
             <div className="min-h-[320px] bg-slate-100"><iframe title="Only Road Trip Office Location" src="https://www.google.com/maps?q=F163%20PH-1%20New%20Palam%20Vihar%20Gurugram%20Haryana%20122001&output=embed" width="100%" height="100%" loading="lazy" className="min-h-[320px] border-0" referrerPolicy="no-referrer-when-downgrade" /></div>
           </div>
         </div>
@@ -153,7 +151,14 @@ export default function ContactPage() {
       <section className="pb-20 lg:pb-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="rounded-[34px] bg-blue-800 px-7 py-12 text-white shadow-[0_25px_70px_rgba(30,64,175,0.18)] md:px-12 md:py-14 lg:px-16">
-            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center"><div><p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">Ready when you are</p><h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">Let&apos;s start planning.</h2><p className="mt-4 max-w-2xl text-base leading-7 text-blue-100">Send us the basic details of your trip. We&apos;ll take a look and get back to you with the next steps.</p></div><a href="tel:+919211796168" className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-bold text-blue-900 transition hover:bg-slate-50">Talk to Our Team <ArrowRight size={18} /></a></div>
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-200">Ready when you are</p>
+                <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">Let&apos;s start planning.</h2>
+                <p className="mt-4 max-w-2xl text-base leading-7 text-blue-100">Send us the basic details of your trip. We&apos;ll take a look and get back to you with the next steps.</p>
+              </div>
+              <a href="tel:+919211796168" className="relative z-10 inline-flex min-h-14 w-fit items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-extrabold !text-blue-900 shadow-sm transition hover:bg-blue-50" style={{ color: "#1e3a8a" }}>Talk to Our Team <ArrowRight size={18} /></a>
+            </div>
           </div>
         </div>
       </section>
