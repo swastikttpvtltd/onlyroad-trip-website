@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -20,49 +17,21 @@ interface Props {
   pkg: Package;
 }
 
-function folderFromImage(image: string) {
-  const marker = "/images/";
-  const start = image.indexOf(marker);
-  if (start < 0) return "";
-  const relative = image.slice(start + marker.length);
-  const slash = relative.lastIndexOf("/");
-  return slash > 0 ? relative.slice(0, slash) : "";
-}
-
 export default function PackageCard({ pkg }: Props) {
-  const [cardImage, setCardImage] = useState(pkg.image || "/images/placeholder.jpg");
   const mapQuery = encodeURIComponent(`${pkg.destination}, ${pkg.state}`);
   const inclusionText = pkg.inclusions.join(" ").toLowerCase();
   const hasTransport = /transport|transfer|vehicle|cab|bus|car/.test(inclusionText);
   const hasMeals = pkg.meals.length > 0 || /meal|breakfast|lunch|dinner/.test(inclusionText);
   const hasSightseeing = pkg.highlights.length > 0;
 
-  useEffect(() => {
-    const folder = folderFromImage(pkg.image || "");
-    if (!folder) return;
-
-    let cancelled = false;
-    fetch(`/api/package-images?folder=${encodeURIComponent(folder)}`)
-      .then((response) => (response.ok ? response.json() : null))
-      .then((data: { images?: string[] } | null) => {
-        if (!cancelled && data?.images?.length) setCardImage(data.images[0]);
-      })
-      .catch(() => undefined);
-
-    return () => {
-      cancelled = true;
-    };
-  }, [pkg.image]);
-
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
         <img
-          src={cardImage}
+          src={pkg.image || "/images/placeholder.jpg"}
           alt={pkg.title}
           loading="lazy"
           decoding="async"
-          onError={() => setCardImage("/images/placeholder.jpg")}
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
