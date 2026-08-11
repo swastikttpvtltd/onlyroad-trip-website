@@ -115,6 +115,68 @@ button[class*="bg-blue-900"] {
   color: #ffffff !important;
 }
 
+/* Premium travel-enquiry success popup for Contact + Plan Your Trip. */
+p[role="status"] {
+  position: fixed !important;
+  left: 50% !important;
+  bottom: 28px !important;
+  z-index: 9999 !important;
+  width: min(92vw, 460px) !important;
+  margin: 0 !important;
+  transform: translateX(-50%) !important;
+  border: 1px solid #bfdbfe !important;
+  border-left: 5px solid #16a34a !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  padding: 18px 22px 18px 58px !important;
+  color: #334155 !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  box-shadow: 0 22px 55px rgba(15, 23, 42, 0.22) !important;
+  animation: enquiryPopupIn 0.28s ease-out both;
+}
+
+p[role="status"]::before {
+  content: "✓";
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+p[role="status"]::after {
+  content: "Enquiry Submitted";
+  position: absolute;
+  left: 58px;
+  top: 12px;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+p[role="status"] {
+  padding-top: 42px !important;
+}
+
+@keyframes enquiryPopupIn {
+  from { opacity: 0; transform: translate(-50%, 18px) scale(0.97); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@media (max-width: 639px) {
+  input, textarea, select { font-size: 16px; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  p[role="status"] { bottom: 16px !important; width: calc(100vw - 28px) !important; }
+}
+
 .hero-slide {
   opacity: 0;
   animation-name: heroImageSlider;
@@ -132,9 +194,4 @@ button[class*="bg-blue-900"] {
   10% { opacity: 1; }
   14% { opacity: 0; }
   100% { opacity: 0; }
-}
-
-@media (max-width: 639px) {
-  input, textarea, select { font-size: 16px; }
-  button, a { -webkit-tap-highlight-color: transparent; }
 }
