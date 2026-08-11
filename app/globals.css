@@ -1,20 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  /* Light Theme */
   --background: #ffffff;
   --foreground: #0f172a;
-
-  /* Optional Brand Colors */
   --primary: #0891b2;
   --primary-hover: #0e7490;
-
   --secondary: #2563eb;
   --secondary-hover: #1d4ed8;
-
   --success: #16a34a;
   --danger: #dc2626;
-
   --border: #e5e7eb;
   --muted: #64748b;
 }
@@ -22,67 +16,31 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   margin: 0;
+  min-width: 320px;
+  max-width: 100%;
+  overflow-x: hidden;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   line-height: 1.6;
   text-rendering: optimizeLegibility;
 }
+img { display: block; max-width: 100%; height: auto; }
+button, input, textarea, select { font: inherit; }
+input, textarea, select { color: #0f172a; }
+input::placeholder, textarea::placeholder { color: #64748b; }
+a { color: inherit; text-decoration: none; }
+::selection { background: #0891b2; color: #ffffff; }
 
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-input,
-textarea,
-select {
-  color: #0f172a;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #64748b;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-::selection {
-  background: #0891b2;
-  color: #ffffff;
-}
-
-/* Homepage compact spacing: keep every section intact while reducing excessive vertical gaps. */
-main > section {
-  scroll-margin-top: 80px;
-}
-
+main > section { scroll-margin-top: 80px; }
 main > section.bg-gradient-to-b.from-slate-50.to-white,
 main > section.bg-white,
 main > section.bg-gradient-to-b.from-white.to-slate-100 {
@@ -98,46 +56,6 @@ main > section.bg-gradient-to-b.from-white.to-slate-100 {
     padding-bottom: 1.75rem !important;
   }
 }
-/* =========================================================
-   HERO IMAGE SLIDER
-   10 images • automatic fade transition
-   ========================================================= */
-
-.hero-slide {
-  opacity: 0;
-  animation-name: heroImageFade;
-  animation-duration: 50s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: both;
-  background-size: cover;
-  background-position: center center;
-}
-
-@keyframes heroImageFade {
-  0% {
-    opacity: 0;
-  }
-
-  4% {
-    opacity: 1;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  14% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-/* =========================================================
-   HERO IMAGE SLIDER
-   ========================================================= */
 
 .hero-slide {
   opacity: 0;
@@ -146,26 +64,19 @@ main > section.bg-gradient-to-b.from-white.to-slate-100 {
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-fill-mode: both;
+  background-size: cover;
+  background-position: center center;
 }
 
 @keyframes heroImageSlider {
-  0% {
-    opacity: 0;
-  }
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  10% { opacity: 1; }
+  14% { opacity: 0; }
+  100% { opacity: 0; }
+}
 
-  4% {
-    opacity: 1;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  14% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0;
-  }
+@media (max-width: 639px) {
+  input, textarea, select { font-size: 16px; }
+  button, a { -webkit-tap-highlight-color: transparent; }
 }

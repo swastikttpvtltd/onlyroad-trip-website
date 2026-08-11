@@ -1,0 +1,51 @@
+[33m980559d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfix/lakshadweep-photos-only[m[33m)[m Add Lakshadweep package photos
+ .../PUT-IMAGES-HERE.txt                              |   2 [31m--[m
+ .../Lakshadweep-Agatti-Island-Holiday/gallery1.jpg   | Bin [31m0[m -> [32m18167412[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery2.jpg   | Bin [31m0[m -> [32m1091187[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery3.jpg   | Bin [31m0[m -> [32m1663868[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery4.jpg   | Bin [31m0[m -> [32m2814552[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/hero.jpg       | Bin [31m0[m -> [32m964488[m bytes
+ .../lakshadweep/Lakshadweep-Honeymoon/gallery1.jpg   | Bin [31m0[m -> [32m1091187[m bytes
+ .../lakshadweep/Lakshadweep-Honeymoon/gallery2.jpg   | Bin [31m0[m -> [32m964488[m bytes
+ .../lakshadweep/Lakshadweep-Honeymoon/gallery3.jpg   | Bin [31m0[m -> [32m18167412[m bytes
+ .../lakshadweep/Lakshadweep-Honeymoon/gallery4.jpg   | Bin [31m0[m -> [32m1663868[m bytes
+ .../lakshadweep/Lakshadweep-Honeymoon/hero.jpg       | Bin [31m0[m -> [32m2814552[m bytes
+ .../PUT-IMAGES-HERE.txt                              |   2 [31m--[m
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery1.jpg | Bin [31m0[m -> [32m964488[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery2.jpg | Bin [31m0[m -> [32m1663868[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery3.jpg | Bin [31m0[m -> [32m18167412[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery4.jpg | Bin [31m0[m -> [32m2814552[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/hero.jpg     | Bin [31m0[m -> [32m1091187[m bytes
+ .../PUT-IMAGES-HERE.txt                              |   2 [31m--[m
+ .../gallery1.jpg                                     | Bin [31m0[m -> [32m964488[m bytes
+ .../gallery2.jpg                                     | Bin [31m0[m -> [32m1663868[m bytes
+ .../gallery3.jpg                                     | Bin [31m0[m -> [32m18167412[m bytes
+ .../gallery4.jpg                                     | Bin [31m0[m -> [32m2814552[m bytes
+ .../Lakshadweep-Lagoon-Water-Sports-Escape/hero.jpg  | Bin [31m0[m -> [32m1091187[m bytes
+ .../PUT-IMAGES-HERE.txt                              |   2 [31m--[m
+ .../Romantic-Lakshadweep-Honeymoon/gallery1.jpg      | Bin [31m0[m -> [32m1091187[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery2.jpg      | Bin [31m0[m -> [32m964488[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery3.jpg      | Bin [31m0[m -> [32m18167412[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery4.jpg      | Bin [31m0[m -> [32m1663868[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/hero.jpg          | Bin [31m0[m -> [32m2814552[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery1.jpg   | Bin [31m0[m -> [32m18167412[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery2.jpg   | Bin [31m0[m -> [32m1091187[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery3.jpg   | Bin [31m0[m -> [32m1663868[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/gallery4.jpg   | Bin [31m0[m -> [32m2814552[m bytes
+ .../Lakshadweep-Agatti-Island-Holiday/hero.jpg       | Bin [31m0[m -> [32m964488[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery1.jpg | Bin [31m0[m -> [32m1091187[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery2.jpg | Bin [31m0[m -> [32m964488[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery3.jpg | Bin [31m0[m -> [32m18167412[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/gallery4.jpg | Bin [31m0[m -> [32m1663868[m bytes
+ .../Lakshadweep-Kavaratti-Island-Escape/hero.jpg     | Bin [31m0[m -> [32m2814552[m bytes
+ .../gallery1.jpg                                     | Bin [31m0[m -> [32m964488[m bytes
+ .../gallery2.jpg                                     | Bin [31m0[m -> [32m1663868[m bytes
+ .../gallery3.jpg                                     | Bin [31m0[m -> [32m18167412[m bytes
+ .../gallery4.jpg                                     | Bin [31m0[m -> [32m2814552[m bytes
+ .../Lakshadweep-Lagoon-Water-Sports-Escape/hero.jpg  | Bin [31m0[m -> [32m1091187[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery1.jpg      | Bin [31m0[m -> [32m18167412[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery2.jpg      | Bin [31m0[m -> [32m1091187[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery3.jpg      | Bin [31m0[m -> [32m1663868[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/gallery4.jpg      | Bin [31m0[m -> [32m2814552[m bytes
+ .../Romantic-Lakshadweep-Honeymoon/hero.jpg          | Bin [31m0[m -> [32m964488[m bytes
+ 49 files changed, 8 deletions(-)

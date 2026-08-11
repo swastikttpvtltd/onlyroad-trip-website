@@ -7,12 +7,35 @@ import "./globals.css";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
+const baseUrl = "https://www.onlyroadtrip.com";
+const socialImage = "/images/logo/only-road-trip-logo.jpeg";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.onlyroadtrip.com"),
-  title: { default: "Only Road Trip | Premium Tours & Travel Company in India", template: "%s | Only Road Trip" },
-  description: "Explore India with Only Road Trip. Premium pilgrimage tours, domestic holidays, luxury road trips, corporate travel, family vacations and customized travel packages across India.",
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: "Only Road Trip | Premium Tours & Travel Company in India",
+    template: "%s | Only Road Trip",
+  },
+  description:
+    "Explore India with Only Road Trip. Premium pilgrimage tours, domestic holidays, luxury road trips, corporate travel, family vacations and customized travel packages across India.",
   keywords: [
-    "Only Road Trip", "Swastik Tour And Travels", "India Tour Packages", "Pilgrimage Tours", "Kedarnath Package", "Char Dham Yatra", "Amarnath Yatra", "Vaishno Devi Tour", "Leh Ladakh Tour", "Kashmir Tour", "Manali Tour", "Goa Tour", "Kerala Tour", "Corporate Travel", "Luxury Road Trips", "Family Holidays", "Senior Citizen Tours",
+    "Only Road Trip",
+    "Swastik Tour And Travels",
+    "India Tour Packages",
+    "Pilgrimage Tours",
+    "Kedarnath Package",
+    "Char Dham Yatra",
+    "Amarnath Yatra",
+    "Vaishno Devi Tour",
+    "Leh Ladakh Tour",
+    "Kashmir Tour",
+    "Manali Tour",
+    "Goa Tour",
+    "Kerala Tour",
+    "Corporate Travel",
+    "Luxury Road Trips",
+    "Family Holidays",
+    "Senior Citizen Tours",
   ],
   authors: [{ name: "Swastik Tour And Travels Private Limited" }],
   creator: "Swastik Tour And Travels Private Limited",
@@ -20,38 +43,53 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     title: "Only Road Trip | Premium Tours & Travel Company in India",
-    description: "Premium pilgrimage tours, luxury road trips, corporate travel and customized holiday packages across India.",
-    url: "https://www.onlyroadtrip.com",
+    description:
+      "Premium pilgrimage tours, luxury road trips, corporate travel and customized holiday packages across India.",
+    url: baseUrl,
     siteName: "Only Road Trip",
     locale: "en_IN",
     type: "website",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Only Road Trip" }],
+    images: [{ url: socialImage, alt: "Only Road Trip" }],
   },
-  twitter: { card: "summary_large_image", title: "Only Road Trip", description: "Premium Tours & Customized Holidays Across India.", images: ["/og-image.jpg"] },
+  twitter: {
+    card: "summary_large_image",
+    title: "Only Road Trip",
+    description: "Premium Tours & Customized Holidays Across India.",
+    images: [socialImage],
+  },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-video-preview": -1, "max-snippet": -1 },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+      "max-snippet": -1,
+    },
   },
-  verification: {},
-  icons: { icon: "/favicon.ico", shortcut: "/favicon.ico", apple: "/apple-touch-icon.png" },
+  icons: { icon: "/favicon.ico" },
   manifest: "/site.webmanifest",
   applicationName: "Only Road Trip",
   category: "Travel",
   referrer: "origin-when-cross-origin",
 };
 
-export const viewport: Viewport = { themeColor: "#0891b2", colorScheme: "light" };
+export const viewport: Viewport = {
+  themeColor: "#0891b2",
+  colorScheme: "light",
+};
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "TravelAgency",
-  "@id": "https://www.onlyroadtrip.com/#travel-agency",
+  "@id": `${baseUrl}/#travel-agency`,
   name: "Only Road Trip",
   legalName: "Swastik Tour And Travels Private Limited",
-  url: "https://www.onlyroadtrip.com/",
-  logo: "https://www.onlyroadtrip.com/images/logo/only-road-trip-logo.jpeg",
-  description: "Travel agency offering pilgrimage tours, domestic holidays, road trips, family vacations, honeymoon packages, wildlife tours and corporate travel across India.",
+  url: `${baseUrl}/`,
+  logo: `${baseUrl}${socialImage}`,
+  description:
+    "Travel agency offering pilgrimage tours, domestic holidays, road trips, family vacations, honeymoon packages, wildlife tours and corporate travel across India.",
   areaServed: { "@type": "Country", name: "India" },
   brand: { "@type": "Brand", name: "Only Road Trip" },
 };
@@ -59,10 +97,10 @@ const organizationSchema = {
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://www.onlyroadtrip.com/#website",
-  url: "https://www.onlyroadtrip.com/",
+  "@id": `${baseUrl}/#website`,
+  url: `${baseUrl}/`,
   name: "Only Road Trip",
-  publisher: { "@id": "https://www.onlyroadtrip.com/#travel-agency" },
+  publisher: { "@id": `${baseUrl}/#travel-agency` },
   inLanguage: "en-IN",
 };
 
