@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, MapPin, Search } from 'lucide-react';
-import { getAllStatesWithDistricts } from 'india-state-district';
+import { getAllStates, getDistricts } from 'india-state-district';
 
 type LocationOption = {
   name: string;
@@ -10,17 +10,25 @@ type LocationOption = {
   type: 'State / UT' | 'District';
 };
 
-const locations: LocationOption[] = getAllStatesWithDistricts().flatMap((entry) => {
-  const stateName = entry.state?.name ?? '';
-  if (!stateName) return [];
+// Build the searchable list from the package's documented state-code APIs.
+// This avoids relying on the combined helper's internal data shape.
+const locations: LocationOption[] = getAllStates().flatMap((state) => {
+  const stateName = state?.name ?? '';
+  const stateCode = state?.code ?? '';
+
+  if (!stateName || !stateCode) return [];
+
+  const districts = getDistricts(stateCode) ?? [];
 
   return [
     { name: stateName, state: stateName, type: 'State / UT' as const },
-    ...(entry.districts ?? []).map((district) => ({
-      name: district,
-      state: stateName,
-      type: 'District' as const,
-    })),
+    ...districts
+      .filter((district): district is string => typeof district === 'string' && district.trim().length > 0)
+      .map((district) => ({
+        name: district,
+        state: stateName,
+        type: 'District' as const,
+      })),
   ];
 });
 
