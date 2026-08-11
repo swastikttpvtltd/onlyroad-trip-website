@@ -11,7 +11,7 @@ export function getPackageMediaFallback(pkg: { slug?: string; state?: string }) 
   const folder = LAKSHADWEEP_FOLDERS[String(pkg.slug ?? "").trim().toLowerCase()];
   if (!folder) return [];
 
-  const base = `/images/lakshadweep/${folder}`;
+  const base = `/images/packages/lakshadweep/${folder}`;
   return [
     `${base}/hero.jpg`,
     `${base}/gallery1.jpg`,
