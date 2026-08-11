@@ -16,7 +16,7 @@ const heroImages = [
 export default function Hero() {
   return (
     <>
-      <section className="relative overflow-hidden bg-black">
+      <section className="relative overflow-hidden bg-slate-950">
         {heroImages.map((image, index) => (
           <div
             key={image}
@@ -26,17 +26,17 @@ export default function Hero() {
           />
         ))}
 
-        <div className="absolute inset-0 z-[1] bg-black/55" aria-hidden="true" />
+        <div className="absolute inset-0 z-[1] bg-slate-950/60" aria-hidden="true" />
 
         <div className="relative z-[2] mx-auto flex min-h-[500px] max-w-7xl items-center px-4 pb-16 pt-28 sm:min-h-[540px] sm:px-6 sm:pb-20 sm:pt-32 lg:min-h-[600px] lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-[2.35rem] font-extrabold leading-[1.08] text-white sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="text-[2.35rem] font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
               Explore Incredible India
               <br />
               <span className="text-cyan-300">With Only Road Trip</span>
             </h1>
 
-            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-200 sm:mt-7 sm:text-lg sm:leading-9">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-100 sm:mt-7 sm:text-lg sm:leading-9">
               Experience handcrafted journeys across India with premium pilgrimage tours, family vacations, honeymoon packages, wildlife adventures, luxury holidays and corporate travel solutions—all planned by travel experts.
             </p>
           </div>
