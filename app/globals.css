@@ -3,14 +3,16 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --primary: #0891b2;
-  --primary-hover: #0e7490;
+  --primary: #1e40af;
+  --primary-hover: #1e3a8a;
   --secondary: #2563eb;
   --secondary-hover: #1d4ed8;
+  --accent: #0891b2;
   --success: #16a34a;
   --danger: #dc2626;
-  --border: #e5e7eb;
+  --border: #e2e8f0;
   --muted: #64748b;
+  --surface-soft: #f8fafc;
 }
 
 @theme inline {
@@ -32,13 +34,14 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   line-height: 1.6;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 img { display: block; max-width: 100%; height: auto; }
 button, input, textarea, select { font: inherit; }
 input, textarea, select { color: #0f172a; }
 input::placeholder, textarea::placeholder { color: #64748b; }
 a { color: inherit; text-decoration: none; }
-::selection { background: #0891b2; color: #ffffff; }
+::selection { background: #1e40af; color: #ffffff; }
 
 main > section { scroll-margin-top: 80px; }
 main > section.bg-gradient-to-b.from-slate-50.to-white,
@@ -55,6 +58,47 @@ main > section.bg-gradient-to-b.from-white.to-slate-100 {
     padding-top: 1.75rem !important;
     padding-bottom: 1.75rem !important;
   }
+}
+
+/* Shared visual language for the public travel catalogue pages.
+   Corporate Travel, Contact and Plan Your Trip keep their existing styling. */
+main.min-h-screen.bg-slate-50 > section:first-child {
+  background: linear-gradient(135deg, #0f172a 0%, #172554 58%, #1e3a8a 100%) !important;
+}
+
+main.min-h-screen.bg-slate-50 > section:first-child h1 {
+  letter-spacing: -0.035em;
+}
+
+main.min-h-screen.bg-slate-50 > section:first-child p {
+  max-width: 900px;
+}
+
+main.min-h-screen.bg-slate-50 aside details,
+main.min-h-screen.bg-slate-50 .grid > div > article,
+main.min-h-screen.bg-slate-50 .grid > div > a {
+  border-color: #e2e8f0;
+}
+
+main.min-h-screen.bg-slate-50 button[type="submit"] {
+  background: #1e40af;
+}
+
+main.min-h-screen.bg-slate-50 button[type="submit"]:hover {
+  background: #1e3a8a;
+}
+
+/* Prevent common light-on-light combinations in catalogue content. */
+main.min-h-screen.bg-slate-50 h2,
+main.min-h-screen.bg-slate-50 h3,
+main.min-h-screen.bg-slate-50 label,
+main.min-h-screen.bg-slate-50 select,
+main.min-h-screen.bg-slate-50 input {
+  color: #0f172a;
+}
+
+main.min-h-screen.bg-slate-50 .text-white {
+  color: #ffffff;
 }
 
 .hero-slide {
