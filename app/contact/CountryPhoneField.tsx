@@ -16,8 +16,10 @@ const countries = [
 ] as const;
 
 export default function CountryPhoneField() {
-  const [countryCode, setCountryCode] = useState('+91');
+  const [countryIso, setCountryIso] = useState('IN');
   const [number, setNumber] = useState('');
+  const selectedCountry = countries.find(([iso]) => iso === countryIso) ?? countries.find(([iso]) => iso === 'IN')!;
+  const countryCode = selectedCountry[3];
   const cleanNumber = number.replace(/\D/g, '');
 
   return (
@@ -26,13 +28,13 @@ export default function CountryPhoneField() {
       <div className="flex overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-50">
         <select
           name="countryCode"
-          value={countryCode}
-          onChange={(event) => setCountryCode(event.target.value)}
+          value={countryIso}
+          onChange={(event) => setCountryIso(event.target.value)}
           aria-label="Country calling code"
           className="w-[150px] shrink-0 cursor-pointer border-r border-slate-200 bg-transparent px-3 py-3.5 text-sm font-semibold text-slate-800 outline-none"
         >
           {countries.map(([iso, flag, name, code]) => (
-            <option key={iso} value={code}>{flag} {name} {code}</option>
+            <option key={iso} value={iso}>{flag} {name} {code}</option>
           ))}
         </select>
         <input
