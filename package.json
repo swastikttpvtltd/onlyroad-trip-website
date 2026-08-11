@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "predev": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
-    "dev": "next dev",
+    "dev": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs && next dev",
     "prebuild": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
     "build": "next build",
     "start": "next start",
