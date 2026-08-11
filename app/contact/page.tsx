@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle2, Clock3, Mail, MapPin, MessageCircle, Phone, S
 import type { Metadata } from "next";
 import { sendTripEnquiry } from "./actions";
 import CountryPhoneField from "./CountryPhoneField";
+import DestinationSearch from "./DestinationSearch";
 
 export const metadata: Metadata = {
   title: "Contact & Plan Your Trip | Only Road Trip",
@@ -107,7 +108,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 </div>
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Email Address</span><input name="email" required type="email" placeholder="you@example.com" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Destination</span><input name="destination" type="text" placeholder="Where would you like to go?" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <DestinationSearch />
                 </div>
                 <div className="grid gap-5 md:grid-cols-3">
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travel Date</span><input name="travelDate" type="date" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
