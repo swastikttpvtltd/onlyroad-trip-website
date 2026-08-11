@@ -11,7 +11,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "india-states-districts": "^1.8.0",
+    "india-state-district": "^1.0.5",
     "lucide-react": "^1.25.0",
     "next": "16.2.11",
     "nodemailer": "^7.0.6",
