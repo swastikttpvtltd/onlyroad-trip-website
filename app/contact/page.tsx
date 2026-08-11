@@ -106,8 +106,8 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="block">
                     <span className="mb-2 block text-sm font-semibold text-slate-800">Name</span>
-                    <div className="grid grid-cols-[108px_1fr] gap-2">
-                      <select name="title" defaultValue="Mr" aria-label="Title" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50">
+                    <div className="grid grid-cols-[82px_1fr] gap-2">
+                      <select name="title" defaultValue="Mr" aria-label="Title" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-2.5 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50">
                         <option value="Mr">Mr.</option>
                         <option value="Mrs">Mrs.</option>
                         <option value="Ms">Ms.</option>
@@ -115,7 +115,9 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                       <input name="name" required type="text" placeholder="Your name" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" />
                     </div>
                   </label>
-                  <CountryPhoneField />
+                  <div className="[&>div>div>button[aria-haspopup='listbox']]:!w-[96px] [&>div>div>button[aria-haspopup='listbox']]:!px-3">
+                    <CountryPhoneField />
+                  </div>
                 </div>
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Email Address</span><input name="email" required type="email" placeholder="you@example.com" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
