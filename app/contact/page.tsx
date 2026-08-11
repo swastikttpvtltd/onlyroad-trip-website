@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { ArrowRight, CheckCircle2, Clock3, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
 import { sendTripEnquiry } from "./actions";
+import CountryPhoneField from "./CountryPhoneField";
 
 export const metadata: Metadata = {
   title: "Contact & Plan Your Trip | Only Road Trip",
@@ -103,7 +103,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
               <form action={sendTripEnquiry} className="mt-9 space-y-5">
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Full Name</span><input name="name" required type="text" placeholder="Your name" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Mobile Number</span><input name="phone" required type="tel" placeholder="+91" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <CountryPhoneField />
                 </div>
                 <div className="grid gap-5 md:grid-cols-2">
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Email Address</span><input name="email" required type="email" placeholder="you@example.com" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
