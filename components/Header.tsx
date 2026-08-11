@@ -22,7 +22,6 @@ const packageStates = [
   "Karnataka",
   "Kerala",
   "Ladakh",
-  "Lakshadweep",
   "Madhya Pradesh",
   "Maharashtra",
   "Meghalaya",
