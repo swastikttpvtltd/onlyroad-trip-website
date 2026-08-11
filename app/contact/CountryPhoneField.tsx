@@ -57,7 +57,7 @@ export default function CountryPhoneField() {
       <div className="relative flex overflow-visible rounded-2xl border border-slate-200 bg-slate-50 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-50">
         <button type="button" onClick={() => setOpen((value) => !value)} aria-haspopup="listbox" aria-expanded={open} className="flex h-[56px] w-[128px] shrink-0 items-center justify-between gap-2 border-r border-slate-200 bg-transparent px-4 text-sm font-semibold text-slate-900 outline-none">
           <span className="flex min-w-0 items-center gap-2"><span className="truncate">{selectedCountry[0]} {displayCode}</span></span>
-          <span className="text-slate-700">⌄</span>
+          <span className="text-slate-700 text-[15px] font-semibold leading-none">⌄</span>
         </button>
 
         <input required type="tel" inputMode="numeric" autoComplete="tel-national" value={number} onChange={(event) => setNumber(event.target.value.replace(/\D/g, '').slice(0, 15))} placeholder="Mobile number" aria-label="Mobile number" className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-slate-900 outline-none placeholder:text-slate-400" />
