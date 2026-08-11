@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarDays, Car, CheckCircle2, MapPin, MessageCircle, Minus, Plus, Search, Users } from "lucide-react";
+import { getCountries, getCountryCallingCode } from "libphonenumber-js";
+import countries from "i18n-iso-countries";
 
 const steps = [
   ["01", "Tell us your plan", "Share your destination, dates, group size and the kind of experience you want."],
@@ -19,9 +21,21 @@ const destinations = [
   "Rishikesh", "Shimla", "Sikkim", "Srinagar", "Udaipur", "Ujjain", "Uttarakhand", "Varanasi", "Vrindavan"
 ];
 
+const countryOptions = getCountries()
+  .map((iso2) => {
+    const code = iso2.toUpperCase();
+    const callingCode = getCountryCallingCode(code as never);
+    const alpha3 = countries.alpha2ToAlpha3(code) || code;
+    const displayCode = code === "US" ? "USA" : code === "IN" ? "IN" : alpha3;
+    return { iso2: code, displayCode, callingCode };
+  })
+  .sort((a, b) => a.displayCode.localeCompare(b.displayCode));
+
 export default function PlanYourTripClient() {
   const [fullName, setFullName] = useState("");
   const [mobile, setMobile] = useState("");
+  const [phoneCountry, setPhoneCountry] = useState("IN");
+  const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [email, setEmail] = useState("");
   const [destination, setDestination] = useState("");
   const [travelDate, setTravelDate] = useState("");
@@ -33,12 +47,15 @@ export default function PlanYourTripClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
   const destinationRef = useRef<HTMLDivElement>(null);
+  const countryRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
 
   const today = useMemo(() => {
     const date = new Date();
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   }, []);
+
+  const selectedCountry = countryOptions.find((item) => item.iso2 === phoneCountry) ?? countryOptions[0];
 
   const filteredDestinations = useMemo(() => {
     const query = destination.trim().toLowerCase();
@@ -48,13 +65,18 @@ export default function PlanYourTripClient() {
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-      if (destinationRef.current && !destinationRef.current.contains(event.target as Node)) setShowDestinationResults(false);
+      const target = event.target as Node;
+      if (destinationRef.current && !destinationRef.current.contains(target)) setShowDestinationResults(false);
+      if (countryRef.current && !countryRef.current.contains(target)) setShowCountryCodes(false);
     };
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const closeDestinationResults = () => setShowDestinationResults(false);
+  const closeDestinationResults = () => {
+    setShowDestinationResults(false);
+    setShowCountryCodes(false);
+  };
 
   const openCalendar = () => {
     const input = dateRef.current;
@@ -72,7 +94,19 @@ export default function PlanYourTripClient() {
       const response = await fetch("/api/travel-enquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullName, mobile, email, destination, travelDate, travellers, travelType, budget, message }),
+        body: JSON.stringify({
+          fullName,
+          mobile: `+${selectedCountry.callingCode}${mobile}`,
+          phoneCountry: selectedCountry.displayCode,
+          phoneCountryCode: `+${selectedCountry.callingCode}`,
+          email,
+          destination,
+          travelDate,
+          travellers,
+          travelType,
+          budget,
+          message,
+        }),
       });
 
       const data = await response.json();
@@ -81,6 +115,7 @@ export default function PlanYourTripClient() {
       setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
       setFullName("");
       setMobile("");
+      setPhoneCountry("IN");
       setEmail("");
       setDestination("");
       setTravelDate("");
@@ -114,7 +149,29 @@ export default function PlanYourTripClient() {
           <p className="mt-3 leading-7 text-slate-600">The more you tell us, the better we can tailor the route, hotels, transport and experiences to your group.</p>
           <form onSubmit={handleSubmit} className="mt-8 grid gap-5 sm:grid-cols-2">
             <input required value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Full Name" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
-            <input required value={mobile} onChange={(event) => setMobile(event.target.value)} type="tel" placeholder="Mobile Number" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+
+            <div ref={countryRef} className="relative">
+              <div className="flex w-full rounded-xl border border-slate-300 bg-slate-50 focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100">
+                <button type="button" onClick={() => { setShowCountryCodes((value) => !value); setShowDestinationResults(false); }} className="flex shrink-0 items-center gap-1.5 rounded-l-xl border-r border-slate-300 px-3.5 text-sm font-extrabold text-slate-800 hover:bg-white" aria-label="Select country calling code">
+                  <span>{selectedCountry.displayCode}</span><span className="text-slate-400">⌄</span><span className="text-blue-700">+{selectedCountry.callingCode}</span>
+                </button>
+                <input required value={mobile} onChange={(event) => setMobile(event.target.value.replace(/\D/g, "").slice(0, 15))} type="tel" inputMode="numeric" pattern="[0-9]{6,15}" maxLength={15} placeholder="Mobile Number" onFocus={() => { setShowDestinationResults(false); setShowCountryCodes(false); }} className="min-w-0 flex-1 rounded-r-xl bg-transparent px-3.5 py-3.5 outline-none" />
+              </div>
+              {showCountryCodes && (
+                <div className="absolute left-0 top-[calc(100%+8px)] z-[70] w-full min-w-[250px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_45px_rgba(15,23,42,0.20)]">
+                  <div className="border-b border-slate-100 px-4 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-slate-500">Country code</div>
+                  <div className="max-h-72 overflow-y-auto p-2">
+                    {countryOptions.map((country) => (
+                      <button key={country.iso2} type="button" onClick={() => { setPhoneCountry(country.iso2); setShowCountryCodes(false); }} className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left transition hover:bg-blue-50 ${phoneCountry === country.iso2 ? "bg-blue-50" : ""}`}>
+                        <span className="font-extrabold text-slate-800">{country.displayCode}</span>
+                        <span className="font-semibold text-blue-700">+{country.callingCode}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
             <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Email Address" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
 
             <div ref={destinationRef} className="relative">
