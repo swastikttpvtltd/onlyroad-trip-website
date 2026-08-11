@@ -91,9 +91,9 @@ export default function PlanYourTripClient() {
               )}
             </div>
 
-            <div className="relative">
-              <input ref={dateRef} type="date" min={today} onFocus={closeDestinationResults} className="w-full cursor-pointer rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-4 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:h-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:opacity-0" aria-label="Travel date" />
-              <button type="button" onClick={openCalendar} aria-label="Open travel date calendar" className="absolute inset-y-0 right-3 flex w-9 items-center justify-center rounded-lg text-blue-600 transition hover:bg-blue-100"><CalendarDays size={19} /></button>
+            <div className="relative cursor-pointer" onClick={openCalendar}>
+              <input ref={dateRef} type="date" min={today} onFocus={closeDestinationResults} className="pointer-events-none w-full cursor-pointer rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-4 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:h-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:opacity-0" aria-label="Travel date" />
+              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-3 flex w-9 items-center justify-center rounded-lg text-blue-600 transition"><CalendarDays size={19} /></div>
             </div>
 
             <div className="relative" onFocus={closeDestinationResults}>
