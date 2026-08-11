@@ -76,6 +76,35 @@ function destinationsFor(pkg: PackageItem) {
   }));
 }
 
+function faqItems(pkg: PackageItem, state: { name: string; famousFor: string }) {
+  return [
+    {
+      question: `What can I expect from this ${pkg.title} itinerary?`,
+      answer: `This ${pkg.duration} ${pkg.category.toLowerCase()} journey covers ${pkg.destination} according to the published day-wise itinerary, with the listed sightseeing, accommodation, meals and inclusions. The exact inclusions and exclusions shown on this page should be checked before booking.`,
+    },
+    {
+      question: `What is ${state.name} famous for?`,
+      answer: state.famousFor,
+    },
+    {
+      question: `Is this package suitable for families and groups?`,
+      answer: `The package is designed around the published group size, difficulty level and itinerary. Families and groups can review the travel information and request suitable customisation before confirming the booking.`,
+    },
+    {
+      question: `Can I customise this ${state.name} tour package?`,
+      answer: `Yes. You can discuss changes to the travel dates, group size, accommodation preference, sightseeing or route requirements with Only Road Trip before booking. Any revised services or pricing will be confirmed separately.`,
+    },
+    {
+      question: `What is the best time to travel to ${state.name}?`,
+      answer: `The package's recommended travel period is shown in the Best Time field above. Weather, road conditions, local events and seasonal closures can affect the ideal dates, so travellers should confirm the final dates with the travel team before booking.`,
+    },
+    {
+      question: `What is included in this tour package?`,
+      answer: `The exact inclusions are listed in the Tour Inclusions & Exclusions section on this page. This keeps the booking information transparent instead of assuming that every service is included in every package.`,
+    },
+  ];
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug);
@@ -111,6 +140,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const price = numberField(pkg, "price");
   const places = destinationsFor(pkg);
   const state = getStateDetails(pkg.state);
+  const faqs = faqItems(pkg, state);
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
@@ -136,7 +166,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
       <div className="sticky top-0 z-30 border-b bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
-          {[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['places', 'Places Covered'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals']].map(([id, label]) => (
+          {[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['places', 'Places Covered'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals'], ['faqs', 'FAQs']].map(([id, label]) => (
             <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>
           ))}
         </div>
@@ -224,6 +254,23 @@ export default async function PackageDetailsPage({ params }: PageProps) {
                   <p><b>Group:</b> {pkg.groupSize}</p>
                 </div>
               </InfoColumn>
+            </div>
+          </ContentCard>
+
+          <ContentCard id="faqs" title="Frequently Asked Questions">
+            <p className="mb-5 leading-7 text-slate-600">Here are answers to common questions a traveller may have before booking this journey.</p>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <details key={faq.question} className="group rounded-xl border border-slate-200 bg-white p-5">
+                  <summary className="cursor-pointer list-none pr-6 font-bold text-slate-900 marker:hidden">
+                    <span className="flex items-center justify-between gap-4">
+                      {faq.question}
+                      <span className="text-xl text-blue-700 transition group-open:rotate-45">+</span>
+                    </span>
+                  </summary>
+                  <p className="mt-4 leading-7 text-slate-600">{faq.answer}</p>
+                </details>
+              ))}
             </div>
           </ContentCard>
         </div>
