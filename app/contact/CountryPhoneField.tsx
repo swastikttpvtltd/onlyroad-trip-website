@@ -26,7 +26,7 @@ export default function CountryPhoneField() {
 
   const selectedCountry = countries.find(([iso]) => iso === countryIso) ?? countries.find(([iso]) => iso === 'IN')!;
   const displayCode = selectedCountry[3].split(' ')[0];
-  const countryCode = displayCode;
+  const countryCode = selectedCountry[3].split('/')[0].replace(/\s/g, '');
   const cleanNumber = number.replace(/\D/g, '');
 
   const filteredCountries = useMemo(() => {
