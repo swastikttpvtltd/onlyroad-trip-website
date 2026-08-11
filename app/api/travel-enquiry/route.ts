@@ -12,12 +12,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please complete all required travel enquiry fields." }, { status: 400 });
     }
 
-    const host = process.env.ZOHO_SMTP_HOST || "smtp.zoho.in";
-    const port = Number(process.env.ZOHO_SMTP_PORT || "465");
-    const user = process.env.ZOHO_SMTP_USER;
-    const pass = process.env.ZOHO_SMTP_PASSWORD;
-    const from = process.env.ZOHO_FROM_EMAIL || user;
-    const to = process.env.TRAVEL_ENQUIRY_TO || "info@onlyroadtrip.com";
+    // Supports the SMTP_* names already present in the local .env.local file.
+    const host = process.env.SMTP_HOST || process.env.ZOHO_SMTP_HOST || "smtp.zoho.in";
+    const port = Number(process.env.SMTP_PORT || process.env.ZOHO_SMTP_PORT || "465");
+    const secure = String(process.env.SMTP_SECURE ?? (port === 465)).toLowerCase() === "true";
+    const user = process.env.SMTP_USER || process.env.ZOHO_SMTP_USER;
+    const pass = process.env.SMTP_PASSWORD || process.env.ZOHO_SMTP_PASSWORD;
+    const from = process.env.ENQUIRY_TO_EMAIL || process.env.ZOHO_FROM_EMAIL || user;
+    const to = process.env.ENQUIRY_TO_EMAIL || process.env.TRAVEL_ENQUIRY_TO || "info@onlyroadtrip.com";
+    const cc = process.env.ENQUIRY_CC_EMAIL || process.env.TRAVEL_ENQUIRY_CC || undefined;
 
     if (!user || !pass || !from) {
       return NextResponse.json({ error: "Email service is not configured yet." }, { status: 500 });
@@ -26,13 +29,14 @@ export async function POST(request: Request) {
     const transporter = nodemailer.createTransport({
       host,
       port,
-      secure: port === 465,
+      secure,
       auth: { user, pass },
     });
 
     await transporter.sendMail({
       from,
       to,
+      cc,
       replyTo: email || undefined,
       subject: `New Travel Enquiry — ${destination} — ${fullName}`,
       text: [
