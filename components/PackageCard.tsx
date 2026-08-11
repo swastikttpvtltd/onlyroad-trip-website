@@ -12,6 +12,7 @@ import {
   Users,
 } from "lucide-react";
 import type { Package } from "@/data/packagesTypes";
+import { getPackagePrimaryImage } from "@/data/packageMediaFallback";
 
 interface Props {
   pkg: Package;
@@ -28,14 +29,14 @@ export default function PackageCard({ pkg }: Props) {
   const hasTransport = /transport|transfer|vehicle|cab|bus|car/.test(inclusionText);
   const hasMeals = pkg.meals.length > 0 || /meal|breakfast|lunch|dinner/.test(inclusionText);
   const hasSightseeing = pkg.highlights.length > 0;
-  const thumbnailSrc = getThumbnailSrc(pkg.image);
+  const primaryImage = getPackagePrimaryImage(pkg);
+  const thumbnailSrc = getThumbnailSrc(primaryImage);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
-        {/* Adaptive background only fills unused space. It is never used as the main photo. */}
         <img
-          src={pkg.image || "/images/placeholder.jpg"}
+          src={primaryImage}
           alt=""
           aria-hidden="true"
           loading="lazy"
@@ -44,12 +45,17 @@ export default function PackageCard({ pkg }: Props) {
         />
         <div className="absolute inset-0 bg-white/10" />
 
-        {/* Sharp generated thumbnail: complete photo, no crop and no zoom. */}
         <img
           src={thumbnailSrc}
           alt={pkg.title}
           loading="lazy"
           decoding="async"
+          onError={(event) => {
+            const image = event.currentTarget;
+            if (image.src.endsWith(thumbnailSrc)) {
+              image.src = primaryImage;
+            }
+          }}
           className="absolute inset-0 h-full w-full object-contain object-center"
         />
 
