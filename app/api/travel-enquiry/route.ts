@@ -12,18 +12,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please complete all required travel enquiry fields." }, { status: 400 });
     }
 
-    // Supports the SMTP_* names already present in the local .env.local file.
     const host = process.env.SMTP_HOST || process.env.ZOHO_SMTP_HOST || "smtp.zoho.in";
     const port = Number(process.env.SMTP_PORT || process.env.ZOHO_SMTP_PORT || "465");
     const secure = String(process.env.SMTP_SECURE ?? (port === 465)).toLowerCase() === "true";
     const user = process.env.SMTP_USER || process.env.ZOHO_SMTP_USER;
     const pass = process.env.SMTP_PASSWORD || process.env.ZOHO_SMTP_PASSWORD;
-    const from = process.env.ENQUIRY_TO_EMAIL || process.env.ZOHO_FROM_EMAIL || user;
+    const from = process.env.ENQUIRY_FROM_EMAIL || process.env.ZOHO_FROM_EMAIL || user;
     const to = process.env.ENQUIRY_TO_EMAIL || process.env.TRAVEL_ENQUIRY_TO || "info@onlyroadtrip.com";
     const cc = process.env.ENQUIRY_CC_EMAIL || process.env.TRAVEL_ENQUIRY_CC || undefined;
 
     if (!user || !pass || !from) {
-      return NextResponse.json({ error: "Email service is not configured yet." }, { status: 500 });
+      return NextResponse.json({ error: "Email service is not configured. Check SMTP_USER, SMTP_PASSWORD and ENQUIRY_FROM_EMAIL in .env.local." }, { status: 500 });
     }
 
     const transporter = nodemailer.createTransport({
@@ -32,6 +31,9 @@ export async function POST(request: Request) {
       secure,
       auth: { user, pass },
     });
+
+    // Verify the SMTP connection first so configuration errors are reported clearly.
+    await transporter.verify();
 
     await transporter.sendMail({
       from,
@@ -74,7 +76,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Travel enquiry email failed:", error);
-    return NextResponse.json({ error: "Unable to send the enquiry right now. Please try again or contact us directly." }, { status: 500 });
+    const details = error instanceof Error ? error.message : "Unknown email error";
+    return NextResponse.json({ error: `Unable to send the enquiry right now. Email server error: ${details}` }, { status: 500 });
   }
 }
 
