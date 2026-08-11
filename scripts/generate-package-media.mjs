@@ -82,13 +82,6 @@ async function main() {
     "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya": "uttar-pradesh/varanasi-prayagraj-ayodhya",
     "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya-deoghar": "bihar/bihar-buddhist-circuit",
     "multi-state/delhi-agra-jaipur-golden-triangle": "delhi/delhi-agra-jaipur",
-
-    // Lakshadweep package slugs intentionally differ from the descriptive
-    // folder names used in public/images/packages/lakshadweep.
-    "lakshadweep/lakshadweep-kavaratti-island": "lakshadweep/lakshadweep-kavaratti-island-escape",
-    "lakshadweep/lakshadweep-agatti-island": "lakshadweep/lakshadweep-agatti-island-holiday",
-    "lakshadweep/lakshadweep-honeymoon": "lakshadweep/romantic-lakshadweep-honeymoon",
-    "lakshadweep/lakshadweep-water-sports": "lakshadweep/lakshadweep-lagoon-water-sports-escape",
   };
 
   for (const [alias, source] of Object.entries(mediaAliases)) {

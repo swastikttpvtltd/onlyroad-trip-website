@@ -18,7 +18,6 @@ const destinationMultiplier: Record<string, number> = {
   Karnataka: 1.08,
   "Tamil Nadu": 1.02,
   "Andaman & Nicobar Islands": 1.48,
-  Lakshadweep: 2.15,
 };
 
 const nightsFromDuration = (duration: unknown) => {
@@ -31,7 +30,6 @@ const specialCost = (state: string, title: string, nights: number) => {
   let cost = 0;
   if (text.includes("wildlife") || text.includes("corbett") || text.includes("gir ") || text.includes("kaziranga")) cost += 1800;
   if (text.includes("andaman")) cost += 6000 + 900 * nights;
-  if (text.includes("lakshadweep")) cost += 15000 + 1800 * nights;
   if (state === "Ladakh") cost += 1800;
   if (text.includes("amarnath")) cost += 1200;
   if (text.includes("char dham") || text.includes("do dham") || text.includes("kedarnath")) cost += 900;

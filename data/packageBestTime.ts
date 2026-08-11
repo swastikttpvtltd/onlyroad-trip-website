@@ -18,7 +18,6 @@ const byState: Record<string, string> = {
   Karnataka: "October to March",
   "Tamil Nadu": "October to March",
   "Andaman & Nicobar Islands": "October to May",
-  Lakshadweep: "October to March",
 };
 
 export function getBestTime(pkg: any): string {
@@ -36,7 +35,6 @@ export function getBestTime(pkg: any): string {
   if (title.includes("winter") && state === "Kashmir") return "December to February for snowfall and winter experiences";
   if (title.includes("honeymoon") && state === "Kashmir") return "April to June & December to February";
   if (title.includes("andaman")) return "October to May";
-  if (title.includes("lakshadweep")) return "October to March";
   if (title.includes("goa")) return "November to February";
   if (title.includes("munnar") || title.includes("kerala")) return "September to March";
   if (title.includes("darjeeling") || title.includes("gangtok") || state === "Sikkim") return "March to June & October to December";

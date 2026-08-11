@@ -18,7 +18,6 @@ import meghalayaPackages from "./packages/meghalaya/meghalaya-packages";
 import karnatakaPackages from "./packages/karnataka/karnataka-packages";
 import tamilNaduPackages from "./packages/tamil-nadu/tamil-nadu-packages";
 import andamanPackages from "./packages/andaman-nicobar/andaman-nicobar-packages";
-import lakshadweepPackages from "./packages/lakshadweep/lakshadweep-packages";
 import andhraPradeshPackages from "./packages/andhra-pradesh/andhra-pradesh-packages";
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
@@ -30,7 +29,6 @@ const stateWisePackages = [
   ...gujaratPackages,
   ...rajasthanPackages,
   ...andamanPackages,
-  ...lakshadweepPackages,
   ...punjabPackages,
   ...keralaPackages,
   ...goaPackages,
@@ -89,7 +87,6 @@ const packageStateFolders: Record<string, string> = {
   "Tamil Nadu": "tamil-nadu",
   "Andaman & Nicobar Islands": "andaman-nicobar",
   "Andaman and Nicobar Islands": "andaman-nicobar",
-  "Lakshadweep": "lakshadweep",
   "Andhra Pradesh": "andhra-pradesh",
 };
 
@@ -130,7 +127,6 @@ const destinationSearchAliases: Array<{ match: string[]; aliases: string[] }> = 
   { match: ["agra", "taj mahal"], aliases: ["Agra Tour", "Taj Mahal Tour", "Agra Jaipur Delhi Tour", "Golden Triangle Tour"] },
   { match: ["kerala", "munnar", "alleppey", "alappuzha", "kovalam"], aliases: ["Kerala Tour Package", "Kerala Holiday", "Kerala Backwaters Tour", "Munnar Tour", "Alleppey Houseboat Tour"] },
   { match: ["andaman", "havelock", "swaraj dweep", "shaheed dweep", "neil island"], aliases: ["Andaman Tour Package", "Andaman Holiday", "Havelock Island Tour", "Swaraj Dweep Tour", "Island Holiday"] },
-  { match: ["lakshadweep"], aliases: ["Lakshadweep Tour Package", "Lakshadweep Holiday", "Lakshadweep Island Tour"] },
   { match: ["sikkim", "gangtok"], aliases: ["Sikkim Tour Package", "Gangtok Tour", "Sikkim Holiday", "North Sikkim Tour"] },
   { match: ["darjeeling"], aliases: ["Darjeeling Tour Package", "Darjeeling Gangtok Tour", "Darjeeling Holiday"] },
   { match: ["meghalaya", "shillong", "cherrapunji", "sohra"], aliases: ["Meghalaya Tour Package", "Shillong Tour", "Cherrapunji Tour", "Northeast India Tour"] },
