@@ -105,6 +105,15 @@ function faqItems(pkg: PackageItem, state: { name: string; famousFor: string }) 
   ];
 }
 
+function travelPlanningNotes(pkg: PackageItem, state: { name: string }) {
+  return [
+    `Start by checking the published duration, Best Time, difficulty and group-size information before choosing dates for this ${state.name} journey.`,
+    `Use the day-wise itinerary as the primary route reference. Sightseeing order can be adjusted only when the confirmed itinerary or local operating conditions allow it.`,
+    `For families, senior travellers or larger groups, discuss the vehicle, hotel and pacing requirements before booking so the final arrangement matches the group.`,
+    `Before departure, reconfirm the final inclusions, exclusions, hotel category, transfer arrangement and any seasonal or local restrictions mentioned by the travel team.`,
+  ];
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug);
@@ -141,9 +150,20 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const places = destinationsFor(pkg);
   const state = getStateDetails(pkg.state);
   const faqs = faqItems(pkg, state);
+  const planningNotes = travelPlanningNotes(pkg, state);
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className="relative h-[430px] overflow-hidden">
         <Image src={image} alt={pkg.title} fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
@@ -270,6 +290,15 @@ export default async function PackageDetailsPage({ params }: PageProps) {
                   </summary>
                   <p className="mt-4 leading-7 text-slate-600">{faq.answer}</p>
                 </details>
+              ))}
+            </div>
+          </ContentCard>
+
+          <ContentCard id="travel-planning" title={`Planning Your ${state.name} Trip`}>
+            <p className="leading-7 text-slate-600">If you are comparing itineraries or planning this journey for your family or group, these practical checks can help you make a more informed decision.</p>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {planningNotes.map((note) => (
+                <div key={note} className="rounded-xl border border-slate-200 bg-slate-50 p-4 leading-7 text-slate-700">{note}</div>
               ))}
             </div>
           </ContentCard>
