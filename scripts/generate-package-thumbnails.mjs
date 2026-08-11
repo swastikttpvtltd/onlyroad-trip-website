@@ -7,22 +7,28 @@ const sourceRoot = path.join(root, "public", "images", "packages");
 const outputRoot = path.join(root, "public", "images", "package-thumbnails");
 const WIDTH = 800;
 const HEIGHT = 500;
-const MAX_PACKAGE_PHOTOS = 10;
 
-const imageExtensions = new Set([
-  ".jpg", ".jpeg", ".jpe", ".jfif", ".png", ".webp", ".avif", ".gif",
-  ".bmp", ".dib", ".tif", ".tiff", ".svg", ".ico", ".heic", ".heif", ".jxl",
-]);
-
-function walk(dir, relative = "") {
+async function walk(dir, relative = "") {
   if (!fs.existsSync(dir)) return [];
   const result = [];
+
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const absolute = path.join(dir, entry.name);
     const rel = path.posix.join(relative, entry.name);
-    if (entry.isDirectory()) result.push(...walk(absolute, rel));
-    else if (imageExtensions.has(path.extname(entry.name).toLowerCase())) result.push(rel);
+
+    if (entry.isDirectory()) {
+      result.push(...(await walk(absolute, rel)));
+      continue;
+    }
+
+    try {
+      const metadata = await sharp(absolute, { animated: false }).metadata();
+      if (metadata.width && metadata.height) result.push(rel);
+    } catch {
+      // Ignore non-image files.
+    }
   }
+
   return result;
 }
 
@@ -57,19 +63,14 @@ async function makeThumbnail(relativeFile) {
 }
 
 async function main() {
-  const files = walk(sourceRoot).sort((a, b) => a.localeCompare(b));
-  const seenFolders = new Map();
+  const files = (await walk(sourceRoot)).sort((a, b) => a.localeCompare(b));
   let generated = 0;
 
   for (const file of files) {
-    const folder = path.posix.dirname(file);
-    const count = seenFolders.get(folder) || 0;
-    if (count >= MAX_PACKAGE_PHOTOS) continue;
-    seenFolders.set(folder, count + 1);
     if (await makeThumbnail(file)) generated += 1;
   }
 
-  console.log(`Package thumbnails generated: ${generated} sharp image(s), ${WIDTH}x${HEIGHT}, maximum ${MAX_PACKAGE_PHOTOS} per package.`);
+  console.log(`Package thumbnails generated: ${generated} image(s), ${WIDTH}x${HEIGHT}, with no per-package image-count or extension whitelist.`);
 }
 
 main().catch((error) => {
