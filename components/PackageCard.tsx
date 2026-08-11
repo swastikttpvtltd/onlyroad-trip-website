@@ -17,41 +17,24 @@ interface Props {
   pkg: Package;
 }
 
-function getThumbnailSrc(image: string | undefined) {
-  if (!image) return "/images/placeholder.jpg";
-  return image.replace(/^\/images\/packages\//, "/images/package-thumbnails/").replace(/\.[^.]+$/, ".webp");
-}
-
 export default function PackageCard({ pkg }: Props) {
   const mapQuery = encodeURIComponent(`${pkg.destination}, ${pkg.state}`);
   const inclusionText = pkg.inclusions.join(" ").toLowerCase();
   const hasTransport = /transport|transfer|vehicle|cab|bus|car/.test(inclusionText);
   const hasMeals = pkg.meals.length > 0 || /meal|breakfast|lunch|dinner/.test(inclusionText);
   const hasSightseeing = pkg.highlights.length > 0;
-  const thumbnailSrc = getThumbnailSrc(pkg.image);
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-[0_5px_18px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(15,23,42,0.16)]">
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
-        {/* Adaptive background only fills unused space. It is never used as the main photo. */}
         <img
           src={pkg.image || "/images/placeholder.jpg"}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-xl"
-        />
-        <div className="absolute inset-0 bg-white/10" />
-
-        {/* Sharp generated thumbnail: complete photo, no crop and no zoom. */}
-        <img
-          src={thumbnailSrc}
           alt={pkg.title}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-contain object-center"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
 
         <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2">
           <span className="inline-flex max-w-[78%] rounded-full bg-cyan-600 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-md">
