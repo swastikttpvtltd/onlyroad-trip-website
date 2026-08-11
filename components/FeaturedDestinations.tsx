@@ -33,7 +33,10 @@ export default function FeaturedDestinations() {
                 <div className="mt-3 flex items-center gap-2 text-xs text-slate-600"><span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1.5"><Clock3 size={13} className="text-blue-700" />{pkg.duration}</span><span className="rounded-full bg-slate-100 px-2.5 py-1.5">{pkg.groupSize}</span></div>
                 <div className="mt-4 flex items-end justify-between gap-3 border-t border-slate-100 pt-3">
                   <div><p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Starting From</p><p className="mt-0.5 text-xl font-extrabold text-blue-800">₹{pkg.price.toLocaleString("en-IN")}</p><p className="text-[10px] text-slate-400">Per Person</p></div>
-                  <Link href={`/packages/${pkg.slug}`} className="inline-flex items-center gap-1.5 rounded-xl bg-blue-800 px-3.5 py-2.5 text-xs font-bold text-white transition hover:bg-blue-900">View Details <ArrowRight size={14} /></Link>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link href={`/packages/${pkg.slug}`} className="inline-flex items-center justify-center gap-1 rounded-lg border border-blue-700 px-3 py-2.5 text-xs font-bold text-blue-800 transition hover:bg-blue-50">View Tour</Link>
+                    <Link href={`/packages/${pkg.slug}#booking`} className="inline-flex items-center justify-center gap-1 rounded-lg bg-blue-800 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-900">Book Now</Link>
+                  </div>
                 </div>
               </div>
             </article>
