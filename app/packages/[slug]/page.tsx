@@ -1,5 +1,4 @@
 import ItineraryAccordion from "@/components/package/ItineraryAccordion";
-import BackToPackagesButton from "@/components/BackToPackagesButton";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
 import InclusionsExclusions from "@/components/package/InclusionsExclusions";
@@ -119,7 +118,6 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <Image src={image} alt={pkg.title} fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
         <div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8">
-          <div className="absolute top-6 z-10 sm:top-8"><BackToPackagesButton /></div>
           <div className="flex h-full items-end pb-10 sm:pb-12">
             <div className="max-w-4xl text-white">
               <div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide">
