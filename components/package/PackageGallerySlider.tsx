@@ -23,10 +23,8 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
-  // Maximum 10 photos per package. The complete source photo is always shown;
-  // we do not crop/zoom package gallery images because source photos can have
-  // portrait, landscape, or an already-framed composition.
-  const slides = useMemo(() => gallery.slice(0, 10), [gallery]);
+  // Show every discovered package image. There is intentionally no hard cap.
+  const slides = useMemo(() => gallery.filter((item) => item?.image), [gallery]);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -52,7 +50,6 @@ export default function PackageGallerySlider({
   return (
     <section className="bg-[#f6f6f6] px-5 pb-3 pt-7 md:px-8">
       <div className="mx-auto w-full max-w-7xl">
-        {/* Fixed presentation frame, but NEVER crop the actual source photo. */}
         <div className="relative aspect-video w-full overflow-hidden rounded-[28px] bg-slate-950 shadow-xl">
           {slides.map((slide, index) => (
             <div
@@ -67,6 +64,13 @@ export default function PackageGallerySlider({
                 className="block h-full w-full object-contain object-center"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
+                onError={(event) => {
+                  const image = event.currentTarget;
+                  const fallback = slide.image.replace(/\.(avif|webp|jpeg|jpg|png)$/i, ".jpg");
+                  if (fallback !== slide.image && image.src.endsWith(slide.image)) {
+                    image.src = fallback;
+                  }
+                }}
               />
             </div>
           ))}
