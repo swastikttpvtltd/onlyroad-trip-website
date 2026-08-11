@@ -16,47 +16,34 @@ const heroImages = [
 export default function Hero() {
   return (
     <>
-      {/* Hero Image Slider */}
       <section className="relative overflow-hidden bg-black">
         {heroImages.map((image, index) => (
           <div
             key={image}
             className="hero-slide absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url("${image}")`,
-              animationDelay: `${index * 5}s`,
-            }}
+            style={{ backgroundImage: `url("${image}")`, animationDelay: `${index * 5}s` }}
+            aria-hidden="true"
           />
         ))}
 
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 z-[1] bg-black/55" />
+        <div className="absolute inset-0 z-[1] bg-black/55" aria-hidden="true" />
 
-        {/* Hero Content */}
-        <div className="relative z-[2] mx-auto flex min-h-[560px] max-w-7xl items-center px-6 pb-20 pt-28 lg:min-h-[600px] lg:px-8">
+        <div className="relative z-[2] mx-auto flex min-h-[500px] max-w-7xl items-center px-4 pb-16 pt-28 sm:min-h-[540px] sm:px-6 sm:pb-20 sm:pt-32 lg:min-h-[600px] lg:px-8">
           <div className="max-w-3xl">
-            {/* Heading */}
-            <h1 className="text-5xl font-extrabold leading-tight text-white md:text-6xl lg:text-7xl">
+            <h1 className="text-[2.35rem] font-extrabold leading-[1.08] text-white sm:text-5xl md:text-6xl lg:text-7xl">
               Explore Incredible India
               <br />
-              <span className="text-cyan-300">
-                With Only Road Trip
-              </span>
+              <span className="text-cyan-300">With Only Road Trip</span>
             </h1>
 
-            {/* Description */}
-            <p className="mt-8 max-w-2xl text-lg leading-9 text-slate-200">
-              Experience handcrafted journeys across India with premium
-              pilgrimage tours, family vacations, honeymoon packages,
-              wildlife adventures, luxury holidays and corporate travel
-              solutions—all planned by travel experts.
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-200 sm:mt-7 sm:text-lg sm:leading-9">
+              Experience handcrafted journeys across India with premium pilgrimage tours, family vacations, honeymoon packages, wildlife adventures, luxury holidays and corporate travel solutions—all planned by travel experts.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Search Card — placed below hero image */}
-      <div className="relative z-20 mx-auto mt-6 max-w-7xl px-6 lg:px-8">
+      <div className="relative z-20 mx-auto mt-4 max-w-7xl px-3 sm:mt-6 sm:px-6 lg:px-8">
         <HeroSearch />
       </div>
     </>
