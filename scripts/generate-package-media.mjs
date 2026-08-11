@@ -2,7 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const mediaRoot = path.join(root, "public", "images", "packages");
 const output = path.join(root, "data", "packageMedia.ts");
 const MAX_PACKAGE_PHOTOS = 10;
 
@@ -24,16 +23,25 @@ function walk(dir, relative = "") {
   return result;
 }
 
-const files = walk(mediaRoot).sort((a, b) => a.localeCompare(b));
 const grouped = {};
 
-for (const file of files) {
-  const folder = path.posix.dirname(file);
-  if (!grouped[folder]) grouped[folder] = [];
-  if (grouped[folder].length < MAX_PACKAGE_PHOTOS) {
-    grouped[folder].push(`/images/packages/${file}`);
+function addRoot(mediaRoot, folderPrefix, publicPrefix) {
+  const files = walk(mediaRoot).sort((a, b) => a.localeCompare(b));
+  for (const file of files) {
+    const folder = path.posix.join(folderPrefix, path.posix.dirname(file));
+    if (!grouped[folder]) grouped[folder] = [];
+    if (grouped[folder].length < MAX_PACKAGE_PHOTOS) {
+      grouped[folder].push(`${publicPrefix}/${file}`);
+    }
   }
 }
+
+// Existing package media lives under public/images/packages.
+addRoot(path.join(root, "public", "images", "packages"), "", "/images/packages");
+
+// New package uploads may live directly under public/images/<state>/<package-slug>.
+// This includes Lakshadweep and keeps arbitrary JPG/PNG/WEBP/AVIF filenames working.
+addRoot(path.join(root, "public", "images", "lakshadweep"), "lakshadweep", "/images/lakshadweep");
 
 // Multi-State packages use dedicated package slugs but their source photos
 // currently live in the closest matching existing package folders.
