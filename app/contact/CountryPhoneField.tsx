@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 const countries = [
   ['AF','🇦🇫','Afghanistan','+93'],['AL','🇦🇱','Albania','+355'],['DZ','🇩🇿','Algeria','+213'],['AS','🇦🇸','American Samoa','+1'],['AD','🇦🇩','Andorra','+376'],['AO','🇦🇴','Angola','+244'],['AI','🇦🇮','Anguilla','+1'],['AG','🇦🇬','Antigua and Barbuda','+1'],['AR','🇦🇷','Argentina','+54'],['AM','🇦🇲','Armenia','+374'],['AW','🇦🇼','Aruba','+297'],['AU','🇦🇺','Australia','+61'],['AT','🇦🇹','Austria','+43'],['AZ','🇦🇿','Azerbaijan','+994'],
@@ -15,42 +15,72 @@ const countries = [
   ['BL','🇧🇱','Saint Barthélemy','+590'],['SH','🇸🇭','Saint Helena','+290'],['KN','🇰🇳','Saint Kitts and Nevis','+1'],['LC','🇱🇨','Saint Lucia','+1'],['MF','🇲🇫','Saint Martin','+590'],['PM','🇵🇲','Saint Pierre and Miquelon','+508'],['VC','🇻🇨','Saint Vincent and the Grenadines','+1'],['WS','🇼🇸','Samoa','+685'],['SM','🇸🇲','San Marino','+378'],['ST','🇸🇹','São Tomé and Príncipe','+239'],['SA','🇸🇦','Saudi Arabia','+966'],['SN','🇸🇳','Senegal','+221'],['RS','🇷🇸','Serbia','+381'],['SC','🇸🇨','Seychelles','+248'],['SL','🇸🇱','Sierra Leone','+232'],['SG','🇸🇬','Singapore','+65'],['SX','🇸🇽','Sint Maarten','+1'],['SK','🇸🇰','Slovakia','+421'],['SI','🇸🇮','Slovenia','+386'],['SB','🇸🇧','Solomon Islands','+677'],['SO','🇸🇴','Somalia','+252'],['ZA','🇿🇦','South Africa','+27'],['GS','🇬🇸','South Georgia and South Sandwich Islands','+500'],['SS','🇸🇸','South Sudan','+211'],['ES','🇪🇸','Spain','+34'],['LK','🇱🇰','Sri Lanka','+94'],['SD','🇸🇩','Sudan','+249'],['SR','🇸🇷','Suriname','+597'],['SJ','🇸🇯','Svalbard and Jan Mayen','+47'],['SE','🇸🇪','Sweden','+46'],['CH','🇨🇭','Switzerland','+41'],['SY','🇸🇾','Syria','+963'],['TW','🇹🇼','Taiwan','+886'],['TJ','🇹🇯','Tajikistan','+992'],['TZ','🇹🇿','Tanzania','+255'],['TH','🇹🇭','Thailand','+66'],['TL','🇹🇱','Timor-Leste','+670'],['TG','🇹🇬','Togo','+228'],['TK','🇹🇰','Tokelau','+690'],['TO','🇹🇴','Tonga','+676'],['TT','🇹🇹','Trinidad and Tobago','+1'],['TN','🇹🇳','Tunisia','+216'],['TR','🇹🇷','Türkiye','+90'],['TM','🇹🇲','Turkmenistan','+993'],['TC','🇹🇨','Turks and Caicos Islands','+1'],['TV','🇹🇻','Tuvalu','+688'],['UG','🇺🇬','Uganda','+256'],['UA','🇺🇦','Ukraine','+380'],['AE','🇦🇪','United Arab Emirates','+971'],['GB','🇬🇧','United Kingdom','+44'],['US','🇺🇸','United States','+1'],['UY','🇺🇾','Uruguay','+598'],['UZ','🇺🇿','Uzbekistan','+998'],['VU','🇻🇺','Vanuatu','+678'],['VA','🇻🇦','Vatican City','+39'],['VE','🇻🇪','Venezuela','+58'],['VN','🇻🇳','Vietnam','+84'],['VI','🇻🇮','U.S. Virgin Islands','+1'],['WF','🇼🇫','Wallis and Futuna','+681'],['EH','🇪🇭','Western Sahara','+212'],['YE','🇾🇪','Yemen','+967'],['ZM','🇿🇲','Zambia','+260'],['ZW','🇿🇼','Zimbabwe','+263'],
 ] as const;
 
+type Country = (typeof countries)[number];
+
 export default function CountryPhoneField() {
   const [countryIso, setCountryIso] = useState('IN');
   const [number, setNumber] = useState('');
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
   const selectedCountry = countries.find(([iso]) => iso === countryIso) ?? countries.find(([iso]) => iso === 'IN')!;
   const countryCode = selectedCountry[3];
   const cleanNumber = number.replace(/\D/g, '');
 
+  const filteredCountries = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) return countries;
+    return countries.filter(([iso, , name, code]) =>
+      name.toLowerCase().includes(query) || iso.toLowerCase().includes(query) || code.includes(query),
+    );
+  }, [search]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
+
+  const chooseCountry = (country: Country) => {
+    setCountryIso(country[0]);
+    setOpen(false);
+    setSearch('');
+  };
+
   return (
-    <div>
+    <div ref={wrapperRef} className="min-w-0">
       <span className="mb-2 block text-sm font-semibold text-slate-800">Mobile Number</span>
-      <div className="flex overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-50">
-        <select
-          name="countryCode"
-          value={countryIso}
-          onChange={(event) => setCountryIso(event.target.value)}
-          aria-label="Country calling code"
-          className="w-[150px] shrink-0 cursor-pointer border-r border-slate-200 bg-transparent px-3 py-3.5 text-sm font-semibold text-slate-800 outline-none"
-        >
-          {countries.map(([iso, flag, name, code]) => (
-            <option key={iso} value={iso}>{flag} {name} {code}</option>
-          ))}
-        </select>
-        <input
-          required
-          type="tel"
-          inputMode="numeric"
-          autoComplete="tel-national"
-          value={number}
-          onChange={(event) => setNumber(event.target.value.replace(/\D/g, '').slice(0, 15))}
-          placeholder="Mobile number"
-          aria-label="Mobile number"
-          className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-slate-900 outline-none placeholder:text-slate-400"
-        />
+      <div className="relative flex overflow-visible rounded-2xl border border-slate-200 bg-slate-50 transition focus-within:border-blue-500 focus-within:bg-white focus-within:ring-4 focus-within:ring-blue-50">
+        <button type="button" onClick={() => setOpen((value) => !value)} aria-haspopup="listbox" aria-expanded={open} className="flex h-[56px] w-[128px] shrink-0 items-center justify-between gap-2 border-r border-slate-200 bg-transparent px-4 text-sm font-semibold text-slate-900 outline-none">
+          <span className="flex min-w-0 items-center gap-2"><span className="text-lg leading-none">{selectedCountry[1]}</span><span className="truncate">{selectedCountry[0]} {countryCode}</span></span>
+          <span className="text-slate-700">⌄</span>
+        </button>
+
+        <input required type="tel" inputMode="numeric" autoComplete="tel-national" value={number} onChange={(event) => setNumber(event.target.value.replace(/\D/g, '').slice(0, 15))} placeholder="Mobile number" aria-label="Mobile number" className="min-w-0 flex-1 bg-transparent px-4 py-3.5 text-slate-900 outline-none placeholder:text-slate-400" />
+
+        {open && (
+          <div className="absolute left-0 top-[62px] z-50 w-[280px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.18)]">
+            <div className="border-b border-slate-100 p-3">
+              <input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} onKeyDown={(event) => { if (event.key === 'Escape') setOpen(false); }} placeholder="Search country..." className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-blue-500 focus:bg-white" />
+            </div>
+            <div role="listbox" className="max-h-64 overflow-y-auto py-1">
+              {filteredCountries.length > 0 ? filteredCountries.map(([iso, flag, name, code]) => (
+                <button key={iso} type="button" role="option" aria-selected={iso === countryIso} onClick={() => chooseCountry([iso, flag, name, code])} className={`flex w-full items-center gap-3 px-4 py-2.5 text-left transition hover:bg-blue-50 ${iso === countryIso ? 'bg-blue-50/70' : ''}`}>
+                  <span className="w-7 text-lg leading-none">{flag}</span>
+                  <span className="w-9 text-xs font-bold text-slate-500">{iso}</span>
+                  <span className="text-sm font-semibold text-slate-800">{code}</span>
+                </button>
+              )) : <p className="px-4 py-5 text-sm text-slate-500">No country found.</p>}
+            </div>
+          </div>
+        )}
       </div>
+      <input type="hidden" name="countryCode" value={countryCode} />
       <input type="hidden" name="phone" value={`${countryCode}${cleanNumber}`} />
-      <p className="mt-2 text-xs text-slate-500">Select your country code, then enter your mobile number.</p>
+      <p className="mt-2 text-xs text-slate-500">Select country code, then enter your mobile number.</p>
     </div>
   );
 }
