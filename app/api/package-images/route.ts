@@ -9,14 +9,15 @@ const IMAGE_EXTENSIONS = new Set([
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const folder = searchParams.get("folder")?.trim() ?? "";
+  const folderParam = searchParams.get("folder")?.trim() ?? "";
 
-  if (!folder || folder.includes("..") || folder.startsWith("/") || folder.includes("\\")) {
+  if (!folderParam || folderParam.includes("..") || folderParam.startsWith("/") || folderParam.includes("\\")) {
     return NextResponse.json({ images: [] }, { status: 400 });
   }
 
-  const normalizedFolder = folder.replace(/^images\/packages\//, "");
-  const publicRoot = path.join(process.cwd(), "public", "images", "packages");
+  // Accept both the old package path (packages/...) and direct public-image paths.
+  const normalizedFolder = folderParam.replace(/^images\//, "");
+  const publicRoot = path.join(process.cwd(), "public", "images");
   const absoluteFolder = path.resolve(publicRoot, normalizedFolder);
 
   if (absoluteFolder !== publicRoot && !absoluteFolder.startsWith(`${publicRoot}${path.sep}`)) {
@@ -27,10 +28,13 @@ export async function GET(request: Request) {
     const entries = await readdir(absoluteFolder, { withFileTypes: true });
     const images = entries
       .filter((entry) => entry.isFile() && IMAGE_EXTENSIONS.has(path.extname(entry.name).toLowerCase()))
-      .map((entry) => `/images/packages/${normalizedFolder}/${encodeURIComponent(entry.name)}`)
+      .map((entry) => `/images/${normalizedFolder}/${encodeURIComponent(entry.name)}`)
       .sort((a, b) => a.localeCompare(b));
 
-    return NextResponse.json({ images }, { headers: { "Cache-Control": "public, max-age=300, stale-while-revalidate=3600" } });
+    return NextResponse.json(
+      { images },
+      { headers: { "Cache-Control": "public, max-age=300, stale-while-revalidate=3600" } },
+    );
   } catch {
     return NextResponse.json({ images: [] }, { status: 200 });
   }
