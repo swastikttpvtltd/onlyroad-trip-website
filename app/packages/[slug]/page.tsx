@@ -12,6 +12,39 @@ import { getPackageMediaFallback, getPackagePrimaryImage } from "@/data/packageM
 type PackageItem = (typeof packages)[number];
 type PageProps = { params: Promise<{ slug: string }> };
 
+const stateDetails: Record<string, { name: string; famousFor: string }> = {
+  Gujarat: { name: "Gujarat", famousFor: "Gujarat is famous for the Rann of Kutch, Gir National Park, Dwarka and Somnath, its vibrant handicrafts, Gujarati cuisine and rich heritage." },
+  Rajasthan: { name: "Rajasthan", famousFor: "Rajasthan is famous for royal forts and palaces, Jaipur, Udaipur, Jaisalmer, Jodhpur, desert landscapes, folk culture and colourful traditions." },
+  Uttarakhand: { name: "Uttarakhand", famousFor: "Uttarakhand is famous for the Char Dham, Kedarnath and Badrinath, Himalayan landscapes, spiritual centres, rivers, trekking and adventure tourism." },
+  "Uttar Pradesh": { name: "Uttar Pradesh", famousFor: "Uttar Pradesh is famous for the Taj Mahal, Ayodhya, Varanasi, Mathura-Vrindavan, historic cities, spiritual traditions and the Ganga." },
+  Kashmir: { name: "Kashmir", famousFor: "Kashmir is famous for Srinagar, Dal Lake, Gulmarg, Pahalgam, Sonamarg, Himalayan scenery, houseboats, gardens and its distinctive local culture." },
+  "Jammu & Kashmir": { name: "Jammu & Kashmir", famousFor: "Jammu & Kashmir is famous for the Himalayas, Kashmir Valley, Dal Lake, Gulmarg, Pahalgam, Vaishno Devi and spectacular mountain landscapes." },
+  "Himachal Pradesh": { name: "Himachal Pradesh", famousFor: "Himachal Pradesh is famous for Shimla, Manali, Dharamshala, Dalhousie, snow-covered mountains, valleys, trekking and scenic road trips." },
+  Ladakh: { name: "Ladakh", famousFor: "Ladakh is famous for Leh, high-altitude mountain passes, monasteries, Pangong Lake, Nubra Valley, dramatic landscapes and adventure road trips." },
+  Punjab: { name: "Punjab", famousFor: "Punjab is famous for the Golden Temple in Amritsar, Sikh heritage, Punjabi cuisine, vibrant culture, historic sites and warm hospitality." },
+  Kerala: { name: "Kerala", famousFor: "Kerala is famous for its backwaters, Munnar tea plantations, Alleppey houseboats, beaches, Ayurveda, lush landscapes and distinctive cuisine." },
+  Goa: { name: "Goa", famousFor: "Goa is famous for its beaches, Portuguese heritage, churches, coastal villages, seafood, nightlife and relaxed tropical holidays." },
+  Maharashtra: { name: "Maharashtra", famousFor: "Maharashtra is famous for Mumbai, hill stations such as Lonavala, historic forts, Ajanta-Ellora, Shirdi and diverse coastal and cultural experiences." },
+  "Madhya Pradesh": { name: "Madhya Pradesh", famousFor: "Madhya Pradesh is famous for Khajuraho, Ujjain Mahakaleshwar, Sanchi, national parks, historic heritage and rich central Indian culture." },
+  Sikkim: { name: "Sikkim", famousFor: "Sikkim is famous for Gangtok, Himalayan views, monasteries, high mountain landscapes, local culture and access to scenic North Sikkim." },
+  "West Bengal": { name: "West Bengal", famousFor: "West Bengal is famous for Kolkata, Darjeeling, the Sundarbans, Bengali culture, colonial heritage, tea gardens and Himalayan scenery." },
+  Assam: { name: "Assam", famousFor: "Assam is famous for Kaziranga National Park, tea gardens, the Brahmaputra, wildlife, Guwahati and the cultural heritage of Northeast India." },
+  Meghalaya: { name: "Meghalaya", famousFor: "Meghalaya is famous for Shillong, Cherrapunji, waterfalls, living root bridges, caves, green hills and some of Northeast India's most dramatic landscapes." },
+  Karnataka: { name: "Karnataka", famousFor: "Karnataka is famous for Bengaluru, Mysuru, Hampi, Coorg, heritage monuments, coffee plantations, temples and diverse South Indian landscapes." },
+  "Tamil Nadu": { name: "Tamil Nadu", famousFor: "Tamil Nadu is famous for its ancient temples, Madurai, Rameswaram, Ooty, classical culture, heritage architecture and spiritual journeys." },
+  "Andaman & Nicobar Islands": { name: "Andaman & Nicobar Islands", famousFor: "The Andaman & Nicobar Islands are famous for tropical beaches, coral reefs, marine life, island experiences, water sports and historic Port Blair." },
+  "Andaman and Nicobar Islands": { name: "Andaman & Nicobar Islands", famousFor: "The Andaman & Nicobar Islands are famous for tropical beaches, coral reefs, marine life, island experiences, water sports and historic Port Blair." },
+  "Andhra Pradesh": { name: "Andhra Pradesh", famousFor: "Andhra Pradesh is famous for Tirupati, temple heritage, Visakhapatnam, Araku Valley, beaches and rich South Indian culture." },
+};
+
+function getStateDetails(state: string) {
+  const normalized = state.trim();
+  return stateDetails[normalized] ?? {
+    name: normalized || "India",
+    famousFor: `${normalized || "This destination"} is known for its distinctive landscapes, culture, heritage, local cuisine and destination-specific travel experiences.`,
+  };
+}
+
 function heroImage(pkg: PackageItem) {
   return getPackagePrimaryImage(pkg);
 }
@@ -64,12 +97,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: "Only Road Trip",
       locale: "en_IN",
       type: "website",
-      images: [
-        {
-          url: heroImage(pkg),
-          alt: pkg.title,
-        },
-      ],
+      images: [{ url: heroImage(pkg), alt: pkg.title }],
     },
   };
 }
@@ -83,6 +111,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
   const places = destinationsFor(pkg);
+  const state = getStateDetails(pkg.state);
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
@@ -90,16 +119,18 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <Image src={image} alt={pkg.title} fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
         <div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8">
-          <div className="absolute top-8 z-10"><BackToPackagesButton /></div>
-          <div className="flex h-full items-end pb-12">
+          <div className="absolute top-6 z-10 sm:top-8"><BackToPackagesButton /></div>
+          <div className="flex h-full items-end pb-10 sm:pb-12">
             <div className="max-w-4xl text-white">
-              <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide">
+              <div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide">
                 <span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span>
-                <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span>
+                <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span>
                 <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span>
               </div>
-              <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1>
-              <p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p>
+              <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{state.name}</h1>
+              <p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{state.famousFor}</p>
+              <p className="mt-3 text-sm font-semibold text-white/75">Package: {pkg.title}</p>
             </div>
           </div>
         </div>
@@ -124,6 +155,10 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
           <ContentCard id="overview" title="Tour Overview">
             <p className="leading-8 text-slate-600">{pkg.overview}</p>
+            <div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5">
+              <h3 className="font-bold">About {state.name}</h3>
+              <p className="mt-2 leading-7 text-slate-600">{state.famousFor}</p>
+            </div>
             <div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5">
               <h3 className="font-bold">Package Theme</h3>
               <p className="mt-2 leading-7 text-slate-600">Designed as a {pkg.category.toLowerCase()} journey through {pkg.destination}. The route prioritises the package highlights with comfortable transfers, sightseeing time and destination-appropriate experiences.</p>
