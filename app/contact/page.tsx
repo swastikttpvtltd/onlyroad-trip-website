@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, Clock3, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import type { Metadata } from "next";
+import { sendTripEnquiry } from "./actions";
 
 export const metadata: Metadata = {
   title: "Contact & Plan Your Trip | Only Road Trip",
@@ -27,7 +28,13 @@ const planningPoints = [
   "One team to coordinate the travel arrangements we manage",
 ];
 
-export default function ContactPage() {
+type ContactPageProps = {
+  searchParams: Promise<{ submitted?: string; error?: string }>;
+};
+
+export default async function ContactPage({ searchParams }: ContactPageProps) {
+  const params = await searchParams;
+
   return (
     <main className="min-h-screen bg-white text-slate-900">
       <section className="relative overflow-hidden border-b border-slate-100 bg-white">
@@ -81,21 +88,33 @@ export default function ContactPage() {
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-slate-950 md:text-4xl">Let&apos;s plan your trip</h2>
                 <p className="mt-4 text-base leading-7 text-slate-600">Fill in the details below. The more you tell us, the better we can understand what you are looking for and suggest suitable options.</p>
               </div>
-              <form className="mt-9 space-y-5">
+
+              {params.submitted === "1" && (
+                <div className="mt-7 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-sm font-semibold text-emerald-800">
+                  Thank you. Your trip enquiry has been sent successfully. Our team will contact you shortly.
+                </div>
+              )}
+              {params.error && (
+                <div className="mt-7 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-800">
+                  We could not send your enquiry right now. Please try again or call/WhatsApp our team directly.
+                </div>
+              )}
+
+              <form action={sendTripEnquiry} className="mt-9 space-y-5">
                 <div className="grid gap-5 md:grid-cols-2">
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Full Name</span><input required type="text" placeholder="Your name" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Mobile Number</span><input required type="tel" placeholder="+91" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Full Name</span><input name="name" required type="text" placeholder="Your name" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Mobile Number</span><input name="phone" required type="tel" placeholder="+91" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
                 </div>
                 <div className="grid gap-5 md:grid-cols-2">
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Email Address</span><input required type="email" placeholder="you@example.com" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Destination</span><input type="text" placeholder="Where would you like to go?" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Email Address</span><input name="email" required type="email" placeholder="you@example.com" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Destination</span><input name="destination" type="text" placeholder="Where would you like to go?" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
                 </div>
                 <div className="grid gap-5 md:grid-cols-3">
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travel Date</span><input type="date" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travellers</span><select defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>1 Traveller</option><option>2 Travellers</option><option>3–5 Travellers</option><option>6–10 Travellers</option><option>10+ Travellers</option></select></label>
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Trip Type</span><select defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>Family Holiday</option><option>Couple / Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Corporate / MICE</option><option>Group Tour</option></select></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travel Date</span><input name="travelDate" type="date" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travellers</span><select name="travellers" defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>1 Traveller</option><option>2 Travellers</option><option>3–5 Travellers</option><option>6–10 Travellers</option><option>10+ Travellers</option></select></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Trip Type</span><select name="tripType" defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>Family Holiday</option><option>Couple / Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Corporate / MICE</option><option>Group Tour</option></select></label>
                 </div>
-                <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Tell us what you have in mind</span><textarea rows={5} placeholder="Hotel preference, budget, transport, places you want to cover or anything else we should know..." className="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Tell us what you have in mind</span><textarea name="message" rows={5} placeholder="Hotel preference, budget, transport, places you want to cover or anything else we should know..." className="w-full resize-y rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
                 <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 px-7 py-4 text-sm font-bold !text-white shadow-lg shadow-blue-900/15 transition hover:-translate-y-0.5 hover:bg-blue-900 md:w-auto">Send Trip Enquiry <ArrowRight size={18} /></button>
               </form>
             </div>
