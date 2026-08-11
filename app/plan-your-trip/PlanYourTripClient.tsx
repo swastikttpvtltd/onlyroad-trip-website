@@ -20,9 +20,18 @@ const destinations = [
 ];
 
 export default function PlanYourTripClient() {
+  const [fullName, setFullName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [email, setEmail] = useState("");
   const [destination, setDestination] = useState("");
+  const [travelDate, setTravelDate] = useState("");
+  const [travelType, setTravelType] = useState("");
+  const [budget, setBudget] = useState("");
+  const [message, setMessage] = useState("");
   const [showDestinationResults, setShowDestinationResults] = useState(false);
   const [travellers, setTravellers] = useState(2);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
   const destinationRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
 
@@ -54,6 +63,38 @@ export default function PlanYourTripClient() {
     input.showPicker?.();
   };
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/travel-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, mobile, email, destination, travelDate, travellers, travelType, budget, message }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to send enquiry.");
+
+      setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
+      setFullName("");
+      setMobile("");
+      setEmail("");
+      setDestination("");
+      setTravelDate("");
+      setTravellers(2);
+      setTravelType("");
+      setBudget("");
+      setMessage("");
+    } catch (error) {
+      setSubmitMessage(error instanceof Error ? error.message : "Unable to send enquiry. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-blue-800 px-6 pb-24 pt-36 text-white sm:pt-40">
@@ -71,14 +112,14 @@ export default function PlanYourTripClient() {
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">Start your enquiry</p>
           <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Let’s build your journey.</h2>
           <p className="mt-3 leading-7 text-slate-600">The more you tell us, the better we can tailor the route, hotels, transport and experiences to your group.</p>
-          <form className="mt-8 grid gap-5 sm:grid-cols-2">
-            <input required placeholder="Full Name" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
-            <input required type="tel" placeholder="Mobile Number" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
-            <input type="email" placeholder="Email Address" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+          <form onSubmit={handleSubmit} className="mt-8 grid gap-5 sm:grid-cols-2">
+            <input required value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Full Name" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <input required value={mobile} onChange={(event) => setMobile(event.target.value)} type="tel" placeholder="Mobile Number" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Email Address" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
 
             <div ref={destinationRef} className="relative">
               <Search className="pointer-events-none absolute left-4 top-4 z-10 text-blue-600" size={19} />
-              <input value={destination} onChange={(event) => { const value = event.target.value; setDestination(value); setShowDestinationResults(value.trim().length > 0); }} onFocus={() => setShowDestinationResults(destination.trim().length > 0)} placeholder="Search destination, state or district" autoComplete="off" className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+              <input required value={destination} onChange={(event) => { const value = event.target.value; setDestination(value); setShowDestinationResults(value.trim().length > 0); }} onFocus={() => setShowDestinationResults(destination.trim().length > 0)} placeholder="Search destination, state or district" autoComplete="off" className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
               {showDestinationResults && filteredDestinations.length > 0 && (
                 <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-64 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">
                   {filteredDestinations.map((item) => (
@@ -92,8 +133,8 @@ export default function PlanYourTripClient() {
             </div>
 
             <div className="relative cursor-pointer" onClick={openCalendar}>
-              <input ref={dateRef} type="date" min={today} onFocus={closeDestinationResults} className="pointer-events-none w-full cursor-pointer rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-4 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:h-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:opacity-0" aria-label="Travel date" />
-              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-3 flex w-9 items-center justify-center rounded-lg text-blue-600 transition"><CalendarDays size={19} /></div>
+              <input required ref={dateRef} value={travelDate} onChange={(event) => setTravelDate(event.target.value)} type="date" min={today} onFocus={closeDestinationResults} className="pointer-events-none w-full cursor-pointer rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-4 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:h-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:opacity-0" aria-label="Travel date" />
+              <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-3 flex w-9 items-center justify-center rounded-lg text-blue-600"><CalendarDays size={19} /></div>
             </div>
 
             <div className="relative" onFocus={closeDestinationResults}>
@@ -105,10 +146,11 @@ export default function PlanYourTripClient() {
               </div>
             </div>
 
-            <select onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option>Travel Type</option><option>Family Holiday</option><option>Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Group Travel</option><option>Corporate Travel</option></select>
-            <select onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option>Approx. Budget</option><option>Under ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000 – ₹1,00,000</option><option>₹1,00,000+</option></select>
-            <textarea rows={5} placeholder="Requirements / Message" onFocus={closeDestinationResults} className="sm:col-span-2 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
-            <button type="submit" className="sm:col-span-2 rounded-xl bg-blue-700 px-6 py-4 font-extrabold text-white shadow-lg transition hover:bg-blue-800">Send My Travel Enquiry</button>
+            <select required value={travelType} onChange={(event) => setTravelType(event.target.value)} onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option value="">Travel Type</option><option>Family Holiday</option><option>Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Group Travel</option><option>Corporate Travel</option></select>
+            <select value={budget} onChange={(event) => setBudget(event.target.value)} onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option value="">Approx. Budget</option><option>Under ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000 – ₹1,00,000</option><option>₹1,00,000+</option></select>
+            <textarea required value={message} onChange={(event) => setMessage(event.target.value)} rows={5} placeholder="Requirements / Message" onFocus={closeDestinationResults} className="sm:col-span-2 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <button disabled={isSubmitting} type="submit" className="sm:col-span-2 rounded-xl bg-blue-700 px-6 py-4 font-extrabold text-white shadow-lg transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? "Sending Enquiry..." : "Send My Travel Enquiry"}</button>
+            {submitMessage && <p className="sm:col-span-2 rounded-xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-900" role="status">{submitMessage}</p>}
           </form>
         </div>
 
