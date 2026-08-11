@@ -5,6 +5,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type GalleryItem = { image: string; alt?: string };
 
+function normalizeImage(image: string) {
+  return image.replace(/^\/images\/packages\/lakshadweep\//, "/images/lakshadweep/");
+}
+
 function buildAlt(title: string, image: string, index: number) {
   const file = image.split("/").pop()?.split(".")[0]?.replace(/[-_]+/g, " ").trim();
   return file && file.toLowerCase() !== "hero" ? `${title} – ${file} travel experience` : `${title} – travel package photo ${index + 1}`;
@@ -20,20 +24,21 @@ function folderFromImage(image: string) {
 }
 
 export default function PackageGallerySliderFixed({ gallery, title }: { gallery: GalleryItem[]; title: string }) {
-  const [slides, setSlides] = useState<GalleryItem[]>(gallery);
+  const [slides, setSlides] = useState<GalleryItem[]>(gallery.map((item) => ({ ...item, image: normalizeImage(item.image) })));
   const [active, setActive] = useState(0);
 
   useEffect(() => {
-    setSlides(gallery);
+    const normalizedGallery = gallery.map((item) => ({ ...item, image: normalizeImage(item.image) }));
+    setSlides(normalizedGallery);
     setActive(0);
-    const folder = folderFromImage(gallery[0]?.image ?? "");
+    const folder = folderFromImage(normalizedGallery[0]?.image ?? "");
     if (!folder) return;
     let cancelled = false;
     fetch(`/api/package-images?folder=${encodeURIComponent(folder)}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data: { images?: string[] } | null) => {
         if (!cancelled && data?.images?.length) {
-          setSlides(data.images.map((image, index) => ({ image, alt: buildAlt(title, image, index) })));
+          setSlides(data.images.map((image, index) => ({ image: normalizeImage(image), alt: buildAlt(title, image, index) })));
         }
       })
       .catch(() => undefined);
