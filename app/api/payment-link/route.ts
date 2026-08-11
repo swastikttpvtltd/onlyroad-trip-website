@@ -5,12 +5,14 @@ export async function POST(request: Request) {
     const body = await request.json();
     const amount = Number(body.amount);
     const environment = process.env.CASHFREE_ENVIRONMENT === "production" ? "production" : "sandbox";
-    const clientId = String(process.env.CASHFREE_CLIENT_ID || "").trim();
-    const clientSecret = String(process.env.CASHFREE_CLIENT_SECRET || "").trim();
+    // Support the variable names already configured in the project's .env.local,
+    // while retaining the older CLIENT_ID/CLIENT_SECRET names for compatibility.
+    const clientId = String(process.env.CASHFREE_APP_ID || process.env.CASHFREE_CLIENT_ID || "").trim();
+    const clientSecret = String(process.env.CASHFREE_SECRET_KEY || process.env.CASHFREE_CLIENT_SECRET || "").trim();
 
     if (!clientId || !clientSecret) {
       return NextResponse.json(
-        { error: "Cashfree API credentials are not configured on the server. Add them to .env.local or your production environment variables." },
+        { error: "Cashfree API credentials are not configured on the server. Check CASHFREE_APP_ID and CASHFREE_SECRET_KEY in .env.local." },
         { status: 500 },
       );
     }
