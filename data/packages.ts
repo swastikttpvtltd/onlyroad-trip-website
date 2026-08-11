@@ -98,23 +98,11 @@ const getPackageImageFolder = (pkg: any) => {
   return stateFolder ? `${stateFolder}/${pkg.slug}` : `multi-state/${pkg.slug}`;
 };
 
-const getPackageMedia = (mediaFolder: string, title: string) => {
-  // Lakshadweep photos are uploaded in public/images/lakshadweep/... and may
-  // have any supported filename. These starter paths only identify the folder;
-  // the card and detail slider then scan the folder and use every real image.
-  if (mediaFolder.startsWith("lakshadweep/")) {
-    const base = `/images/lakshadweep/${mediaFolder.slice("lakshadweep/".length)}`;
-    return [1, 2, 3, 4, 5].map((n) => ({
-      image: `${base}/gallery${n}.jpg`,
-      alt: `${title} – image ${n}`,
-    }));
-  }
-
-  return (packageMedia[mediaFolder] ?? []).slice(0, 10).map((image, index) => ({
+const getPackageMedia = (mediaFolder: string, title: string) =>
+  (packageMedia[mediaFolder] ?? []).slice(0, 10).map((image, index) => ({
     image,
     alt: `${title} – image ${index + 1}`,
   }));
-};
 
 const clean = (value: unknown) => String(value ?? "").replace(/\s+/g, " ").trim();
 const unique = (items: string[]) => Array.from(new Set(items.filter(Boolean)));
