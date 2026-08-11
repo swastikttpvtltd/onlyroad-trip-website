@@ -99,7 +99,7 @@ const getPackageImageFolder = (pkg: any) => {
 };
 
 const getPackageMedia = (mediaFolder: string, title: string) =>
-  (packageMedia[mediaFolder] ?? []).slice(0, 10).map((image, index) => ({
+  (packageMedia[mediaFolder] ?? []).map((image, index) => ({
     image,
     alt: `${title} – image ${index + 1}`,
   }));
@@ -107,11 +107,6 @@ const getPackageMedia = (mediaFolder: string, title: string) =>
 const clean = (value: unknown) => String(value ?? "").replace(/\s+/g, " ").trim();
 const unique = (items: string[]) => Array.from(new Set(items.filter(Boolean)));
 
-/*
- * Common search names/aliases are added only when the package itself
- * mentions the corresponding destination. This keeps SEO natural and
- * prevents unrelated destination keywords from being attached to a page.
- */
 const destinationSearchAliases: Array<{ match: string[]; aliases: string[] }> = [
   { match: ["varanasi", "kashi", "banaras"], aliases: ["Varanasi Tour", "Kashi Yatra", "Kashi Tour", "Banaras Tour", "Varanasi Yatra"] },
   { match: ["ayodhya", "ram mandir"], aliases: ["Ayodhya Tour", "Ayodhya Yatra", "Ram Mandir Yatra", "Ram Mandir Tour"] },
