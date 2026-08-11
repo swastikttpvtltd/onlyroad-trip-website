@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, MapPin, Search } from 'lucide-react';
-import { getAllStatesWithDistricts } from 'india-states-districts';
+import { getAllStatesWithDistricts } from 'india-state-district';
 
 type LocationOption = {
   name: string;
@@ -10,9 +10,9 @@ type LocationOption = {
   type: 'State / UT' | 'District';
 };
 
-const locations: LocationOption[] = getAllStatesWithDistricts().flatMap((state) => [
+const locations: LocationOption[] = getAllStatesWithDistricts().flatMap(({ state, districts }) => [
   { name: state.name, state: state.name, type: 'State / UT' as const },
-  ...state.districts.map((district) => ({ name: district, state: state.name, type: 'District' as const })),
+  ...districts.map((district) => ({ name: district, state: state.name, type: 'District' as const })),
 ]);
 
 const normalise = (value: string) => value.toLowerCase().trim().replace(/\s+/g, ' ');
@@ -99,7 +99,7 @@ export default function DestinationSearch() {
                       {location.type === 'State / UT' ? 'State / Union Territory' : location.state}
                     </span>
                   </span>
-                  {value.trim() && normalise(location.name).startsWith(normalise(value)) && (
+                  {normalise(location.name).startsWith(normalise(value)) && (
                     <Check size={16} className="shrink-0 text-blue-700" />
                   )}
                 </button>
