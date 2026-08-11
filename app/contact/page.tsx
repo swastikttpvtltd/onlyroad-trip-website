@@ -1,306 +1,72 @@
 import Link from "next/link";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  MessageCircle,
-} from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact | Only Road Trip",
-  description:
-    "Contact Only Road Trip for premium tour bookings, custom travel packages, pilgrimage tours, corporate travel and family holidays.",
-  keywords: [
-    "contact Only Road Trip",
-    "travel enquiries",
-    "tour booking",
-    "holiday packages",
-    "corporate travel",
-  ],
-  alternates: {
-    canonical: "https://www.onlyroadtrip.com/contact",
-  },
-  openGraph: {
-    title: "Contact | Only Road Trip",
-    description:
-      "Contact Only Road Trip for premium tour bookings, custom travel packages, pilgrimage tours, corporate travel and family holidays.",
-    url: "https://www.onlyroadtrip.com/contact",
-    siteName: "Only Road Trip",
-    type: "website",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Contact Only Road Trip",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Contact | Only Road Trip",
-    description:
-      "Contact Only Road Trip for premium tour bookings, custom travel packages, pilgrimage tours, corporate travel and family holidays.",
-    images: ["/og-image.jpg"],
-  },
-};<section className="bg-linear-to-r from-cyan-700 via-blue-700 to-indigo-700 py-20 text-white"></section>
+  title: "Contact Only Road Trip | Travel Assistance & Enquiries",
+  description: "Contact Only Road Trip for tour enquiries, travel assistance, customised domestic holidays, pilgrimage journeys and group travel.",
+  keywords: ["contact Only Road Trip", "travel enquiry", "tour booking enquiry", "travel assistance", "travel agency Gurugram"],
+  alternates: { canonical: "https://www.onlyroadtrip.com/contact" },
+};
+
+const details = [
+  { icon: Phone, label: "Call us", value: "+91 92117 96168", href: "tel:+919211796168" },
+  { icon: Mail, label: "Email us", value: "info@onlyroadtrip.com", href: "mailto:info@onlyroadtrip.com" },
+  { icon: MapPin, label: "Visit us", value: "New Palam Vihar, Gurugram, Haryana - 122001", href: "#map" },
+  { icon: Clock, label: "Working hours", value: "Monday – Saturday · 10:00 AM – 8:00 PM", href: "#" },
+];
+
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-gray-50">
-
-      {/* Hero Section */}
-
-      <section className="bg-gradient-to-r from-cyan-700 via-blue-700 to-indigo-700 py-20 text-white">
-
-        <div className="mx-auto max-w-7xl px-6 text-center">
-
-          <h1 className="text-5xl font-extrabold">
-            Contact Only Road Trip
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-cyan-100">
-            We'd love to help you plan your next unforgettable journey.
-            Whether you're looking for a family vacation, pilgrimage,
-            honeymoon, corporate tour or a customized holiday package,
-            our travel experts are here to assist you.
-          </p>
-
+    <main className="min-h-screen bg-white text-slate-900">
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-blue-800 px-6 pb-24 pt-36 text-white sm:pt-40">
+        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/20 blur-3xl" />
+        <div className="absolute -bottom-32 left-10 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl">
+          <p className="mb-4 text-sm font-bold uppercase tracking-[0.22em] text-cyan-200">Travel assistance & enquiries</p>
+          <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight sm:text-6xl">Let’s plan your next journey.</h1>
+          <p className="mt-6 max-w-3xl text-base leading-8 text-blue-100 sm:text-lg">Have a question, need help with an existing enquiry, or want to speak with a travel expert? Our team is here to make the next step simple.</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/plan-your-trip" className="rounded-full bg-white px-6 py-3 font-bold text-blue-800 shadow-lg transition hover:bg-cyan-50">Plan Your Trip</Link>
+            <a href="https://wa.me/919211796168" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 font-bold text-white backdrop-blur transition hover:bg-white/20"><MessageCircle size={18}/> WhatsApp</a>
+          </div>
         </div>
-
       </section>
 
-      {/* Main Content */}
-
-      <section className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-2">
-
-        {/* Contact Form */}
-
-        <div className="rounded-3xl bg-white p-8 shadow-xl">
-
-          <h2 className="text-3xl font-bold text-slate-900">
-            Send an Enquiry
-          </h2>
-
-          <p className="mt-3 text-base leading-7 text-slate-600">
-            Fill in your details and one of our travel experts
-            will contact you shortly.
-          </p>
-
-          <form className="mt-8 space-y-5">
-
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="w-full rounded-xl border border-gray-300 bg-white p-4 text-slate-900 placeholder:text-slate-500 outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-200"
-            />
-
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="w-full rounded-xl border border-gray-300 bg-white p-4 text-slate-900 placeholder:text-slate-500 outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-200"
-            />
-
-            <input
-              type="tel"
-              placeholder="Mobile Number"
-              className="w-full rounded-xl border border-gray-300 bg-white p-4 text-slate-900 placeholder:text-slate-500 outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-200"
-            />
-
-                        <textarea
-              rows={5}
-              placeholder="How can we help you?"
-              className="w-full rounded-xl border border-gray-300 bg-white p-4 text-slate-900 placeholder:text-slate-500 outline-none transition focus:border-cyan-600 focus:ring-2 focus:ring-cyan-200"
-            />
-
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-cyan-600 py-4 text-lg font-bold text-white transition hover:bg-cyan-700"
-            >
-              Send Message
-            </button>
-
+      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-16 lg:grid-cols-[1.05fr_.95fr] lg:py-20">
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_20px_60px_rgba(15,23,42,0.10)] sm:p-10">
+          <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">Send an enquiry</p>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Tell us how we can help.</h2>
+          <p className="mt-3 leading-7 text-slate-600">Share a few details and our travel team will get back to you with the right guidance.</p>
+          <form className="mt-8 grid gap-5 sm:grid-cols-2">
+            <input required placeholder="Full Name" className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <input required type="tel" placeholder="Mobile Number" className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <input type="email" placeholder="Email Address" className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <input placeholder="Destination / Package" className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <textarea rows={5} placeholder="How can we help you?" className="sm:col-span-2 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 text-slate-900 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <button type="submit" className="sm:col-span-2 rounded-xl bg-blue-700 px-6 py-4 font-extrabold text-white shadow-lg transition hover:bg-blue-800">Send Message</button>
           </form>
-
         </div>
 
-        {/* Contact Details */}
-
-        <div className="space-y-6">
-
-          <div className="rounded-3xl bg-white p-8 shadow-xl">
-
-            <h2 className="text-3xl font-bold text-slate-900">
-              Get In Touch
-            </h2>
-
-            <p className="mt-3 text-base leading-7 text-slate-600">
-              Our travel consultants are happy to assist you with
-              domestic tours, international holidays, corporate travel,
-              pilgrimage tours, hotel bookings, flights and customized
-              travel packages.
-            </p>
-
-            <div className="mt-8 space-y-7">
-
-              {/* Phone */}
-
-              <div className="flex items-start gap-4">
-
-                <Phone className="mt-1 text-cyan-600" />
-
-                <div>
-
-                  <p className="font-semibold text-slate-900">
-                    Phone
-                  </p>
-
-                  <a
-                    href="tel:+919211796168"
-                    className="text-slate-700 transition hover:text-cyan-600"
-                  >
-                    +91 92117 96168
-                  </a>
-
-                </div>
-
-              </div>
-
-              {/* Email */}
-
-              <div className="flex items-start gap-4">
-
-                <Mail className="mt-1 text-cyan-600" />
-
-                <div>
-
-                  <p className="font-semibold text-slate-900">
-                    Email
-                  </p>
-
-                  <a
-                    href="mailto:info@onlyroadtrip.com"
-                    className="text-slate-700 transition hover:text-cyan-600 hover:underline"
-                  >
-                    info@onlyroadtrip.com
-                  </a>
-
-                </div>
-
-              </div>
-                            {/* Office Address */}
-
-              <div className="flex items-start gap-4">
-
-                <MapPin className="mt-1 text-cyan-600" />
-
-                <div>
-
-                  <p className="font-semibold text-slate-900">
-                    Office Address
-                  </p>
-
-                  <p className="leading-7 text-slate-700">
-                    F163, PH-1,
-                    <br />
-                    New Palam Vihar,
-                    <br />
-                    Gurugram,
-                    Haryana,
-                    <br />
-                    India - 122001
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* Business Hours */}
-
-              <div className="flex items-start gap-4">
-
-                <Clock className="mt-1 text-cyan-600" />
-
-                <div>
-
-                  <p className="font-semibold text-slate-900">
-                    Business Hours
-                  </p>
-
-                  <p className="text-slate-700">
-                    Monday – Saturday
-                  </p>
-
-                  <p className="text-slate-700">
-                    10:00 AM – 8:00 PM
-                  </p>
-
-                  <p className="text-sm text-slate-500">
-                    Sunday: By Appointment Only
-                  </p>
-
-                </div>
-
-              </div>
-
+        <div className="space-y-5">
+          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-7 sm:p-9">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">Get in touch</p>
+            <h2 className="mt-3 text-3xl font-extrabold">Real people. Real travel support.</h2>
+            <p className="mt-3 leading-7 text-slate-600">Speak with our team about customised holidays, pilgrimage journeys, road trips, family travel and group requirements.</p>
+            <div className="mt-8 space-y-5">
+              {details.map(({icon: Icon,label,value,href})=><a key={label} href={href} className="flex gap-4 rounded-2xl bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"><span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700"><Icon size={20}/></span><span><span className="block text-sm font-bold text-slate-500">{label}</span><span className="mt-1 block font-semibold text-slate-900">{value}</span></span></a>)}
             </div>
-
-            {/* Action Buttons */}
-
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-
-              <a
-                href="https://wa.me/919211796168"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-xl bg-green-600 py-4 font-semibold text-white transition hover:bg-green-700"
-              >
-                <MessageCircle size={20} />
-                WhatsApp
-              </a>
-
-              <a
-                href="tel:+919211796168"
-                className="flex items-center justify-center rounded-xl bg-blue-600 py-4 font-semibold text-white transition hover:bg-blue-700"
-              >
-                Call Now
-              </a>
-
-            </div>
-                        <div className="mt-6">
-
-              <Link
-                href="/"
-                className="block rounded-xl border border-gray-300 py-4 text-center font-semibold text-slate-700 transition hover:bg-gray-100"
-              >
-                Back to Home
-              </Link>
-
-            </div>
-
           </div>
-
-          {/* Google Map */}
-
-          <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
-
-            <iframe
-              title="Only Road Trip Office Location"
-              src="https://www.google.com/maps?q=F163%20PH-1%20New%20Palam%20Vihar%20Gurugram%20Haryana%20122001&output=embed"
-              width="100%"
-              height="400"
-              loading="lazy"
-              className="border-0"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-
+          <div className="grid grid-cols-2 gap-4">
+            <a href="https://wa.me/919211796168" target="_blank" rel="noopener noreferrer" className="rounded-2xl bg-green-600 px-4 py-4 text-center font-bold text-white transition hover:bg-green-700">WhatsApp</a>
+            <a href="tel:+919211796168" className="rounded-2xl bg-blue-700 px-4 py-4 text-center font-bold text-white transition hover:bg-blue-800">Call Now</a>
           </div>
-
         </div>
-
       </section>
 
+      <section className="bg-slate-50 px-6 py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl"><div className="mb-8 flex flex-wrap items-end justify-between gap-4"><div><p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-700">Our office</p><h2 className="mt-2 text-3xl font-extrabold">Come and meet us</h2></div><Link href="/plan-your-trip" className="font-bold text-blue-700 hover:text-blue-900">Prefer to plan online? →</Link></div><div id="map" className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl"><iframe title="Only Road Trip Office Location" src="https://www.google.com/maps?q=F163%20PH-1%20New%20Palam%20Vihar%20Gurugram%20Haryana%20122001&output=embed" width="100%" height="420" loading="lazy" className="border-0" referrerPolicy="no-referrer-when-downgrade" /></div></div>
+      </section>
     </main>
   );
 }
