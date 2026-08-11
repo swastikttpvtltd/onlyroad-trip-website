@@ -1,6 +1,6 @@
 import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import BackToPackagesButton from "@/components/BackToPackagesButton";
-import PackageGallerySlider from "@/components/package/PackageGallerySlider";
+import PackageGallerySliderFixed from "@/components/package/PackageGallerySliderFixed";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
 import InclusionsExclusions from "@/components/package/InclusionsExclusions";
 import Image from "next/image";
@@ -40,28 +40,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug);
   if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
-
   const seoKeywords = Array.isArray(pkg.seoKeywords) ? pkg.seoKeywords : [pkg.title, pkg.destination, pkg.state];
   const aliasText = seoKeywords.slice(0, 4).join(", ");
-
   return {
     title: `${pkg.title} | Only Road Trip`,
     description: `${pkg.overview} Search for this journey as ${aliasText}.`,
     keywords: seoKeywords,
     alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` },
     openGraph: {
-      title: `${pkg.title} | Only Road Trip`,
-      description: `${pkg.overview} Explore ${aliasText}.`,
-      url: `https://www.onlyroadtrip.com/packages/${slug}`,
-      siteName: "Only Road Trip",
-      locale: "en_IN",
-      type: "website",
-      images: [
-        {
-          url: heroImage(pkg),
-          alt: pkg.title,
-        },
-      ],
+      title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Explore ${aliasText}.`, url: `https://www.onlyroadtrip.com/packages/${slug}`,
+      siteName: "Only Road Trip", locale: "en_IN", type: "website", images: [{ url: heroImage(pkg), alt: pkg.title }],
     },
   };
 }
@@ -70,7 +58,6 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug);
   if (!pkg) notFound();
-
   const image = heroImage(pkg);
   const price = numberField(pkg, "price");
   const places = destinationsFor(pkg);
@@ -82,131 +69,41 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
         <div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8">
           <div className="absolute top-8 z-10"><BackToPackagesButton /></div>
-          <div className="flex h-full items-end pb-12">
-            <div className="max-w-4xl text-white">
-              <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide">
-                <span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span>
-                <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span>
-                <span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span>
-              </div>
-              <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1>
-              <p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p>
+          <div className="flex h-full items-end pb-12"><div className="max-w-4xl text-white">
+            <div className="mb-4 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide">
+              <span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{pkg.state}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span>
             </div>
-          </div>
+            <h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-3xl text-base leading-7 text-white/90">{shortDescription(pkg)}</p>
+          </div></div>
         </div>
       </section>
 
-      <div className="sticky top-0 z-30 border-b bg-white shadow-sm">
-        <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
-          {[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['places', 'Places Covered'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals']].map(([id, label]) => (
-            <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>
-          ))}
-        </div>
-      </div>
+      <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">
+        {[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['places', 'Places Covered'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}
+      </div></div>
 
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]">
         <div className="space-y-7">
-          <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4">
-            <Fact label="Package ID" value={pkg.packageId} />
-            <Fact label="Duration" value={pkg.duration} />
-            <Fact label="Destination" value={pkg.destination} />
-            <Fact label="Best Time" value={pkg.bestTime} />
-          </section>
+          <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Package ID" value={pkg.packageId} /><Fact label="Duration" value={pkg.duration} /><Fact label="Destination" value={pkg.destination} /><Fact label="Best Time" value={pkg.bestTime} /></section>
+          <ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">Package Theme</h3><p className="mt-2 leading-7 text-slate-600">Designed as a {pkg.category.toLowerCase()} journey through {pkg.destination}. The route prioritises the package highlights with comfortable transfers, sightseeing time and destination-appropriate experiences.</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard>
+          <ContentCard id="places" title="Places Covered & What They Are Famous For"><p className="mb-5 leading-7 text-slate-600">Every stop below is explained according to this package route.</p><div className="space-y-4">{places.map((p, i) => <div key={`${p.name}-${i}`} className="rounded-xl border p-5"><div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i + 1}</span><h3 className="text-xl font-bold">{p.name}</h3></div><p className="mt-4 text-sm font-bold text-slate-900">Famous for</p><p className="mt-1 leading-7 text-slate-600">{p.famous}</p><p className="mt-3 text-sm font-bold text-slate-900">What we cover</p><p className="mt-1 leading-7 text-slate-600">{p.experience}</p></div>)}</div></ContentCard>
 
-          <ContentCard id="overview" title="Tour Overview">
-            <p className="leading-8 text-slate-600">{pkg.overview}</p>
-            <div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5">
-              <h3 className="font-bold">Package Theme</h3>
-              <p className="mt-2 leading-7 text-slate-600">Designed as a {pkg.category.toLowerCase()} journey through {pkg.destination}. The route prioritises the package highlights with comfortable transfers, sightseeing time and destination-appropriate experiences.</p>
-            </div>
-            <h3 className="mt-7 text-xl font-bold">Tour Highlights</h3>
-            <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}
-            </div>
-          </ContentCard>
+          <div id="gallery" className="scroll-mt-24"><PackageGallerySliderFixed gallery={pkg.gallery} title={pkg.title} /></div>
 
-          <ContentCard id="places" title="Places Covered & What They Are Famous For">
-            <p className="mb-5 leading-7 text-slate-600">Every stop below is explained according to this package route.</p>
-            <div className="space-y-4">
-              {places.map((p, i) => (
-                <div key={`${p.name}-${i}`} className="rounded-xl border p-5">
-                  <div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i + 1}</span><h3 className="text-xl font-bold">{p.name}</h3></div>
-                  <p className="mt-4 text-sm font-bold text-slate-900">Famous for</p>
-                  <p className="mt-1 leading-7 text-slate-600">{p.famous}</p>
-                  <p className="mt-3 text-sm font-bold text-slate-900">What we cover</p>
-                  <p className="mt-1 leading-7 text-slate-600">{p.experience}</p>
-                </div>
-              ))}
-            </div>
-          </ContentCard>
-
-          <div id="gallery" className="scroll-mt-24"><PackageGallerySlider gallery={pkg.gallery} title={pkg.title} /></div>
-
-          <ContentCard id="itinerary" title="Day-wise Tour Itinerary">
-            <p className="mb-5 text-sm leading-6 text-slate-500">Click + to open the day schedule, Today&apos;s Experience and what that specific day is known for.</p>
-            <ItineraryAccordion itinerary={pkg.itinerary} destination={pkg.destination} category={pkg.category} />
-          </ContentCard>
-
-          <ContentCard id="inclusions" title="Tour Inclusions & Exclusions">
-            <InclusionsExclusions inclusions={pkg.inclusions} exclusions={pkg.exclusions} />
-          </ContentCard>
-
-          <ContentCard id="hotels" title="Stay, Meals & Travel Information">
-            <div className="grid gap-4 md:grid-cols-3">
-              <InfoColumn title="Suggested Hotels / Similar">
-                <div className="space-y-3">
-                  {pkg.hotels.map((h, i) => {
-                    const hotel = h as { name: string; category?: string; star?: string };
-                    return (
-                      <div key={`${hotel.name}-${i}`} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                        <p className="font-bold text-slate-900">{hotel.name}</p>
-                        <p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </InfoColumn>
-
-              <InfoColumn title="Meals">
-                <div className="space-y-2.5">
-                  {pkg.meals.map((x) => (
-                    <p key={x} className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm leading-6 text-slate-700">🍽 {x}</p>
-                  ))}
-                </div>
-              </InfoColumn>
-
-              <InfoColumn title="Travel Information">
-                <div className="space-y-3 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
-                  <p><b>Difficulty:</b> {pkg.difficulty}</p>
-                  <p><b>Best Time:</b> {pkg.bestTime}</p>
-                  <p><b>Group:</b> {pkg.groupSize}</p>
-                </div>
-              </InfoColumn>
-            </div>
-          </ContentCard>
+          <ContentCard id="itinerary" title="Day-wise Tour Itinerary"><p className="mb-5 text-sm leading-6 text-slate-500">Click + to open the day schedule, Today&apos;s Experience and what that specific day is known for.</p><ItineraryAccordion itinerary={pkg.itinerary} destination={pkg.destination} category={pkg.category} /></ContentCard>
+          <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={pkg.inclusions} exclusions={pkg.exclusions} /></ContentCard>
+          <ContentCard id="hotels" title="Stay, Meals & Travel Information"><div className="grid gap-4 md:grid-cols-3">
+            <InfoColumn title="Suggested Hotels / Similar"><div className="space-y-3">{pkg.hotels.map((h, i) => { const hotel = h as { name: string; category?: string; star?: string }; return <div key={`${hotel.name}-${i}`} className="rounded-xl border border-slate-200 bg-slate-50 p-4"><p className="font-bold text-slate-900">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p></div>; })}</div></InfoColumn>
+            <InfoColumn title="Meals"><div className="space-y-2.5">{pkg.meals.map((x) => <p key={x} className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm leading-6 text-slate-700">🍽 {x}</p>)}</div></InfoColumn>
+            <InfoColumn title="Travel Information"><div className="space-y-3 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700"><p><b>Difficulty:</b> {pkg.difficulty}</p><p><b>Best Time:</b> {pkg.bestTime}</p><p><b>Group:</b> {pkg.groupSize}</p></div></InfoColumn>
+          </div></ContentCard>
         </div>
-
-        <aside className="h-fit lg:sticky lg:top-20">
-          <BookingSummaryCard slug={pkg.slug} title={pkg.title} price={price} duration={pkg.duration} destination={pkg.destination} />
-        </aside>
+        <aside className="h-fit lg:sticky lg:top-20"><BookingSummaryCard slug={pkg.slug} title={pkg.title} price={price} duration={pkg.duration} destination={pkg.destination} /></aside>
       </section>
     </main>
   );
 }
 
-function InfoColumn({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="min-w-0">
-      <h3 className="mb-3 text-base font-bold text-slate-900">{title}</h3>
-      {children}
-    </div>
-  );
-}
-
-function ContentCard({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
-  return <section id={id} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="border-b pb-4 text-2xl font-extrabold text-[#153e75]">{title}</h2><div className="pt-5">{children}</div></section>;
-}
-
-function Fact({ label, value }: { label: string; value: string }) {
-  return <div className="border-r last:border-0"><p className="text-xs uppercase tracking-wide text-slate-400">{label}</p><p className="mt-1 text-sm font-bold">{value}</p></div>;
-}
+function InfoColumn({ title, children }: { title: string; children: React.ReactNode }) { return <div className="min-w-0"><h3 className="mb-3 text-base font-bold text-slate-900">{title}</h3>{children}</div>; }
+function ContentCard({ id, title, children }: { id: string; title: string; children: React.ReactNode }) { return <section id={id} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="border-b pb-4 text-2xl font-extrabold text-[#153e75]">{title}</h2><div className="pt-5">{children}</div></section>; }
+function Fact({ label, value }: { label: string; value: string }) { return <div className="border-r last:border-0"><p className="text-xs uppercase tracking-wide text-slate-400">{label}</p><p className="mt-1 text-sm font-bold">{value}</p></div>; }
