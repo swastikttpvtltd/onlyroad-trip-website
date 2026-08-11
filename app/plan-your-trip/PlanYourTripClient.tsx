@@ -46,6 +46,7 @@ export default function PlanYourTripClient() {
   const [travellers, setTravellers] = useState(2);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const destinationRef = useRef<HTMLDivElement>(null);
   const countryRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
@@ -112,7 +113,8 @@ export default function PlanYourTripClient() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Unable to send enquiry.");
 
-      setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
+      setShowSuccessPopup(true);
+      setSubmitMessage("");
       setFullName("");
       setMobile("");
       setPhoneCountry("IN");
@@ -132,6 +134,17 @@ export default function PlanYourTripClient() {
 
   return (
     <>
+      {showSuccessPopup && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/55 px-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="enquiry-success-title">
+          <div className="w-full max-w-md rounded-[2rem] border border-white/70 bg-white p-8 text-center shadow-[0_30px_90px_rgba(15,23,42,0.30)] sm:p-10">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-700"><CheckCircle2 size={34} /></div>
+            <h2 id="enquiry-success-title" className="mt-6 text-2xl font-extrabold text-slate-950">Thank you for submitting your query</h2>
+            <p className="mt-3 leading-7 text-slate-600">Your travel enquiry has been received. Our team will get in touch with you shortly.</p>
+            <button type="button" onClick={() => setShowSuccessPopup(false)} className="mt-7 w-full rounded-xl bg-blue-700 px-6 py-3.5 font-extrabold text-white shadow-lg transition hover:bg-blue-800">Continue</button>
+          </div>
+        </div>
+      )}
+
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-blue-800 px-6 pb-24 pt-36 text-white sm:pt-40">
         <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl" />
         <div className="absolute -bottom-40 left-0 h-96 w-96 rounded-full bg-blue-400/20 blur-3xl" />
@@ -164,7 +177,7 @@ export default function PlanYourTripClient() {
             <select value={budget} onChange={(event) => setBudget(event.target.value)} onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option value="">Approx. Budget</option><option>Under ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000 – ₹1,00,000</option><option>₹1,00,000+</option></select>
             <textarea required value={message} onChange={(event) => setMessage(event.target.value)} rows={5} placeholder="Requirements / Message" onFocus={closeDestinationResults} className="sm:col-span-2 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
             <button disabled={isSubmitting} type="submit" className="sm:col-span-2 rounded-xl bg-blue-700 px-6 py-4 font-extrabold text-white shadow-lg transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-70">{isSubmitting ? "Sending Enquiry..." : "Send My Travel Enquiry"}</button>
-            {submitMessage && <p className="sm:col-span-2 rounded-xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-900" role="status">{submitMessage}</p>}
+            {submitMessage && <p className="sm:col-span-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-800" role="alert">{submitMessage}</p>}
           </form>
         </div>
 
