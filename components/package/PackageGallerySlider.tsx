@@ -16,6 +16,15 @@ function buildImageAlt(title: string, image: string, index: number) {
   return `${cleanTitle} – travel package experience photo ${index + 1}`;
 }
 
+function folderFromImage(image: string) {
+  const marker = "/images/packages/";
+  const start = image.indexOf(marker);
+  if (start === -1) return "";
+  const relative = image.slice(start + marker.length);
+  const lastSlash = relative.lastIndexOf("/");
+  return lastSlash > 0 ? relative.slice(0, lastSlash) : "";
+}
+
 export default function PackageGallerySlider({
   gallery,
   title,
@@ -23,11 +32,37 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
-  // Maximum 10 photos per package. The complete source photo is always shown;
-  // we do not crop/zoom package gallery images because source photos can have
-  // portrait, landscape, or an already-framed composition.
-  const slides = useMemo(() => gallery.slice(0, 10), [gallery]);
+  const initialSlides = useMemo(() => gallery, [gallery]);
+  const [slides, setSlides] = useState<GalleryItem[]>(initialSlides);
   const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    setSlides(initialSlides);
+    setActive(0);
+
+    const folder = folderFromImage(initialSlides[0]?.image ?? "");
+    if (!folder) return;
+
+    let cancelled = false;
+    fetch(`/api/package-images?folder=${encodeURIComponent(folder)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { images?: string[] } | null) => {
+        if (cancelled || !data?.images?.length) return;
+        setSlides(
+          data.images.map((image, index) => ({
+            image,
+            alt: buildImageAlt(title, image, index),
+          })),
+        );
+      })
+      .catch(() => {
+        // Keep the server-provided gallery if the dynamic folder scan is unavailable.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [initialSlides, title]);
 
   useEffect(() => {
     setActive((current) => Math.min(current, Math.max(slides.length - 1, 0)));
@@ -52,7 +87,6 @@ export default function PackageGallerySlider({
   return (
     <section className="bg-[#f6f6f6] px-5 pb-3 pt-7 md:px-8">
       <div className="mx-auto w-full max-w-7xl">
-        {/* Fixed presentation frame, but NEVER crop the actual source photo. */}
         <div className="relative aspect-video w-full overflow-hidden rounded-[28px] bg-slate-950 shadow-xl">
           {slides.map((slide, index) => (
             <div
