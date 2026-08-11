@@ -35,6 +35,7 @@ type ContactPageProps = {
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
   const params = await searchParams;
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata" }).format(new Date());
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -111,7 +112,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                   <DestinationSearch />
                 </div>
                 <div className="grid gap-5 md:grid-cols-3">
-                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travel Date</span><input name="travelDate" type="date" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
+                  <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travel Date</span><input name="travelDate" type="date" min={today} className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50" /></label>
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Travellers</span><select name="travellers" defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>1 Traveller</option><option>2 Travellers</option><option>3–5 Travellers</option><option>6–10 Travellers</option><option>10+ Travellers</option></select></label>
                   <label className="block"><span className="mb-2 block text-sm font-semibold text-slate-800">Trip Type</span><select name="tripType" defaultValue="" className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-50"><option value="" disabled>Select</option><option>Family Holiday</option><option>Couple / Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Corporate / MICE</option><option>Group Tour</option></select></label>
                 </div>
