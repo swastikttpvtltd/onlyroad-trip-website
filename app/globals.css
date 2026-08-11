@@ -169,3 +169,24 @@ main > section.bg-gradient-to-b.from-white.to-slate-100 {
     opacity: 0;
   }
 }
+
+/* Contact page: make the custom country-code arrow visually match the native select arrow. */
+button[aria-haspopup="listbox"] > span:last-child {
+  display: inline-flex;
+  width: 10px;
+  height: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: 0;
+  line-height: 1;
+}
+
+button[aria-haspopup="listbox"] > span:last-child::before {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid #334155;
+  border-bottom: 2px solid #334155;
+  transform: rotate(45deg) translateY(-2px);
+}
