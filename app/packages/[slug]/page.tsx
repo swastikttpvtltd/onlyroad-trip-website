@@ -7,14 +7,22 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
+import { getPackageMediaFallback, getPackagePrimaryImage } from "@/data/packageMediaFallback";
 
 type PackageItem = (typeof packages)[number];
 type PageProps = { params: Promise<{ slug: string }> };
 
 function heroImage(pkg: PackageItem) {
-  if ("hero" in pkg && pkg.hero?.image) return pkg.hero.image;
-  if ("image" in pkg && typeof pkg.image === "string") return pkg.image;
-  return pkg.gallery?.[0]?.image ?? "/images/package-placeholder.jpg";
+  return getPackagePrimaryImage(pkg);
+}
+
+function galleryImages(pkg: PackageItem) {
+  if (pkg.gallery?.length) return pkg.gallery;
+
+  return getPackageMediaFallback(pkg).map((image, index) => ({
+    image,
+    alt: `${pkg.title} – image ${index + 1}`,
+  }));
 }
 
 function shortDescription(pkg: PackageItem) {
@@ -72,6 +80,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   if (!pkg) notFound();
 
   const image = heroImage(pkg);
+  const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
   const places = destinationsFor(pkg);
 
@@ -140,7 +149,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
             </div>
           </ContentCard>
 
-          <div id="gallery" className="scroll-mt-24"><PackageGallerySlider gallery={pkg.gallery} title={pkg.title} /></div>
+          <div id="gallery" className="scroll-mt-24"><PackageGallerySlider gallery={gallery} title={pkg.title} /></div>
 
           <ContentCard id="itinerary" title="Day-wise Tour Itinerary">
             <p className="mb-5 text-sm leading-6 text-slate-500">Click + to open the day schedule, Today&apos;s Experience and what that specific day is known for.</p>
