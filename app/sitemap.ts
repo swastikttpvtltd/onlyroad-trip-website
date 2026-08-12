@@ -3,8 +3,29 @@ import packages from "@/data/packages";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
+const destinationSlugs = [
+  "andhra-pradesh",
+  "gujarat",
+  "himachal-pradesh",
+  "jammu-kashmir",
+  "kedarnath",
+  "kerala",
+  "ladakh",
+  "lakshadweep",
+  "maharashtra",
+  "meghalaya",
+  "odisha",
+  "rajasthan",
+  "sikkim",
+  "tamil-nadu",
+  "uttar-pradesh",
+  "uttarakhand",
+  "west-bengal",
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
@@ -27,6 +48,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/cookie-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: `${baseUrl}/disclaimer`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
-  const packagePages: MetadataRoute.Sitemap = packages.map((pkg) => ({ url: `${baseUrl}/packages/${pkg.slug}`, lastModified: now, changeFrequency: "weekly", priority: 0.85 }));
-  return [...staticPages, ...packagePages];
+
+  const destinationPages: MetadataRoute.Sitemap = destinationSlugs.map((slug) => ({
+    url: `${baseUrl}/destinations/${slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
+
+  const packagePages: MetadataRoute.Sitemap = packages.map((pkg) => ({
+    url: `${baseUrl}/packages/${pkg.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
+
+  return [...staticPages, ...destinationPages, ...packagePages];
 }
