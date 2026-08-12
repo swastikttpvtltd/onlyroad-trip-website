@@ -1,3 +1,4 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
 
@@ -12,17 +13,28 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please complete all required travel enquiry fields." }, { status: 400 });
     }
 
-    // Supports the SMTP_* names already present in the local .env.local file.
-    const host = process.env.SMTP_HOST || process.env.ZOHO_SMTP_HOST || "smtp.zoho.in";
-    const port = Number(process.env.SMTP_PORT || process.env.ZOHO_SMTP_PORT || "465");
-    const secure = String(process.env.SMTP_SECURE ?? (port === 465)).toLowerCase() === "true";
-    const user = process.env.SMTP_USER || process.env.ZOHO_SMTP_USER;
-    const pass = process.env.SMTP_PASSWORD || process.env.ZOHO_SMTP_PASSWORD;
-    const from = process.env.ENQUIRY_TO_EMAIL || process.env.ZOHO_FROM_EMAIL || user;
-    const to = process.env.ENQUIRY_TO_EMAIL || process.env.TRAVEL_ENQUIRY_TO || "info@onlyroadtrip.com";
-    const cc = process.env.ENQUIRY_CC_EMAIL || process.env.TRAVEL_ENQUIRY_CC || undefined;
+    // On Cloudflare Workers, production variables/secrets are runtime bindings.
+    // Read them from the Cloudflare context first, with process.env as a local fallback.
+    const cloudflareEnv = getCloudflareContext().env as Record<string, string | undefined>;
+
+    const readEnv = (name: string) => cloudflareEnv[name] || process.env[name];
+
+    const host = readEnv("SMTP_HOST") || readEnv("ZOHO_SMTP_HOST") || "smtp.zoho.in";
+    const port = Number(readEnv("SMTP_PORT") || readEnv("ZOHO_SMTP_PORT") || "465");
+    const secure = String(readEnv("SMTP_SECURE") ?? (port === 465)).toLowerCase() === "true";
+    const user = readEnv("SMTP_USER") || readEnv("ZOHO_SMTP_USER");
+    const pass = readEnv("SMTP_PASSWORD") || readEnv("ZOHO_SMTP_PASSWORD");
+    const from = readEnv("ENQUIRY_TO_EMAIL") || readEnv("ZOHO_FROM_EMAIL") || user;
+    const to = readEnv("ENQUIRY_TO_EMAIL") || readEnv("TRAVEL_ENQUIRY_TO") || "info@onlyroadtrip.com";
+    const cc = readEnv("ENQUIRY_CC_EMAIL") || readEnv("TRAVEL_ENQUIRY_CC") || undefined;
 
     if (!user || !pass || !from) {
+      console.error("Email service configuration missing:", {
+        hasUser: Boolean(user),
+        hasPassword: Boolean(pass),
+        hasFrom: Boolean(from),
+        hasHost: Boolean(host),
+      });
       return NextResponse.json({ error: "Email service is not configured yet." }, { status: 500 });
     }
 
