@@ -7,6 +7,8 @@
     "dev": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs && next dev",
     "prebuild": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
     "build": "next build",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start",
     "lint": "eslint"
   },
@@ -22,6 +24,7 @@
     "swiper": "^14.0.6"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.1",
@@ -30,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.121.0"
   }
 }
