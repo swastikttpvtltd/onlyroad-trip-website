@@ -4,15 +4,16 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const amount = Number(body.amount);
-    const environment = process.env.CASHFREE_ENVIRONMENT === "production" ? "production" : "sandbox";
-    // Support the variable names already configured in the project's .env.local,
-    // while retaining the older CLIENT_ID/CLIENT_SECRET names for compatibility.
+    
+    // Default to production unless explicitly specified as sandbox
+    const environment = process.env.CASHFREE_ENVIRONMENT === "sandbox" ? "sandbox" : "production";
+    
     const clientId = String(process.env.CASHFREE_APP_ID || process.env.CASHFREE_CLIENT_ID || "").trim();
     const clientSecret = String(process.env.CASHFREE_SECRET_KEY || process.env.CASHFREE_CLIENT_SECRET || "").trim();
 
     if (!clientId || !clientSecret) {
       return NextResponse.json(
-        { error: "Cashfree API credentials are not configured on the server. Check CASHFREE_APP_ID and CASHFREE_SECRET_KEY in .env.local." },
+        { error: "Cashfree API credentials are not configured on the server." },
         { status: 500 },
       );
     }
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ link_url: data.link_url, link_id: data?.link_id || linkId });
-  } catch {
-    return NextResponse.json({ error: "Unable to create payment link. Please check the server configuration and try again." }, { status: 500 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err?.message || "Unable to create payment link." }, { status: 500 });
   }
 }
