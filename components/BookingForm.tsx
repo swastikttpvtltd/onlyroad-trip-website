@@ -46,18 +46,22 @@ async function submit(e:React.FormEvent){
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      alert(`Payment API Error: ${data.error || "Failed to create payment link"}`);
+      return;
+    }
+
     const redirectUrl = data.link_url || data.url || data.paymentUrl || data.payment_link;
 
     if (redirectUrl) {
       window.location.href = redirectUrl;
-    } else if (data.payment_session_id) {
-      window.location.href = `https://payments.cashfree.com/order/#${data.payment_session_id}`;
     } else {
-      alert("Booking submitted! Our team will send the payment link shortly.");
+      alert(`Payment Error: ${JSON.stringify(data)}`);
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error("Payment error:", err);
-    alert("Unable to initiate online payment directly. Our team will contact you.");
+    alert(`Network Error: ${err.message || err}`);
   }
 }
 
