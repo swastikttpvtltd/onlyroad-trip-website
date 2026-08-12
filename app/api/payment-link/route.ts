@@ -5,16 +5,14 @@ export async function POST(request: Request) {
     const body = await request.json();
     const amount = Number(body.amount);
     
-    // Direct production endpoint
-    const environment = "production";
+    const environment = process.env.CASHFREE_ENVIRONMENT === "sandbox" ? "sandbox" : "production";
     
-    // Replace these values with your actual Cashfree credentials
-    const clientId = "1349796fb4f04e1fc71d21ca8"; 
-    const clientSecret = "cfsk_ma_prod_d0447c8fcd5ad54ca73c609b63b5481e_d79b1cde"; 
+    const clientId = String(process.env.CASHFREE_APP_ID || process.env.CASHFREE_CLIENT_ID || "").trim();
+    const clientSecret = String(process.env.CASHFREE_SECRET_KEY || process.env.CASHFREE_CLIENT_SECRET || "").trim();
 
-    if (!clientId || !clientSecret || clientSecret === "cfsk_ma_prod_d0447c8fcd5ad54ca73c609b63b5481e_d79b1cde") {
+    if (!clientId || !clientSecret) {
       return NextResponse.json(
-        { error: "Cashfree API credentials are missing in route.ts" },
+        { error: "Cashfree API credentials are not configured on the server." },
         { status: 500 },
       );
     }
@@ -27,9 +25,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Customer name, email, mobile and payment purpose are required." }, { status: 400 });
     }
 
-    const endpoint = "https://api.cashfree.com/pg/links";
+    const endpoint = environment === "production"
+      ? "https://api.cashfree.com/pg/links"
+      : "https://sandbox.cashfree.com/pg/links";
+
     const linkId = `ORT-${Date.now()}`;
-    const configuredReturnUrl = "https://onlyroadtrip.com";
+    const configuredReturnUrl = String(process.env.CASHFREE_RETURN_URL || "https://onlyroadtrip.com").trim();
 
     const payload = {
       link_id: linkId,
