@@ -32,7 +32,35 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#0891b2", colorScheme: "light" };
 
-const organizationSchema = { "@context": "https://schema.org", "@type": "TravelAgency", "@id": `${baseUrl}/#travel-agency`, name: "Only Road Trip", legalName: "Swastik Tour And Travels Private Limited", url: `${baseUrl}/`, logo: `${baseUrl}${socialImage}`, description: "Travel agency offering pilgrimage tours, domestic holidays, road trips, family vacations, honeymoon packages, wildlife tours and corporate travel across India.", areaServed: { "@type": "Country", name: "India" }, brand: { "@type": "Brand", name: "Only Road Trip" } };
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "@id": `${baseUrl}/#travel-agency`,
+  name: "Only Road Trip",
+  legalName: "Swastik Tour and Travels Private Limited",
+  url: `${baseUrl}/`,
+  telephone: "+91-9211796168",
+  email: "info@onlyroadtrip.com",
+  logo: `${baseUrl}${socialImage}`,
+  description: "Travel agency offering pilgrimage tours, domestic holidays, road trips, family vacations, honeymoon packages, wildlife tours and corporate travel across India.",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "F163, PH-1, New Palam Vihar",
+    addressLocality: "Gurugram",
+    addressRegion: "Haryana",
+    postalCode: "122001",
+    addressCountry: "IN",
+  },
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "00:00",
+    closes: "23:59",
+  },
+  priceRange: "₹₹",
+  areaServed: { "@type": "Country", name: "India" },
+  brand: { "@type": "Brand", name: "Only Road Trip" },
+};
 
 const websiteSchema = { "@context": "https://schema.org", "@type": "WebSite", "@id": `${baseUrl}/#website`, url: `${baseUrl}/`, name: "Only Road Trip", publisher: { "@id": `${baseUrl}/#travel-agency` }, inLanguage: "en-IN" };
 
