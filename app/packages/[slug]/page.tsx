@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
@@ -97,7 +98,6 @@ export function generateStaticParams() {
 }
 
 export const dynamicParams = false;
-export const dynamic = "force-static";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -163,7 +163,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]"><div className="space-y-7">
         <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Package ID" value={String(pkg.packageId ?? "—")} /><Fact label="Duration" value={String(pkg.duration ?? "—")} /><Fact label="Destination" value={String(pkg.destination ?? "—")} /><Fact label="Best Time" value={String(pkg.bestTime ?? "—")} /></section>
         <ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">About {state.name}</h3><p className="mt-2 leading-7 text-slate-600">{state.famousFor}</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{(Array.isArray(pkg.highlights) ? pkg.highlights : []).map((x: string) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard>
-        <ContentCard id="gallery" title="Tour Gallery"><PackageGallerySlider images={gallery} /></ContentCard>
+        <ContentCard id="gallery" title="Tour Gallery"><PackageGallerySlider gallery={gallery} title={pkg.title} /></ContentCard>
         <ContentCard id="itinerary" title="Day-wise Itinerary"><ItineraryAccordion itinerary={Array.isArray(pkg.itinerary) ? pkg.itinerary : []} destination={String(pkg.destination ?? "")} category={String(pkg.category ?? "Tour")} /></ContentCard>
         <ContentCard id="places" title="Places Covered & What They Are Famous For"><div className="space-y-4">{places.map((place) => <div key={place.name} className="rounded-xl border border-slate-200 bg-slate-50 p-5"><h3 className="font-extrabold text-slate-900">{place.name}</h3><p className="mt-2 text-sm leading-7 text-slate-600"><strong>Famous for:</strong> {place.famous}</p><p className="mt-2 text-sm leading-7 text-slate-600"><strong>Experience:</strong> {place.experience}</p></div>)}</div></ContentCard>
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
