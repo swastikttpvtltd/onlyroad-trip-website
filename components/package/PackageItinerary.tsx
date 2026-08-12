@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 
+type ItineraryValue = string | string[];
+
 interface ItineraryDay {
   day: string;
   title: string;
-  morning: string;
-  afternoon: string;
-  evening: string;
+  morning: ItineraryValue;
+  afternoon: ItineraryValue;
+  evening: ItineraryValue;
   meals: string;
   hotel: string;
   distance: string;
   driveTime: string;
-  notes: string;
+  notes: ItineraryValue;
 }
 
 interface PackageItineraryProps {
@@ -21,23 +23,32 @@ interface PackageItineraryProps {
   };
 }
 
-export default function PackageItinerary({
-  data,
-}: PackageItineraryProps) {
+function renderValue(value: ItineraryValue) {
+  if (Array.isArray(value)) {
+    return (
+      <ul className="space-y-2">
+        {value.map((entry, index) => (
+          <li key={`${entry}-${index}`} className="flex gap-2 leading-7 text-gray-700">
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600" />
+            <span>{entry}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return <p className="leading-8 text-gray-700">{value}</p>;
+}
+
+export default function PackageItinerary({ data }: PackageItineraryProps) {
   const [activeDay, setActiveDay] = useState<number>(0);
 
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-6xl px-6">
-
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900">
-            Day Wise Itinerary
-          </h2>
-
-          <p className="mt-3 text-gray-600">
-            Click on a day to view complete itinerary details.
-          </p>
+          <h2 className="text-3xl font-bold text-gray-900">Day Wise Itinerary</h2>
+          <p className="mt-3 text-gray-600">Click on a day to view complete itinerary details.</p>
         </div>
 
         <div className="space-y-5">
@@ -45,141 +56,56 @@ export default function PackageItinerary({
             const isOpen = activeDay === index;
 
             return (
-              <div
-                key={index}
-                className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm"
-              >
+              <div key={index} className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
                 <button
-  onClick={() => setActiveDay(isOpen ? -1 : index)}
-  className={`flex w-full items-center justify-between rounded-t-2xl border-b px-8 py-7 text-left transition-all duration-300 ${
-    isOpen
-      ? "border-blue-200 bg-blue-600/10 backdrop-blur-xl"
-      : "border-gray-200 bg-white hover:bg-blue-50"
-  }`}
->
-  <div>
-
-    <p className="text-lg font-semibold uppercase tracking-[0.25em] text-blue-700">
-      {item.day}
-    </p>
-
-    <h3 className="mt-2 text-3xl font-bold text-gray-900">
-      {item.title}
-    </h3>
-
-    <p className="mt-3 text-base text-gray-500">
-      Pilgrimage • Sightseeing • Comfortable Stay
-    </p>
-
-  </div>
-
-  <span className="text-5xl font-extralight text-blue-700">
-    {isOpen ? "−" : "+"}
-  </span>
-</button>
+                  type="button"
+                  onClick={() => setActiveDay(isOpen ? -1 : index)}
+                  aria-expanded={isOpen}
+                  className={`flex w-full items-center justify-between rounded-t-2xl border-b px-8 py-7 text-left transition-all duration-300 ${
+                    isOpen
+                      ? "border-blue-200 bg-blue-600/10 backdrop-blur-xl"
+                      : "border-gray-200 bg-white hover:bg-blue-50"
+                  }`}
+                >
+                  <div>
+                    <p className="text-lg font-semibold uppercase tracking-[0.25em] text-blue-700">{item.day}</p>
+                    <h3 className="mt-2 text-3xl font-bold text-gray-900">{item.title}</h3>
+                    <p className="mt-3 text-base text-gray-500">Pilgrimage • Sightseeing • Comfortable Stay</p>
+                  </div>
+                  <span aria-hidden="true" className="text-5xl font-extralight text-blue-700">{isOpen ? "−" : "+"}</span>
+                </button>
 
                 {isOpen && (
-  <div className="border-t border-blue-100 bg-gradient-to-br from-white to-blue-50 p-8">
-
-    <div className="grid gap-8 lg:grid-cols-2">
-
-      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
-        <h4 className="mb-3 text-xl font-semibold text-blue-700">
-          Morning
-        </h4>
-
-        <p className="leading-8 text-gray-700">
-          {item.morning}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
-        <h4 className="mb-3 text-xl font-semibold text-blue-700">
-          Afternoon
-        </h4>
-
-        <p className="leading-8 text-gray-700">
-          {item.afternoon}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
-        <h4 className="mb-3 text-xl font-semibold text-blue-700">
-          Evening
-        </h4>
-
-        <p className="leading-8 text-gray-700">
-          {item.evening}
-        </p>
-      </div>
-
-      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
-
-        <div className="space-y-5">
-
-          <div>
-            <h4 className="font-semibold text-blue-700">
-              Meals
-            </h4>
-
-            <p className="mt-1 text-gray-700">
-              {item.meals}
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-blue-700">
-              Hotel
-            </h4>
-
-            <p className="mt-1 text-gray-700">
-              {item.hotel}
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-blue-700">
-              Distance
-            </h4>
-
-            <p className="mt-1 text-gray-700">
-              {item.distance}
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-blue-700">
-              Drive Time
-            </h4>
-
-            <p className="mt-1 text-gray-700">
-              {item.driveTime}
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-blue-700">
-              Important Notes
-            </h4>
-
-            <p className="mt-1 text-gray-700">
-              {item.notes}
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-)}
+                  <div className="border-t border-blue-100 bg-gradient-to-br from-white to-blue-50 p-8">
+                    <div className="grid gap-8 lg:grid-cols-2">
+                      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
+                        <h4 className="mb-3 text-xl font-semibold text-blue-700">Morning</h4>
+                        {renderValue(item.morning)}
+                      </div>
+                      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
+                        <h4 className="mb-3 text-xl font-semibold text-blue-700">Afternoon</h4>
+                        {renderValue(item.afternoon)}
+                      </div>
+                      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
+                        <h4 className="mb-3 text-xl font-semibold text-blue-700">Evening</h4>
+                        {renderValue(item.evening)}
+                      </div>
+                      <div className="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
+                        <div className="space-y-5">
+                          <div><h4 className="font-semibold text-blue-700">Meals</h4><p className="mt-1 text-gray-700">{item.meals}</p></div>
+                          <div><h4 className="font-semibold text-blue-700">Hotel</h4><p className="mt-1 text-gray-700">{item.hotel}</p></div>
+                          <div><h4 className="font-semibold text-blue-700">Distance</h4><p className="mt-1 text-gray-700">{item.distance}</p></div>
+                          <div><h4 className="font-semibold text-blue-700">Drive Time</h4><p className="mt-1 text-gray-700">{item.driveTime}</p></div>
+                          <div><h4 className="font-semibold text-blue-700">Important Notes</h4>{renderValue(item.notes)}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
         </div>
-
       </div>
     </section>
   );
