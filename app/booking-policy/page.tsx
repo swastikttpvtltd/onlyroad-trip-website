@@ -390,7 +390,7 @@ export default function BookingPolicyPage() {
                 </p>
 
                 <p>
-                  Email: YOUR_OFFICIAL_EMAIL
+                  Email: info@onlyroadtrip.com
                 </p>
 
                 <p>
