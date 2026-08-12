@@ -13,10 +13,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please complete all required travel enquiry fields." }, { status: 400 });
     }
 
-    // On Cloudflare Workers, production variables/secrets are runtime bindings.
-    // Read them from the Cloudflare context first, with process.env as a local fallback.
-    const cloudflareEnv = getCloudflareContext().env as Record<string, string | undefined>;
-
+    // Cloudflare Workers bindings are available through the OpenNext runtime context.
+    // Use async context here so the production Worker bindings are resolved at request time.
+    const context = await getCloudflareContext({ async: true });
+    const cloudflareEnv = (context?.env ?? {}) as Record<string, string | undefined>;
     const readEnv = (name: string) => cloudflareEnv[name] || process.env[name];
 
     const host = readEnv("SMTP_HOST") || readEnv("ZOHO_SMTP_HOST") || "smtp.zoho.in";
@@ -34,6 +34,8 @@ export async function POST(request: Request) {
         hasPassword: Boolean(pass),
         hasFrom: Boolean(from),
         hasHost: Boolean(host),
+        hasTo: Boolean(to),
+        hasCc: Boolean(cc),
       });
       return NextResponse.json({ error: "Email service is not configured yet." }, { status: 500 });
     }
