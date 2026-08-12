@@ -7,11 +7,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
-import { getPackageMediaFallback, getPackagePrimaryImage } from "@/data/packageMediaFallback";
 
-// The package catalogue is assembled from multiple source files with different
-// legacy shapes. It is normalised in data/packages.ts at runtime, so this page
-// intentionally consumes the final normalised shape.
 type PackageItem = any;
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -51,12 +47,12 @@ function getStateDetails(state: string): StateDetails {
 }
 
 function heroImage(pkg: PackageItem): string {
-  return getPackagePrimaryImage(pkg);
+  return String(pkg?.image ?? pkg?.hero?.image ?? "/images/package-placeholder.jpg");
 }
 
 function galleryImages(pkg: PackageItem) {
   if (Array.isArray(pkg.gallery) && pkg.gallery.length) return pkg.gallery;
-  return getPackageMediaFallback(pkg).map((image, index) => ({ image, alt: `${pkg.title} – image ${index + 1}` }));
+  return [{ image: heroImage(pkg), alt: `${pkg.title} – image 1` }];
 }
 
 function numberField(pkg: PackageItem, key: "price" | "rating" | "reviews"): number | undefined {
@@ -214,9 +210,9 @@ export default async function PackageDetailsPage({ params }: PageProps) {
             <div className="space-y-4">
               {places.map((place) => (
                 <div key={place.name} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-                  <h3 className="font-bold text-slate-900">{place.name}</h3>
-                  <p className="mt-2 leading-7 text-slate-600"><b>Known for:</b> {place.famous}</p>
-                  <p className="mt-2 leading-7 text-slate-600"><b>Experience:</b> {place.experience}</p>
+                  <h3 className="font-extrabold text-slate-900">{place.name}</h3>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{place.famous}</p>
+                  <p className="mt-2 text-sm leading-7 text-slate-600">{place.experience}</p>
                 </div>
               ))}
             </div>
@@ -226,37 +222,19 @@ export default async function PackageDetailsPage({ params }: PageProps) {
             <InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} />
           </ContentCard>
 
-          <ContentCard id="hotels" title="Stay, Meals & Travel Information">
-            <div className="grid gap-4 md:grid-cols-3">
-              <InfoColumn title="Suggested Hotels / Similar">
-                <div className="space-y-3">
-                  {(Array.isArray(pkg.hotels) ? pkg.hotels : []).map((h: any, i: number) => (
-                    <div key={`${String(h?.name ?? "hotel")}-${i}`} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                      <p className="font-bold text-slate-900">{String(h?.name ?? "Hotel / Similar")}</p>
-                      <p className="mt-1 text-sm text-slate-500">{String(h?.star ?? h?.category ?? "Comfort Stay")}</p>
-                    </div>
-                  ))}
-                </div>
+          <ContentCard id="hotels" title="Stay & Meals">
+            <div className="grid gap-5 md:grid-cols-2">
+              <InfoColumn title="Accommodation">
+                <div className="space-y-3">{(Array.isArray(pkg.hotels) ? pkg.hotels : []).map((hotel: any) => <div key={hotel.name} className="rounded-xl border bg-slate-50 p-4 font-semibold">{hotel.name}</div>)}</div>
               </InfoColumn>
-
               <InfoColumn title="Meals">
-                <div className="space-y-2.5">
-                  {(Array.isArray(pkg.meals) ? pkg.meals : []).map((x: string) => <p key={x} className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm leading-6 text-slate-700">🍽 {x}</p>)}
-                </div>
-              </InfoColumn>
-
-              <InfoColumn title="Travel Information">
-                <div className="space-y-3 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
-                  <p><b>Difficulty:</b> {String(pkg.difficulty ?? "Standard")}</p>
-                  <p><b>Best Time:</b> {String(pkg.bestTime ?? "Year-round; subject to local conditions")}</p>
-                  <p><b>Group:</b> {String(pkg.groupSize ?? "Customisable")}</p>
-                </div>
+                <div className="space-y-3">{(Array.isArray(pkg.meals) ? pkg.meals : []).map((meal: string) => <div key={meal} className="rounded-xl border bg-slate-50 p-4 font-semibold">{meal}</div>)}</div>
               </InfoColumn>
             </div>
           </ContentCard>
 
           <ContentCard id="faqs" title="Frequently Asked Questions">
-            <div className="space-y-4">
+            <div className="space-y-3">
               {faqs.map((faq) => (
                 <details key={faq.question} className="group rounded-xl border border-slate-200 bg-white p-5">
                   <summary className="cursor-pointer list-none pr-6 font-bold text-slate-900 marker:hidden">
