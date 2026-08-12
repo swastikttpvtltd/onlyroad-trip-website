@@ -13,11 +13,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please complete all required travel enquiry fields." }, { status: 400 });
     }
 
-    // Cloudflare Workers bindings are available through the OpenNext runtime context.
-    // Use async context here so the production Worker bindings are resolved at request time.
+    // Cloudflare Workers expose runtime bindings through process.env when
+    // nodejs_compat_populate_process_env is enabled. OpenNext also exposes
+    // the same runtime bindings through getCloudflareContext().env.
     const context = await getCloudflareContext({ async: true });
     const cloudflareEnv = (context?.env ?? {}) as Record<string, string | undefined>;
-    const readEnv = (name: string) => cloudflareEnv[name] || process.env[name];
+
+    const readEnv = (name: string) => {
+      const runtimeValue = cloudflareEnv[name];
+      if (runtimeValue) return runtimeValue;
+      return process.env[name];
+    };
 
     const host = readEnv("SMTP_HOST") || readEnv("ZOHO_SMTP_HOST") || "smtp.zoho.in";
     const port = Number(readEnv("SMTP_PORT") || readEnv("ZOHO_SMTP_PORT") || "465");
@@ -28,16 +34,20 @@ export async function POST(request: Request) {
     const to = readEnv("ENQUIRY_TO_EMAIL") || readEnv("TRAVEL_ENQUIRY_TO") || "info@onlyroadtrip.com";
     const cc = readEnv("ENQUIRY_CC_EMAIL") || readEnv("TRAVEL_ENQUIRY_CC") || undefined;
 
-    if (!user || !pass || !from) {
-      console.error("Email service configuration missing:", {
-        hasUser: Boolean(user),
-        hasPassword: Boolean(pass),
-        hasFrom: Boolean(from),
-        hasHost: Boolean(host),
-        hasTo: Boolean(to),
-        hasCc: Boolean(cc),
-      });
-      return NextResponse.json({ error: "Email service is not configured yet." }, { status: 500 });
+    const missing: string[] = [];
+    if (!user) missing.push("ZOHO_SMTP_USER");
+    if (!pass) missing.push("ZOHO_SMTP_PASSWORD");
+    if (!from) missing.push("ZOHO_FROM_EMAIL");
+
+    if (missing.length > 0) {
+      console.error("Travel enquiry email configuration missing:", missing);
+      return NextResponse.json(
+        {
+          error: "Email service is not configured yet.",
+          missing,
+        },
+        { status: 500 },
+      );
     }
 
     const transporter = nodemailer.createTransport({
@@ -88,7 +98,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Travel enquiry email failed:", error);
-    return NextResponse.json({ error: "Unable to send the enquiry right now. Please try again or contact us directly." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Unable to send the enquiry right now. Please try again or contact us directly." },
+      { status: 500 },
+    );
   }
 }
 
