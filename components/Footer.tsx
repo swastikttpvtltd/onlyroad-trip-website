@@ -11,16 +11,9 @@ export default function Footer() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 py-8">
-        {/* Top Grid */}
         <div className="grid gap-6 lg:grid-cols-4">
           <div>
-            <Image
-              src="/images/logo/only-road-trip-logo.jpeg"
-              alt="Only Road Trip"
-              width={220}
-              height={60}
-              className="h-12 w-auto"
-            />
+            <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={220} height={60} className="h-12 w-auto" />
             <p className="mt-3 text-xs leading-5 text-gray-300">
               Only Road Trip is the flagship travel brand of{" "}
               <span className="font-semibold text-white">Swastik Tour And Travels Private Limited</span>.
@@ -63,30 +56,16 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Contact */}
         <div className="mt-7 border-t border-white/10 pt-6">
           <h3 className="mb-5 text-center text-lg font-semibold">Contact Information</h3>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            <div className="flex gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
-              <div><p className="text-xs font-semibold">Registered Office</p><p className="mt-1 text-xs leading-5 text-gray-400">F163, Phase-1<br />New Palam Vihar<br />Gurugram, Haryana 122001</p></div>
-            </div>
-            <div className="flex gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
-              <div><p className="text-xs font-semibold">Call Us</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div>
-            </div>
-            <div className="flex gap-2">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
-              <div><p className="text-xs font-semibold">Email</p><a href="mailto:info@onlyroadtrip.com" className="text-xs text-gray-300 hover:text-cyan-400">info@onlyroadtrip.com</a></div>
-            </div>
-            <div className="flex gap-2">
-              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
-              <div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div>
-            </div>
+            <div className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Registered Office</p><p className="mt-1 text-xs leading-5 text-gray-400">F163, Phase-1<br />New Palam Vihar<br />Gurugram, Haryana 122001</p></div></div>
+            <div className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Call Us</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div></div>
+            <div className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Email</p><a href="mailto:info@onlyroadtrip.com" className="text-xs text-gray-300 hover:text-cyan-400">info@onlyroadtrip.com</a></div></div>
+            <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div></div>
           </div>
         </div>
 
-        {/* Legal */}
         <div className="mt-6 border-t border-white/10 pt-5">
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-400">
             <Link href="/privacy-policy" className="hover:text-cyan-400">Privacy Policy</Link>
@@ -98,15 +77,17 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Registrations */}
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           <span className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300">MCA Registered</span>
           <span className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300">DPIIT Startup</span>
           <span className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300">NIDHI+</span>
           <span className="rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-xs text-cyan-300">GeM Registered</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300" title="Copyright protection notice">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            DMCA • Copyright Protection
+          </span>
         </div>
 
-        {/* Secure Payments */}
         <div className="mt-6 border-t border-white/10 pt-5 text-center">
           <h3 className="text-base font-semibold">🔒 Secure Payments</h3>
           <p className="mt-1 text-xs text-gray-400">We accept all major payment methods</p>
@@ -119,7 +100,6 @@ export default function Footer() {
           <p className="mt-2 text-xs text-gray-400">SSL Secured • Safe Payments • Trusted Travel Partner</p>
         </div>
 
-        {/* Bottom */}
         <div className="mt-6 border-t border-white/10 pt-5">
           <div className="flex flex-col items-center justify-between gap-3 lg:flex-row">
             <div className="text-center lg:text-left">
