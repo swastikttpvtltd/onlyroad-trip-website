@@ -4,122 +4,106 @@ import BookingSummaryCard from "@/components/package/BookingSummaryCard";
 import InclusionsExclusions from "@/components/package/InclusionsExclusions";
 import Image from "next/image";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
 import { getPackageMediaFallback, getPackagePrimaryImage } from "@/data/packageMediaFallback";
 
-type PackageItem = (typeof packages)[number];
+// The package catalogue is assembled from multiple source files with different
+// legacy shapes. It is normalised in data/packages.ts at runtime, so this page
+// intentionally consumes the final normalised shape.
+type PackageItem = any;
 type PageProps = { params: Promise<{ slug: string }> };
 
-const stateDetails: Record<string, { name: string; famousFor: string }> = {
-  Gujarat: { name: "Gujarat", famousFor: "Gujarat is famous for the Rann of Kutch, Gir National Park, Dwarka and Somnath, its vibrant handicrafts, Gujarati cuisine and rich heritage." },
+type StateDetails = { name: string; famousFor: string };
+
+const stateDetails: Record<string, StateDetails> = {
+  Gujarat: { name: "Gujarat", famousFor: "Gujarat is famous for the Rann of Kutch, Gir National Park, Dwarka and Somnath, vibrant handicrafts, Gujarati cuisine and rich heritage." },
   Rajasthan: { name: "Rajasthan", famousFor: "Rajasthan is famous for royal forts and palaces, Jaipur, Udaipur, Jaisalmer, Jodhpur, desert landscapes, folk culture and colourful traditions." },
   Uttarakhand: { name: "Uttarakhand", famousFor: "Uttarakhand is famous for the Char Dham, Kedarnath and Badrinath, Himalayan landscapes, spiritual centres, rivers, trekking and adventure tourism." },
   "Uttar Pradesh": { name: "Uttar Pradesh", famousFor: "Uttar Pradesh is famous for the Taj Mahal, Ayodhya, Varanasi, Mathura-Vrindavan, historic cities, spiritual traditions and the Ganga." },
-  Kashmir: { name: "Kashmir", famousFor: "Kashmir is famous for Srinagar, Dal Lake, Gulmarg, Pahalgam, Sonamarg, Himalayan scenery, houseboats, gardens and its distinctive local culture." },
+  Kashmir: { name: "Kashmir", famousFor: "Kashmir is famous for Srinagar, Dal Lake, Gulmarg, Pahalgam, Sonamarg, Himalayan scenery, houseboats and gardens." },
   "Jammu & Kashmir": { name: "Jammu & Kashmir", famousFor: "Jammu & Kashmir is famous for the Himalayas, Kashmir Valley, Dal Lake, Gulmarg, Pahalgam, Vaishno Devi and spectacular mountain landscapes." },
   "Himachal Pradesh": { name: "Himachal Pradesh", famousFor: "Himachal Pradesh is famous for Shimla, Manali, Dharamshala, Dalhousie, snow-covered mountains, valleys, trekking and scenic road trips." },
   Ladakh: { name: "Ladakh", famousFor: "Ladakh is famous for Leh, high-altitude mountain passes, monasteries, Pangong Lake, Nubra Valley, dramatic landscapes and adventure road trips." },
-  Punjab: { name: "Punjab", famousFor: "Punjab is famous for the Golden Temple in Amritsar, Sikh heritage, Punjabi cuisine, vibrant culture, historic sites and warm hospitality." },
-  Kerala: { name: "Kerala", famousFor: "Kerala is famous for its backwaters, Munnar tea plantations, Alleppey houseboats, beaches, Ayurveda, lush landscapes and distinctive cuisine." },
-  Goa: { name: "Goa", famousFor: "Goa is famous for its beaches, Portuguese heritage, churches, coastal villages, seafood, nightlife and relaxed tropical holidays." },
-  Maharashtra: { name: "Maharashtra", famousFor: "Maharashtra is famous for Mumbai, hill stations such as Lonavala, historic forts, Ajanta-Ellora, Shirdi and diverse coastal and cultural experiences." },
-  "Madhya Pradesh": { name: "Madhya Pradesh", famousFor: "Madhya Pradesh is famous for Khajuraho, Ujjain Mahakaleshwar, Sanchi, national parks, historic heritage and rich central Indian culture." },
-  Sikkim: { name: "Sikkim", famousFor: "Sikkim is famous for Gangtok, Himalayan views, monasteries, high mountain landscapes, local culture and access to scenic North Sikkim." },
-  "West Bengal": { name: "West Bengal", famousFor: "West Bengal is famous for Kolkata, Darjeeling, the Sundarbans, Bengali culture, colonial heritage, tea gardens and Himalayan scenery." },
-  Assam: { name: "Assam", famousFor: "Assam is famous for Kaziranga National Park, tea gardens, the Brahmaputra, wildlife, Guwahati and the cultural heritage of Northeast India." },
-  Meghalaya: { name: "Meghalaya", famousFor: "Meghalaya is famous for Shillong, Cherrapunji, waterfalls, living root bridges, caves, green hills and some of Northeast India's most dramatic landscapes." },
-  Karnataka: { name: "Karnataka", famousFor: "Karnataka is famous for Bengaluru, Mysuru, Hampi, Coorg, heritage monuments, coffee plantations, temples and diverse South Indian landscapes." },
-  "Tamil Nadu": { name: "Tamil Nadu", famousFor: "Tamil Nadu is famous for its ancient temples, Madurai, Rameswaram, Ooty, classical culture, heritage architecture and spiritual journeys." },
-  "Andaman & Nicobar Islands": { name: "Andaman & Nicobar Islands", famousFor: "The Andaman & Nicobar Islands are famous for tropical beaches, coral reefs, marine life, island experiences, water sports and historic Port Blair." },
-  "Andaman and Nicobar Islands": { name: "Andaman & Nicobar Islands", famousFor: "The Andaman & Nicobar Islands are famous for tropical beaches, coral reefs, marine life, island experiences, water sports and historic Port Blair." },
-  "Andhra Pradesh": { name: "Andhra Pradesh", famousFor: "Andhra Pradesh is famous for Tirupati, temple heritage, Visakhapatnam, Araku Valley, beaches and rich South Indian culture." },
+  Punjab: { name: "Punjab", famousFor: "Punjab is famous for the Golden Temple in Amritsar, Sikh heritage, Punjabi cuisine, vibrant culture and historic sites." },
+  Kerala: { name: "Kerala", famousFor: "Kerala is famous for backwaters, Munnar tea plantations, Alleppey houseboats, beaches, Ayurveda, lush landscapes and distinctive cuisine." },
+  Goa: { name: "Goa", famousFor: "Goa is famous for beaches, Portuguese heritage, churches, coastal villages, seafood, nightlife and relaxed tropical holidays." },
+  Maharashtra: { name: "Maharashtra", famousFor: "Maharashtra is famous for Mumbai, Lonavala, historic forts, Ajanta-Ellora, Shirdi and diverse coastal and cultural experiences." },
+  "Madhya Pradesh": { name: "Madhya Pradesh", famousFor: "Madhya Pradesh is famous for Khajuraho, Ujjain Mahakaleshwar, Sanchi, national parks and rich central Indian culture." },
+  Sikkim: { name: "Sikkim", famousFor: "Sikkim is famous for Gangtok, Himalayan views, monasteries, high mountain landscapes and scenic North Sikkim." },
+  "West Bengal": { name: "West Bengal", famousFor: "West Bengal is famous for Kolkata, Darjeeling, the Sundarbans, Bengali culture, colonial heritage and tea gardens." },
+  Assam: { name: "Assam", famousFor: "Assam is famous for Kaziranga National Park, tea gardens, the Brahmaputra, wildlife, Guwahati and Northeast Indian culture." },
+  Meghalaya: { name: "Meghalaya", famousFor: "Meghalaya is famous for Shillong, Cherrapunji, waterfalls, living root bridges, caves and green hills." },
+  Karnataka: { name: "Karnataka", famousFor: "Karnataka is famous for Bengaluru, Mysuru, Hampi, Coorg, heritage monuments, coffee plantations and temples." },
+  "Tamil Nadu": { name: "Tamil Nadu", famousFor: "Tamil Nadu is famous for ancient temples, Madurai, Rameswaram, Ooty, classical culture and heritage architecture." },
+  "Andaman & Nicobar Islands": { name: "Andaman & Nicobar Islands", famousFor: "The Andaman & Nicobar Islands are famous for tropical beaches, coral reefs, marine life, island experiences and Port Blair." },
+  "Andaman and Nicobar Islands": { name: "Andaman & Nicobar Islands", famousFor: "The Andaman & Nicobar Islands are famous for tropical beaches, coral reefs, marine life, island experiences and Port Blair." },
+  "Andhra Pradesh": { name: "Andhra Pradesh", famousFor: "Andhra Pradesh is famous for Tirupati, temple heritage, Visakhapatnam, Araku Valley, beaches and South Indian culture." },
 };
 
-function getStateDetails(state: string) {
-  const normalized = state.trim();
+function getStateDetails(state: string): StateDetails {
+  const normalized = String(state ?? "").trim();
   return stateDetails[normalized] ?? {
     name: normalized || "India",
-    famousFor: `${normalized || "This destination"} is known for its distinctive landscapes, culture, heritage, local cuisine and destination-specific travel experiences.`,
+    famousFor: `${normalized || "This destination"} is known for its distinctive landscapes, culture, heritage, local cuisine and travel experiences.`,
   };
 }
 
-function heroImage(pkg: PackageItem) {
+function heroImage(pkg: PackageItem): string {
   return getPackagePrimaryImage(pkg);
 }
 
 function galleryImages(pkg: PackageItem) {
-  if (pkg.gallery?.length) return pkg.gallery;
-
-  return getPackageMediaFallback(pkg).map((image, index) => ({
-    image,
-    alt: `${pkg.title} – image ${index + 1}`,
-  }));
+  if (Array.isArray(pkg.gallery) && pkg.gallery.length) return pkg.gallery;
+  return getPackageMediaFallback(pkg).map((image, index) => ({ image, alt: `${pkg.title} – image ${index + 1}` }));
 }
 
-function shortDescription(pkg: PackageItem) {
-  if ("hero" in pkg && pkg.hero?.shortDescription) return pkg.hero.shortDescription;
-  return pkg.overview;
-}
-
-function numberField(pkg: PackageItem, key: "price" | "rating" | "reviews") {
-  if (key in pkg && typeof pkg[key] === "number") return pkg[key];
-  return undefined;
+function numberField(pkg: PackageItem, key: "price" | "rating" | "reviews"): number | undefined {
+  const value = pkg?.[key];
+  return typeof value === "number" ? value : undefined;
 }
 
 function destinationsFor(pkg: PackageItem) {
-  const names = pkg.destination.split(/[•,&/]/).map((x) => x.trim()).filter(Boolean);
-  return names.map((name) => ({
-    name,
-    famous: `${name} is an important stop on this ${pkg.category.toLowerCase()} journey, known for its local attractions, culture and destination-specific experiences.`,
-    experience: `This package covers ${name} according to the published day-wise itinerary, focusing on the relevant sightseeing and route highlights.`,
-  }));
+  return String(pkg.destination ?? "")
+    .split(/[•,&/]/)
+    .map((x: string) => x.trim())
+    .filter(Boolean)
+    .map((name: string) => ({
+      name,
+      famous: `${name} is an important stop on this ${String(pkg.category ?? "tour").toLowerCase()} journey, known for local attractions, culture and destination-specific experiences.`,
+      experience: `This package covers ${name} according to the published day-wise itinerary, focusing on relevant sightseeing and route highlights.`,
+    }));
 }
 
-function faqItems(pkg: PackageItem, state: { name: string; famousFor: string }) {
+function faqItems(pkg: PackageItem, state: StateDetails) {
   return [
-    {
-      question: `What can I expect from this ${pkg.title} itinerary?`,
-      answer: `This ${pkg.duration} ${pkg.category.toLowerCase()} journey covers ${pkg.destination} according to the published day-wise itinerary, with the listed sightseeing, accommodation, meals and inclusions. The exact inclusions and exclusions shown on this page should be checked before booking.`,
-    },
-    {
-      question: `What is ${state.name} famous for?`,
-      answer: state.famousFor,
-    },
-    {
-      question: `Is this package suitable for families and groups?`,
-      answer: `The package is designed around the published group size, difficulty level and itinerary. Families and groups can review the travel information and request suitable customisation before confirming the booking.`,
-    },
-    {
-      question: `Can I customise this ${state.name} tour package?`,
-      answer: `Yes. You can discuss changes to the travel dates, group size, accommodation preference, sightseeing or route requirements with Only Road Trip before booking. Any revised services or pricing will be confirmed separately.`,
-    },
-    {
-      question: `What is the best time to travel to ${state.name}?`,
-      answer: `The package's recommended travel period is shown in the Best Time field above. Weather, road conditions, local events and seasonal closures can affect the ideal dates, so travellers should confirm the final dates with the travel team before booking.`,
-    },
-    {
-      question: `What is included in this tour package?`,
-      answer: `The exact inclusions are listed in the Tour Inclusions & Exclusions section on this page. This keeps the booking information transparent instead of assuming that every service is included in every package.`,
-    },
+    { question: `What can I expect from this ${pkg.title} itinerary?`, answer: `This ${pkg.duration} ${String(pkg.category ?? "tour").toLowerCase()} journey covers ${pkg.destination} according to the published day-wise itinerary, with the listed sightseeing, accommodation, meals and inclusions.` },
+    { question: `What is ${state.name} famous for?`, answer: state.famousFor },
+    { question: "Is this package suitable for families and groups?", answer: "The package is designed around the published group size, difficulty level and itinerary. Families and groups can request suitable customisation before confirming the booking." },
+    { question: `Can I customise this ${state.name} tour package?`, answer: `Yes. You can discuss travel dates, group size, accommodation preference, sightseeing or route requirements with Only Road Trip before booking.` },
+    { question: `What is the best time to travel to ${state.name}?`, answer: `The package's recommended travel period is shown in the Best Time field. Weather, road conditions, local events and seasonal closures can affect ideal dates.` },
+    { question: "What is included in this tour package?", answer: "The exact inclusions and exclusions are listed in the Tour Inclusions & Exclusions section on this page." },
   ];
 }
 
-function travelPlanningNotes(pkg: PackageItem, state: { name: string }) {
+function travelPlanningNotes(state: StateDetails) {
   return [
-    `Start by checking the published duration, Best Time, difficulty and group-size information before choosing dates for this ${state.name} journey.`,
-    `Use the day-wise itinerary as the primary route reference. Sightseeing order can be adjusted only when the confirmed itinerary or local operating conditions allow it.`,
-    `For families, senior travellers or larger groups, discuss the vehicle, hotel and pacing requirements before booking so the final arrangement matches the group.`,
-    `Before departure, reconfirm the final inclusions, exclusions, hotel category, transfer arrangement and any seasonal or local restrictions mentioned by the travel team.`,
+    `Check the published duration, Best Time, difficulty and group-size information before choosing dates for this ${state.name} journey.`,
+    "Use the day-wise itinerary as the primary route reference. Sightseeing order can change when local operating conditions require it.",
+    "For families, senior travellers or larger groups, discuss vehicle, hotel and pacing requirements before booking.",
+    "Before departure, reconfirm final inclusions, exclusions, hotel category, transfers and seasonal restrictions with the travel team.",
   ];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const pkg = packages.find((item) => item.slug === slug);
+  const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
   if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
 
-  const seoKeywords = Array.isArray(pkg.seoKeywords) ? pkg.seoKeywords : [pkg.title, pkg.destination, pkg.state];
+  const seoKeywords: string[] = Array.isArray(pkg.seoKeywords)
+    ? pkg.seoKeywords.map((value: unknown) => String(value))
+    : [pkg.title, pkg.destination, pkg.state].filter(Boolean).map(String);
   const aliasText = seoKeywords.slice(0, 4).join(", ");
 
   return {
@@ -141,7 +125,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PackageDetailsPage({ params }: PageProps) {
   const { slug } = await params;
-  const pkg = packages.find((item) => item.slug === slug);
+  const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
   if (!pkg) notFound();
 
   const image = heroImage(pkg);
@@ -150,7 +134,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const places = destinationsFor(pkg);
   const state = getStateDetails(pkg.state);
   const faqs = faqItems(pkg, state);
-  const planningNotes = travelPlanningNotes(pkg, state);
+  const planningNotes = travelPlanningNotes(state);
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -164,6 +148,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
       <section className="relative h-[430px] overflow-hidden">
         <Image src={image} alt={pkg.title} fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
@@ -195,10 +180,10 @@ export default async function PackageDetailsPage({ params }: PageProps) {
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]">
         <div className="space-y-7">
           <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4">
-            <Fact label="Package ID" value={pkg.packageId} />
-            <Fact label="Duration" value={pkg.duration} />
-            <Fact label="Destination" value={pkg.destination} />
-            <Fact label="Best Time" value={pkg.bestTime} />
+            <Fact label="Package ID" value={String(pkg.packageId ?? "—")} />
+            <Fact label="Duration" value={String(pkg.duration ?? "—")} />
+            <Fact label="Destination" value={String(pkg.destination ?? "—")} />
+            <Fact label="Best Time" value={String(pkg.bestTime ?? "—")} />
           </section>
 
           <ContentCard id="overview" title="Tour Overview">
@@ -209,84 +194,73 @@ export default async function PackageDetailsPage({ params }: PageProps) {
             </div>
             <div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5">
               <h3 className="font-bold">Package Theme</h3>
-              <p className="mt-2 leading-7 text-slate-600">Designed as a {pkg.category.toLowerCase()} journey through {pkg.destination}. The route prioritises the package highlights with comfortable transfers, sightseeing time and destination-appropriate experiences.</p>
+              <p className="mt-2 leading-7 text-slate-600">Designed as a {String(pkg.category ?? "tour").toLowerCase()} journey through {pkg.destination}. The route prioritises package highlights with comfortable transfers, sightseeing time and destination-appropriate experiences.</p>
             </div>
             <h3 className="mt-7 text-xl font-bold">Tour Highlights</h3>
             <div className="mt-4 grid gap-3 md:grid-cols-2">
-              {pkg.highlights.map((x) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}
+              {(Array.isArray(pkg.highlights) ? pkg.highlights : []).map((x: string) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}
             </div>
           </ContentCard>
 
+          <ContentCard id="gallery" title="Tour Gallery">
+            <PackageGallerySlider images={gallery} />
+          </ContentCard>
+
+          <ContentCard id="itinerary" title="Day-wise Itinerary">
+            <ItineraryAccordion itinerary={Array.isArray(pkg.itinerary) ? pkg.itinerary : []} destination={String(pkg.destination ?? "")} category={String(pkg.category ?? "Tour")} />
+          </ContentCard>
+
           <ContentCard id="places" title="Places Covered & What They Are Famous For">
-            <p className="mb-5 leading-7 text-slate-600">Every stop below is explained according to this package route.</p>
             <div className="space-y-4">
-              {places.map((p, i) => (
-                <div key={`${p.name}-${i}`} className="rounded-xl border p-5">
-                  <div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 font-bold text-white">{i + 1}</span><h3 className="text-xl font-bold">{p.name}</h3></div>
-                  <p className="mt-4 text-sm font-bold text-slate-900">Famous for</p>
-                  <p className="mt-1 leading-7 text-slate-600">{p.famous}</p>
-                  <p className="mt-3 text-sm font-bold text-slate-900">What we cover</p>
-                  <p className="mt-1 leading-7 text-slate-600">{p.experience}</p>
+              {places.map((place) => (
+                <div key={place.name} className="rounded-xl border border-slate-200 bg-slate-50 p-5">
+                  <h3 className="font-bold text-slate-900">{place.name}</h3>
+                  <p className="mt-2 leading-7 text-slate-600"><b>Known for:</b> {place.famous}</p>
+                  <p className="mt-2 leading-7 text-slate-600"><b>Experience:</b> {place.experience}</p>
                 </div>
               ))}
             </div>
           </ContentCard>
 
-          <div id="gallery" className="scroll-mt-24"><PackageGallerySlider gallery={gallery} title={pkg.title} /></div>
-
-          <ContentCard id="itinerary" title="Day-wise Tour Itinerary">
-            <p className="mb-5 text-sm leading-6 text-slate-500">Click + to open the day schedule, Today&apos;s Experience and what that specific day is known for.</p>
-            <ItineraryAccordion itinerary={pkg.itinerary} destination={pkg.destination} category={pkg.category} />
-          </ContentCard>
-
           <ContentCard id="inclusions" title="Tour Inclusions & Exclusions">
-            <InclusionsExclusions inclusions={pkg.inclusions} exclusions={pkg.exclusions} />
+            <InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} />
           </ContentCard>
 
           <ContentCard id="hotels" title="Stay, Meals & Travel Information">
             <div className="grid gap-4 md:grid-cols-3">
               <InfoColumn title="Suggested Hotels / Similar">
                 <div className="space-y-3">
-                  {pkg.hotels.map((h, i) => {
-                    const hotel = h as { name: string; category?: string; star?: string };
-                    return (
-                      <div key={`${hotel.name}-${i}`} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-                        <p className="font-bold text-slate-900">{hotel.name}</p>
-                        <p className="mt-1 text-sm text-slate-500">{hotel.star ?? hotel.category ?? "Comfort Stay"}</p>
-                      </div>
-                    );
-                  })}
+                  {(Array.isArray(pkg.hotels) ? pkg.hotels : []).map((h: any, i: number) => (
+                    <div key={`${String(h?.name ?? "hotel")}-${i}`} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                      <p className="font-bold text-slate-900">{String(h?.name ?? "Hotel / Similar")}</p>
+                      <p className="mt-1 text-sm text-slate-500">{String(h?.star ?? h?.category ?? "Comfort Stay")}</p>
+                    </div>
+                  ))}
                 </div>
               </InfoColumn>
 
               <InfoColumn title="Meals">
                 <div className="space-y-2.5">
-                  {pkg.meals.map((x) => (
-                    <p key={x} className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm leading-6 text-slate-700">🍽 {x}</p>
-                  ))}
+                  {(Array.isArray(pkg.meals) ? pkg.meals : []).map((x: string) => <p key={x} className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-sm leading-6 text-slate-700">🍽 {x}</p>)}
                 </div>
               </InfoColumn>
 
               <InfoColumn title="Travel Information">
                 <div className="space-y-3 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
-                  <p><b>Difficulty:</b> {pkg.difficulty}</p>
-                  <p><b>Best Time:</b> {pkg.bestTime}</p>
-                  <p><b>Group:</b> {pkg.groupSize}</p>
+                  <p><b>Difficulty:</b> {String(pkg.difficulty ?? "Standard")}</p>
+                  <p><b>Best Time:</b> {String(pkg.bestTime ?? "Year-round; subject to local conditions")}</p>
+                  <p><b>Group:</b> {String(pkg.groupSize ?? "Customisable")}</p>
                 </div>
               </InfoColumn>
             </div>
           </ContentCard>
 
           <ContentCard id="faqs" title="Frequently Asked Questions">
-            <p className="mb-5 leading-7 text-slate-600">Here are answers to common questions a traveller may have before booking this journey.</p>
             <div className="space-y-4">
               {faqs.map((faq) => (
                 <details key={faq.question} className="group rounded-xl border border-slate-200 bg-white p-5">
                   <summary className="cursor-pointer list-none pr-6 font-bold text-slate-900 marker:hidden">
-                    <span className="flex items-center justify-between gap-4">
-                      {faq.question}
-                      <span className="text-xl text-blue-700 transition group-open:rotate-45">+</span>
-                    </span>
+                    <span className="flex items-center justify-between gap-4">{faq.question}<span className="text-xl text-blue-700 transition group-open:rotate-45">+</span></span>
                   </summary>
                   <p className="mt-4 leading-7 text-slate-600">{faq.answer}</p>
                 </details>
@@ -295,33 +269,25 @@ export default async function PackageDetailsPage({ params }: PageProps) {
           </ContentCard>
 
           <ContentCard id="travel-planning" title={`Planning Your ${state.name} Trip`}>
-            <p className="leading-7 text-slate-600">If you are comparing itineraries or planning this journey for your family or group, these practical checks can help you make a more informed decision.</p>
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
-              {planningNotes.map((note) => (
-                <div key={note} className="rounded-xl border border-slate-200 bg-slate-50 p-4 leading-7 text-slate-700">{note}</div>
-              ))}
+            <div className="grid gap-3 md:grid-cols-2">
+              {planningNotes.map((note) => <div key={note} className="rounded-xl border border-slate-200 bg-slate-50 p-4 leading-7 text-slate-700">{note}</div>)}
             </div>
           </ContentCard>
         </div>
 
         <aside className="h-fit lg:sticky lg:top-20">
-          <BookingSummaryCard slug={pkg.slug} title={pkg.title} price={price} duration={pkg.duration} destination={pkg.destination} />
+          <BookingSummaryCard slug={String(pkg.slug)} title={String(pkg.title)} price={price} duration={String(pkg.duration ?? "")} destination={String(pkg.destination ?? "")} />
         </aside>
       </section>
     </main>
   );
 }
 
-function InfoColumn({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="min-w-0">
-      <h3 className="mb-3 text-base font-bold text-slate-900">{title}</h3>
-      {children}
-    </div>
-  );
+function InfoColumn({ title, children }: { title: string; children: ReactNode }) {
+  return <div className="min-w-0"><h3 className="mb-3 text-base font-bold text-slate-900">{title}</h3>{children}</div>;
 }
 
-function ContentCard({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
+function ContentCard({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return <section id={id} className="scroll-mt-24 rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="border-b pb-4 text-2xl font-extrabold text-[#153e75]">{title}</h2><div className="pt-5">{children}</div></section>;
 }
 
