@@ -19,3 +19,5 @@
     }
   ]
 }
+
+// Force a fresh Cloudflare build so the latest runtime configuration is deployed.
