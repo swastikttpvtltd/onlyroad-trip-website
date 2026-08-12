@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PilgrimageLandingPage from "@/components/PilgrimageLandingPage";
+import RelatedPilgrimageLinks from "@/components/RelatedPilgrimageLinks";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
@@ -21,5 +22,5 @@ const schema = {
 };
 
 export default function AyodhyaYatraPackagePage() {
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /><PilgrimageLandingPage variant="ayodhya" /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /><PilgrimageLandingPage variant="ayodhya" /><RelatedPilgrimageLinks current="ayodhya" /></>;
 }
