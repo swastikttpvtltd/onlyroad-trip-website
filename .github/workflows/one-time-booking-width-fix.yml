@@ -1,0 +1,39 @@
+name: One-time Booking Width Fix
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  fix-width:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Narrow country code selector
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("components/BookingForm.tsx")
+          content = path.read_text(encoding="utf-8")
+          old = 'className="w-[125px] shrink-0'
+          new = 'className="w-[90px] shrink-0'
+          if old not in content:
+              raise SystemExit("Target width w-[125px] was not found.")
+          path.write_text(content.replace(old, new, 1), encoding="utf-8")
+          PY
+
+      - name: Commit and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add components/BookingForm.tsx
+          git commit -m "fix: narrow booking country code selector"
+          git rm .github/workflows/one-time-booking-width-fix.yml
+          git commit -m "chore: remove one-time booking width workflow"
+          git push
