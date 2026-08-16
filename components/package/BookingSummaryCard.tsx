@@ -6,7 +6,7 @@ import { Check, Download, Mail, MessageCircle, Utensils, Hotel, Camera, Bus, Use
 
 type SharingRate = { type: string; price: number };
 type Props = {
-  pkg?: { slug?: string; title?: string; duration?: string; destination?: string; sharingRates?: SharingRate[] };
+  pkg?: { slug?: string; title?: string; duration?: string; destination?: string; sharingRates?: SharingRate[]; groupRates?: { sharingRates?: SharingRate[] } };
   slug?: string;
   title?: string;
   price?: number;
@@ -21,7 +21,7 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
   const finalDuration = pkg?.duration ?? duration ?? "As per package";
   const finalDestination = pkg?.destination ?? destination ?? "India";
   const formattedPrice = price ? `₹${price.toLocaleString("en-IN")}` : "Price on Request";
-  const sharingRates = pkg?.sharingRates ?? [];
+  const sharingRates = pkg?.sharingRates ?? pkg?.groupRates?.sharingRates ?? [];
   const whatsappText = encodeURIComponent(`Hi, I want details for ${finalTitle}. Package: ${finalSlug}`);
   const emailSubject = encodeURIComponent(`Enquiry for ${finalTitle}`);
   const emailBody = encodeURIComponent(`Hi Only Road Trip,\n\nI want details for ${finalTitle}.\nPackage: ${finalSlug}`);
@@ -55,15 +55,15 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
         {sharingRates.length > 0 && (
           <div className="border-t border-slate-200 bg-white px-5 py-5">
             <div className="mb-3">
-              <h3 className="text-lg font-extrabold text-slate-900">Goa Package Pricing</h3>
-              <p className="mt-1 text-xs text-slate-500">Per person • Select your room sharing</p>
+              <h3 className="text-lg font-extrabold text-slate-900">Group Tour Package Pricing</h3>
+              <p className="mt-1 text-xs text-slate-500">Fixed per person • Select your room sharing</p>
             </div>
             <div className="overflow-hidden rounded-xl border border-slate-200">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50">
                   <tr>
-                    <th className="px-3 py-3 text-left font-bold text-slate-600">Sharing</th>
-                    <th className="px-3 py-3 text-right font-bold text-slate-600">Price / Person</th>
+                    <th className="px-3 py-3 text-left font-bold text-slate-600">Room Sharing</th>
+                    <th className="px-3 py-3 text-right font-bold text-slate-600">Cost (per person)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -80,7 +80,7 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
         )}
 
         <div className="border-t border-slate-200 bg-slate-50 px-5 py-5">
-          <div className="flex items-end justify-between gap-4"><div><p className="text-[22px] font-extrabold text-slate-900">Tour Price</p><p className="mt-1 text-xs text-slate-500">*Price is per person on standard sharing basis.</p></div><div className="text-right"><p className="text-[28px] font-extrabold tracking-tight text-slate-900">{formattedPrice}</p><p className="text-xs text-slate-500">Per Person*</p></div></div>
+          <div className="flex items-end justify-between gap-4"><div><p className="text-[22px] font-extrabold text-slate-900">Tour Price</p><p className="mt-1 text-xs text-slate-500">*Price is per person on the displayed group rate card.</p></div><div className="text-right"><p className="text-[28px] font-extrabold tracking-tight text-slate-900">{formattedPrice}</p><p className="text-xs text-slate-500">Per Person*</p></div></div>
           <div className="mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 text-sm"><div className="flex items-center gap-2"><IndianRupee size={17} className="text-[#153e75]"/><span className="text-slate-500">EMI</span><b>Available</b></div><div className="flex items-center justify-end gap-2"><Check size={17} className="text-emerald-600"/><span className="text-slate-500">Online Payment</span><b>Available</b></div></div>
         </div>
 
