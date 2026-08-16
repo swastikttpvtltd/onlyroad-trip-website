@@ -2,30 +2,23 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Check, ChevronDown, CreditCard, CalendarDays, Users } from "lucide-react";
+import { CalendarDays, Check, ChevronDown, CreditCard, Users } from "lucide-react";
+import { getGroupSharingRates, getPilgrimageGroupTourDates } from "@/data/groupTourPricing";
 
 type Sharing = "quad" | "triple" | "double";
 type Props = { packageTitle: string; packageId?: string; packageDuration?: string };
-
 type Rates = { quad: number | null; triple: number | null; double: number | null };
 
-const FRIDAYS = [
+const DEFAULT_FRIDAYS = [
   "2026-08-21","2026-08-28","2026-09-04","2026-09-11","2026-09-18","2026-09-25",
   "2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30",
-  "2026-11-06","2026-11-13","2026-11-20","2026-11-27",
-  "2026-12-04","2026-12-11","2026-12-18","2026-12-25",
-  "2027-01-01","2027-01-08","2027-01-15","2027-01-22","2027-01-29",
-  "2027-02-05","2027-02-12","2027-02-19","2027-02-26",
-  "2027-03-05","2027-03-12","2027-03-19","2027-03-26",
-  "2027-04-02","2027-04-09","2027-04-16","2027-04-23","2027-04-30",
-  "2027-05-07","2027-05-14","2027-05-21","2027-05-28",
-  "2027-06-04","2027-06-11","2027-06-18","2027-06-25",
-  "2027-07-02","2027-07-09","2027-07-16","2027-07-23","2027-07-30",
-  "2027-08-06","2027-08-13","2027-08-20","2027-08-27",
-  "2027-09-03","2027-09-10","2027-09-17","2027-09-24",
-  "2027-10-01","2027-10-08","2027-10-15","2027-10-22","2027-10-29",
-  "2027-11-05","2027-11-12","2027-11-19","2027-11-26",
-  "2027-12-03","2027-12-10","2027-12-17","2027-12-24","2027-12-31",
+  "2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18","2026-12-25",
+  "2027-01-01","2027-01-08","2027-01-15","2027-01-22","2027-01-29","2027-02-05","2027-02-12","2027-02-19","2027-02-26",
+  "2027-03-05","2027-03-12","2027-03-19","2027-03-26","2027-04-02","2027-04-09","2027-04-16","2027-04-23","2027-04-30",
+  "2027-05-07","2027-05-14","2027-05-21","2027-05-28","2027-06-04","2027-06-11","2027-06-18","2027-06-25",
+  "2027-07-02","2027-07-09","2027-07-16","2027-07-23","2027-07-30","2027-08-06","2027-08-13","2027-08-20","2027-08-27",
+  "2027-09-03","2027-09-10","2027-09-17","2027-09-24","2027-10-01","2027-10-08","2027-10-15","2027-10-22","2027-10-29",
+  "2027-11-05","2027-11-12","2027-11-19","2027-11-26","2027-12-03","2027-12-10","2027-12-17","2027-12-24","2027-12-31",
   "2028-01-07","2028-01-14","2028-01-21","2028-01-28",
 ];
 
@@ -40,17 +33,26 @@ function returnDate(value: string, duration: string) {
   return d.toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
 }
 
+function isPilgrimage(packageTitle: string, packageId?: string) {
+  return /char[- ]dham|do[- ]dham|kedarnath/i.test(`${packageTitle} ${packageId ?? ""}`);
+}
+
 function getRates(packageTitle: string, packageId?: string): Rates {
-  const text = `${packageTitle} ${packageId ?? ""}`;
-  if (/goa/i.test(text)) return { quad: 9999, triple: 11599, double: 12599 };
-  if (/char-dham|do-dham|kedarnath/i.test(text)) return { quad: null, triple: null, double: null };
+  const result = getGroupSharingRates({ title: packageTitle, packageId, themes: ["Group Tour"] });
+  if (result) return {
+    quad: result.find((r) => r.type === "Quad Sharing")?.price ?? null,
+    triple: result.find((r) => r.type === "Triple Sharing")?.price ?? null,
+    double: result.find((r) => r.type === "Double Sharing")?.price ?? null,
+  };
   return { quad: 7499, triple: 7999, double: 8499 };
 }
 
 export default function GroupBookingForm({ packageTitle, packageId, packageDuration = "2 Nights / 3 Days" }: Props) {
+  const pilgrimage = isPilgrimage(packageTitle, packageId);
   const rates = getRates(packageTitle, packageId);
   const ratesPending = rates.quad === null || rates.triple === null || rates.double === null;
-  const [travelDate, setTravelDate] = useState(FRIDAYS[0]);
+  const dates = useMemo(() => pilgrimage ? getPilgrimageGroupTourDates() : DEFAULT_FRIDAYS, [pilgrimage]);
+  const [travelDate, setTravelDate] = useState(dates[0]);
   const [sharing, setSharing] = useState<Sharing>("double");
   const [travellers, setTravellers] = useState(1);
   const [name, setName] = useState("");
@@ -65,8 +67,8 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
   const advance = selectedRate === null ? 0 : Math.ceil(total * 0.3);
   const balance = total - advance;
   const selectedMonth = useMemo(() => travelDate.slice(0, 7), [travelDate]);
-  const visibleSlots = useMemo(() => FRIDAYS.filter((date) => date.startsWith(selectedMonth)), [selectedMonth]);
-  const months = useMemo(() => Array.from(new Set(FRIDAYS.map((date) => date.slice(0, 7)))), []);
+  const visibleSlots = useMemo(() => dates.filter((date) => date.startsWith(selectedMonth)), [dates, selectedMonth]);
+  const months = useMemo(() => Array.from(new Set(dates.map((date) => date.slice(0, 7)))), [dates]);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -93,8 +95,7 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
     { id: "triple", label: "Triple Sharing" },
     { id: "double", label: "Double Sharing" },
   ];
-
-  const rateLabel = (id: Sharing) => rates[id] === null ? "Rate to be updated" : `₹${rates[id]!.toLocaleString("en-IN")}`;
+  const rateLabel = (id: Sharing) => rates[id] === null ? "Rate Coming Soon" : `₹${rates[id]!.toLocaleString("en-IN")}`;
 
   return (
     <section id="booking" className="mt-7 scroll-mt-28">
@@ -108,20 +109,15 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
           <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200">
             <div className="bg-[#153e75] px-5 py-4 text-xl font-extrabold text-white">Package Cost</div>
             <div className="grid gap-3 p-4 md:grid-cols-3">
-              {sharingOptions.map((option) => {
-                const selected = sharing === option.id;
-                return <button key={option.id} type="button" onClick={() => setSharing(option.id)} className={`rounded-xl border-2 p-4 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{option.label}</span><span className={`h-5 w-5 rounded-full border-2 ${selected ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-3 text-2xl font-extrabold text-blue-800">{rateLabel(option.id)}</p><p className="mt-0.5 text-xs text-slate-500">Per Person • GST included</p></button>;
-              })}
+              {sharingOptions.map((option) => { const selected = sharing === option.id; return <button key={option.id} type="button" onClick={() => setSharing(option.id)} className={`rounded-xl border-2 p-4 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{option.label}</span><span className={`h-5 w-5 rounded-full border-2 ${selected ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-3 text-2xl font-extrabold text-blue-800">{rateLabel(option.id)}</p><p className="mt-0.5 text-xs text-slate-500">Per Person • GST included</p></button>; })}
             </div>
             <div className="border-t bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-600">Select Quad, Triple or Double Sharing above. The selected rate immediately updates the booking summary and payment amount. GST @ 5% is already included.</div>
           </div>
 
           <div className="mt-7 rounded-2xl border border-slate-200 p-5">
-            <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-extrabold text-slate-950">Departure Calendar</h3><p className="mt-1 text-sm text-slate-500">Every Friday departure • {packageDuration} • dates through January 2028</p></div><CalendarDays className="text-blue-700" /></div>
-            <div className="relative mt-4"><select value={selectedMonth} onChange={(e) => { const first = FRIDAYS.find((date) => date.startsWith(e.target.value)); if (first) setTravelDate(first); }} className="w-full appearance-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 pr-10 text-sm font-bold text-slate-800">{months.map((month) => <option key={month} value={month}>{new Date(`${month}-01T12:00:00`).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-3 text-slate-500" size={18}/></div>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
-              {visibleSlots.map((date) => { const selected = travelDate === date; return <button key={date} type="button" onClick={() => setTravelDate(date)} className={`flex w-full items-center justify-between rounded-xl border-2 px-4 py-3 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div><p className="font-extrabold text-slate-900">{formatDate(date)}</p><p className="mt-0.5 text-xs text-slate-500">Return: {returnDate(date, packageDuration)}</p></div><span className={`rounded-full px-3 py-1 text-xs font-bold ${selected ? "bg-blue-700 text-white" : "bg-emerald-50 text-emerald-700"}`}>{selected ? "Selected" : "Available"}</span></button>; })}
-            </div>
+            <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-extrabold text-slate-950">Departure Calendar</h3><p className="mt-1 text-sm text-slate-500">{pilgrimage ? "Seasonal Friday departures • Current season closes 22 Oct 2026 • Next season May–22 Oct 2027" : `Friday departures • ${packageDuration}`}</p></div><CalendarDays className="text-blue-700" /></div>
+            <div className="relative mt-4"><select value={selectedMonth} onChange={(e) => { const first = dates.find((date) => date.startsWith(e.target.value)); if (first) setTravelDate(first); }} className="w-full appearance-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 pr-10 text-sm font-bold text-slate-800">{months.map((month) => <option key={month} value={month}>{new Date(`${month}-01T12:00:00`).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-3 text-slate-500" size={18}/></div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">{visibleSlots.map((date) => { const selected = travelDate === date; return <button key={date} type="button" onClick={() => setTravelDate(date)} className={`flex w-full items-center justify-between rounded-xl border-2 px-4 py-3 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div><p className="font-extrabold text-slate-900">{formatDate(date)}</p><p className="mt-0.5 text-xs text-slate-500">Return: {returnDate(date, packageDuration)}</p></div><span className={`rounded-full px-3 py-1 text-xs font-bold ${selected ? "bg-blue-700 text-white" : "bg-emerald-50 text-emerald-700"}`}>{selected ? "Selected" : "Available"}</span></button>; })}</div>
           </div>
 
           <form onSubmit={submit} className="mt-7 space-y-5">
@@ -139,21 +135,7 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
           </form>
         </div>
 
-        <aside className="xl:sticky xl:top-28">
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
-            <div className="bg-slate-950 px-5 py-4 text-xl font-extrabold text-white">Booking Summary</div>
-            <div className="space-y-4 p-5">
-              <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{packageTitle}</p>
-              <div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Departure</span><b>{formatDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Return</span><b>{returnDate(travelDate, packageDuration)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Sharing</span><b>{sharing === "quad" ? "Quad" : sharing === "triple" ? "Triple" : "Double"}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{travellers}</b></div></div>
-              <Row label={selectedRate === null ? "Group rate" : `₹${selectedRate.toLocaleString("en-IN")} × ${travellers}`} value={total} />
-              <div className="flex justify-between gap-4 text-xs font-semibold text-emerald-700"><span>GST @ 5%</span><span>Included</span></div>
-              <div className="border-t pt-3"><Row label="Total package cost" value={total} strong /></div>
-              {ratesPending ? <div className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-800">Quad, Triple and Double group rates will be added once the final costing is provided.</div> : <div className="rounded-xl bg-blue-50 p-4"><div className="flex justify-between gap-3 font-bold text-blue-950"><span>30% booking advance</span><span>₹{advance.toLocaleString("en-IN")}</span></div><div className="mt-2 flex justify-between gap-3 border-t border-blue-100 pt-2 text-sm"><span>Balance after advance</span><b>₹{balance.toLocaleString("en-IN")}</b></div></div>}
-              <div className="flex items-center gap-2 text-xs text-slate-500"><Users size={15} className="text-blue-700"/> Traveller count can be 1, 2, 3 or any number up to the package limit.</div>
-              <div className="flex items-center gap-2 text-xs text-slate-500"><CreditCard size={15} className="text-blue-700"/> Secure online payment • <Check size={15} className="text-emerald-600"/> GST included</div>
-            </div>
-          </div>
-        </aside>
+        <aside className="xl:sticky xl:top-28"><div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"><div className="bg-slate-950 px-5 py-4 text-xl font-extrabold text-white">Booking Summary</div><div className="space-y-4 p-5"><p className="text-xs font-bold uppercase tracking-wide text-slate-400">{packageTitle}</p><div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Departure</span><b>{formatDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Return</span><b>{returnDate(travelDate, packageDuration)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Sharing</span><b>{sharing === "quad" ? "Quad" : sharing === "triple" ? "Triple" : "Double"}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{travellers}</b></div></div><Row label={selectedRate === null ? "Group rate" : `₹${selectedRate.toLocaleString("en-IN")} × ${travellers}`} value={total} /><div className="flex justify-between gap-4 text-xs font-semibold text-emerald-700"><span>GST @ 5%</span><span>Included</span></div><div className="border-t pt-3"><Row label="Total package cost" value={total} strong /></div>{ratesPending ? <div className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-800">Quad / Triple / Double costing will be published here once supplied.</div> : <div className="rounded-xl bg-blue-50 p-4"><div className="flex justify-between gap-3 font-bold text-blue-950"><span>30% booking advance</span><span>₹{advance.toLocaleString("en-IN")}</span></div><div className="mt-2 flex justify-between gap-3 border-t border-blue-100 pt-2 text-sm"><span>Balance after advance</span><b>₹{balance.toLocaleString("en-IN")}</b></div></div>}<div className="flex items-center gap-2 text-xs text-slate-500"><Users size={15} className="text-blue-700"/> Traveller count can be 1 to 12.</div><div className="flex items-center gap-2 text-xs text-slate-500"><CreditCard size={15} className="text-blue-700"/> Secure online payment • <Check size={15} className="text-emerald-600"/> GST included</div></div></div></aside>
       </div>
       <style jsx>{`.input{width:100%;border:1px solid #cbd5e1;border-radius:.75rem;padding:.75rem;outline:none;background:#fff}.input:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.1)}`}</style>
     </section>
