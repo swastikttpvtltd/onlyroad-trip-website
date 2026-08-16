@@ -7,8 +7,8 @@ import Link from "next/link";
 type Props={params:Promise<{slug:string}>};
 
 function isGroupTour(pkg:any){
- const text=`${pkg?.packageId??""} ${pkg?.title??""} ${pkg?.category??""} ${pkg?.duration??""}`.toLowerCase();
- return text.includes("group") || (text.includes("weekend") && text.includes("2 nights / 3 days"));
+ const text=`${pkg?.packageId??""} ${pkg?.title??""} ${pkg?.category??""} ${pkg?.duration??""} ${(pkg?.themes??[]).join(" ")}`.toLowerCase();
+ return text.includes("group tour") || text.includes("group-tour") || text.includes("group") || (text.includes("weekend") && text.includes("2 nights / 3 days"));
 }
 
 export default async function BookPackagePage({params}:Props){
