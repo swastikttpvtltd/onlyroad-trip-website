@@ -94,13 +94,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
   const seoKeywords: string[] = Array.isArray(pkg.seoKeywords) ? pkg.seoKeywords.map((value: unknown) => String(value)) : [pkg.title, pkg.destination, pkg.state].filter(Boolean).map(String);
   const aliasText = seoKeywords.slice(0, 4).join(", ");
-  return {
-    title: `${pkg.title} | Only Road Trip`,
-    description: `${pkg.overview} Search for this journey as ${aliasText}.`,
-    keywords: seoKeywords,
-    alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` },
-    openGraph: { title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Explore ${aliasText}.`, url: `https://www.onlyroadtrip.com/packages/${slug}`, siteName: "Only Road Trip", locale: "en_IN", type: "website", images: [{ url: heroImage(pkg), alt: pkg.title }] },
-  };
+  return { title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Search for this journey as ${aliasText}.`, keywords: seoKeywords, alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` }, openGraph: { title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Explore ${aliasText}.`, url: `https://www.onlyroadtrip.com/packages/${slug}`, siteName: "Only Road Trip", locale: "en_IN", type: "website", images: [{ url: heroImage(pkg), alt: pkg.title }] } };
 }
 
 export default async function PackageDetailsPage({ params }: PageProps) {
@@ -128,7 +122,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
         <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.category}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
         <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>
-        <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</ContentCard>
+        <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</div></ContentCard>
       </div><aside className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
     </main>
   );
