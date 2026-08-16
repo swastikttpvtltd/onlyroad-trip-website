@@ -23,8 +23,12 @@ export default function PackageGallerySlider({
   gallery: GalleryItem[];
   title: string;
 }) {
-  // Show every discovered package image. There is intentionally no hard cap.
-  const slides = useMemo(() => gallery.filter((item) => item?.image), [gallery]);
+  // No artificial limit: every gallery item supplied by the package is displayed.
+  // No extension filtering: browser-supported image URLs are accepted as-is.
+  const slides = useMemo(
+    () => gallery.filter((item) => typeof item?.image === "string" && item.image.trim()),
+    [gallery],
+  );
   const [active, setActive] = useState(0);
 
   useEffect(() => {
@@ -64,13 +68,6 @@ export default function PackageGallerySlider({
                 className="block h-full w-full object-contain object-center"
                 loading={index === 0 ? "eager" : "lazy"}
                 decoding="async"
-                onError={(event) => {
-                  const image = event.currentTarget;
-                  const fallback = slide.image.replace(/\.(avif|webp|jpeg|jpg|png)$/i, ".jpg");
-                  if (fallback !== slide.image && image.src.endsWith(slide.image)) {
-                    image.src = fallback;
-                  }
-                }}
               />
             </div>
           ))}
