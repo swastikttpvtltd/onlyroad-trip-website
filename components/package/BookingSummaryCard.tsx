@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { Check, Download, Mail, MessageCircle, Utensils, Hotel, Camera, Bus, Users, IndianRupee } from "lucide-react";
 
+type SharingRate = { type: string; price: number };
 type Props = {
-  pkg?: { slug?: string; title?: string; duration?: string; destination?: string };
+  pkg?: { slug?: string; title?: string; duration?: string; destination?: string; sharingRates?: SharingRate[] };
   slug?: string;
   title?: string;
   price?: number;
@@ -20,6 +21,7 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
   const finalDuration = pkg?.duration ?? duration ?? "As per package";
   const finalDestination = pkg?.destination ?? destination ?? "India";
   const formattedPrice = price ? `₹${price.toLocaleString("en-IN")}` : "Price on Request";
+  const sharingRates = pkg?.sharingRates ?? [];
   const whatsappText = encodeURIComponent(`Hi, I want details for ${finalTitle}. Package: ${finalSlug}`);
   const emailSubject = encodeURIComponent(`Enquiry for ${finalTitle}`);
   const emailBody = encodeURIComponent(`Hi Only Road Trip,\n\nI want details for ${finalTitle}.\nPackage: ${finalSlug}`);
@@ -49,6 +51,33 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
             <div className="grid grid-cols-[115px_1fr] items-center gap-3"><span className="text-slate-500">Tour Includes</span><span className="flex justify-end gap-3 text-[#153e75]" title="Hotel, meals, sightseeing and transport"><Hotel size={18}/><Utensils size={18}/><Camera size={18}/><Bus size={18}/></span></div>
           </div>
         </div>
+
+        {sharingRates.length > 0 && (
+          <div className="border-t border-slate-200 bg-white px-5 py-5">
+            <div className="mb-3">
+              <h3 className="text-lg font-extrabold text-slate-900">Goa Package Pricing</h3>
+              <p className="mt-1 text-xs text-slate-500">Per person • Select your room sharing</p>
+            </div>
+            <div className="overflow-hidden rounded-xl border border-slate-200">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th className="px-3 py-3 text-left font-bold text-slate-600">Sharing</th>
+                    <th className="px-3 py-3 text-right font-bold text-slate-600">Price / Person</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sharingRates.map((rate) => (
+                    <tr key={rate.type} className="border-t border-slate-200">
+                      <td className="px-3 py-3 font-bold text-slate-800">{rate.type}</td>
+                      <td className="px-3 py-3 text-right font-extrabold text-[#153e75]">₹{rate.price.toLocaleString("en-IN")}/-</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         <div className="border-t border-slate-200 bg-slate-50 px-5 py-5">
           <div className="flex items-end justify-between gap-4"><div><p className="text-[22px] font-extrabold text-slate-900">Tour Price</p><p className="mt-1 text-xs text-slate-500">*Price is per person on standard sharing basis.</p></div><div className="text-right"><p className="text-[28px] font-extrabold tracking-tight text-slate-900">{formattedPrice}</p><p className="text-xs text-slate-500">Per Person*</p></div></div>
