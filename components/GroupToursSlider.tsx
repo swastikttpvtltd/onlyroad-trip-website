@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { ArrowLeft, ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin, Star } from "lucide-react";
 import { packages } from "@/data/packages";
 import { getGroupTourStartingPrice } from "@/data/groupTourPricing";
 
@@ -22,40 +22,56 @@ export default function GroupToursSlider() {
     const track = trackRef.current;
     if (!track) return;
     const card = track.querySelector<HTMLElement>("[data-group-tour-card]");
-    const amount = card ? card.offsetWidth + 16 : track.clientWidth * 0.8;
-    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 10;
-    if (direction > 0 && atEnd) track.scrollTo({ left: 0, behavior: "smooth" });
-    else track.scrollBy({ left: amount * direction, behavior: "smooth" });
+    const amount = card ? card.offsetWidth + 20 : track.clientWidth * 0.85;
+    const max = track.scrollWidth - track.clientWidth;
+    const next = Math.max(0, Math.min(max, track.scrollLeft + amount * direction));
+    if (direction < 0 && track.scrollLeft <= 5) track.scrollTo({ left: max, behavior: "smooth" });
+    else if (direction > 0 && track.scrollLeft >= max - 5) track.scrollTo({ left: 0, behavior: "smooth" });
+    else track.scrollTo({ left: next, behavior: "smooth" });
   }
 
   if (!groupPackages.length) return null;
 
   return (
-    <section className="border-y border-blue-100 bg-gradient-to-r from-[#f8fbff] via-white to-[#f8fbff] py-7">
+    <section className="border-y border-blue-100 bg-white py-10 md:py-12">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="mb-4 flex items-end justify-between gap-4">
+        <div className="mb-7 flex items-end justify-between gap-4 md:mb-8">
           <div>
-            <span className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.18em] text-blue-800">Only Road Trip</span>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl">Group Tours</h2>
-            <p className="mt-1 text-sm text-slate-600">Fixed per-person rates • Friday departures • 5% GST included</p>
-          </div>
-          <div className="flex shrink-0 gap-2">
-            <button type="button" aria-label="Previous group tours" onClick={() => scrollByCard(-1)} className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-800 shadow-sm transition hover:border-blue-700 hover:text-blue-700"><ArrowLeft size={18} /></button>
-            <button type="button" aria-label="Next group tours" onClick={() => scrollByCard(1)} className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-800 text-white shadow-sm transition hover:bg-blue-900"><ArrowRight size={18} /></button>
+            <span className="inline-flex rounded-full bg-blue-100 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-blue-800">Only Road Trip</span>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">Group Tours</h2>
+            <p className="mt-2 text-sm text-slate-600 md:text-base">Fixed per-person rates • Friday departures • 5% GST included.</p>
           </div>
         </div>
 
-        <div ref={trackRef} className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {groupPackages.map((pkg: any) => (
-            <article key={pkg.slug} data-group-tour-card className="min-w-[86%] snap-start overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm sm:min-w-[48%] lg:min-w-[32%]">
-              <div className="flex items-center gap-4 p-4">
-                <img src={pkg.image} alt={pkg.title} loading="lazy" className="h-20 w-24 shrink-0 rounded-xl object-cover" />
-                <div className="min-w-0 flex-1"><span className="text-[10px] font-extrabold uppercase tracking-wider text-blue-700">{pkg.category}</span><h3 className="mt-1 line-clamp-2 text-base font-extrabold text-slate-900">{pkg.title}</h3><div className="mt-1 flex items-center gap-1 text-[11px] text-slate-500"><MapPin size={12} className="text-blue-700" />{pkg.destination}</div></div>
-              </div>
-              <div className="grid grid-cols-3 border-t border-slate-100 text-[11px] text-slate-600"><span className="flex items-center gap-1 px-3 py-2"><CalendarDays size={13} className="text-blue-700" />{pkg.duration}</span><span className="flex items-center gap-1 border-x border-slate-100 px-3 py-2"><Users size={13} className="text-blue-700" />{pkg.groupSize}</span><span className="px-3 py-2 text-right font-extrabold text-blue-800">₹{getGroupTourStartingPrice(pkg).toLocaleString("en-IN")}</span></div>
-              <div className="flex gap-2 border-t border-slate-100 p-3"><Link href={`/packages/${pkg.slug}`} className="flex-1 rounded-lg border border-blue-700 px-3 py-2 text-center text-xs font-bold text-blue-800">View Tour</Link><Link href={`/book/${pkg.slug}`} className="flex-1 rounded-lg bg-blue-800 px-3 py-2 text-center text-xs font-bold text-white">Book Now</Link></div>
-            </article>
-          ))}
+        <div className="relative px-0 md:px-12">
+          <button type="button" aria-label="Previous group tour" onClick={() => scrollByCard(-1)} className="absolute left-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-800 shadow-[0_8px_24px_rgba(15,23,42,0.16)] transition hover:scale-105 hover:border-blue-700 hover:text-blue-800 md:flex"><ArrowLeft size={27} strokeWidth={2.5} /></button>
+          <button type="button" aria-label="Next group tour" onClick={() => scrollByCard(1)} className="absolute right-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blue-800 text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)] transition hover:scale-105 hover:bg-blue-900 md:flex"><ArrowRight size={27} strokeWidth={2.5} /></button>
+
+          <div ref={trackRef} className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {groupPackages.map((pkg: any) => (
+              <article key={pkg.slug} data-group-tour-card className="group min-w-[86%] snap-start overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_7px_25px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.13)] sm:min-w-[48%] lg:min-w-[calc((100%-40px)/3)]">
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                  <img src={pkg.image} alt={pkg.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/50" />
+                  <span className="absolute left-3 top-3 rounded-full bg-blue-800 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-lg">{pkg.category}</span>
+                  <button type="button" aria-label={`Add ${pkg.title} to wishlist`} className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-700 shadow-lg backdrop-blur transition hover:scale-105"><Heart size={18} /></button>
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-lg"><Star size={14} fill="currentColor" className="text-amber-500" /><span className="text-xs font-bold text-slate-900">{pkg.rating}</span><span className="text-[11px] text-slate-500">({pkg.reviews})</span></div>
+                </div>
+
+                <div className="p-4">
+                  <h3 className="line-clamp-2 min-h-[46px] text-[18px] font-bold leading-[1.25] text-slate-900 transition-colors group-hover:text-blue-800">{pkg.title}</h3>
+                  <div className="mt-2 flex items-start gap-1.5 text-xs leading-5 text-slate-500"><MapPin size={14} className="mt-0.5 shrink-0 text-blue-700" /><span className="line-clamp-1">{pkg.destination}, {pkg.state}</span></div>
+                  <div className="mt-3 flex items-center gap-2 text-xs text-slate-600"><span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1.5"><Clock3 size={13} className="text-blue-700" />{pkg.duration}</span><span className="rounded-full bg-slate-100 px-2.5 py-1.5">{pkg.groupSize}</span></div>
+                  <div className="mt-4 flex items-end justify-between gap-3 border-t border-slate-100 pt-3">
+                    <div><p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Starting From</p><p className="mt-0.5 text-xl font-extrabold text-blue-800">₹{getGroupTourStartingPrice(pkg).toLocaleString("en-IN")}</p><p className="text-[10px] text-slate-400">Per Person</p></div>
+                    <div className="grid grid-cols-2 gap-2"><Link href={`/packages/${pkg.slug}`} className="inline-flex items-center justify-center rounded-lg border border-blue-700 px-3 py-2.5 text-xs font-bold text-blue-800 transition hover:bg-blue-50">View Tour</Link><Link href={`/book/${pkg.slug}`} className="inline-flex items-center justify-center rounded-lg bg-blue-800 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-900">Book Now</Link></div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-4 flex justify-between md:hidden"><button type="button" onClick={() => scrollByCard(-1)} aria-label="Previous group tour" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white shadow"><ArrowLeft size={21}/></button><button type="button" onClick={() => scrollByCard(1)} aria-label="Next group tour" className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white shadow"><ArrowRight size={21}/></button></div>
         </div>
       </div>
     </section>
