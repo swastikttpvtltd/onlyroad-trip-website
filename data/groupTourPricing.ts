@@ -23,9 +23,11 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
       { type: "Double Sharing", price: 8499 },
     ];
   }
+  // Longer pilgrimage group tours are included in the Group Tour theme,
+  // but their Quad/Triple/Double rates stay unpublished until final costing is supplied.
   return null;
 }
 
-export function getGroupTourStartingPrice(pkg: any) {
-  return getGroupSharingRates(pkg)?.[0]?.price ?? Number(pkg?.price ?? 0);
+export function getGroupTourStartingPrice(pkg: any): number | null {
+  return getGroupSharingRates(pkg)?.[0]?.price ?? null;
 }
