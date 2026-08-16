@@ -171,6 +171,173 @@ p[role="status"] {
   to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
+/* Focused itinerary document. It stays completely hidden on the website and
+   is mounted directly under <body> only for printing/saving as PDF. */
+.itinerary-print-sheet {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  body > *:not(.itinerary-print-sheet) {
+    display: none !important;
+  }
+
+  .itinerary-print-sheet {
+    display: block !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 10.5pt !important;
+    line-height: 1.5 !important;
+  }
+
+  .itinerary-print-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    border-bottom: 2px solid #153e75 !important;
+    padding: 0 0 14px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .itinerary-print-brand {
+    margin: 0 0 4px !important;
+    color: #153e75 !important;
+    font-size: 9pt !important;
+    font-weight: 800 !important;
+    letter-spacing: .18em !important;
+  }
+
+  .itinerary-print-header h1 {
+    margin: 0 !important;
+    color: #111827 !important;
+    font-size: 22pt !important;
+    line-height: 1.15 !important;
+  }
+
+  .itinerary-print-header p {
+    margin: 5px 0 0 !important;
+    color: #64748b !important;
+  }
+
+  .itinerary-print-price {
+    flex: 0 0 auto !important;
+    color: #153e75 !important;
+    font-size: 18pt !important;
+    font-weight: 800 !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  .itinerary-print-price span {
+    color: #64748b !important;
+    font-size: 8.5pt !important;
+    font-weight: 600 !important;
+  }
+
+  .itinerary-print-section {
+    margin: 0 0 18px !important;
+    break-inside: auto !important;
+  }
+
+  .itinerary-print-section h2 {
+    margin: 0 0 9px !important;
+    padding: 6px 9px !important;
+    border-left: 4px solid #153e75 !important;
+    background: #f1f5f9 !important;
+    color: #153e75 !important;
+    font-size: 14pt !important;
+    line-height: 1.25 !important;
+  }
+
+  .itinerary-print-day {
+    margin: 0 0 12px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #dbe3ec !important;
+    border-radius: 7px !important;
+    break-inside: avoid !important;
+  }
+
+  .itinerary-print-day h3 {
+    margin: 0 0 7px !important;
+    color: #111827 !important;
+    font-size: 11.5pt !important;
+  }
+
+  .itinerary-print-period {
+    margin: 5px 0 !important;
+  }
+
+  .itinerary-print-period strong {
+    color: #153e75 !important;
+  }
+
+  .itinerary-print-section ul,
+  .itinerary-print-section ol {
+    margin: 5px 0 0 18px !important;
+    padding: 0 !important;
+  }
+
+  .itinerary-print-section li {
+    margin: 2px 0 !important;
+    padding-left: 2px !important;
+    break-inside: avoid !important;
+  }
+
+  .itinerary-print-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin-top: 7px !important;
+  }
+
+  .itinerary-print-table th,
+  .itinerary-print-table td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 7px 9px !important;
+    text-align: left !important;
+  }
+
+  .itinerary-print-table th {
+    background: #f1f5f9 !important;
+    color: #153e75 !important;
+    font-weight: 800 !important;
+  }
+
+  .itinerary-print-table td:last-child,
+  .itinerary-print-table th:last-child {
+    text-align: right !important;
+  }
+
+  .itinerary-print-note {
+    margin: 7px 0 0 !important;
+    color: #64748b !important;
+    font-size: 8.5pt !important;
+  }
+
+  .itinerary-print-footer {
+    margin-top: 22px !important;
+    padding-top: 9px !important;
+    border-top: 1px solid #cbd5e1 !important;
+    color: #64748b !important;
+    font-size: 8pt !important;
+    text-align: center !important;
+  }
+}
+
 @media (max-width: 639px) {
   input, textarea, select { font-size: 16px; }
   button, a { -webkit-tap-highlight-color: transparent; }
