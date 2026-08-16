@@ -8,6 +8,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
+import { packageMedia } from "@/data/packageMedia";
 
 type PackageItem = any;
 type PageProps = { params: Promise<{ slug: string }> };
@@ -52,6 +53,18 @@ function heroImage(pkg: PackageItem): string {
 
 function galleryImages(pkg: PackageItem) {
   if (Array.isArray(pkg.gallery) && pkg.gallery.length) return pkg.gallery;
+
+  const slug = String(pkg?.slug ?? "").trim();
+  const mediaKey = Object.keys(packageMedia).find((key) => key === slug || key.endsWith(`/${slug}`));
+  const media = mediaKey ? packageMedia[mediaKey] : undefined;
+
+  if (Array.isArray(media) && media.length) {
+    return media.map((image, index) => ({
+      image,
+      alt: `${pkg.title} – image ${index + 1}`,
+    }));
+  }
+
   return [{ image: heroImage(pkg), alt: `${pkg.title} – image 1` }];
 }
 
@@ -125,7 +138,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
         <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.category}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
         <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>
-        <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</div></ContentCard>
+        <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</ContentCard>
       </div><aside className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
     </main>
   );
