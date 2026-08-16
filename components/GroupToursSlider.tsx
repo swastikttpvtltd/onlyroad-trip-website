@@ -48,8 +48,9 @@ export default function GroupToursSlider() {
           <button type="button" aria-label="Next group tour" onClick={() => scrollByCard(1)} className="absolute right-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blue-800 text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)] transition hover:scale-105 hover:bg-blue-900 md:flex"><ArrowRight size={27} strokeWidth={2.5} /></button>
 
           <div ref={trackRef} className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {groupPackages.map((pkg: any) => (
-              <article key={pkg.slug} data-group-tour-card className="group min-w-[86%] snap-start overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_7px_25px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.13)] sm:min-w-[48%] lg:min-w-[calc((100%-40px)/3)]">
+            {groupPackages.map((pkg: any) => {
+              const startingPrice = getGroupTourStartingPrice(pkg);
+              return <article key={pkg.slug} data-group-tour-card className="group min-w-[86%] snap-start overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_7px_25px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.13)] sm:min-w-[48%] lg:min-w-[calc((100%-40px)/3)]">
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                   <img src={pkg.image} alt={pkg.title} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/50" />
@@ -63,12 +64,12 @@ export default function GroupToursSlider() {
                   <div className="mt-2 flex items-start gap-1.5 text-xs leading-5 text-slate-500"><MapPin size={14} className="mt-0.5 shrink-0 text-blue-700" /><span className="line-clamp-1">{pkg.destination}, {pkg.state}</span></div>
                   <div className="mt-3 flex items-center gap-2 text-xs text-slate-600"><span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1.5"><Clock3 size={13} className="text-blue-700" />{pkg.duration}</span><span className="rounded-full bg-slate-100 px-2.5 py-1.5">{pkg.groupSize}</span></div>
                   <div className="mt-4 flex items-end justify-between gap-3 border-t border-slate-100 pt-3">
-                    <div><p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Starting From</p><p className="mt-0.5 text-xl font-extrabold text-blue-800">₹{getGroupTourStartingPrice(pkg).toLocaleString("en-IN")}</p><p className="text-[10px] text-slate-400">Per Person</p></div>
+                    <div><p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">{startingPrice === null ? "Group Rate" : "Starting From"}</p><p className="mt-0.5 text-xl font-extrabold text-blue-800">{startingPrice === null ? "Rate Soon" : `₹${startingPrice.toLocaleString("en-IN")}`}</p><p className="text-[10px] text-slate-400">{startingPrice === null ? "Quad / Triple / Double" : "Per Person"}</p></div>
                     <div className="grid grid-cols-2 gap-2"><Link href={`/packages/${pkg.slug}`} className="inline-flex items-center justify-center rounded-lg border border-blue-700 px-3 py-2.5 text-xs font-bold text-blue-800 transition hover:bg-blue-50">View Tour</Link><Link href={`/book/${pkg.slug}`} className="inline-flex items-center justify-center rounded-lg bg-blue-800 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-900">Book Now</Link></div>
                   </div>
                 </div>
-              </article>
-            ))}
+              </article>;
+            })}
           </div>
 
           <div className="mt-4 flex justify-between md:hidden"><button type="button" onClick={() => scrollByCard(-1)} aria-label="Previous group tour" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white shadow"><ArrowLeft size={21}/></button><button type="button" onClick={() => scrollByCard(1)} aria-label="Next group tour" className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white shadow"><ArrowRight size={21}/></button></div>
