@@ -1,14 +1,27 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const amount = Number(body.amount);
-    
-    const environment = process.env.CASHFREE_ENVIRONMENT === "sandbox" ? "sandbox" : "production";
-    
-    const clientId = String(process.env.CASHFREE_APP_ID || process.env.CASHFREE_CLIENT_ID || "").trim();
-    const clientSecret = String(process.env.CASHFREE_SECRET_KEY || process.env.CASHFREE_CLIENT_SECRET || "").trim();
+
+    // Read Cloudflare Worker runtime variables directly from the binding context.
+    // This is required for secrets configured in the Cloudflare dashboard when
+    // the app is deployed through OpenNext on Cloudflare Workers.
+    const { env } = getCloudflareContext();
+    const runtimeEnv = env as unknown as Record<string, string | undefined>;
+
+    const environment = String(runtimeEnv.CASHFREE_ENVIRONMENT || "production").trim().toLowerCase() === "sandbox"
+      ? "sandbox"
+      : "production";
+
+    const clientId = String(
+      runtimeEnv.CASHFREE_APP_ID || runtimeEnv.CASHFREE_CLIENT_ID || "",
+    ).trim();
+    const clientSecret = String(
+      runtimeEnv.CASHFREE_SECRET_KEY || runtimeEnv.CASHFREE_CLIENT_SECRET || "",
+    ).trim();
 
     if (!clientId || !clientSecret) {
       return NextResponse.json(
@@ -30,7 +43,9 @@ export async function POST(request: Request) {
       : "https://sandbox.cashfree.com/pg/links";
 
     const linkId = `ORT-${Date.now()}`;
-    const configuredReturnUrl = String(process.env.CASHFREE_RETURN_URL || "https://onlyroadtrip.com").trim();
+    const configuredReturnUrl = String(
+      runtimeEnv.CASHFREE_RETURN_URL || "https://onlyroadtrip.com",
+    ).trim();
 
     const payload = {
       link_id: linkId,
