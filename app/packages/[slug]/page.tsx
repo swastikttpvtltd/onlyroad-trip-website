@@ -3,7 +3,6 @@ import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
 import InclusionsExclusions from "@/components/package/InclusionsExclusions";
-import ThingsToCarryAccordion from "@/components/package/ThingsToCarryAccordion";
 import Image from "next/image";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -62,29 +61,6 @@ function numberField(pkg: PackageItem, key: "price" | "rating" | "reviews"): num
   return typeof value === "number" ? value : undefined;
 }
 
-function destinationsFor(pkg: PackageItem) {
-  return String(pkg.destination ?? "")
-    .split(/[•,&/]/)
-    .map((x: string) => x.trim())
-    .filter(Boolean)
-    .map((name: string) => ({
-      name,
-      famous: `${name} is an important stop on this ${String(pkg.category ?? "tour").toLowerCase()} journey, known for local attractions, culture and destination-specific experiences.`,
-      experience: `This package covers ${name} according to the published day-wise itinerary, focusing on relevant sightseeing and route highlights.`,
-    }));
-}
-
-function faqItems(pkg: PackageItem, state: StateDetails) {
-  return [
-    { question: `What can I expect from this ${pkg.title} itinerary?`, answer: `This ${pkg.duration} ${String(pkg.category ?? "tour").toLowerCase()} journey covers ${pkg.destination} according to the published day-wise itinerary, with the listed sightseeing, accommodation, meals and inclusions.` },
-    { question: `What is ${state.name} famous for?`, answer: state.famousFor },
-    { question: "Is this package suitable for families and groups?", answer: "The package is designed around the published group size, difficulty level and itinerary. Families and groups can request suitable customisation before confirming the booking." },
-    { question: `Can I customise this ${state.name} tour package?`, answer: `Yes. You can discuss travel dates, group size, accommodation preference, sightseeing or route requirements with Only Road Trip before booking.` },
-    { question: `What is the best time to travel to ${state.name}?`, answer: `The package's recommended travel period is shown in the Best Time field. Weather, road conditions, local events and seasonal closures can affect ideal dates.` },
-    { question: "What is included in this tour package?", answer: "The exact inclusions and exclusions are listed in the Tour Inclusions & Exclusions section on this page." },
-  ];
-}
-
 function travelPlanningNotes(state: StateDetails) {
   return [
     `Check the published duration, Best Time, difficulty and group-size information before choosing dates for this ${state.name} journey.`,
@@ -135,23 +111,11 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const image = heroImage(pkg);
   const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
-  const places = destinationsFor(pkg);
   const state = getStateDetails(pkg.state);
-  const faqs = faqItems(pkg, state);
   const planningNotes = travelPlanningNotes(state);
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: { "@type": "Answer", text: faq.answer },
-    })),
-  };
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className="relative h-[430px] overflow-hidden">
         <Image src={image} alt={pkg.title} fill priority className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
@@ -160,17 +124,14 @@ export default async function PackageDetailsPage({ params }: PageProps) {
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p>
         </div></div></div>
       </section>
-      <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['places', 'Places Covered'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals'], ['faqs', 'FAQs']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
+      <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]"><div className="space-y-7">
         <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Package ID" value={String(pkg.packageId ?? "—")} /><Fact label="Duration" value={String(pkg.duration ?? "—")} /><Fact label="Destination" value={String(pkg.destination ?? "—")} /><Fact label="Best Time" value={String(pkg.bestTime ?? "—")} /></section>
         <ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">About {state.name}</h3><p className="mt-2 leading-7 text-slate-600">{state.famousFor}</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{(Array.isArray(pkg.highlights) ? pkg.highlights : []).map((x: string) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard>
         <ContentCard id="gallery" title="Tour Gallery"><PackageGallerySlider gallery={gallery} title={pkg.title} /></ContentCard>
         <ContentCard id="itinerary" title="Day-wise Itinerary"><ItineraryAccordion itinerary={Array.isArray(pkg.itinerary) ? pkg.itinerary : []} destination={String(pkg.destination ?? "")} category={String(pkg.category ?? "Tour")} vibeHook={pkg.vibeHook} /></ContentCard>
-        <ContentCard id="places" title="Places Covered & What They Are Famous For"><div className="space-y-4">{places.map((place) => <div key={place.name} className="rounded-xl border border-slate-200 bg-slate-50 p-5"><h3 className="font-extrabold text-slate-900">{place.name}</h3><p className="mt-2 text-sm leading-7 text-slate-600"><strong>Famous for:</strong> {place.famous}</p><p className="mt-2 text-sm leading-7 text-slate-600"><strong>Experience:</strong> {place.experience}</p></div>)}</div></ContentCard>
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
-        <ThingsToCarryAccordion items={Array.isArray(pkg.thingsToCarry) ? pkg.thingsToCarry : []} />
         <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.category}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
-        <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>
         <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</div></ContentCard>
       </div><aside className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
     </main>
