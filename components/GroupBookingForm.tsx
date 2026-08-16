@@ -7,6 +7,8 @@ import { Check, ChevronDown, CreditCard, CalendarDays, Users } from "lucide-reac
 type Sharing = "quad" | "triple" | "double";
 type Props = { packageTitle: string; packageId?: string; packageDuration?: string };
 
+type Rates = { quad: number | null; triple: number | null; double: number | null };
+
 const FRIDAYS = [
   "2026-08-21","2026-08-28","2026-09-04","2026-09-11","2026-09-18","2026-09-25",
   "2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30",
@@ -38,9 +40,16 @@ function returnDate(value: string, duration: string) {
   return d.toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
 }
 
+function getRates(packageTitle: string, packageId?: string): Rates {
+  const text = `${packageTitle} ${packageId ?? ""}`;
+  if (/goa/i.test(text)) return { quad: 9999, triple: 11599, double: 12599 };
+  if (/char-dham|do-dham|kedarnath/i.test(text)) return { quad: null, triple: null, double: null };
+  return { quad: 7499, triple: 7999, double: 8499 };
+}
+
 export default function GroupBookingForm({ packageTitle, packageId, packageDuration = "2 Nights / 3 Days" }: Props) {
-  const isGoa = /goa/i.test(`${packageTitle} ${packageId ?? ""}`);
-  const rates = isGoa ? { quad: 9999, triple: 11599, double: 12599 } : { quad: 7499, triple: 7999, double: 8499 };
+  const rates = getRates(packageTitle, packageId);
+  const ratesPending = rates.quad === null || rates.triple === null || rates.double === null;
   const [travelDate, setTravelDate] = useState(FRIDAYS[0]);
   const [sharing, setSharing] = useState<Sharing>("double");
   const [travellers, setTravellers] = useState(1);
@@ -51,9 +60,9 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
   const [accepted, setAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const perPerson = rates[sharing];
-  const total = perPerson * travellers;
-  const advance = Math.ceil(total * 0.3);
+  const selectedRate = rates[sharing];
+  const total = selectedRate === null ? 0 : selectedRate * travellers;
+  const advance = selectedRate === null ? 0 : Math.ceil(total * 0.3);
   const balance = total - advance;
   const selectedMonth = useMemo(() => travelDate.slice(0, 7), [travelDate]);
   const visibleSlots = useMemo(() => FRIDAYS.filter((date) => date.startsWith(selectedMonth)), [selectedMonth]);
@@ -61,6 +70,7 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (ratesPending) { alert("Group sharing rates for this package are being configured. Please check back after the rates are published."); return; }
     if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; }
     setSubmitting(true);
     try {
@@ -84,6 +94,8 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
     { id: "double", label: "Double Sharing" },
   ];
 
+  const rateLabel = (id: Sharing) => rates[id] === null ? "Rate to be updated" : `₹${rates[id]!.toLocaleString("en-IN")}`;
+
   return (
     <section id="booking" className="mt-7 scroll-mt-28">
       <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
@@ -98,7 +110,7 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
             <div className="grid gap-3 p-4 md:grid-cols-3">
               {sharingOptions.map((option) => {
                 const selected = sharing === option.id;
-                return <button key={option.id} type="button" onClick={() => setSharing(option.id)} className={`rounded-xl border-2 p-4 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{option.label}</span><span className={`h-5 w-5 rounded-full border-2 ${selected ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-3 text-2xl font-extrabold text-blue-800">₹{rates[option.id].toLocaleString("en-IN")}</p><p className="mt-0.5 text-xs text-slate-500">Per Person • GST included</p></button>;
+                return <button key={option.id} type="button" onClick={() => setSharing(option.id)} className={`rounded-xl border-2 p-4 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{option.label}</span><span className={`h-5 w-5 rounded-full border-2 ${selected ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-3 text-2xl font-extrabold text-blue-800">{rateLabel(option.id)}</p><p className="mt-0.5 text-xs text-slate-500">Per Person • GST included</p></button>;
               })}
             </div>
             <div className="border-t bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-600">Select Quad, Triple or Double Sharing above. The selected rate immediately updates the booking summary and payment amount. GST @ 5% is already included.</div>
@@ -115,7 +127,7 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
           <form onSubmit={submit} className="mt-7 space-y-5">
             <div className="grid gap-5 md:grid-cols-2">
               <Field label="Selected Departure"><div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 font-extrabold text-blue-950">{formatDate(travelDate)} → {returnDate(travelDate, packageDuration)}</div></Field>
-              <Field label="Room Sharing"><select value={sharing} onChange={(e) => setSharing(e.target.value as Sharing)} className="input"><option value="quad">Quad Sharing — ₹{rates.quad.toLocaleString("en-IN")}/person</option><option value="triple">Triple Sharing — ₹{rates.triple.toLocaleString("en-IN")}/person</option><option value="double">Double Sharing — ₹{rates.double.toLocaleString("en-IN")}/person</option></select></Field>
+              <Field label="Room Sharing"><select value={sharing} onChange={(e) => setSharing(e.target.value as Sharing)} className="input"><option value="quad">Quad Sharing — {rateLabel("quad")}/person</option><option value="triple">Triple Sharing — {rateLabel("triple")}/person</option><option value="double">Double Sharing — {rateLabel("double")}/person</option></select></Field>
               <Field label="Travellers"><input required type="number" min={1} max={12} value={travellers} onChange={(e) => setTravellers(Math.min(12, Math.max(1, Number(e.target.value) || 1)))} className="input" /></Field>
               <Field label="Full Name"><input required value={name} onChange={(e) => setName(e.target.value)} className="input" /></Field>
               <Field label="Mobile Number"><input required type="tel" inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 15))} className="input" /></Field>
@@ -123,7 +135,7 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
             </div>
             <Field label="Special Request"><textarea rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className="input" placeholder="Any pickup, meal, room or travel requirement" /></Field>
             <div className="rounded-xl border bg-slate-50 p-4"><label className="flex gap-3"><input required type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-1 h-4 w-4 accent-blue-700" /><span className="text-sm">I have read and agree to the <Link href="/terms-and-conditions" target="_blank" className="font-bold text-blue-700 underline">Terms & Conditions</Link> and <Link href="/cancellation-policy" target="_blank" className="font-bold text-blue-700 underline">Cancellation Policy</Link>.</span></label></div>
-            <button disabled={submitting} type="submit" className="w-full rounded-xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900 disabled:opacity-60">{submitting ? "Creating Secure Payment..." : `Book Now • Pay ₹${advance.toLocaleString("en-IN")}`}</button>
+            <button disabled={submitting || ratesPending} type="submit" className="w-full rounded-xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60">{ratesPending ? "Rates Coming Soon" : submitting ? "Creating Secure Payment..." : `Book Now • Pay ₹${advance.toLocaleString("en-IN")}`}</button>
           </form>
         </div>
 
@@ -133,10 +145,10 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
             <div className="space-y-4 p-5">
               <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{packageTitle}</p>
               <div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Departure</span><b>{formatDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Return</span><b>{returnDate(travelDate, packageDuration)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Sharing</span><b>{sharing === "quad" ? "Quad" : sharing === "triple" ? "Triple" : "Double"}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{travellers}</b></div></div>
-              <Row label={`₹${perPerson.toLocaleString("en-IN")} × ${travellers}`} value={total} />
+              <Row label={selectedRate === null ? "Group rate" : `₹${selectedRate.toLocaleString("en-IN")} × ${travellers}`} value={total} />
               <div className="flex justify-between gap-4 text-xs font-semibold text-emerald-700"><span>GST @ 5%</span><span>Included</span></div>
               <div className="border-t pt-3"><Row label="Total package cost" value={total} strong /></div>
-              <div className="rounded-xl bg-blue-50 p-4"><div className="flex justify-between gap-3 font-bold text-blue-950"><span>30% booking advance</span><span>₹{advance.toLocaleString("en-IN")}</span></div><div className="mt-2 flex justify-between gap-3 border-t border-blue-100 pt-2 text-sm"><span>Balance after advance</span><b>₹{balance.toLocaleString("en-IN")}</b></div></div>
+              {ratesPending ? <div className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-800">Quad, Triple and Double group rates will be added once the final costing is provided.</div> : <div className="rounded-xl bg-blue-50 p-4"><div className="flex justify-between gap-3 font-bold text-blue-950"><span>30% booking advance</span><span>₹{advance.toLocaleString("en-IN")}</span></div><div className="mt-2 flex justify-between gap-3 border-t border-blue-100 pt-2 text-sm"><span>Balance after advance</span><b>₹{balance.toLocaleString("en-IN")}</b></div></div>}
               <div className="flex items-center gap-2 text-xs text-slate-500"><Users size={15} className="text-blue-700"/> Traveller count can be 1, 2, 3 or any number up to the package limit.</div>
               <div className="flex items-center gap-2 text-xs text-slate-500"><CreditCard size={15} className="text-blue-700"/> Secure online payment • <Check size={15} className="text-emerald-600"/> GST included</div>
             </div>
