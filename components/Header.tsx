@@ -14,6 +14,7 @@ const experienceThemes = [
   { name: "Senior Citizen", query: "Senior", description: "Comfort-first relaxed holidays" },
   { name: "Honeymoon", query: "Honeymoon", description: "Romantic couple getaways" },
   { name: "Family", query: "Family", description: "Memorable holidays together" },
+  { name: "Group Tour", query: "Group Tour", description: "Shared journeys, new people & great memories" },
   { name: "Wildlife", query: "Wildlife", description: "Safaris, forests & nature" },
   { name: "Beach & Island", query: "Beach", description: "Coasts, islands & lagoons" },
   { name: "Heritage & Culture", query: "Heritage", description: "Forts, palaces & traditions" },
@@ -122,7 +123,6 @@ export default function Header() {
         }`}
       >
         <div className="flex h-[60px] items-center justify-between px-3 sm:h-[68px] sm:px-6 lg:px-8">
-          {/* Logo Wrapper Fixed */}
           <Link href="/" className="flex max-w-[140px] shrink-0 items-center sm:max-w-[170px]">
             <Image
               src="/images/logo/only-road-trip-logo.jpeg"
@@ -134,14 +134,9 @@ export default function Header() {
             />
           </Link>
 
-          {/* Navigation Links */}
           <nav className="hidden items-center gap-7 lg:flex">
-            <Link href="/" className={nav}>
-              Home
-            </Link>
-            <Link href="/about" className={nav}>
-              About Us
-            </Link>
+            <Link href="/" className={nav}>Home</Link>
+            <Link href="/about" className={nav}>About Us</Link>
 
             <div className="group/experiences relative flex h-[68px] items-center">
               <Link href="/packages" className={`${nav} flex items-center gap-1.5`}>
@@ -179,24 +174,13 @@ export default function Header() {
                       <p className="text-lg font-bold">Explore Packages by State</p>
                       <p className="text-xs text-blue-100">Select a state to view all available tour packages</p>
                     </div>
-                    <Link
-                      href="/packages"
-                      className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25"
-                    >
-                      View All
-                    </Link>
+                    <Link href="/packages" className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25">View All</Link>
                   </div>
                   <div className="grid max-h-[430px] grid-cols-3 gap-2 overflow-y-auto p-4">
                     {packageStates.map((state) => (
-                      <Link
-                        key={state}
-                        href={`/packages?state=${encodeURIComponent(state)}`}
-                        className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"
-                      >
+                      <Link key={state} href={`/packages?state=${encodeURIComponent(state)}`} className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700">
                         <span>{state}</span>
-                        <span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">
-                          →
-                        </span>
+                        <span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">→</span>
                       </Link>
                     ))}
                   </div>
@@ -204,21 +188,15 @@ export default function Header() {
               </div>
             </div>
 
-            <Link href="/corporate-travel" className={nav}>
-              Corporate Travel
-            </Link>
-            <Link href="/contact" className={nav}>
-              Contact
-            </Link>
+            <Link href="/corporate-travel" className={nav}>Corporate Travel</Link>
+            <Link href="/contact" className={nav}>Contact</Link>
           </nav>
 
           <div className="flex items-center gap-2">
             <Link
               href="/plan-your-trip"
               className={`hidden rounded-full border px-4 py-2 text-sm font-bold sm:inline-flex sm:px-6 sm:py-2.5 ${
-                overLight
-                  ? "border-slate-500/70 bg-white/55 text-slate-950"
-                  : "border-white/80 bg-white/15 text-white"
+                overLight ? "border-slate-500/70 bg-white/55 text-slate-950" : "border-white/80 bg-white/15 text-white"
               }`}
             >
               Plan Your Trip
@@ -234,58 +212,25 @@ export default function Header() {
             >
               <span className="sr-only">Menu</span>
               <span className="flex flex-col gap-1.5">
-                <span
-                  className={`h-0.5 w-5 rounded-full transition-transform ${
-                    mobileOpen ? "translate-y-2 rotate-45" : ""
-                  } bg-current`}
-                />
-                <span
-                  className={`h-0.5 w-5 rounded-full transition-opacity ${
-                    mobileOpen ? "opacity-0" : "opacity-100"
-                  } bg-current`}
-                />
-                <span
-                  className={`h-0.5 w-5 rounded-full transition-transform ${
-                    mobileOpen ? "-translate-y-2 -rotate-45" : ""
-                  } bg-current`}
-                />
+                <span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""} bg-current`} />
+                <span className={`h-0.5 w-5 rounded-full transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"} bg-current`} />
+                <span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""} bg-current`} />
               </span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {mobileOpen && (
           <div className="border-t border-slate-200 bg-white p-3 lg:hidden">
             <div className="grid gap-1">
-              {[
-                ["Home", "/"],
-                ["About Us", "/about"],
-                ["Packages", "/packages"],
-                ["Corporate Travel", "/corporate-travel"],
-                ["Contact", "/contact"],
-              ].map(([label, href]) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700"
-                >
-                  {label}
-                </Link>
+              {[["Home", "/"], ["About Us", "/about"], ["Packages", "/packages"], ["Corporate Travel", "/corporate-travel"], ["Contact", "/contact"]].map(([label, href]) => (
+                <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>
               ))}
-              <Link
-                href="/plan-your-trip"
-                onClick={() => setMobileOpen(false)}
-                className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white"
-              >
-                Plan Your Trip
-              </Link>
+              <Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link>
             </div>
           </div>
         )}
 
-        {/* Back Button */}
         {isPackagePage && (
           <button
             onClick={() => {
@@ -293,9 +238,7 @@ export default function Header() {
               else router.push("/packages");
             }}
             className={`absolute left-0 top-[74px] z-[70] inline-flex items-center gap-2 rounded-xl border border-white/50 bg-slate-950/40 px-3 py-2 text-xs font-extrabold text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:bg-slate-950/55 sm:top-[82px] sm:px-4 sm:py-2.5 sm:text-sm ${
-              showBackButton
-                ? "translate-y-0 opacity-100 pointer-events-auto"
-                : "-translate-y-3 opacity-0 pointer-events-none"
+              showBackButton ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-3 opacity-0 pointer-events-none"
             }`}
           >
             <span>←</span> Back to Packages
