@@ -25,6 +25,16 @@ const nightsFromDuration = (duration: unknown) => {
   return match ? Number(match[1]) : 0;
 };
 
+const isFixedWeekendGroup = (pkg: any) => {
+  const duration = String(pkg?.duration ?? "").toLowerCase();
+  const title = String(pkg?.title ?? "").toLowerCase();
+  const category = String(pkg?.category ?? "").toLowerCase();
+  const themes = Array.isArray(pkg?.themes) ? pkg.themes.map((x: unknown) => String(x).toLowerCase()) : [];
+  const is2N3D = /2\s*nights?\s*\/\s*3\s*days?/.test(duration);
+  const isWeekendOrGroup = category.includes("weekend") || category.includes("group") || themes.some((x: string) => x.includes("weekend") || x.includes("group tour")) || title.includes("weekend") || title.includes("group");
+  return is2N3D && isWeekendOrGroup;
+};
+
 const specialCost = (state: string, title: string, nights: number) => {
   const text = title.toLowerCase();
   let cost = 0;
@@ -51,6 +61,37 @@ const rateFor = (state: string, title: string, nights: number, pax: number) => {
 };
 
 export const makePackageRates = (pkg: any) => {
+  // Fixed per-person rates for the 2N/3D Weekend / Group Tour inventory.
+  // Goa has its own rate card; all other qualifying 2N/3D group/weekend packages use the Himachal/Uttarakhand rate card.
+  if (isFixedWeekendGroup(pkg)) {
+    const isGoa = String(pkg?.state ?? "").toLowerCase() === "goa" || /goa/i.test(String(pkg?.title ?? ""));
+    const sharingRates = isGoa
+      ? [
+          { type: "Quad Sharing", price: 9999 },
+          { type: "Triple Sharing", price: 11599 },
+          { type: "Double Sharing", price: 12599 },
+        ]
+      : [
+          { type: "Quad Sharing", price: 7499 },
+          { type: "Triple Sharing", price: 7999 },
+          { type: "Double Sharing", price: 8499 },
+        ];
+
+    const lowestRate = sharingRates[0].price;
+    return {
+      2: lowestRate,
+      4: lowestRate,
+      6: lowestRate,
+      12: lowestRate,
+      16: lowestRate,
+      20: lowestRate,
+      25: lowestRate,
+      30: lowestRate,
+      "30+": lowestRate,
+      sharingRates,
+    };
+  }
+
   const state = String(pkg.state ?? "");
   const title = String(pkg.title ?? "");
   const nights = nightsFromDuration(pkg.duration);
@@ -64,5 +105,5 @@ export const makePackageRates = (pkg: any) => {
     25: rateFor(state, title, nights, 25),
     30: rateFor(state, title, nights, 30),
   };
-  return { ...rates, "30+": Math.max(500, Math.floor(rates[30] * 0.96 / 500) * 500) };
+  return { ...rates, "30+": Math.max(500, Math.floor(rates[30] * 0.96 / 500) * 500), sharingRates: [] };
 };
