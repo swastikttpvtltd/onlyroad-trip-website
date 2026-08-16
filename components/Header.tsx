@@ -54,8 +54,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isPackagePage =
-    pathname === "/packages" || pathname.startsWith("/packages/") || pathname.startsWith("/book/");
+  const isPackagePage = pathname === "/packages" || pathname.startsWith("/packages/") || pathname.startsWith("/book/");
 
   useEffect(() => {
     let frame = 0;
@@ -68,9 +67,7 @@ export default function Header() {
         const xs = [0.34, 0.5, 0.66].map((q) => Math.round(innerWidth * q));
         const v = headerRef.current.style.visibility;
         headerRef.current.style.visibility = "hidden";
-        const cs = xs
-          .map((x) => findSolidBackground(document.elementFromPoint(x, y)))
-          .filter(Boolean) as [number, number, number][];
+        const cs = xs.map((x) => findSolidBackground(document.elementFromPoint(x, y))).filter(Boolean) as [number, number, number][];
         headerRef.current.style.visibility = v;
         if (!cs.length) return;
         const l = cs.reduce((t, [r, g, b]) => t + (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255, 0) / cs.length;
@@ -81,12 +78,7 @@ export default function Header() {
     const timer = setTimeout(detect, 300);
     addEventListener("scroll", detect, { passive: true });
     addEventListener("resize", detect);
-    return () => {
-      cancelAnimationFrame(frame);
-      clearTimeout(timer);
-      removeEventListener("scroll", detect);
-      removeEventListener("resize", detect);
-    };
+    return () => { cancelAnimationFrame(frame); clearTimeout(timer); removeEventListener("scroll", detect); removeEventListener("resize", detect); };
   }, []);
 
   useEffect(() => {
@@ -96,79 +88,47 @@ export default function Header() {
     const handleScroll = () => {
       const current = window.scrollY;
       const difference = current - lastScrollY.current;
-      if (current < 40) {
-        setShowBackButton(true);
-      } else if (difference > 6) {
-        setShowBackButton(false);
-      } else if (difference < -6) {
-        setShowBackButton(true);
-      }
+      if (current < 40) setShowBackButton(true);
+      else if (difference > 6) setShowBackButton(false);
+      else if (difference < -6) setShowBackButton(true);
       lastScrollY.current = current;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  const nav = `group relative text-[15px] font-bold tracking-[0.01em] transition-colors duration-300 ${
-    overLight
-      ? "text-slate-950 hover:text-blue-700"
-      : "text-white hover:text-cyan-200 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"
-  }`;
+  const nav = `group relative text-[15px] font-bold tracking-[0.01em] transition-colors duration-300 ${overLight ? "text-slate-950 hover:text-blue-700" : "text-white hover:text-cyan-200 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"}`;
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-3 z-50 px-3 sm:px-4">
-      <div
-        className={`relative mx-auto max-w-7xl rounded-2xl border shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 ${
-          overLight ? "border-slate-300/80 bg-white/65" : "border-white/45 bg-slate-950/35"
-        }`}
-      >
+      <div className={`relative mx-auto max-w-7xl rounded-2xl border shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 ${overLight ? "border-slate-300/80 bg-white/65" : "border-white/45 bg-slate-950/35"}`}>
         <div className="flex h-[60px] items-center justify-between px-3 sm:h-[68px] sm:px-6 lg:px-8">
-          <Link href="/" className="-ml-2 flex max-w-[140px] shrink-0 items-center sm:-ml-5 lg:-ml-7">
-            <Image
-              src="/images/logo/only-road-trip-logo.jpeg"
-              alt="Only Road Trip"
-              width={150}
-              height={40}
-              priority
-              className="h-8 w-auto max-w-full rounded-md object-contain sm:h-10"
-            />
+          <Link href="/" className="-ml-2 flex max-w-[180px] shrink-0 items-center sm:-ml-5 sm:max-w-[210px] lg:-ml-7">
+            <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={150} height={40} priority className="h-10 w-auto max-w-full rounded-md object-contain sm:h-12" />
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex">
             <Link href="/" className={nav}>Home</Link>
             <Link href="/about" className={nav}>About Us</Link>
-
             <div className="group/experiences relative flex h-[68px] items-center">
               <Link href="/packages" className={`${nav} flex items-center gap-1.5`}>Experiences ⌄</Link>
               <div className="invisible absolute left-1/2 top-[62px] w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover/experiences:visible group-hover/experiences:translate-y-0 group-hover/experiences:opacity-100">
-                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-                  <div className="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-4 text-white"><p className="text-lg font-bold">Explore by Experience</p></div>
-                  <div className="grid grid-cols-4 gap-2 p-4">
-                    {experienceThemes.map((t) => <Link key={t.name} href={`/packages?theme=${encodeURIComponent(t.query)}`} className="rounded-xl p-3 hover:bg-blue-50"><b className="block text-sm text-slate-900">{t.name}</b><span className="text-[11px] text-slate-500">{t.description}</span></Link>)}
-                  </div>
-                </div>
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-4 text-white"><p className="text-lg font-bold">Explore by Experience</p></div><div className="grid grid-cols-4 gap-2 p-4">{experienceThemes.map((t) => <Link key={t.name} href={`/packages?theme=${encodeURIComponent(t.query)}`} className="rounded-xl p-3 hover:bg-blue-50"><b className="block text-sm text-slate-900">{t.name}</b><span className="text-[11px] text-slate-500">{t.description}</span></Link>)}</div></div>
               </div>
             </div>
-
             <div className="group/packages relative flex h-[68px] items-center">
               <Link href="/packages" className={`${nav} flex items-center gap-1.5`}>Packages ⌄</Link>
               <div className="invisible absolute left-1/2 top-[62px] w-[780px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover/packages:visible group-hover/packages:translate-y-0 group-hover/packages:opacity-100">
-                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-                  <div className="flex items-center justify-between bg-gradient-to-r from-blue-700 to-cyan-600 px-6 py-4 text-white"><div><p className="text-lg font-bold">Explore Packages by State</p><p className="text-xs text-blue-100">Select a state to view all available tour packages</p></div><Link href="/packages" className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25">View All</Link></div>
-                  <div className="grid max-h-[430px] grid-cols-3 gap-2 overflow-y-auto p-4">{packageStates.map((state) => <Link key={state} href={`/packages?state=${encodeURIComponent(state)}`} className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"><span>{state}</span><span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">→</span></Link>)}</div>
-                </div>
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="flex items-center justify-between bg-gradient-to-r from-blue-700 to-cyan-600 px-6 py-4 text-white"><div><p className="text-lg font-bold">Explore Packages by State</p><p className="text-xs text-blue-100">Select a state to view all available tour packages</p></div><Link href="/packages" className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25">View All</Link></div><div className="grid max-h-[430px] grid-cols-3 gap-2 overflow-y-auto p-4">{packageStates.map((state) => <Link key={state} href={`/packages?state=${encodeURIComponent(state)}`} className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"><span>{state}</span><span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">→</span></Link>)}</div></div>
               </div>
             </div>
-
             <Link href="/corporate-travel" className={nav}>Corporate Travel</Link>
             <Link href="/contact" className={nav}>Contact</Link>
           </nav>
 
           <div className="flex items-center gap-2">
             <Link href="/plan-your-trip" className={`hidden rounded-full border px-4 py-2 text-sm font-bold sm:inline-flex sm:px-6 sm:py-2.5 ${overLight ? "border-slate-500/70 bg-white/55 text-slate-950" : "border-white/80 bg-white/15 text-white"}`}>Plan Your Trip</Link>
-            <button type="button" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)} className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border lg:hidden ${overLight ? "border-slate-400 bg-white/70 text-slate-900" : "border-white/60 bg-white/15 text-white"}`}>
-              <span className="sr-only">Menu</span><span className="flex flex-col gap-1.5"><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""} bg-current`} /></span>
-            </button>
+            <button type="button" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)} className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border lg:hidden ${overLight ? "border-slate-400 bg-white/70 text-slate-900" : "border-white/60 bg-white/15 text-white"}`}><span className="sr-only">Menu</span><span className="flex flex-col gap-1.5"><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""} bg-current`} /></span></button>
           </div>
         </div>
 
