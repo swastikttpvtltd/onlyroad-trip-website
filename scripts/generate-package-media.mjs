@@ -75,13 +75,23 @@ async function main() {
     grouped[packageKey].push(`/images/packages/${file}`);
   }
 
-  // Some existing package folders have descriptive names that are not an
-  // exact copy of the package slug. Keep those folder names untouched while
-  // exposing the canonical package slug as an additional manifest key.
+  // Some package folders have descriptive names that are not an exact copy of
+  // the package slug. Expose the canonical package/state key as an additional
+  // manifest key without moving or duplicating the actual image files.
   const mediaAliases = {
     "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya": "uttar-pradesh/varanasi-prayagraj-ayodhya",
     "multi-state/varanasi-ayodhya-prayagraj-gaya-bodh-gaya-deoghar": "bihar/bihar-buddhist-circuit",
     "multi-state/delhi-agra-jaipur-golden-triangle": "delhi/delhi-agra-jaipur",
+
+    // Weekend Group Tours stored under multi-state but represented in the
+    // package catalogue by their state folders/slugs.
+    "goa/goa-weekend-vibe-escape": "multi-state/goa-weekend-group-tour",
+    "himachal-pradesh/jibhi-weekend-group-tour": "multi-state/jibhi-weekend-group-tour",
+    "himachal-pradesh/kasol-weekend-group-tour": "multi-state/kasol-weekend-group-tour",
+    "uttarakhand/kanatal-weekend-group-tour": "multi-state/kanatal-weekend-group-tour",
+    "himachal-pradesh/mcleodganj-weekend-group-tour": "multi-state/mcleodganj-weekend-group-tour",
+    "rajasthan/udaipur-weekend-group-tour": "multi-state/udaipur-weekend-group-tour",
+    "uttarakhand/nainital-weekend-group-tour": "multi-state/nainital-weekend-group-tour",
   };
 
   for (const [alias, source] of Object.entries(mediaAliases)) {
