@@ -11,7 +11,6 @@ import { packages } from "@/data/packages";
 
 type PackageItem = any;
 type PageProps = { params: Promise<{ slug: string }> };
-
 type StateDetails = { name: string; famousFor: string };
 
 const stateDetails: Record<string, StateDetails> = {
@@ -70,6 +69,16 @@ function travelPlanningNotes(state: StateDetails) {
   ];
 }
 
+function faqItems(pkg: PackageItem, state: StateDetails) {
+  return [
+    { question: `What is included in the ${pkg.title} package?`, answer: "The exact inclusions and exclusions are listed in the Tour Inclusions & Exclusions section on this page." },
+    { question: `What is the best time to travel to ${state.name}?`, answer: `The recommended travel period is shown in the Best Time field above. Weather and local operating conditions can affect the ideal travel dates.` },
+    { question: `Can this ${pkg.title} itinerary be customised?`, answer: "Yes. Travel dates, group size, accommodation preferences, sightseeing pace and other requirements can be discussed with Only Road Trip before booking." },
+    { question: "Is this package suitable for families and groups?", answer: "Suitability depends on the published itinerary, walking requirements, travel duration and group needs. Families and groups can request suitable customisation before confirmation." },
+    { question: "What should I check before booking?", answer: "Please review the day-wise itinerary, inclusions, exclusions, hotel category, meals, travel dates and any seasonal or local restrictions before confirming the booking." },
+  ];
+}
+
 export function generateStaticParams() {
   return packages.map((pkg) => ({ slug: String(pkg.slug) })).filter((item) => item.slug);
 }
@@ -80,26 +89,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
   if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
-
-  const seoKeywords: string[] = Array.isArray(pkg.seoKeywords)
-    ? pkg.seoKeywords.map((value: unknown) => String(value))
-    : [pkg.title, pkg.destination, pkg.state].filter(Boolean).map(String);
+  const seoKeywords: string[] = Array.isArray(pkg.seoKeywords) ? pkg.seoKeywords.map((value: unknown) => String(value)) : [pkg.title, pkg.destination, pkg.state].filter(Boolean).map(String);
   const aliasText = seoKeywords.slice(0, 4).join(", ");
-
   return {
     title: `${pkg.title} | Only Road Trip`,
     description: `${pkg.overview} Search for this journey as ${aliasText}.`,
     keywords: seoKeywords,
     alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` },
-    openGraph: {
-      title: `${pkg.title} | Only Road Trip`,
-      description: `${pkg.overview} Explore ${aliasText}.`,
-      url: `https://www.onlyroadtrip.com/packages/${slug}`,
-      siteName: "Only Road Trip",
-      locale: "en_IN",
-      type: "website",
-      images: [{ url: heroImage(pkg), alt: pkg.title }],
-    },
+    openGraph: { title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Explore ${aliasText}.`, url: `https://www.onlyroadtrip.com/packages/${slug}`, siteName: "Only Road Trip", locale: "en_IN", type: "website", images: [{ url: heroImage(pkg), alt: pkg.title }] },
   };
 }
 
@@ -107,24 +104,19 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
   if (!pkg) notFound();
-
   const image = heroImage(pkg);
   const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
   const state = getStateDetails(pkg.state);
   const planningNotes = travelPlanningNotes(state);
+  const faqs = faqItems(pkg, state);
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) };
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
-      <section className="relative h-[430px] overflow-hidden">
-        <Image src={image} alt={pkg.title} fill priority className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" />
-        <div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="flex h-full items-end pb-10 sm:pb-12"><div className="max-w-4xl text-white">
-          <div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div>
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p>
-        </div></div></div>
-      </section>
-      <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <section className="relative h-[430px] overflow-hidden"><Image src={image} alt={pkg.title} fill priority className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" /><div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="flex h-full items-end pb-10 sm:pb-12"><div className="max-w-4xl text-white"><div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div><p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p></div></div></div></section>
+      <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals'], ['faqs', 'FAQ']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]"><div className="space-y-7">
         <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Package ID" value={String(pkg.packageId ?? "—")} /><Fact label="Duration" value={String(pkg.duration ?? "—")} /><Fact label="Destination" value={String(pkg.destination ?? "—")} /><Fact label="Best Time" value={String(pkg.bestTime ?? "—")} /></section>
         <ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">About {state.name}</h3><p className="mt-2 leading-7 text-slate-600">{state.famousFor}</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{(Array.isArray(pkg.highlights) ? pkg.highlights : []).map((x: string) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard>
@@ -132,6 +124,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <ContentCard id="itinerary" title="Day-wise Itinerary"><ItineraryAccordion itinerary={Array.isArray(pkg.itinerary) ? pkg.itinerary : []} destination={String(pkg.destination ?? "")} category={String(pkg.category ?? "Tour")} vibeHook={pkg.vibeHook} /></ContentCard>
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
         <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.category}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
+        <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>
         <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</div></ContentCard>
       </div><aside className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
     </main>
