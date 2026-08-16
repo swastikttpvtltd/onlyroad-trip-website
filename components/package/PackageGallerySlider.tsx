@@ -16,6 +16,13 @@ function buildImageAlt(title: string, image: string, index: number) {
   return `${cleanTitle} – travel package experience photo ${index + 1}`;
 }
 
+function toThumbnailPath(image: string) {
+  if (!image.startsWith("/images/packages/")) return image;
+  return image
+    .replace(/^\/images\/packages\//, "/images/package-thumbnails/")
+    .replace(/\.[^.]+$/, ".webp");
+}
+
 export default function PackageGallerySlider({
   gallery,
   title,
@@ -24,7 +31,7 @@ export default function PackageGallerySlider({
   title: string;
 }) {
   // No artificial limit: every gallery item supplied by the package is displayed.
-  // No extension filtering: browser-supported image URLs are accepted as-is.
+  // Generated thumbnails are preferred, with the original image as an automatic fallback.
   const slides = useMemo(
     () => gallery.filter((item) => typeof item?.image === "string" && item.image.trim()),
     [gallery],
@@ -55,22 +62,33 @@ export default function PackageGallerySlider({
     <section className="bg-[#f6f6f6] px-5 pb-3 pt-7 md:px-8">
       <div className="mx-auto w-full max-w-7xl">
         <div className="relative aspect-video w-full overflow-hidden rounded-[28px] bg-slate-950 shadow-xl">
-          {slides.map((slide, index) => (
-            <div
-              key={`${slide.image}-${index}`}
-              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${
-                index === active ? "opacity-100" : "pointer-events-none opacity-0"
-              }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.alt || buildImageAlt(title, slide.image, index)}
-                className="block h-full w-full object-contain object-center"
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
-              />
-            </div>
-          ))}
+          {slides.map((slide, index) => {
+            const sourceImage = slide.image;
+            const thumbnailImage = toThumbnailPath(sourceImage);
+
+            return (
+              <div
+                key={`${slide.image}-${index}`}
+                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${
+                  index === active ? "opacity-100" : "pointer-events-none opacity-0"
+                }`}
+              >
+                <img
+                  src={thumbnailImage}
+                  alt={slide.alt || buildImageAlt(title, sourceImage, index)}
+                  className="block h-full w-full object-contain object-center"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  onError={(event) => {
+                    const image = event.currentTarget;
+                    if (image.src !== new URL(sourceImage, window.location.origin).href) {
+                      image.src = sourceImage;
+                    }
+                  }}
+                />
+              </div>
+            );
+          })}
 
           {slides.length > 1 && (
             <>
