@@ -1,111 +1,46 @@
-"use client";
+import PaymentSelection from "@/components/PaymentSelection";
+import { packages } from "@/data/packages";
 
-import { FormEvent, useState } from "react";
-import { CreditCard, ExternalLink, ShieldCheck } from "lucide-react";
+export default async function PaymentPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const query = await searchParams;
+  const get = (key: string) => {
+    const value = query[key];
+    return Array.isArray(value) ? value[0] ?? "" : value ?? "";
+  };
 
-export default function PaymentPage() {
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ url?: string; error?: string } | null>(null);
-
-  async function createPaymentLink(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setLoading(true);
-    setResult(null);
-
-    const form = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(form.entries());
-
-    try {
-      const response = await fetch("/api/payment-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to create payment link.");
-      setResult({ url: data.link_url });
-    } catch (error) {
-      setResult({ error: error instanceof Error ? error.message : "Something went wrong." });
-    } finally {
-      setLoading(false);
-    }
-  }
+  const packageTitle = get("title");
+  const pkg = packages.find(
+    (item: any) => String(item.title).toLowerCase() === packageTitle.toLowerCase(),
+  );
+  const duration = get("duration") || String(pkg?.duration ?? "");
+  const travellers = Number(get("travellers") || 1);
+  const advance = Number(get("advance") || 0);
+  const total = Number(get("total") || (advance ? Math.round(advance / 0.3) : 0));
+  const rate = Number(get("rate") || (travellers ? Math.round(total / travellers) : 0));
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-12 text-slate-900">
-      <div className="mx-auto max-w-5xl overflow-hidden rounded-[32px] bg-white shadow-2xl">
-        <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-cyan-800 px-7 py-8 text-white md:px-10">
-          <div className="mb-3 flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 backdrop-blur">
-              <CreditCard className="h-6 w-6" />
-            </span>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-cyan-200">Only Road Trip</p>
-              <h1 className="text-2xl font-bold md:text-3xl">Cashfree Payment Link</h1>
-            </div>
-          </div>
-          <p className="max-w-2xl text-sm leading-6 text-slate-200">
-            Create a secure Cashfree payment link for a customer booking. Your API credentials stay on the server and are never entered into or exposed by this page.
-          </p>
-        </div>
-
-        <form onSubmit={createPaymentLink} className="grid gap-8 p-7 md:grid-cols-2 md:p-10">
-          <section className="space-y-5">
-            <div>
-              <h2 className="text-lg font-bold">Payment Setup</h2>
-              <p className="mt-1 text-xs text-slate-500">Cashfree credentials are loaded securely from server environment variables.</p>
-            </div>
-
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-              <div className="flex items-start gap-3">
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
-                <div>
-                  <p className="font-semibold text-emerald-900">API keys are protected</p>
-                  <p className="mt-1 text-sm leading-5 text-emerald-800">
-                    Set CASHFREE_CLIENT_ID, CASHFREE_CLIENT_SECRET and CASHFREE_ENVIRONMENT in your local .env.local file and in your production hosting environment. Never commit the real keys to GitHub.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-600">
-              <p className="font-semibold text-slate-900">Environment</p>
-              <p className="mt-1">Use <strong>sandbox</strong> while testing and change to <strong>production</strong> only when you are ready for live payments.</p>
-            </div>
-          </section>
-
-          <section className="space-y-5">
-            <div>
-              <h2 className="text-lg font-bold">Customer Payment</h2>
-              <p className="mt-1 text-xs text-slate-500">The generated Cashfree link can be shared with the customer.</p>
-            </div>
-
-            <label className="block text-sm font-semibold">Amount (INR)<input required name="amount" type="number" min="1" step="0.01" placeholder="25000" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
-            <label className="block text-sm font-semibold">Purpose<input required name="purpose" placeholder="Ayodhya Tour Booking" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
-            <label className="block text-sm font-semibold">Customer Name<input required name="customer_name" placeholder="Customer name" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block text-sm font-semibold">Email<input required name="customer_email" type="email" placeholder="customer@email.com" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
-              <label className="block text-sm font-semibold">Mobile<input required name="customer_phone" inputMode="numeric" placeholder="9876543210" className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none focus:border-cyan-500" /></label>
-            </div>
-
-            <button disabled={loading} className="flex w-full items-center justify-center gap-2 rounded-xl bg-cyan-600 px-5 py-3.5 font-bold text-white transition hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-60">
-              <ShieldCheck className="h-5 w-5" />
-              {loading ? "Creating Payment Link..." : "Create Payment Link"}
-            </button>
-
-            {result?.url && (
-              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
-                <p className="text-sm font-semibold text-emerald-800">Payment link created successfully.</p>
-                <a href={result.url} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-emerald-700 underline">
-                  Open Payment Link <ExternalLink className="h-4 w-4" />
-                </a>
-              </div>
-            )}
-
-            {result?.error && <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{result.error}</div>}
-          </section>
-        </form>
-      </div>
-    </main>
+    <PaymentSelection
+      booking={{
+        packageTitle,
+        packageId: get("packageId") || String(pkg?.packageId ?? ""),
+        duration,
+        departure: get("date"),
+        returnDate: get("returnDate"),
+        sharing: get("sharing"),
+        travellers,
+        rate,
+        total,
+        advance,
+        balance: Number(get("balance") || Math.max(0, total - advance)),
+        name: get("name"),
+        phone: get("phone"),
+        email: get("email"),
+        purpose: get("purpose"),
+      }}
+    />
   );
 }
