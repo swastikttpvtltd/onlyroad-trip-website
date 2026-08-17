@@ -5,6 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const amount = Number(body.amount);
+    const createLink = Boolean(body.create_link);
 
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json({ error: "Enter a valid payment amount." }, { status: 400 });
@@ -14,13 +15,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Customer name, email, mobile and payment purpose are required." }, { status: 400 });
     }
 
-    // GroupBookingForm currently calls this endpoint directly. For group bookings,
-    // stop here and send the customer to our own payment-selection page first.
-    // This deliberately does not require payment API keys at this stage.
     const purpose = String(body.purpose).slice(0, 500);
-    const isGroupBooking = /\bsharing\b/i.test(purpose) && /\btraveller/i.test(purpose);
 
-    if (isGroupBooking) {
+    // Booking forms first land on our payment-selection page. The explicit
+    // create_link flag is used only when the customer clicks Cashfree there.
+    const isGroupBooking = /\bsharing\b/i.test(purpose) && /\btraveller/i.test(purpose);
+    if (isGroupBooking && !createLink) {
       const parts = purpose.split("|").map((part: string) => part.trim());
       const packageTitle = parts[0] || "Group Tour Booking";
       const sharing = parts.find((part: string) => /sharing/i.test(part)) || "";
@@ -48,7 +48,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ link_url: `/payment?${query.toString()}`, selection: true });
     }
 
-    // Existing manual Cashfree payment-link flow remains unchanged.
     const { env } = getCloudflareContext();
     const runtimeEnv = env as unknown as Record<string, string | undefined>;
     const environment = String(runtimeEnv.CASHFREE_ENVIRONMENT || "production").trim().toLowerCase() === "sandbox"
