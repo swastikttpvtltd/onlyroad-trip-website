@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { CreditCard, LockKeyhole, ShieldCheck, UserRound, CalendarDays, Users, Mail, Phone, FileText } from "lucide-react";
+import { CreditCard, LockKeyhole, ShieldCheck, UserRound, CalendarDays, Users, Mail, Phone, FileText, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 const money = (value: string) => `₹${Number(value || 0).toLocaleString("en-IN")}`;
@@ -9,7 +9,10 @@ const money = (value: string) => `₹${Number(value || 0).toLocaleString("en-IN"
 export default function PaymentPage() {
   const params = useSearchParams();
   const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  // All values below come directly from the booking form handoff.
   const title = params.get("title") || "Group Tour Booking";
   const sharing = params.get("sharing") || "—";
   const date = params.get("date") || "—";
@@ -22,13 +25,49 @@ export default function PaymentPage() {
   const email = params.get("email") || "—";
   const phone = params.get("phone") || "—";
 
+  const startCashfree = async () => {
+    if (gateway !== "cashfree") {
+      setError("PayU checkout is not connected yet. Please select Cashfree.");
+      return;
+    }
+    if (!name || name === "—" || !email || email === "—" || !phone || phone === "—") {
+      setError("Customer details were not received from the booking form. Please go back and submit the booking form again.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch("/api/payment-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          create_link: true,
+          amount: Number(advance),
+          purpose: `${title}${sharing !== "—" ? ` | ${sharing}` : ""}${date !== "—" ? ` | ${date}` : ""}${travellers ? ` | ${travellers} traveller${Number(travellers) > 1 ? "s" : ""}` : ""}`,
+          customer_name: name,
+          customer_email: email,
+          customer_phone: phone,
+        }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Cashfree could not create the payment link.");
+      const url = data.link_url || data.url || data.paymentUrl || data.payment_link;
+      if (!url) throw new Error("Cashfree did not return a payment URL.");
+      window.location.href = url;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to start payment. Please try again.");
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-12 text-slate-800">
       <div className="mx-auto max-w-6xl">
-        <header className="overflow-hidden rounded-3xl bg-[#153e75] p-7 text-white shadow-xl md:p-9">
+        <header className="overflow-hidden rounded-3xl bg-gradient-to-r from-[#153e75] via-blue-900 to-cyan-800 p-7 text-white shadow-xl md:p-9">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-200">Only Road Trip • Secure Payment</p>
           <h1 className="mt-2 text-3xl font-extrabold md:text-4xl">Complete Your Booking</h1>
-          <p className="mt-2 text-sm text-white/75">Review all booking details and choose your preferred payment gateway.</p>
+          <p className="mt-2 text-sm text-white/80">Your booking form details have been carried forward automatically. No need to enter them again.</p>
         </header>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
@@ -52,23 +91,24 @@ export default function PaymentPage() {
             </Card>
 
             <Card title="Choose Payment Gateway" icon={<CreditCard size={20} />}>
-              <p className="text-sm text-slate-500">Select how you want to pay your booking advance.</p>
+              <p className="text-sm text-slate-500">Your booking advance is ready. Select a gateway and continue to checkout.</p>
               <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <Gateway active={gateway === "cashfree"} title="Cashfree" subtitle="Cards • UPI • Net Banking" onClick={() => setGateway("cashfree")} />
-                <Gateway active={gateway === "payu"} title="PayU" subtitle="Cards • UPI • Net Banking" onClick={() => setGateway("payu")} />
+                <Gateway active={gateway === "cashfree"} title="Cashfree" subtitle="Cards • UPI • Net Banking" onClick={() => { setGateway("cashfree"); setError(""); }} />
+                <Gateway active={gateway === "payu"} title="PayU" subtitle="Integration pending" onClick={() => setGateway("payu")} />
               </div>
               <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
                 <ShieldCheck className="mt-0.5 shrink-0 text-emerald-700" size={20} />
                 <div>
                   <p className="font-bold text-emerald-900">Secure Payment</p>
-                  <p className="mt-1 text-xs leading-5 text-emerald-800">Payment credentials are handled by the selected gateway. We do not store your card or UPI details.</p>
+                  <p className="mt-1 text-xs leading-5 text-emerald-800">Your card, UPI or net-banking credentials are handled by the payment gateway. They are not stored on this website.</p>
                 </div>
               </div>
-              <button type="button" className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900">
-                <CreditCard size={21} />
-                Pay {money(advance)} via {gateway === "cashfree" ? "Cashfree" : "PayU"}
+              {error && <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{error}</div>}
+              <button disabled={loading} type="button" onClick={startCashfree} className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60">
+                {loading ? <Loader2 size={21} className="animate-spin" /> : <CreditCard size={21} />}
+                {loading ? "Creating Secure Checkout..." : `Pay ${money(advance)} via ${gateway === "cashfree" ? "Cashfree" : "PayU"}`}
               </button>
-              <p className="mt-3 text-center text-xs font-semibold text-slate-400">Gateway credentials will be connected after deployment.</p>
+              <p className="mt-3 text-center text-xs font-semibold text-slate-400">Cashfree is connected to the server-side payment API.</p>
             </Card>
           </section>
 
@@ -84,7 +124,7 @@ export default function PaymentPage() {
                   <div className="border-t border-slate-200 pt-3"><Row label="Advance (30%)" value={money(advance)} strong /></div>
                   <Row label="Balance Before Arrival" value={money(balance)} />
                 </div>
-                <div className="rounded-2xl border-2 border-blue-100 bg-blue-50 p-5"><p className="text-xs font-bold uppercase tracking-wide text-blue-700">Amount Payable Now</p><p className="mt-1 text-3xl font-extrabold text-blue-900">{money(advance)}</p><p className="mt-1 text-xs text-blue-700">30% booking advance</p></div>
+                <div className="rounded-2xl border-2 border-blue-100 bg-blue-50 p-5"><p className="text-xs font-bold uppercase tracking-wide text-blue-700">Amount Payable Now</p><p className="mt-1 text-3xl font-extrabold text-blue-900">{money(advance)}</p><p className="mt-1 text-xs text-blue-700">Booking advance</p></div>
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500"><LockKeyhole size={15} /> Secure checkout • Encrypted payment</div>
               </div>
             </div>
