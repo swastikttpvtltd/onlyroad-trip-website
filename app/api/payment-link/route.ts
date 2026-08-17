@@ -6,30 +6,6 @@ export async function POST(request: Request) {
     const body = await request.json();
     const amount = Number(body.amount);
 
-    // Read Cloudflare Worker runtime variables directly from the binding context.
-    // This is required for secrets configured in the Cloudflare dashboard when
-    // the app is deployed through OpenNext on Cloudflare Workers.
-    const { env } = getCloudflareContext();
-    const runtimeEnv = env as unknown as Record<string, string | undefined>;
-
-    const environment = String(runtimeEnv.CASHFREE_ENVIRONMENT || "production").trim().toLowerCase() === "sandbox"
-      ? "sandbox"
-      : "production";
-
-    const clientId = String(
-      runtimeEnv.CASHFREE_APP_ID || runtimeEnv.CASHFREE_CLIENT_ID || "",
-    ).trim();
-    const clientSecret = String(
-      runtimeEnv.CASHFREE_SECRET_KEY || runtimeEnv.CASHFREE_CLIENT_SECRET || "",
-    ).trim();
-
-    if (!clientId || !clientSecret) {
-      return NextResponse.json(
-        { error: "Cashfree API credentials are not configured on the server." },
-        { status: 500 },
-      );
-    }
-
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json({ error: "Enter a valid payment amount." }, { status: 400 });
     }
@@ -38,20 +14,62 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Customer name, email, mobile and payment purpose are required." }, { status: 400 });
     }
 
-    const endpoint = environment === "production"
-      ? "https://api.cashfree.com/pg/links"
-      : "https://sandbox.cashfree.com/pg/links";
+    // GroupBookingForm currently calls this endpoint directly. For group bookings,
+    // stop here and send the customer to our own payment-selection page first.
+    // This deliberately does not require payment API keys at this stage.
+    const purpose = String(body.purpose).slice(0, 500);
+    const isGroupBooking = /\bsharing\b/i.test(purpose) && /\btraveller/i.test(purpose);
 
+    if (isGroupBooking) {
+      const parts = purpose.split("|").map((part: string) => part.trim());
+      const packageTitle = parts[0] || "Group Tour Booking";
+      const sharing = parts.find((part: string) => /sharing/i.test(part)) || "";
+      const date = parts.find((part: string) => /^\d{4}-\d{2}-\d{2}$/.test(part)) || "";
+      const travellerText = parts.find((part: string) => /traveller/i.test(part)) || "";
+      const travellers = travellerText.match(/\d+/)?.[0] || "1";
+      const total = Math.round(amount / 0.3);
+      const rate = Math.round(total / Number(travellers || 1));
+      const balance = Math.max(0, total - amount);
+
+      const query = new URLSearchParams({
+        title: packageTitle,
+        sharing,
+        date,
+        travellers,
+        rate: String(rate),
+        total: String(total),
+        advance: String(amount),
+        balance: String(balance),
+        name: String(body.customer_name).trim(),
+        email: String(body.customer_email).trim(),
+        phone: String(body.customer_phone).trim(),
+      });
+
+      return NextResponse.json({ link_url: `/payment?${query.toString()}`, selection: true });
+    }
+
+    // Existing manual Cashfree payment-link flow remains unchanged.
+    const { env } = getCloudflareContext();
+    const runtimeEnv = env as unknown as Record<string, string | undefined>;
+    const environment = String(runtimeEnv.CASHFREE_ENVIRONMENT || "production").trim().toLowerCase() === "sandbox"
+      ? "sandbox"
+      : "production";
+    const clientId = String(runtimeEnv.CASHFREE_APP_ID || runtimeEnv.CASHFREE_CLIENT_ID || "").trim();
+    const clientSecret = String(runtimeEnv.CASHFREE_SECRET_KEY || runtimeEnv.CASHFREE_CLIENT_SECRET || "").trim();
+
+    if (!clientId || !clientSecret) {
+      return NextResponse.json({ error: "Cashfree API credentials are not configured on the server." }, { status: 500 });
+    }
+
+    const endpoint = environment === "production" ? "https://api.cashfree.com/pg/links" : "https://sandbox.cashfree.com/pg/links";
     const linkId = `ORT-${Date.now()}`;
-    const configuredReturnUrl = String(
-      runtimeEnv.CASHFREE_RETURN_URL || "https://onlyroadtrip.com",
-    ).trim();
+    const configuredReturnUrl = String(runtimeEnv.CASHFREE_RETURN_URL || "https://onlyroadtrip.com").trim();
 
     const payload = {
       link_id: linkId,
       link_amount: amount,
       link_currency: "INR",
-      link_purpose: String(body.purpose).slice(0, 500),
+      link_purpose: purpose,
       customer_details: {
         customer_name: String(body.customer_name).trim(),
         customer_email: String(body.customer_email).trim(),
@@ -79,7 +97,6 @@ export async function POST(request: Request) {
       const message = data?.message || data?.message_text || data?.error_description || "Cashfree could not create the payment link.";
       return NextResponse.json({ error: message }, { status: response.status });
     }
-
     if (!data?.link_url) {
       return NextResponse.json({ error: "Cashfree responded successfully but did not return a payment link." }, { status: 502 });
     }
