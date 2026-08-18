@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CheckCircle2, Download, Mail, MapPin, Phone, ShieldCheck, UserRound, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Booking = {
   bookingNumber?: string;
@@ -41,40 +41,64 @@ export default function PaymentSuccessPage() {
   const [booking, setBooking] = useState<Booking | null>(null);
   const [transactionId, setTransactionId] = useState("");
   const [gateway, setGateway] = useState("payu");
+  const [bookingNumber, setBookingNumber] = useState("");
 
   useEffect(() => {
     try {
       const saved = sessionStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(LEGACY_KEY);
-      if (saved) setBooking(JSON.parse(saved) as Booking);
+      if (saved) {
+        const parsed = JSON.parse(saved) as Booking;
+        setBooking(parsed);
+      }
     } catch {
       // Keep the confirmation page usable even if browser storage is unavailable.
     }
 
+    // IMPORTANT: all URL/sessionStorage reads and generated booking numbers happen
+    // after hydration. This prevents Date.now()/window differences between the
+    // server-rendered HTML and the first client render.
     const params = new URLSearchParams(window.location.search);
-    setTransactionId(
+    const transaction =
       params.get("txnid") ||
       params.get("mihpayid") ||
       params.get("cf_payment_id") ||
       params.get("cf_order_id") ||
-      ""
-    );
-    setGateway((params.get("gateway") || "payu").toLowerCase());
-  }, []);
+      "";
+    const urlBooking = params.get("booking") || "";
 
-  const bookingNumber = useMemo(() => {
-    const urlBooking = typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("booking")
-      : "";
-    if (booking?.bookingNumber) return booking.bookingNumber;
-    if (urlBooking) return urlBooking;
-    const suffix = (transactionId || Date.now().toString()).replace(/[^A-Za-z0-9]/g, "").slice(-8).toUpperCase();
-    return `ORT-${suffix || "BOOKING"}`;
-  }, [booking, transactionId]);
+    setTransactionId(transaction);
+    setGateway((params.get("gateway") || "payu").toLowerCase());
+
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(LEGACY_KEY);
+      const parsed = saved ? (JSON.parse(saved) as Booking) : null;
+      const storedBookingNumber = parsed?.bookingNumber || "";
+
+      if (storedBookingNumber) {
+        setBookingNumber(storedBookingNumber);
+      } else if (urlBooking) {
+        setBookingNumber(urlBooking);
+      } else {
+        const suffix = (transaction || Math.random().toString(36).slice(2, 10))
+          .replace(/[^A-Za-z0-9]/g, "")
+          .slice(-8)
+          .toUpperCase();
+        setBookingNumber(`ORT-${suffix || "BOOKING"}`);
+      }
+    } catch {
+      const suffix = (transaction || Math.random().toString(36).slice(2, 10))
+        .replace(/[^A-Za-z0-9]/g, "")
+        .slice(-8)
+        .toUpperCase();
+      setBookingNumber(`ORT-${suffix || "BOOKING"}`);
+    }
+  }, []);
 
   function printConfirmation() {
     const b = booking || {};
     const gatewayName = gateway === "cashfree" ? "Cashfree" : "PayU";
     const transaction = transactionId || "—";
+    const printableBookingNumber = bookingNumber || "—";
 
     // IMPORTANT: Do not use the site's print CSS. A standalone document avoids
     // Tailwind/global print rules and guarantees a real A4 PDF in Chrome.
@@ -107,7 +131,7 @@ export default function PaymentSuccessPage() {
 
     printWindow.document.open();
     printWindow.document.write(`<!doctype html>
-<html><head><meta charset="utf-8"><title>Payment Confirmation - ${escapeHtml(bookingNumber)}</title>
+<html><head><meta charset="utf-8"><title>Payment Confirmation - ${escapeHtml(printableBookingNumber)}</title>
 <style>
 @page{size:A4;margin:12mm}
 *{box-sizing:border-box}
@@ -134,7 +158,7 @@ h2{margin:0 0 8px;padding-left:8px;border-left:4px solid #153e75;color:#153e75;f
 <div class="sheet">
   <div class="header"><div class="brand">ONLY ROAD TRIP</div><h1>Payment Confirmation</h1><div class="muted">Premium Tours &amp; Travel Company in India</div></div>
   <div class="refgrid">
-    <div class="ref"><div class="label">Booking Number</div><div class="value">${escapeHtml(bookingNumber)}</div></div>
+    <div class="ref"><div class="label">Booking Number</div><div class="value">${escapeHtml(printableBookingNumber)}</div></div>
     <div class="ref"><div class="label">${escapeHtml(gatewayName)} Transaction ID</div><div class="value">${escapeHtml(transaction)}</div></div>
   </div>
   <div class="section"><h2>Trip Details</h2><div class="grid">${makeRows(rows)}</div></div>
@@ -170,7 +194,7 @@ h2{margin:0 0 8px;padding-left:8px;border-left:4px solid #153e75;color:#153e75;f
           </div>
 
           <div className="mx-auto mt-8 grid max-w-4xl gap-4 md:grid-cols-2">
-            <Reference label="Booking Number" value={bookingNumber} />
+            <Reference label="Booking Number" value={bookingNumber || "Generating booking number…"} />
             <Reference label={`${gatewayName} Transaction ID`} value={transactionId || "Available in payment confirmation"} />
           </div>
 
