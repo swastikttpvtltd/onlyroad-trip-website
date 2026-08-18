@@ -8,6 +8,7 @@
     "nodejs_compat_populate_process_env",
     "global_fetch_strictly_public"
   ],
+  "keep_vars": true,
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -20,4 +21,4 @@
   ]
 }
 
-// Force a fresh Cloudflare build so the latest runtime configuration is deployed.
+// Keep dashboard-managed Cloudflare variables across deployments.
