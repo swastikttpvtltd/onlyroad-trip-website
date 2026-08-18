@@ -1,14 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AlertCircle, CalendarDays, CheckCircle2, CreditCard, Headphones, RefreshCw, ShieldCheck } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function PaymentFailurePage() {
-  const router = useRouter();
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <Header />
@@ -47,17 +44,17 @@ export default function PaymentFailurePage() {
               <ActionCard
                 icon={<RefreshCw size={28} />}
                 title="Try Again"
-                text="Go back to payment and try another payment attempt."
+                text="Return to your saved booking and try the payment again."
                 label="Try Again"
-                onClick={() => router.back()}
+                href="/payment?restore=1"
                 primary
               />
               <ActionCard
                 icon={<CreditCard size={28} />}
                 title="Choose Another Method"
-                text="Return to the payment page and select another gateway."
-                label="Change Payment Method"
-                href="/payment"
+                text="Your booking details will be restored automatically so you can select another gateway."
+                label="Pay with Different Method"
+                href="/payment?restore=1"
               />
               <ActionCard
                 icon={<Headphones size={28} />}
@@ -99,15 +96,13 @@ function ActionCard({
   text,
   label,
   href,
-  onClick,
   primary = false,
 }: {
   icon: React.ReactNode;
   title: string;
   text: string;
   label: string;
-  href?: string;
-  onClick?: () => void;
+  href: string;
   primary?: boolean;
 }) {
   const content = (
@@ -121,8 +116,7 @@ function ActionCard({
     </div>
   );
 
-  if (href) return <Link href={href} className="block h-full">{content}</Link>;
-  return <button type="button" onClick={onClick} className="block h-full w-full text-left">{content}</button>;
+  return <Link href={href} className="block h-full">{content}</Link>;
 }
 
 function TrustItem({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
