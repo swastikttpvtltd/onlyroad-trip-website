@@ -4,18 +4,24 @@ import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, CreditCard, FileText, LockKeyhole, Mail, MapPin, Phone, ShieldCheck, UserRound, Users } from "lucide-react";
 
 type Booking = {
+  bookingNumber?: string; gateway?: "cashfree" | "payu";
   packageTitle: string; packageId: string; duration: string; departure: string; returnDate: string;
   sharing: string; travellers: number; rate: number; total: number; advance: number; balance: number;
   name: string; phone: string; email: string; purpose: string;
 };
 
 const STORAGE_KEY = "onlyroadtrip_payment_booking";
+const LEGACY_STORAGE_KEY = "onlyroadtrip_pending_booking";
 const money = (n: number) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
 
 const emptyBooking: Booking = {
   packageTitle: "", packageId: "", duration: "", departure: "", returnDate: "", sharing: "",
   travellers: 1, rate: 0, total: 0, advance: 0, balance: 0, name: "", phone: "", email: "", purpose: "",
 };
+
+function makeBookingNumber() {
+  return `ORT-${Date.now().toString(36).slice(-8).toUpperCase()}`;
+}
 
 export default function PaymentSelection({ booking }: { booking: Booking }) {
   const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
@@ -29,23 +35,23 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
 
   useEffect(() => {
     try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
+      const raw = sessionStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(LEGACY_STORAGE_KEY);
       if (raw) setStoredBooking(JSON.parse(raw) as Booking);
     } catch {
       // Ignore invalid/stale browser storage.
     }
   }, []);
 
-  const currentBooking: Booking = hasBookingFromUrl
-    ? booking
-    : storedBooking || emptyBooking;
+  const currentBooking: Booking = hasBookingFromUrl ? booking : storedBooking || emptyBooking;
 
-  // Keep the latest booking details available for a retry or a different gateway
-  // after an external payment provider redirects back to the failure page.
   useEffect(() => {
     if (!hasBookingFromUrl) return;
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(booking));
+      const existing = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") as Booking | null;
+      const next = { ...booking, bookingNumber: existing?.bookingNumber || booking.bookingNumber || makeBookingNumber() };
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      sessionStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(next));
+      setStoredBooking(next);
     } catch {
       // Storage can be unavailable in privacy-restricted browsers.
     }
@@ -57,10 +63,14 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
       return;
     }
 
+    const bookingNumber = currentBooking.bookingNumber || makeBookingNumber();
+    const bookingForPayment: Booking = { ...currentBooking, bookingNumber, gateway };
+
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(currentBooking));
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(bookingForPayment));
+      sessionStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(bookingForPayment));
     } catch {
-      // The payment request can still continue if browser storage is unavailable.
+      // Continue even if browser storage is unavailable.
     }
 
     setLoading(true);
@@ -70,9 +80,12 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "create_cashfree",
-            amount: currentBooking.advance,
-            purpose: currentBooking.purpose || `${currentBooking.packageTitle} | ${currentBooking.sharing} sharing | ${currentBooking.departure} | ${currentBooking.travellers} traveller${currentBooking.travellers > 1 ? "s" : ""}`,
-            customer_name: currentBooking.name, customer_email: currentBooking.email, customer_phone: currentBooking.phone,
+            amount: bookingForPayment.advance,
+            bookingNumber,
+            purpose: bookingForPayment.purpose || `${bookingForPayment.packageTitle} | ${bookingForPayment.sharing} sharing | ${bookingForPayment.departure} | ${bookingForPayment.travellers} traveller${bookingForPayment.travellers > 1 ? "s" : ""}`,
+            customer_name: bookingForPayment.name,
+            customer_email: bookingForPayment.email,
+            customer_phone: bookingForPayment.phone,
           }),
         });
         const data = await res.json();
@@ -83,7 +96,14 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
 
       const res = await fetch("/api/payu/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: currentBooking.advance, productinfo: currentBooking.packageTitle, firstname: currentBooking.name, email: currentBooking.email, phone: currentBooking.phone }),
+        body: {
+          amount: bookingForPayment.advance,
+          productinfo: bookingForPayment.packageTitle,
+          firstname: bookingForPayment.name,
+          email: bookingForPayment.email,
+          phone: bookingForPayment.phone,
+          bookingNumber,
+        } as unknown as BodyInit,
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "PayU checkout could not be started.");
@@ -173,9 +193,7 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
   );
 }
 
-function Card({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
-  return <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8"><div className="mb-6 flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-800">{icon}</span><h2 className="text-xl font-extrabold text-slate-950">{title}</h2></div>{children}</div>;
-}
+function Card({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) { return <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8"><div className="mb-6 flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-800">{icon}</span><h2 className="text-xl font-extrabold text-slate-950">{title}</h2></div>{children}</div>; }
 function Info({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) { return <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400">{icon}{label}</div><p className="mt-2 break-words font-bold text-slate-900">{value || "—"}</p></div>; }
 function Row({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) { return <div className="flex justify-between gap-4"><span className={strong ? "font-extrabold text-slate-900" : "text-slate-500"}>{label}</span><span className={strong ? "font-extrabold text-blue-800" : "font-bold text-slate-900"}>{value}</span></div>; }
 function Gateway({ active, title, subtitle, onClick }: { active: boolean; title: string; subtitle: string; onClick: () => void }) { return <button type="button" onClick={onClick} className={`rounded-2xl border-2 p-5 text-left transition ${active ? "border-blue-700 bg-blue-50 shadow-md" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between"><div><p className="text-lg font-extrabold text-slate-950">{title}</p><p className="mt-1 text-xs font-medium text-slate-500">{subtitle}</p></div><span className={`h-5 w-5 rounded-full border-2 ${active ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-4 text-xs font-bold text-blue-800">{active ? "Selected" : "Select this gateway"}</p></button>; }
