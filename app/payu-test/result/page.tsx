@@ -1,13 +1,16 @@
-"use client";
-
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
-export default function PayUTestResultPage() {
-  const params = useSearchParams();
-  const result = params.get("result") || "unverified";
-  const txnid = params.get("txnid") || "-";
-  const amount = params.get("amount") || "-";
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+function first(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] || "" : value || "";
+}
+
+export default async function PayUTestResultPage({ searchParams }: { searchParams: SearchParams }) {
+  const params = await searchParams;
+  const result = first(params.result) || "unverified";
+  const txnid = first(params.txnid) || "-";
+  const amount = first(params.amount) || "-";
 
   const isSuccess = result === "success";
   const isFailure = result === "failure";
