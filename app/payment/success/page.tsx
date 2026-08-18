@@ -33,7 +33,7 @@ export default function PaymentSuccessPage() {
     } catch { /* keep confirmation visible */ }
 
     const params = new URLSearchParams(window.location.search);
-    setTransactionId(params.get("txnid") || params.get("mihpayid") || params.get("cf_order_id") || "");
+    setTransactionId(params.get("txnid") || params.get("mihpayid") || params.get("cf_order_id") || params.get("cf_payment_id") || "");
     setGateway((params.get("gateway") || "payu").toLowerCase());
   }, []);
 
@@ -46,28 +46,63 @@ export default function PaymentSuccessPage() {
   }, [booking, transactionId]);
 
   function printConfirmation() {
-    const printWindow = window.open("", "_blank", "width=900,height=1000");
-    if (!printWindow) { alert("Please allow pop-ups to save the confirmation as PDF."); return; }
+    const existing = document.querySelector(".payment-print-sheet");
+    if (existing) existing.remove();
+
     const b = booking || {};
     const transaction = transactionId || "—";
     const gatewayName = gateway === "cashfree" ? "Cashfree" : "PayU";
-    printWindow.document.write(`<!doctype html><html><head><title>Payment Confirmation - ${escapeHtml(bookingNumber)}</title><style>
-      @page{size:A4;margin:14mm}*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;color:#0f172a;margin:0;font-size:11px;line-height:1.45}.brand{color:#1e40af;font-size:12px;font-weight:800;letter-spacing:2px}.title{font-size:26px;font-weight:800;margin:6px 0}.muted{color:#64748b}.top{border-bottom:2px solid #1e40af;padding-bottom:14px;margin-bottom:18px}.refs{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ref{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px}.label{font-size:9px;color:#2563eb;font-weight:800;text-transform:uppercase;letter-spacing:.7px}.value{font-size:15px;font-weight:800;margin-top:4px;word-break:break-word}.section{margin-top:20px}.section h2{font-size:15px;margin:0 0 8px;border-left:4px solid #1e40af;padding-left:8px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.box{border:1px solid #dbe3ec;border-radius:8px;padding:10px}.box .label{color:#64748b}.success{margin-top:18px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:9px;padding:12px;color:#065f46}.footer{border-top:1px solid #cbd5e1;margin-top:22px;padding-top:10px;text-align:center;color:#64748b;font-size:9px}@media print{button{display:none}}</style></head><body>
-      <div class="top"><div class="brand">ONLY ROAD TRIP</div><div class="title">Payment Confirmation</div><div class="muted">Premium Tours &amp; Travel Company in India</div></div>
-      <div class="refs"><div class="ref"><div class="label">Booking Number</div><div class="value">${escapeHtml(bookingNumber)}</div></div><div class="ref"><div class="label">${escapeHtml(gatewayName)} Transaction ID</div><div class="value">${escapeHtml(transaction)}</div></div></div>
-      <div class="section"><h2>Trip Details</h2><div class="grid">
-        <div class="box"><div class="label">Destination / Package</div><div class="value">${escapeHtml(text(b.packageTitle))}</div></div><div class="box"><div class="label">Package ID</div><div class="value">${escapeHtml(text(b.packageId))}</div></div>
-        <div class="box"><div class="label">Departure</div><div class="value">${escapeHtml(text(b.departure))}</div></div><div class="box"><div class="label">Return</div><div class="value">${escapeHtml(text(b.returnDate))}</div></div>
-        <div class="box"><div class="label">Duration</div><div class="value">${escapeHtml(text(b.duration))}</div></div><div class="box"><div class="label">Room Sharing</div><div class="value">${escapeHtml(text(b.sharing))}</div></div>
-        <div class="box"><div class="label">Travellers</div><div class="value">${escapeHtml(text(b.travellers))}</div></div><div class="box"><div class="label">Amount Paid</div><div class="value">${escapeHtml(money(Number(b.advance || 0)))}</div></div>
-      </div></div>
-      <div class="section"><h2>Traveller Details</h2><div class="grid"><div class="box"><div class="label">Client Name</div><div class="value">${escapeHtml(text(b.name))}</div></div><div class="box"><div class="label">Mobile</div><div class="value">${escapeHtml(text(b.phone))}</div></div><div class="box"><div class="label">Email</div><div class="value">${escapeHtml(text(b.email))}</div></div><div class="box"><div class="label">Payment Gateway</div><div class="value">${escapeHtml(gatewayName)}</div></div></div></div>
-      <div class="success"><strong>Payment received successfully.</strong><br>Keep this Booking Number and Transaction ID for future communication with Only Road Trip.</div>
-      <div class="footer">Operated by Swastik Tour And Travels Private Limited • Only Road Trip</div>
-      </body></html>`);
-    printWindow.document.close();
-    printWindow.focus();
-    setTimeout(() => printWindow.print(), 350);
+    const sheet = document.createElement("section");
+    sheet.className = "payment-print-sheet";
+    sheet.setAttribute("aria-hidden", "true");
+    sheet.innerHTML = `
+      <div class="payment-print-header">
+        <div class="payment-print-brand">ONLY ROAD TRIP</div>
+        <h1>Payment Confirmation</h1>
+        <div class="payment-print-muted">Premium Tours &amp; Travel Company in India</div>
+      </div>
+      <div class="payment-print-ref-grid">
+        <div class="payment-print-ref"><div class="payment-print-label">Booking Number</div><div class="payment-print-value">${escapeHtml(bookingNumber)}</div></div>
+        <div class="payment-print-ref"><div class="payment-print-label">${escapeHtml(gatewayName)} Transaction ID</div><div class="payment-print-value">${escapeHtml(transaction)}</div></div>
+      </div>
+      <div class="payment-print-section">
+        <h2>Trip Details</h2>
+        <div class="payment-print-grid">
+          <div class="payment-print-box"><div class="payment-print-label">Destination / Package</div><div class="payment-print-value">${escapeHtml(text(b.packageTitle))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Package ID</div><div class="payment-print-value">${escapeHtml(text(b.packageId))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Departure</div><div class="payment-print-value">${escapeHtml(text(b.departure))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Return</div><div class="payment-print-value">${escapeHtml(text(b.returnDate))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Duration</div><div class="payment-print-value">${escapeHtml(text(b.duration))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Room Sharing</div><div class="payment-print-value">${escapeHtml(text(b.sharing))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Travellers</div><div class="payment-print-value">${escapeHtml(text(b.travellers))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Amount Paid</div><div class="payment-print-value">${escapeHtml(money(Number(b.advance || 0)))}</div></div>
+        </div>
+      </div>
+      <div class="payment-print-section">
+        <h2>Traveller Details</h2>
+        <div class="payment-print-grid">
+          <div class="payment-print-box"><div class="payment-print-label">Client Name</div><div class="payment-print-value">${escapeHtml(text(b.name))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Mobile</div><div class="payment-print-value">${escapeHtml(text(b.phone))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Email</div><div class="payment-print-value">${escapeHtml(text(b.email))}</div></div>
+          <div class="payment-print-box"><div class="payment-print-label">Payment Gateway</div><div class="payment-print-value">${escapeHtml(gatewayName)}</div></div>
+        </div>
+      </div>
+      <div class="payment-print-success"><strong>Payment received successfully.</strong><br>Keep this Booking Number and Transaction ID for future communication with Only Road Trip.</div>
+      <div class="payment-print-footer">Operated by Swastik Tour And Travels Private Limited • Only Road Trip</div>
+    `;
+
+    document.body.appendChild(sheet);
+
+    const cleanup = () => {
+      sheet.remove();
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+
+    // Give the browser one paint cycle so the print stylesheet sees the new A4 sheet.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => window.print());
+    });
   }
 
   return (
