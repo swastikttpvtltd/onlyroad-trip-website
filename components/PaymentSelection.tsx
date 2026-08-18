@@ -16,6 +16,16 @@ const money = (n: number) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
 const emptyBooking: Booking = { packageTitle: "", packageId: "", duration: "", departure: "", returnDate: "", sharing: "", travellers: 1, rate: 0, total: 0, advance: 0, balance: 0, name: "", phone: "", email: "", purpose: "" };
 function makeBookingNumber() { return `ORT-${Date.now().toString(36).slice(-8).toUpperCase()}`; }
 
+async function readApiResponse(res: Response) {
+  const contentType = res.headers.get("content-type") || "";
+  const raw = await res.text();
+  if (contentType.includes("application/json")) {
+    try { return JSON.parse(raw) as any; } catch { /* fall through */ }
+  }
+  const clean = raw.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  throw new Error(clean.slice(0, 240) || `Payment service returned HTTP ${res.status}. Please try again.`);
+}
+
 export default function PaymentSelection({ booking }: { booking: Booking }) {
   const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
   const [loading, setLoading] = useState(false);
@@ -56,15 +66,16 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
     setLoading(true);
     try {
       if (gateway === "cashfree") {
-        const res = await fetch("/api/payment-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "create_cashfree", amount: bookingForPayment.advance, bookingNumber, purpose: bookingForPayment.purpose || `${bookingForPayment.packageTitle} | ${bookingForPayment.sharing} sharing | ${bookingForPayment.departure} | ${bookingForPayment.travellers} traveller${bookingForPayment.travellers > 1 ? "s" : ""}`, customer_name: bookingForPayment.name, customer_email: bookingForPayment.email, customer_phone: bookingForPayment.phone }) });
-        const data = await res.json(); if (!res.ok || !data.link_url) throw new Error(data.error || "Cashfree checkout could not be started."); window.location.href = data.link_url; return;
+        const res = await fetch("/api/payment-link", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, cache: "no-store", body: JSON.stringify({ action: "create_cashfree", amount: bookingForPayment.advance, bookingNumber, purpose: bookingForPayment.purpose || `${bookingForPayment.packageTitle} | ${bookingForPayment.sharing} sharing | ${bookingForPayment.departure} | ${bookingForPayment.travellers} traveller${bookingForPayment.travellers > 1 ? "s" : ""}`, customer_name: bookingForPayment.name, customer_email: bookingForPayment.email, customer_phone: bookingForPayment.phone }) });
+        const data = await readApiResponse(res); if (!res.ok || !data.link_url) throw new Error(data.error || "Cashfree checkout could not be started."); window.location.href = data.link_url; return;
       }
-      const res = await fetch("/api/payu/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ amount: bookingForPayment.advance, productinfo: bookingForPayment.packageTitle, firstname: bookingForPayment.name, email: bookingForPayment.email, phone: bookingForPayment.phone, bookingNumber }) });
-      const data = await res.json(); if (!res.ok) throw new Error(data.error || "PayU checkout could not be started.");
+      const res = await fetch("/api/payu/checkout", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, cache: "no-store", body: JSON.stringify({ amount: bookingForPayment.advance, productinfo: bookingForPayment.packageTitle, firstname: bookingForPayment.name, email: bookingForPayment.email, phone: bookingForPayment.phone, bookingNumber }) });
+      const data = await readApiResponse(res); if (!res.ok) throw new Error(data.error || "PayU checkout could not be started.");
+      if (!data?.actionUrl || !data?.fields) throw new Error("PayU checkout response was incomplete. Please try again.");
       const form = document.createElement("form"); form.method = "POST"; form.action = data.actionUrl;
       Object.entries(data.fields || {}).forEach(([key, value]) => { const input = document.createElement("input"); input.type = "hidden"; input.name = key; input.value = String(value ?? ""); form.appendChild(input); });
       document.body.appendChild(form); form.submit();
-    } catch (error) { alert(error instanceof Error ? error.message : "Unable to start payment."); } finally { setLoading(false); }
+    } catch (error) { alert(error instanceof Error ? error.message : "Unable to start payment. Please try again."); } finally { setLoading(false); }
   }
 
   return <main className="min-h-screen bg-slate-50 px-4 py-24 text-slate-800 md:px-6"><div className="mx-auto max-w-6xl">
