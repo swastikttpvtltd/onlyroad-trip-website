@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+
+// Required so `next dev` initializes the OpenNext Cloudflare dev runtime.
+// This prevents getCloudflareContext() errors during local development.
+initOpenNextCloudflareForDev();
 
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },

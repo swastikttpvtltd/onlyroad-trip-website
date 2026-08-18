@@ -30,12 +30,29 @@ async function handleCallback(request: Request) {
     const status = value("status").toLowerCase();
     const receivedHash = value("hash").toLowerCase();
 
-    if (!key || !salt) return redirectToResult(request, "configuration_error", txnid);
+    if (!key || !salt) {
+      return redirectToResult(request, "configuration_error", txnid);
+    }
 
     const reverseHashString = [
-      salt, status, "", "", "", "", "",
-      value("udf5"), value("udf4"), value("udf3"), value("udf2"), value("udf1"),
-      value("email"), value("firstname"), value("productinfo"), value("amount"), txnid, key,
+      salt,
+      status,
+      "",
+      "",
+      "",
+      "",
+      "",
+      value("udf5"),
+      value("udf4"),
+      value("udf3"),
+      value("udf2"),
+      value("udf1"),
+      value("email"),
+      value("firstname"),
+      value("productinfo"),
+      value("amount"),
+      txnid,
+      key,
     ].join("|");
 
     const calculatedHash = (await sha512(reverseHashString)).toLowerCase();
@@ -49,7 +66,8 @@ async function handleCallback(request: Request) {
       const successUrl = new URL("/payment/success", request.url);
       successUrl.searchParams.set("status", "success");
       if (txnid) successUrl.searchParams.set("txnid", txnid);
-      if (value("mihpayid")) successUrl.searchParams.set("mihpayid", value("mihpayid"));
+      const mihpayid = value("mihpayid");
+      if (mihpayid) successUrl.searchParams.set("mihpayid", mihpayid);
       return NextResponse.redirect(successUrl, 303);
     }
 

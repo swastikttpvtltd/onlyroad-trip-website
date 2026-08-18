@@ -1,152 +1,46 @@
-"use client";
+import PaymentSelection from "@/components/PaymentSelection";
+import { packages } from "@/data/packages";
 
-import { useSearchParams } from "next/navigation";
-import { CreditCard, LockKeyhole, ShieldCheck, UserRound, CalendarDays, Users, Mail, Phone, FileText, Loader2 } from "lucide-react";
-import { useState } from "react";
-
-const money = (value: string) => `₹${Number(value || 0).toLocaleString("en-IN")}`;
-
-export default function PaymentPage() {
-  const params = useSearchParams();
-  const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  // All values below come directly from the booking form handoff.
-  const title = params.get("title") || "Group Tour Booking";
-  const sharing = params.get("sharing") || "—";
-  const date = params.get("date") || "—";
-  const travellers = params.get("travellers") || "1";
-  const rate = params.get("rate") || "0";
-  const total = params.get("total") || "0";
-  const advance = params.get("advance") || "0";
-  const balance = params.get("balance") || "0";
-  const name = params.get("name") || "—";
-  const email = params.get("email") || "—";
-  const phone = params.get("phone") || "—";
-
-  const startCashfree = async () => {
-    if (gateway !== "cashfree") {
-      setError("PayU checkout is not connected yet. Please select Cashfree.");
-      return;
-    }
-    if (!name || name === "—" || !email || email === "—" || !phone || phone === "—") {
-      setError("Customer details were not received from the booking form. Please go back and submit the booking form again.");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-    try {
-      const response = await fetch("/api/payment-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          create_link: true,
-          amount: Number(advance),
-          purpose: `${title}${sharing !== "—" ? ` | ${sharing}` : ""}${date !== "—" ? ` | ${date}` : ""}${travellers ? ` | ${travellers} traveller${Number(travellers) > 1 ? "s" : ""}` : ""}`,
-          customer_name: name,
-          customer_email: email,
-          customer_phone: phone,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Cashfree could not create the payment link.");
-      const url = data.link_url || data.url || data.paymentUrl || data.payment_link;
-      if (!url) throw new Error("Cashfree did not return a payment URL.");
-      window.location.href = url;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to start payment. Please try again.");
-      setLoading(false);
-    }
+export default async function PaymentPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const query = await searchParams;
+  const get = (key: string) => {
+    const value = query[key];
+    return Array.isArray(value) ? value[0] ?? "" : value ?? "";
   };
 
-  return (
-    <main className="min-h-screen bg-slate-50 px-4 py-12 text-slate-800">
-      <div className="mx-auto max-w-6xl">
-        <header className="overflow-hidden rounded-3xl bg-gradient-to-r from-[#153e75] via-blue-900 to-cyan-800 p-7 text-white shadow-xl md:p-9">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-200">Only Road Trip • Secure Payment</p>
-          <h1 className="mt-2 text-3xl font-extrabold md:text-4xl">Complete Your Booking</h1>
-          <p className="mt-2 text-sm text-white/80">Your booking form details have been carried forward automatically. No need to enter them again.</p>
-        </header>
-
-        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-          <section className="space-y-6">
-            <Card title="Client Details" icon={<UserRound size={20} />}>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Info icon={<UserRound size={15} />} label="Full Name" value={name} />
-                <Info icon={<Phone size={15} />} label="Mobile Number" value={phone} />
-                <Info icon={<Mail size={15} />} label="Email Address" value={email} />
-                <Info icon={<Users size={15} />} label="Travellers" value={travellers} />
-              </div>
-            </Card>
-
-            <Card title="Trip Details" icon={<FileText size={20} />}>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Info icon={<FileText size={15} />} label="Package" value={title} />
-                <Info icon={<Users size={15} />} label="Room Sharing" value={sharing} />
-                <Info icon={<CalendarDays size={15} />} label="Departure" value={date} />
-                <Info icon={<Users size={15} />} label="Travellers" value={travellers} />
-              </div>
-            </Card>
-
-            <Card title="Choose Payment Gateway" icon={<CreditCard size={20} />}>
-              <p className="text-sm text-slate-500">Your booking advance is ready. Select a gateway and continue to checkout.</p>
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
-                <Gateway active={gateway === "cashfree"} title="Cashfree" subtitle="Cards • UPI • Net Banking" onClick={() => { setGateway("cashfree"); setError(""); }} />
-                <Gateway active={gateway === "payu"} title="PayU" subtitle="Integration pending" onClick={() => setGateway("payu")} />
-              </div>
-              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 p-4">
-                <ShieldCheck className="mt-0.5 shrink-0 text-emerald-700" size={20} />
-                <div>
-                  <p className="font-bold text-emerald-900">Secure Payment</p>
-                  <p className="mt-1 text-xs leading-5 text-emerald-800">Your card, UPI or net-banking credentials are handled by the payment gateway. They are not stored on this website.</p>
-                </div>
-              </div>
-              {error && <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{error}</div>}
-              <button disabled={loading} type="button" onClick={startCashfree} className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60">
-                {loading ? <Loader2 size={21} className="animate-spin" /> : <CreditCard size={21} />}
-                {loading ? "Creating Secure Checkout..." : `Pay ${money(advance)} via ${gateway === "cashfree" ? "Cashfree" : "PayU"}`}
-              </button>
-              <p className="mt-3 text-center text-xs font-semibold text-slate-400">Cashfree is connected to the server-side payment API.</p>
-            </Card>
-          </section>
-
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
-              <div className="bg-slate-950 px-6 py-5 text-xl font-extrabold text-white">Payment Summary</div>
-              <div className="space-y-4 p-6">
-                <div><p className="text-xs font-bold uppercase tracking-wide text-slate-400">Package</p><p className="mt-1 font-extrabold text-slate-950">{title}</p></div>
-                <div className="space-y-3 rounded-2xl bg-slate-50 p-4 text-sm">
-                  <Row label="Per Person" value={money(rate)} />
-                  <Row label="Travellers" value={travellers} />
-                  <Row label="Package Total" value={money(total)} />
-                  <div className="border-t border-slate-200 pt-3"><Row label="Advance (30%)" value={money(advance)} strong /></div>
-                  <Row label="Balance Before Arrival" value={money(balance)} />
-                </div>
-                <div className="rounded-2xl border-2 border-blue-100 bg-blue-50 p-5"><p className="text-xs font-bold uppercase tracking-wide text-blue-700">Amount Payable Now</p><p className="mt-1 text-3xl font-extrabold text-blue-900">{money(advance)}</p><p className="mt-1 text-xs text-blue-700">Booking advance</p></div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500"><LockKeyhole size={15} /> Secure checkout • Encrypted payment</div>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </main>
+  const packageTitle = get("title");
+  const pkg = packages.find(
+    (item: any) => String(item.title).toLowerCase() === packageTitle.toLowerCase(),
   );
-}
+  const duration = get("duration") || String(pkg?.duration ?? "");
+  const travellers = Number(get("travellers") || 1);
+  const advance = Number(get("advance") || 0);
+  const total = Number(get("total") || (advance ? Math.round(advance / 0.3) : 0));
+  const rate = Number(get("rate") || (travellers ? Math.round(total / travellers) : 0));
 
-function Card({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
-  return <div className="rounded-3xl bg-white p-6 shadow-lg md:p-8"><div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-800">{icon}</span><h2 className="text-xl font-extrabold text-slate-950">{title}</h2></div><div className="mt-6">{children}</div></div>;
-}
-
-function Info({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
-  return <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4"><div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400">{icon}{label}</div><p className="mt-2 break-words font-bold text-slate-900">{value}</p></div>;
-}
-
-function Row({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
-  return <div className="flex justify-between gap-4"><span className={strong ? "font-extrabold text-slate-900" : "text-slate-500"}>{label}</span><span className={strong ? "font-extrabold text-blue-800" : "font-bold text-slate-900"}>{value}</span></div>;
-}
-
-function Gateway({ active, title, subtitle, onClick }: { active: boolean; title: string; subtitle: string; onClick: () => void }) {
-  return <button type="button" onClick={onClick} className={`rounded-2xl border-2 p-5 text-left transition ${active ? "border-blue-700 bg-blue-50 shadow-md" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-3"><div><p className="text-lg font-extrabold text-slate-950">{title}</p><p className="mt-1 text-xs font-medium text-slate-500">{subtitle}</p></div><span className={`h-5 w-5 rounded-full border-2 ${active ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-4 text-xs font-bold text-blue-800">{active ? "Selected" : "Select this gateway"}</p></button>;
+  return (
+    <PaymentSelection
+      booking={{
+        packageTitle,
+        packageId: get("packageId") || String(pkg?.packageId ?? ""),
+        duration,
+        departure: get("date"),
+        returnDate: get("returnDate"),
+        sharing: get("sharing"),
+        travellers,
+        rate,
+        total,
+        advance,
+        balance: Number(get("balance") || Math.max(0, total - advance)),
+        name: get("name"),
+        phone: get("phone"),
+        email: get("email"),
+        purpose: get("purpose"),
+      }}
+    />
+  );
 }

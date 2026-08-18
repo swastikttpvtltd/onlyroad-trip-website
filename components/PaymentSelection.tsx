@@ -6,7 +6,7 @@ import { CalendarDays, CreditCard, FileText, LockKeyhole, Mail, MapPin, Phone, S
 type Booking = {
   packageTitle: string; packageId: string; duration: string; departure: string; returnDate: string;
   sharing: string; travellers: number; rate: number; total: number; advance: number; balance: number;
-  name: string; phone: string; email: string; purpose: string; bookingNumber?: string;
+  name: string; phone: string; email: string; purpose: string;
 };
 
 const STORAGE_KEY = "onlyroadtrip_payment_booking";
@@ -16,12 +16,6 @@ const emptyBooking: Booking = {
   packageTitle: "", packageId: "", duration: "", departure: "", returnDate: "", sharing: "",
   travellers: 1, rate: 0, total: 0, advance: 0, balance: 0, name: "", phone: "", email: "", purpose: "",
 };
-
-function makeBookingNumber() {
-  const stamp = Date.now().toString(36).toUpperCase().slice(-7);
-  const random = Math.random().toString(36).slice(2, 5).toUpperCase();
-  return `ORT-${stamp}-${random}`;
-}
 
 export default function PaymentSelection({ booking }: { booking: Booking }) {
   const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
@@ -42,17 +36,16 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
     }
   }, []);
 
-  const currentBooking: Booking = hasBookingFromUrl ? booking : storedBooking || emptyBooking;
+  const currentBooking: Booking = hasBookingFromUrl
+    ? booking
+    : storedBooking || emptyBooking;
 
+  // Keep the latest booking details available for a retry or a different gateway
+  // after an external payment provider redirects back to the failure page.
   useEffect(() => {
     if (!hasBookingFromUrl) return;
     try {
-      const existingRaw = sessionStorage.getItem(STORAGE_KEY);
-      const existing = existingRaw ? (JSON.parse(existingRaw) as Booking) : null;
-      sessionStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify({ ...booking, bookingNumber: existing?.bookingNumber || makeBookingNumber() }),
-      );
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(booking));
     } catch {
       // Storage can be unavailable in privacy-restricted browsers.
     }
@@ -64,13 +57,8 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
       return;
     }
 
-    const bookingWithNumber: Booking = {
-      ...currentBooking,
-      bookingNumber: currentBooking.bookingNumber || makeBookingNumber(),
-    };
-
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(bookingWithNumber));
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(currentBooking));
     } catch {
       // The payment request can still continue if browser storage is unavailable.
     }
@@ -82,9 +70,9 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "create_cashfree",
-            amount: bookingWithNumber.advance,
-            purpose: bookingWithNumber.purpose || `${bookingWithNumber.packageTitle} | ${bookingWithNumber.sharing} sharing | ${bookingWithNumber.departure} | ${bookingWithNumber.travellers} traveller${bookingWithNumber.travellers > 1 ? "s" : ""}`,
-            customer_name: bookingWithNumber.name, customer_email: bookingWithNumber.email, customer_phone: bookingWithNumber.phone,
+            amount: currentBooking.advance,
+            purpose: currentBooking.purpose || `${currentBooking.packageTitle} | ${currentBooking.sharing} sharing | ${currentBooking.departure} | ${currentBooking.travellers} traveller${currentBooking.travellers > 1 ? "s" : ""}`,
+            customer_name: currentBooking.name, customer_email: currentBooking.email, customer_phone: currentBooking.phone,
           }),
         });
         const data = await res.json();
@@ -95,7 +83,7 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
 
       const res = await fetch("/api/payu/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: bookingWithNumber.advance, productinfo: bookingWithNumber.packageTitle, firstname: bookingWithNumber.name, email: bookingWithNumber.email, phone: bookingWithNumber.phone }),
+        body: JSON.stringify({ amount: currentBooking.advance, productinfo: currentBooking.packageTitle, firstname: currentBooking.name, email: currentBooking.email, phone: currentBooking.phone }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "PayU checkout could not be started.");

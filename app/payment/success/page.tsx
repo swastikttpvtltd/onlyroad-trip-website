@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from "react";
 type Booking = {
   packageTitle?: string; packageId?: string; duration?: string; departure?: string; returnDate?: string;
   sharing?: string; travellers?: number; rate?: number; total?: number; advance?: number; balance?: number;
-  name?: string; phone?: string; email?: string; purpose?: string; bookingNumber?: string;
+  name?: string; phone?: string; email?: string; purpose?: string;
 };
 
 const money = (n: number) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
@@ -22,19 +22,17 @@ export default function PaymentSuccessPage() {
 
   useEffect(() => {
     try {
-      const saved = sessionStorage.getItem("onlyroadtrip_payment_booking");
+      const saved = sessionStorage.getItem("onlyroadtrip_pending_booking");
       if (saved) {
-        const parsed = JSON.parse(saved) as Booking;
+        const parsed = JSON.parse(saved) as Booking & { bookingNumber?: string };
         setBooking(parsed);
         setBookingNumber(parsed.bookingNumber || "");
       }
     } catch {
-      // Ignore malformed/stale browser state and still show payment confirmation.
+      // Ignore malformed local booking state and still show the payment confirmation.
     }
-
     const params = new URLSearchParams(window.location.search);
-    // mihpayid is PayU's payment identifier; fall back to merchant txnid when needed.
-    setTransactionId(params.get("mihpayid") || params.get("txnid") || "");
+    setTransactionId(params.get("txnid") || params.get("mihpayid") || "");
   }, []);
 
   const generatedBookingNumber = useMemo(() => {
