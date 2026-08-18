@@ -34,9 +34,6 @@ async function handleCallback(request: Request) {
       return redirectToResult(request, "configuration_error", txnid);
     }
 
-    // PayU regular Hosted Checkout reverse-hash formula:
-    // SHA512(SALT|status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key)
-    // See PayU's current Hosted Checkout documentation.
     const reverseHashString = [
       salt,
       status,
@@ -66,9 +63,11 @@ async function handleCallback(request: Request) {
     }
 
     if (status === "success") {
-      const successUrl = new URL("/payment", request.url);
+      const successUrl = new URL("/payment/success", request.url);
       successUrl.searchParams.set("status", "success");
       if (txnid) successUrl.searchParams.set("txnid", txnid);
+      const mihpayid = value("mihpayid");
+      if (mihpayid) successUrl.searchParams.set("mihpayid", mihpayid);
       return NextResponse.redirect(successUrl, 303);
     }
 
