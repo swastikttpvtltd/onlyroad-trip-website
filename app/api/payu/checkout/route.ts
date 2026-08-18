@@ -43,9 +43,30 @@ export async function POST(request: Request) {
     const surl = `${origin}/api/payment/payu/callback`;
     const furl = `${origin}/api/payment/payu/callback`;
 
-    // PayU Hosted Checkout hash:
-    // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||SALT
-    const hashString = `${key}|${txnid}|${formattedAmount}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
+    // PayU's current hosted-checkout formula includes the optional
+    // si_details segment after udf5. It must be represented even when empty.
+    // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||si_details|SALT
+    const hashParts = [
+      key,
+      txnid,
+      formattedAmount,
+      productinfo,
+      firstname,
+      email,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      salt,
+    ];
+    const hashString = hashParts.join("|");
     const hash = await sha512(hashString);
 
     return NextResponse.json({
