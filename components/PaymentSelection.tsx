@@ -96,14 +96,14 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
 
       const res = await fetch("/api/payu/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: {
+        body: JSON.stringify({
           amount: bookingForPayment.advance,
           productinfo: bookingForPayment.packageTitle,
           firstname: bookingForPayment.name,
           email: bookingForPayment.email,
           phone: bookingForPayment.phone,
           bookingNumber,
-        } as unknown as BodyInit,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "PayU checkout could not be started.");
