@@ -36,34 +36,22 @@ export const viewport: Viewport = { themeColor: "#0891b2", colorScheme: "light" 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "TravelAgency",
-  "@id": `${baseUrl}/#travel-agency`,
-  name: "Only Road Trip",
-  legalName: "Swastik Tour and Travels Private Limited",
-  url: `${baseUrl}/`,
-  telephone: "+91-9211796168",
-  email: "info@onlyroadtrip.com",
-  logo: `${baseUrl}${socialImage}`,
-  description: "Travel agency offering pilgrimage tours, domestic holidays, road trips, family vacations, honeymoon packages, wildlife tours and corporate travel across India.",
-  address: {
+  "name": "Only Road Trip (Swastik Tour and Travels Private Limited)",
+  "url": "https://www.onlyroadtrip.com",
+  "address": {
     "@type": "PostalAddress",
-    streetAddress: "F163, PH-1, New Palam Vihar",
-    addressLocality: "Gurugram",
-    addressRegion: "Haryana",
-    postalCode: "122001",
-    addressCountry: "IN",
+    "streetAddress": "F163, PH-1, New Palam Vihar",
+    "addressLocality": "Gurugram",
+    "addressRegion": "Haryana",
+    "postalCode": "122001",
+    "addressCountry": "IN"
   },
-  openingHoursSpecification: {
-    "@type": "OpeningHoursSpecification",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    opens: "00:00",
-    closes: "23:59",
-  },
-  priceRange: "₹₹",
-  areaServed: { "@type": "Country", name: "India" },
-  brand: { "@type": "Brand", name: "Only Road Trip" },
+  "telephone": "+91-9211796168",
+  "email": "info@onlyroadtrip.com",
+  "priceRange": "$$"
 };
 
-const websiteSchema = { "@context": "https://schema.org", "@type": "WebSite", "@id": `${baseUrl}/#website`, url: `${baseUrl}/`, name: "Only Road Trip", publisher: { "@id": `${baseUrl}/#travel-agency` }, inLanguage: "en-IN" };
+const websiteSchema = { "@context": "https://schema.org", "@type": "WebSite", "@id": `${baseUrl}/#website`, url: `${baseUrl}/`, name: "Only Road Trip", publisher: { "@type": "Organization", name: "Only Road Trip (Swastik Tour and Travels Private Limited)" }, inLanguage: "en-IN" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -82,6 +70,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         {/* Meta Pixel — base code on every page */}
         <script dangerouslySetInnerHTML={{ __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', '${metaPixelId}');fbq('track', 'PageView');` }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900">
         <noscript>
@@ -94,8 +84,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </noscript>
         {/* Meta Pixel noscript fallback */}
         <noscript><img height="1" width="1" style={{ display: "none" }} src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} alt="" /></noscript>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
