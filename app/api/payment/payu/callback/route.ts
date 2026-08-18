@@ -3,18 +3,14 @@ import { NextResponse } from "next/server";
 async function sha512(value: string) {
   const data = new TextEncoder().encode(value);
   const digest = await crypto.subtle.digest("SHA-512", data);
-  return Array.from(new Uint8Array(digest))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
+  return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-function redirectToResult(request: Request, status: string, txnid: string, extra: Record<string, string> = {}) {
-  const url = new URL("/payment/failure", request.url);
+function resultUrl(request: Request, path: "/payment/success" | "/payment/failure", status: string, data: Record<string, string>) {
+  const url = new URL(path, request.url);
   url.searchParams.set("status", status);
-  if (txnid) url.searchParams.set("txnid", txnid);
-  for (const [key, value] of Object.entries(extra)) {
-    if (value) url.searchParams.set(key, value);
-  }
+  url.searchParams.set("gateway", "payu");
+  for (const [key, value] of Object.entries(data)) if (value) url.searchParams.set(key, value);
   return NextResponse.redirect(url, 303);
 }
 
@@ -29,62 +25,35 @@ async function handleCallback(request: Request) {
     const txnid = value("txnid");
     const status = value("status").toLowerCase();
     const receivedHash = value("hash").toLowerCase();
+    const bookingNumber = value("udf1");
 
-    if (!key || !salt) {
-      return redirectToResult(request, "configuration_error", txnid);
-    }
+    if (!key || !salt) return resultUrl(request, "/payment/failure", "configuration_error", { txnid, booking: bookingNumber });
 
     const reverseHashString = [
-      salt,
-      status,
-      "",
-      "",
-      "",
-      "",
-      "",
-      value("udf5"),
-      value("udf4"),
-      value("udf3"),
-      value("udf2"),
-      value("udf1"),
-      value("email"),
-      value("firstname"),
-      value("productinfo"),
-      value("amount"),
-      txnid,
-      key,
+      salt, status, "", "", "", "", "", value("udf5"), value("udf4"), value("udf3"), value("udf2"), value("udf1"),
+      value("email"), value("firstname"), value("productinfo"), value("amount"), txnid, key,
     ].join("|");
-
     const calculatedHash = (await sha512(reverseHashString)).toLowerCase();
 
     if (!receivedHash || calculatedHash !== receivedHash) {
       console.error("PayU callback hash verification failed", { txnid, status });
-      return redirectToResult(request, "verification_failed", txnid);
+      return resultUrl(request, "/payment/failure", "verification_failed", { txnid, booking: bookingNumber });
     }
 
-    if (status === "success") {
-      const successUrl = new URL("/payment/success", request.url);
-      successUrl.searchParams.set("status", "success");
-      if (txnid) successUrl.searchParams.set("txnid", txnid);
-      const mihpayid = value("mihpayid");
-      if (mihpayid) successUrl.searchParams.set("mihpayid", mihpayid);
-      return NextResponse.redirect(successUrl, 303);
-    }
-
-    return redirectToResult(request, status || "failed", txnid, {
-      error: value("error_Message"),
+    const common = {
+      txnid,
+      booking: bookingNumber,
       mihpayid: value("mihpayid"),
-    });
+      amount: value("amount"),
+    };
+
+    if (status === "success") return resultUrl(request, "/payment/success", "success", common);
+    return resultUrl(request, "/payment/failure", status || "failed", { ...common, error: value("error_Message") });
   } catch (error) {
     console.error("PayU callback error:", error);
-    return redirectToResult(request, "callback_error");
+    return resultUrl(request, "/payment/failure", "callback_error", {});
   }
 }
 
-export async function POST(request: Request) {
-  return handleCallback(request);
-}
-
-export async function GET(request: Request) {
-  return redirectToResult(request, "invalid_callback");
-}
+export async function POST(request: Request) { return handleCallback(request); }
+export async function GET(request: Request) { return resultUrl(request, "/payment/failure", "invalid_callback", {}); }
