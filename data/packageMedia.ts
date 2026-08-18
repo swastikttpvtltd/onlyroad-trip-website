@@ -473,6 +473,64 @@ export const packageMedia: Record<string, string[]> = {
     "/images/packages/meghalaya/guwahati-shillong-cherrapunji/gallery3.avif",
     "/images/packages/meghalaya/guwahati-shillong-cherrapunji/gallery4.jpg"
   ],
+  "multi-state/goa-weekend-group-tour": [
+    "/images/packages/multi-state/goa-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery4.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery5.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery6.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery7.jpg"
+  ],
+  "multi-state/jibhi-weekend-group-tour": [
+    "/images/packages/multi-state/jibhi-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery4.jpg"
+  ],
+  "multi-state/kanatal-weekend-group-tour": [
+    "/images/packages/multi-state/kanatal-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery4.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery5.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery6.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery7.jpg"
+  ],
+  "multi-state/kasol-weekend-group-tour": [
+    "/images/packages/multi-state/kasol-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery4.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery5.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery6.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery7.jpg"
+  ],
+  "multi-state/mcleodganj-weekend-group-tour": [
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery4.jpg"
+  ],
+  "multi-state/nainital-weekend-group-tour": [
+    "/images/packages/multi-state/nainital-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery4.jpg"
+  ],
+  "multi-state/udaipur-weekend-group-tour": [
+    "/images/packages/multi-state/udaipur-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery4.jpg"
+  ],
   "punjab/amritsar-anandpur-sahib": [
     "/images/packages/punjab/amritsar-anandpur-sahib/hero.jpg",
     "/images/packages/punjab/amritsar-anandpur-sahib/gallery1.jpg",
@@ -735,5 +793,63 @@ export const packageMedia: Record<string, string[]> = {
     "/images/packages/delhi/delhi-agra-jaipur/gallery1.avif",
     "/images/packages/delhi/delhi-agra-jaipur/gallery2.avif",
     "/images/packages/delhi/delhi-agra-jaipur/gallery3.avif"
+  ],
+  "goa/goa-weekend-vibe-escape": [
+    "/images/packages/multi-state/goa-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery4.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery5.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery6.jpg",
+    "/images/packages/multi-state/goa-weekend-group-tour/gallery7.jpg"
+  ],
+  "himachal-pradesh/jibhi-weekend-group-tour": [
+    "/images/packages/multi-state/jibhi-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/jibhi-weekend-group-tour/gallery4.jpg"
+  ],
+  "himachal-pradesh/kasol-weekend-group-tour": [
+    "/images/packages/multi-state/kasol-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery4.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery5.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery6.jpg",
+    "/images/packages/multi-state/kasol-weekend-group-tour/gallery7.jpg"
+  ],
+  "uttarakhand/kanatal-weekend-group-tour": [
+    "/images/packages/multi-state/kanatal-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery4.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery5.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery6.jpg",
+    "/images/packages/multi-state/kanatal-weekend-group-tour/gallery7.jpg"
+  ],
+  "himachal-pradesh/mcleodganj-weekend-group-tour": [
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/mcleodganj-weekend-group-tour/gallery4.jpg"
+  ],
+  "rajasthan/udaipur-weekend-group-tour": [
+    "/images/packages/multi-state/udaipur-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/udaipur-weekend-group-tour/gallery4.jpg"
+  ],
+  "uttarakhand/nainital-weekend-group-tour": [
+    "/images/packages/multi-state/nainital-weekend-group-tour/hero.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery1.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery2.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery3.jpg",
+    "/images/packages/multi-state/nainital-weekend-group-tour/gallery4.jpg"
   ]
 };
