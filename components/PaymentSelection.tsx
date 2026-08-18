@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, CreditCard, FileText, LockKeyhole, Mail, MapPin, Phone, ShieldCheck, UserRound, Users } from "lucide-react";
 
 type Booking = {
@@ -9,17 +9,60 @@ type Booking = {
   name: string; phone: string; email: string; purpose: string;
 };
 
+const STORAGE_KEY = "onlyroadtrip_payment_booking";
 const money = (n: number) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
+
+const emptyBooking: Booking = {
+  packageTitle: "", packageId: "", duration: "", departure: "", returnDate: "", sharing: "",
+  travellers: 1, rate: 0, total: 0, advance: 0, balance: 0, name: "", phone: "", email: "", purpose: "",
+};
 
 export default function PaymentSelection({ booking }: { booking: Booking }) {
   const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
   const [loading, setLoading] = useState(false);
+  const [storedBooking, setStoredBooking] = useState<Booking | null>(null);
+
+  const hasBookingFromUrl = useMemo(
+    () => Boolean(booking.name || booking.phone || booking.email || booking.packageTitle || booking.advance),
+    [booking],
+  );
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) setStoredBooking(JSON.parse(raw) as Booking);
+    } catch {
+      // Ignore invalid/stale browser storage.
+    }
+  }, []);
+
+  const currentBooking: Booking = hasBookingFromUrl
+    ? booking
+    : storedBooking || emptyBooking;
+
+  // Keep the latest booking details available for a retry or a different gateway
+  // after an external payment provider redirects back to the failure page.
+  useEffect(() => {
+    if (!hasBookingFromUrl) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(booking));
+    } catch {
+      // Storage can be unavailable in privacy-restricted browsers.
+    }
+  }, [booking, hasBookingFromUrl]);
 
   async function pay() {
-    if (!booking.name || !booking.phone || !booking.email || !booking.advance) {
+    if (!currentBooking.name || !currentBooking.phone || !currentBooking.email || !currentBooking.advance) {
       alert("Booking details or payment amount is missing. Please return to the booking form and complete it.");
       return;
     }
+
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(currentBooking));
+    } catch {
+      // The payment request can still continue if browser storage is unavailable.
+    }
+
     setLoading(true);
     try {
       if (gateway === "cashfree") {
@@ -27,9 +70,9 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "create_cashfree",
-            amount: booking.advance,
-            purpose: booking.purpose || `${booking.packageTitle} | ${booking.sharing} sharing | ${booking.departure} | ${booking.travellers} traveller${booking.travellers > 1 ? "s" : ""}`,
-            customer_name: booking.name, customer_email: booking.email, customer_phone: booking.phone,
+            amount: currentBooking.advance,
+            purpose: currentBooking.purpose || `${currentBooking.packageTitle} | ${currentBooking.sharing} sharing | ${currentBooking.departure} | ${currentBooking.travellers} traveller${currentBooking.travellers > 1 ? "s" : ""}`,
+            customer_name: currentBooking.name, customer_email: currentBooking.email, customer_phone: currentBooking.phone,
           }),
         });
         const data = await res.json();
@@ -40,7 +83,7 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
 
       const res = await fetch("/api/payu/checkout", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: booking.advance, productinfo: booking.packageTitle, firstname: booking.name, email: booking.email, phone: booking.phone }),
+        body: JSON.stringify({ amount: currentBooking.advance, productinfo: currentBooking.packageTitle, firstname: currentBooking.name, email: currentBooking.email, phone: currentBooking.phone }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "PayU checkout could not be started.");
@@ -64,25 +107,31 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
           <p className="mt-2 text-sm text-white/75">Review every booking detail before choosing Cashfree or PayU.</p>
         </header>
 
+        {!hasBookingFromUrl && storedBooking && (
+          <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50 px-5 py-3 text-sm font-semibold text-blue-900">
+            Your previous booking details have been restored. You can choose another payment method below.
+          </div>
+        )}
+
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
           <section className="space-y-6">
             <Card title="Client Details" icon={<UserRound size={20} />}>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Info icon={<UserRound size={16} />} label="Full Name" value={booking.name} />
-                <Info icon={<Phone size={16} />} label="Mobile Number" value={booking.phone} />
-                <Info icon={<Mail size={16} />} label="Email Address" value={booking.email} />
-                <Info icon={<Users size={16} />} label="Travellers" value={String(booking.travellers)} />
+                <Info icon={<UserRound size={16} />} label="Full Name" value={currentBooking.name} />
+                <Info icon={<Phone size={16} />} label="Mobile Number" value={currentBooking.phone} />
+                <Info icon={<Mail size={16} />} label="Email Address" value={currentBooking.email} />
+                <Info icon={<Users size={16} />} label="Travellers" value={String(currentBooking.travellers)} />
               </div>
             </Card>
 
             <Card title="Trip Details" icon={<MapPin size={20} />}>
               <div className="grid gap-4 sm:grid-cols-2">
-                <Info icon={<FileText size={16} />} label="Package" value={booking.packageTitle || "—"} />
-                <Info icon={<FileText size={16} />} label="Package ID" value={booking.packageId || "—"} />
-                <Info icon={<FileText size={16} />} label="Duration" value={booking.duration || "—"} />
-                <Info icon={<Users size={16} />} label="Room Sharing" value={booking.sharing || "—"} />
-                <Info icon={<CalendarDays size={16} />} label="Departure" value={booking.departure || "—"} />
-                <Info icon={<CalendarDays size={16} />} label="Return" value={booking.returnDate || "—"} />
+                <Info icon={<FileText size={16} />} label="Package" value={currentBooking.packageTitle || "—"} />
+                <Info icon={<FileText size={16} />} label="Package ID" value={currentBooking.packageId || "—"} />
+                <Info icon={<FileText size={16} />} label="Duration" value={currentBooking.duration || "—"} />
+                <Info icon={<Users size={16} />} label="Room Sharing" value={currentBooking.sharing || "—"} />
+                <Info icon={<CalendarDays size={16} />} label="Departure" value={currentBooking.departure || "—"} />
+                <Info icon={<CalendarDays size={16} />} label="Return" value={currentBooking.returnDate || "—"} />
               </div>
             </Card>
 
@@ -97,7 +146,7 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
                 <div><p className="font-bold text-emerald-900">Secure Payment</p><p className="mt-0.5 text-xs leading-5 text-emerald-800">Payment details are handled by the selected gateway. Secret keys never reach the browser.</p></div>
               </div>
               <button disabled={loading} onClick={pay} className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg hover:bg-blue-900 disabled:opacity-60">
-                <CreditCard size={21} />{loading ? "Starting Secure Checkout..." : `Pay ${money(booking.advance)} via ${gateway === "cashfree" ? "Cashfree" : "PayU"}`}
+                <CreditCard size={21} />{loading ? "Starting Secure Checkout..." : `Pay ${money(currentBooking.advance)} via ${gateway === "cashfree" ? "Cashfree" : "PayU"}`}
               </button>
             </Card>
           </section>
@@ -106,14 +155,14 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
             <div className="overflow-hidden rounded-3xl bg-white shadow-xl">
               <div className="bg-slate-950 px-6 py-5 text-xl font-extrabold text-white">Payment Summary</div>
               <div className="space-y-4 p-6">
-                <div><p className="text-xs font-bold uppercase tracking-wide text-slate-400">Package</p><p className="mt-1 font-extrabold capitalize text-slate-950">{booking.packageTitle || "—"}</p></div>
+                <div><p className="text-xs font-bold uppercase tracking-wide text-slate-400">Package</p><p className="mt-1 font-extrabold capitalize text-slate-950">{currentBooking.packageTitle || "—"}</p></div>
                 <div className="space-y-3 rounded-2xl bg-slate-50 p-4 text-sm">
-                  <Row label="Per Person" value={money(booking.rate)} /><Row label="Travellers" value={String(booking.travellers)} />
-                  <Row label="Package Total" value={money(booking.total)} />
-                  <div className="border-t border-slate-200 pt-3"><Row label="Advance (30%)" value={money(booking.advance)} strong /></div>
-                  <Row label="Balance Before Arrival" value={money(booking.balance)} />
+                  <Row label="Per Person" value={money(currentBooking.rate)} /><Row label="Travellers" value={String(currentBooking.travellers)} />
+                  <Row label="Package Total" value={money(currentBooking.total)} />
+                  <div className="border-t border-slate-200 pt-3"><Row label="Advance (30%)" value={money(currentBooking.advance)} strong /></div>
+                  <Row label="Balance Before Arrival" value={money(currentBooking.balance)} />
                 </div>
-                <div className="rounded-2xl border-2 border-blue-100 bg-blue-50 p-5"><p className="text-xs font-bold uppercase tracking-wide text-blue-700">Amount Payable Now</p><p className="mt-1 text-3xl font-extrabold text-blue-900">{money(booking.advance)}</p><p className="mt-1 text-xs text-blue-700">30% booking advance</p></div>
+                <div className="rounded-2xl border-2 border-blue-100 bg-blue-50 p-5"><p className="text-xs font-bold uppercase tracking-wide text-blue-700">Amount Payable Now</p><p className="mt-1 text-3xl font-extrabold text-blue-900">{money(currentBooking.advance)}</p><p className="mt-1 text-xs text-blue-700">30% booking advance</p></div>
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-500"><LockKeyhole size={15} />Secure checkout • Encrypted payment</div>
               </div>
             </div>
