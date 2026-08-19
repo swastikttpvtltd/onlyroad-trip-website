@@ -70,6 +70,7 @@ export const vaishnoDevi = make({
   themes: ["Pilgrimage", "Spiritual", "Group Tour", "Senior Citizen Friendly"],
   pickup: "Delhi",
   drop: "Delhi",
+  vibeHook: "Vaishno Devi Calling. Your Journey to Maa Begins Here.",
   short: "A comfortable 2 Nights / 3 Days group pilgrimage from Delhi with two nights in Katra and Mata Vaishno Devi Darshan.",
   overview:
     "A thoughtfully planned group pilgrimage from Delhi to Katra, featuring two comfortable nights in Katra, a dedicated day for Mata Vaishno Devi Darshan and optional Bhairon Ji Darshan, followed by a coordinated return to Delhi.",
