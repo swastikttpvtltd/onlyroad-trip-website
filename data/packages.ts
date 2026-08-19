@@ -3,6 +3,7 @@ import rajasthanPackages from "./packages/rajasthan/rajasthan-packages";
 import uttarakhandPackages from "./packages/uttarakhand/uttarakhand-packages";
 import uttarPradeshPackages from "./packages/uttar-pradesh/uttar-pradesh-packages";
 import newMultiStatePackages from "./packages/multi-state/new-multi-state-packages";
+import jyotirlingaPackages from "./packages/multi-state/jyotirlinga-packages";
 import kashmirPackages from "./packages/kashmir/kashmir-packages";
 import himachalPackages from "./packages/himachal-packages";
 import ladakhPackages from "./packages/ladakh/ladakh-packages";
@@ -49,6 +50,7 @@ const rawPackages = [
   ...himachalPackages,
   ...kashmirPackages,
   ...newMultiStatePackages,
+  ...jyotirlingaPackages,
   ...uttarPradeshPackages,
   ...uttarakhandPackages,
 ];
