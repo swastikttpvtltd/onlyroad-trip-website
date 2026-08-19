@@ -49,11 +49,17 @@ export default function GroupBookingFormV2({ packageTitle, packageId, packageDur
   const advance = Math.ceil(total * 0.3);
   const overlapHoliday = getTripHoliday(travelDate, packageDuration);
   const eligible = isBookingLeadEligible(travelDate, today) && !overlapHoliday && validDates.includes(travelDate);
+
   const enquiryHref = useMemo(() => {
     const reason = overlapHoliday ? `${overlapHoliday.name} falls during the ${packageDuration} trip` : "special-date availability";
     const body = encodeURIComponent(`Hi Only Road Trip,\n\nI want to enquire about ${packageTitle}.\nPackage ID: ${packageId ?? ""}\nDeparture: ${formatBookingDate(travelDate)}\nReason: ${reason}\n\nPlease suggest an available group departure.`);
     return `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Group Tour Enquiry – ${packageTitle} – ${travelDate}`)}&body=${body}`;
   }, [overlapHoliday, packageDuration, packageId, packageTitle, travelDate]);
+
+  const handleCalendarEnquiry = (date: string, reason: string) => {
+    const body = encodeURIComponent(`Hi Only Road Trip,\n\nI want to enquire about ${packageTitle}.\nPackage ID: ${packageId ?? ""}\nDeparture: ${formatBookingDate(date)}\nReason: ${reason}\n\nPlease suggest an available group departure.`);
+    window.location.href = `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Group Tour Enquiry – ${packageTitle} – ${date}`)}&body=${body}`;
+  };
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -76,9 +82,9 @@ export default function GroupBookingFormV2({ packageTitle, packageId, packageDur
       <div className="rounded-3xl bg-white p-6 shadow-xl md:p-8">
         <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">Group Tour Booking</p><h2 className="mt-2 text-3xl font-extrabold text-slate-950">Select Your Trip</h2><p className="mt-2 text-sm font-medium text-slate-500">{packageTitle}{packageId ? ` • ${packageId}` : ""}</p></div><span className="rounded-full bg-emerald-50 px-4 py-2 text-xs font-extrabold text-emerald-700">5% GST INCLUDED</span></div>
 
-        <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950"><b>Group calendar rule:</b> only future departures at least 7 days ahead are bookable. A Friday departure is removed if a major holiday falls anywhere inside the trip duration.</div>
+        <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950"><b>Group calendar rule:</b> only future departures at least 7 days ahead are bookable. A departure is removed from online booking if a major holiday falls anywhere inside the trip duration.</div>
 
-        <div className="mt-6"><BookingCalendar selectedDate={travelDate} onChange={setTravelDate} duration={packageDuration} groupOnly allowedDates={sourceDates} title="Group Tour Calendar" helper={`${pilgrimage ? "Seasonal group departures" : "Friday group departures"} • minimum 7 days advance • holiday-overlap departures are cancelled and moved to enquiry.`} /></div>
+        <div className="mt-6"><BookingCalendar selectedDate={travelDate} onChange={setTravelDate} onEnquiry={handleCalendarEnquiry} duration={packageDuration} groupOnly allowedDates={sourceDates} title="Group Tour Calendar" helper={`${pilgrimage ? "Seasonal group departures" : "Friday group departures"} • minimum 7 days advance • holiday-overlap departures are cancelled and moved to enquiry.`} /></div>
 
         {overlapHoliday && <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800"><b>{overlapHoliday.name} falls during this trip.</b><p className="mt-1">This departure is not available for online booking. <a href={enquiryHref} className="font-extrabold underline">Send Enquiry</a> to ask for an alternate departure.</p></div>}
 
