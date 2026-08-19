@@ -858,5 +858,12 @@ export const packageMedia: Record<string, string[]> = {
     "/images/packages/multi-state/nainital-weekend-group-tour/gallery2.jpg",
     "/images/packages/multi-state/nainital-weekend-group-tour/gallery3.jpg",
     "/images/packages/multi-state/nainital-weekend-group-tour/gallery4.jpg"
+  ],
+  "kashmir/vaishno-devi-group-yatra": [
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/hero.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery1.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery2.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery3.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery4.jpg"
   ]
 };
