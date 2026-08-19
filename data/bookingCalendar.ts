@@ -78,10 +78,12 @@ export function getDurationDays(duration?: string) {
 }
 
 // Returns a holiday occurring on the departure date or on any day during
-// the trip. This is the key rule used to cancel an online departure slot.
+// the complete trip duration. The departure slot is then unavailable online.
 export function getTripHoliday(departure: string, duration?: string) {
   const nights = getDurationNights(duration);
-  for (let offset = 0; offset <= Math.max(nights, 0); offset += 1) {
+  const days = getDurationDays(duration);
+  const tripOffsets = nights > 0 ? nights : Math.max(0, days - 1);
+  for (let offset = 0; offset <= tripOffsets; offset += 1) {
     const holiday = getHoliday(addDaysISO(departure, offset));
     if (holiday) return holiday;
   }
