@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import BookingCalendar from "@/components/BookingCalendar";
 import { getGroupSharingRates, getPilgrimageGroupTourDates } from "@/data/groupTourPricing";
 import { addDaysISO, buildFridays, formatBookingDate, getTripHoliday, isBookingLeadEligible, toISODate } from "@/data/bookingCalendar";
 
@@ -56,11 +55,6 @@ export default function GroupBookingFormV2({ packageTitle, packageId, packageDur
     return `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Group Tour Enquiry – ${packageTitle} – ${travelDate}`)}&body=${body}`;
   }, [overlapHoliday, packageDuration, packageId, packageTitle, travelDate]);
 
-  const handleCalendarEnquiry = (date: string, reason: string) => {
-    const body = encodeURIComponent(`Hi Only Road Trip,\n\nI want to enquire about ${packageTitle}.\nPackage ID: ${packageId ?? ""}\nDeparture: ${formatBookingDate(date)}\nReason: ${reason}\n\nPlease suggest an available group departure.`);
-    window.location.href = `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Group Tour Enquiry – ${packageTitle} – ${date}`)}&body=${body}`;
-  };
-
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; }
@@ -81,15 +75,8 @@ export default function GroupBookingFormV2({ packageTitle, packageId, packageDur
     <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
       <div className="rounded-3xl bg-white p-6 shadow-xl md:p-8">
         <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">Group Tour Booking</p><h2 className="mt-2 text-3xl font-extrabold text-slate-950">Select Your Trip</h2><p className="mt-2 text-sm font-medium text-slate-500">{packageTitle}{packageId ? ` • ${packageId}` : ""}</p></div><span className="rounded-full bg-emerald-50 px-4 py-2 text-xs font-extrabold text-emerald-700">5% GST INCLUDED</span></div>
-
-        <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950"><b>Group calendar rule:</b> only future departures at least 7 days ahead are bookable. A departure is removed from online booking if a major holiday falls anywhere inside the trip duration.</div>
-
-        <div className="mt-6"><BookingCalendar selectedDate={travelDate} onChange={setTravelDate} onEnquiry={handleCalendarEnquiry} duration={packageDuration} groupOnly allowedDates={sourceDates} title="Group Tour Calendar" helper={`${pilgrimage ? "Seasonal group departures" : "Friday group departures"} • minimum 7 days advance • holiday-overlap departures are cancelled and moved to enquiry.`} /></div>
-
-        {overlapHoliday && <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800"><b>{overlapHoliday.name} falls during this trip.</b><p className="mt-1">This departure is not available for online booking. <a href={enquiryHref} className="font-extrabold underline">Send Enquiry</a> to ask for an alternate departure.</p></div>}
-
+        <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950"><b>Group booking rule:</b> only future departures at least 7 days ahead are bookable. Holiday-overlap departures are enquiry-only.</div>
         <div className="mt-6 grid gap-3 md:grid-cols-3">{(["quad", "triple", "double"] as Sharing[]).map((id) => <button key={id} type="button" onClick={() => setSharing(id)} className={`rounded-xl border-2 p-4 text-left ${sharing === id ? "border-blue-700 bg-blue-50" : "border-slate-200 bg-white"}`}><span className="font-extrabold text-slate-900">{id === "quad" ? "Quad Sharing" : id === "triple" ? "Triple Sharing" : "Double Sharing"}</span><p className="mt-2 text-2xl font-extrabold text-blue-800">₹{rates[id].toLocaleString("en-IN")}</p><p className="text-xs text-slate-500">Per Person • GST included</p></button>)}</div>
-
         <form onSubmit={submit} className="mt-7 space-y-5">
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Selected Departure"><div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 font-extrabold text-blue-950">{formatBookingDate(travelDate)} → {returnDate(travelDate, packageDuration)}</div></Field>
@@ -103,7 +90,6 @@ export default function GroupBookingFormV2({ packageTitle, packageId, packageDur
           <div className="grid gap-3 sm:grid-cols-2"><a href={enquiryHref} className="rounded-xl border-2 border-blue-700 bg-white py-4 text-center text-lg font-extrabold text-blue-800">Send Enquiry</a><button disabled={submitting || !eligible || ratesPending} type="submit" className="rounded-xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg disabled:cursor-not-allowed disabled:opacity-50">{ratesPending ? "Rate Coming Soon" : !eligible ? "Enquiry Only" : submitting ? "Creating Secure Payment..." : `Book Now • Pay ₹${advance.toLocaleString("en-IN")}`}</button></div>
         </form>
       </div>
-
       <aside className="xl:sticky xl:top-28"><div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"><div className="bg-slate-950 px-5 py-4 text-xl font-extrabold text-white">Booking Summary</div><div className="space-y-4 p-5"><p className="text-xs font-bold uppercase tracking-wide text-slate-400">{packageTitle}</p><div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Departure</span><b>{formatBookingDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Return</span><b>{returnDate(travelDate, packageDuration)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Sharing</span><b>{sharing === "quad" ? "Quad" : sharing === "triple" ? "Triple" : "Double"}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{travellers}</b></div></div><div className="border-t pt-4 text-sm"><div className="flex justify-between"><span>Package Total</span><b>₹{total.toLocaleString("en-IN")}</b></div><div className="mt-2 flex justify-between border-t pt-2"><span className="font-extrabold">30% Advance</span><b className="text-blue-800">₹{advance.toLocaleString("en-IN")}</b></div></div></div></div></aside>
     </div>
   </section>;
