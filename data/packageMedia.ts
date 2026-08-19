@@ -272,6 +272,13 @@ export const packageMedia: Record<string, string[]> = {
     "/images/packages/jammu-kashmir/gallery2.avif",
     "/images/packages/jammu-kashmir/gallery3.avif"
   ],
+  "jammu-kashmir/vaishno-devi-group-yatra": [
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/hero.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery1.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery2.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery3.jpg",
+    "/images/packages/jammu-kashmir/vaishno-devi-group-yatra/gallery4.jpg"
+  ],
   "jharkhand/deoghar-baidyanath": [
     "/images/packages/jharkhand/deoghar-baidyanath/hero.jpg",
     "/images/packages/jharkhand/deoghar-baidyanath/gallery1.jpg",
