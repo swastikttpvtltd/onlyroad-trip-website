@@ -19,11 +19,11 @@ const make = (x: any) => ({
   ...x,
   state: "Jammu & Kashmir",
   hero: {
-    image: `/images/packages/jammu-kashmir/${x.slug}/hero.avif`,
+    image: `/images/packages/jammu-kashmir/${x.slug}/hero.jpg`,
     shortDescription: x.short,
   },
-  gallery: [1, 2, 3, 4, 5].map((n) => ({
-    image: `/images/packages/jammu-kashmir/${x.slug}/gallery${n}.avif`,
+  gallery: [1, 2, 3, 4].map((n) => ({
+    image: `/images/packages/jammu-kashmir/${x.slug}/gallery${n}.jpg`,
     alt: `${x.title} – image ${n}`,
   })),
   quickFacts: {
