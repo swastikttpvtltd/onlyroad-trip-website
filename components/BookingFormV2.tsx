@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import BookingCalendar from "@/components/BookingCalendar";
 import { addDaysISO, formatBookingDate, getHoliday, getTripHoliday, isBookingLeadEligible, toISODate } from "@/data/bookingCalendar";
 
 type Rates = Record<string, number>;
@@ -72,11 +71,6 @@ export default function BookingFormV2({ packageTitle, packageId, groupRates, pac
     return `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Enquiry – ${packageTitle ?? "Tour Package"} – ${travelDate}`)}&body=${body}`;
   }, [holiday, overlapHoliday, packageId, packageTitle, travelDate]);
 
-  const handleCalendarEnquiry = (date: string, reason: string) => {
-    const body = encodeURIComponent(`Hi Only Road Trip,\n\nI want to enquire about ${packageTitle ?? "this tour"}.\nPackage: ${packageId ?? ""}\nTravel Date: ${formatBookingDate(date)}\nReason: ${reason}\n\nPlease confirm availability or suggest the nearest suitable date.`);
-    window.location.href = `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Enquiry – ${packageTitle ?? "Tour Package"} – ${date}`)}&body=${body}`;
-  };
-
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; }
@@ -103,13 +97,7 @@ export default function BookingFormV2({ packageTitle, packageId, groupRates, pac
     <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
       <div className="rounded-3xl bg-white p-6 shadow-xl md:p-8">
         <div className="flex flex-wrap items-end justify-between gap-3"><div><p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">Secure Booking Request</p><h2 className="mt-2 text-3xl font-extrabold text-slate-950">Book This Tour</h2><p className="mt-2 text-sm font-medium text-slate-500">{packageTitle}{packageId ? ` • ${packageId}` : ""}</p></div><span className="rounded-full bg-blue-50 px-3 py-2 text-xs font-extrabold text-blue-800">7-DAY ADVANCE RULE</span></div>
-
         <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950"><b>Booking rule:</b> travel date must be at least 7 full days after today. Past dates never appear as selectable dates.</div>
-
-        <div className="mt-6"><BookingCalendar selectedDate={travelDate} onChange={setTravelDate} onEnquiry={handleCalendarEnquiry} duration={packageDuration} title="Travel Calendar" helper="Google-style month calendar • past dates blocked • minimum 7-day lead time • holiday-overlap dates are enquiry-only." /></div>
-
-        {(holiday || overlapHoliday) && <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800"><b>{overlapHoliday ? `${overlapHoliday.name} falls during this trip.` : `${holiday?.name} is a holiday on this date.`}</b><p className="mt-1">Online booking is closed for this date. Please use <a href={enquiryHref} className="font-extrabold underline">Send Enquiry</a> and our team will confirm availability or suggest the nearest suitable date.</p></div>}
-
         <form onSubmit={submit} className="mt-7 space-y-5">
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Full Name"><input required value={name} onChange={(e) => setName(e.target.value)} className="input" /></Field>
@@ -129,7 +117,6 @@ export default function BookingFormV2({ packageTitle, packageId, groupRates, pac
           <div className="grid gap-3 sm:grid-cols-2"><a href={enquiryHref} className="rounded-xl border-2 border-blue-700 bg-white py-4 text-center text-lg font-extrabold text-blue-800">Send Enquiry</a><button disabled={submitting || !leadEligible || enquiryOnly} type="submit" className="rounded-xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50">{enquiryOnly ? "Enquiry Only" : submitting ? "Creating Secure Payment..." : `Book Now • Pay ₹${advance.toLocaleString("en-IN")}`}</button></div>
         </form>
       </div>
-
       <aside className="xl:sticky xl:top-28"><div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"><div className="bg-slate-950 px-5 py-4 text-xl font-extrabold text-white">Booking Summary</div><div className="space-y-4 p-5"><div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Travel Date</span><b>{formatBookingDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Duration</span><b>{packageDuration}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{totalPax}</b></div></div><div className="border-t pt-4 text-sm"><div className="flex justify-between"><span>Price / person</span><b>₹{selected.pp.toLocaleString("en-IN")}</b></div><div className="mt-2 flex justify-between"><span>Subtotal</span><b>₹{subtotal.toLocaleString("en-IN")}</b></div><div className="mt-2 flex justify-between"><span>GST</span><b>₹{gst.toLocaleString("en-IN")}</b></div><div className="mt-3 flex justify-between border-t pt-3 text-base"><span className="font-extrabold">Advance</span><b className="text-blue-800">₹{advance.toLocaleString("en-IN")}</b></div></div></div></div></aside>
     </div>
   </section>;
