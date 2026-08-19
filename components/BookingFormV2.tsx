@@ -72,6 +72,11 @@ export default function BookingFormV2({ packageTitle, packageId, groupRates, pac
     return `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Enquiry – ${packageTitle ?? "Tour Package"} – ${travelDate}`)}&body=${body}`;
   }, [holiday, overlapHoliday, packageId, packageTitle, travelDate]);
 
+  const handleCalendarEnquiry = (date: string, reason: string) => {
+    const body = encodeURIComponent(`Hi Only Road Trip,\n\nI want to enquire about ${packageTitle ?? "this tour"}.\nPackage: ${packageId ?? ""}\nTravel Date: ${formatBookingDate(date)}\nReason: ${reason}\n\nPlease confirm availability or suggest the nearest suitable date.`);
+    window.location.href = `mailto:info@onlyroadtrip.com?subject=${encodeURIComponent(`Enquiry – ${packageTitle ?? "Tour Package"} – ${date}`)}&body=${body}`;
+  };
+
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; }
@@ -101,7 +106,7 @@ export default function BookingFormV2({ packageTitle, packageId, groupRates, pac
 
         <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-950"><b>Booking rule:</b> travel date must be at least 7 full days after today. Past dates never appear as selectable dates.</div>
 
-        <div className="mt-6"><BookingCalendar selectedDate={travelDate} onChange={setTravelDate} duration={packageDuration} title="Travel Calendar" helper="Google-style month calendar • past dates hidden • minimum 7-day lead time • holiday-overlap dates are enquiry-only." /></div>
+        <div className="mt-6"><BookingCalendar selectedDate={travelDate} onChange={setTravelDate} onEnquiry={handleCalendarEnquiry} duration={packageDuration} title="Travel Calendar" helper="Google-style month calendar • past dates blocked • minimum 7-day lead time • holiday-overlap dates are enquiry-only." /></div>
 
         {(holiday || overlapHoliday) && <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800"><b>{overlapHoliday ? `${overlapHoliday.name} falls during this trip.` : `${holiday?.name} is a holiday on this date.`}</b><p className="mt-1">Online booking is closed for this date. Please use <a href={enquiryHref} className="font-extrabold underline">Send Enquiry</a> and our team will confirm availability or suggest the nearest suitable date.</p></div>}
 
