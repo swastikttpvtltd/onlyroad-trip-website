@@ -38,7 +38,7 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
     ];
   }
 
-  if ((state.includes("himachal") || state.includes("uttarakhand")) && /2 nights\s*\/\s*3 days/i.test(String(pkg?.duration ?? ""))) {
+  if ((state.includes("himachal") || state.includes("uttarakhand") || state.includes("jammu & kashmir") || state.includes("jammu and kashmir")) && /2 nights\s*\/\s*3 days/i.test(String(pkg?.duration ?? ""))) {
     return [
       { type: "Quad Sharing", price: 7499 },
       { type: "Triple Sharing", price: 7999 },

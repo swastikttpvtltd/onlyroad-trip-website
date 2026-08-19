@@ -92,6 +92,10 @@ async function main() {
     "himachal-pradesh/mcleodganj-weekend-group-tour": "multi-state/mcleodganj-weekend-group-tour",
     "rajasthan/udaipur-weekend-group-tour": "multi-state/udaipur-weekend-group-tour",
     "uttarakhand/nainital-weekend-group-tour": "multi-state/nainital-weekend-group-tour",
+
+    // Vaishno Devi package is physically stored under the Jammu & Kashmir
+    // image folder while the package catalogue maps the state to "kashmir".
+    "kashmir/vaishno-devi-group-yatra": "jammu-kashmir/vaishno-devi-group-yatra",
   };
 
   for (const [alias, source] of Object.entries(mediaAliases)) {
