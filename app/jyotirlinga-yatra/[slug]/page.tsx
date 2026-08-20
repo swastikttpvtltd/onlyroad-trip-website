@@ -1,11 +1,25 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CalendarDays, CheckCircle2, Clock3, MapPin, Route, Sparkles } from "lucide-react";
-import { jyotirlingaPackages } from "@/data/packages/multi-state/jyotirlinga-packages";
+import * as multiStateJyotirlingaModule from "@/data/packages/multi-state/jyotirlinga-packages";
 import individualJyotirlingaPackages from "@/data/packages/multi-state/individual-jyotirlinga-packages";
 
 type PackageLike = any;
-const allPackages: PackageLike[] = [...(jyotirlingaPackages as any[]), ...(individualJyotirlingaPackages as any[])];
+
+// Keep this route compatible with either a named export or a default export
+// from the multi-state Jyotirlinga library. This prevents the route from
+// breaking when the library's export shape changes while we expand the
+// package catalogue.
+const multiStatePackages: PackageLike[] = Object.values(multiStateJyotirlingaModule).flatMap((value: any) => {
+  if (Array.isArray(value)) return value;
+  if (value && typeof value === "object" && Array.isArray(value.jyotirlingaPackages)) return value.jyotirlingaPackages;
+  return [];
+});
+
+const allPackages: PackageLike[] = [
+  ...multiStatePackages,
+  ...(Array.isArray(individualJyotirlingaPackages) ? individualJyotirlingaPackages : []),
+];
 
 export function generateStaticParams() {
   return allPackages.map((pkg) => ({ slug: pkg.slug }));
