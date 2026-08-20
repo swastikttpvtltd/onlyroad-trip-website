@@ -10,20 +10,22 @@ export type Hotel = {
 
 export const hotels: Record<string, Hotel> = {
   varanasi: {
-    name: "3★ Recommended Hotel – Varanasi",
+    name: "Hotel Hari Vilaas",
     city: "Varanasi, Uttar Pradesh",
-    rating: 4.2,
+    rating: 4.3,
     stars: 3,
-    description: "Comfortable 3-star stay selected for convenient access to the city's major travel points.",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=3%20star%20hotels%20Varanasi%20Uttar%20Pradesh",
+    description: "3-star hotel in Jahumandi, with convenient access to Kashi Vishwanath Temple and a strong guest rating.",
+    makemytripUrl: "https://www.makemytrip.com/hotels/three_star-hotels-varanasi.html",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Hotel%20Hari%20Vilaas%20Varanasi",
   },
   ayodhya: {
-    name: "3★ Recommended Hotel – Ayodhya",
+    name: "GOLDEN PALACE 200 METER FROM RAM JANMBHOOMI",
     city: "Ayodhya, Uttar Pradesh",
-    rating: 4.2,
+    rating: 4.5,
     stars: 3,
-    description: "Comfortable 3-star stay suitable for pilgrims and family travellers.",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=3%20star%20hotels%20Ayodhya%20Uttar%20Pradesh",
+    description: "3-star hotel in New Colony, around a 3-minute walk from Shree Ramjanmbhumi Temple.",
+    makemytripUrl: "https://www.makemytrip.com/hotels/golden_palace-details-ayodhya.html",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Golden%20Palace%20Dant%20Dhawan%20Kund%20Ayodhya",
   },
   // No overnight stay in Prayagraj in this itinerary; HotelCard will not render this placeholder.
   prayagraj: {
