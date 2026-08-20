@@ -10,9 +10,7 @@ type Sharing = "quad" | "triple" | "double";
 type Props = { packageTitle: string; packageId?: string; packageDuration?: string; initialDepartureDate?: string; initialArrivalDate?: string };
 type Rates = { quad: number | null; triple: number | null; double: number | null };
 
-const DEFAULT_FRIDAYS = [
-  "2026-08-21","2026-08-28","2026-09-04","2026-09-11","2026-09-18","2026-09-25","2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30","2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18","2026-12-25","2027-01-01","2027-01-08","2027-01-15","2027-01-22","2027-01-29","2027-02-05","2027-02-12","2027-02-19","2027-02-26","2027-03-05","2027-03-12","2027-03-19","2027-03-26","2027-04-02","2027-04-09","2027-04-16","2027-04-23","2027-04-30","2027-05-07","2027-05-14","2027-05-21","2027-05-28","2027-06-04","2027-06-11","2027-06-18","2027-06-25","2027-07-02","2027-07-09","2027-07-16","2027-07-23","2027-07-30","2027-08-06","2027-08-13","2027-08-20","2027-08-27","2027-09-03","2027-09-10","2027-09-17","2027-09-24","2027-10-01","2027-10-08","2027-10-15","2027-10-22","2027-10-29","2027-11-05","2027-11-12","2027-11-19","2027-11-26","2027-12-03","2027-12-10","2027-12-17","2027-12-24","2027-12-31","2028-01-07","2028-01-14","2028-01-21","2028-01-28",
-];
+const DEFAULT_FRIDAYS = ["2026-08-21","2026-08-28","2026-09-04","2026-09-11","2026-09-18","2026-09-25","2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30","2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18","2026-12-25","2027-01-01","2027-01-08","2027-01-15","2027-01-22","2027-01-29","2027-02-05","2027-02-12","2027-02-19","2027-02-26","2027-03-05","2027-03-12","2027-03-19","2027-03-26","2027-04-02","2027-04-09","2027-04-16","2027-04-23","2027-04-30","2027-05-07","2027-05-14","2027-05-21","2027-05-28","2027-06-04","2027-06-11","2027-06-18","2027-06-25","2027-07-02","2027-07-09","2027-07-16","2027-07-23","2027-07-30","2027-08-06","2027-08-13","2027-08-20","2027-08-27","2027-09-03","2027-09-10","2027-09-17","2027-09-24","2027-10-01","2027-10-08","2027-10-15","2027-10-22","2027-10-29","2027-11-05","2027-11-12","2027-11-19","2027-11-26","2027-12-03","2027-12-10","2027-12-17","2027-12-24","2027-12-31","2028-01-07","2028-01-14","2028-01-21","2028-01-28"];
 
 function formatDate(value: string) { return new Date(`${value}T12:00:00`).toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" }); }
 function returnDate(value: string, duration: string) { return arrivalDateFor(value, duration) ? formatDate(arrivalDateFor(value, duration)) : ""; }
@@ -27,7 +25,19 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
   const selectedRate = rates[sharing]; const total = selectedRate === null ? 0 : selectedRate * travellers; const advance = selectedRate === null ? 0 : Math.ceil(total * 0.3); const balance = total - advance;
   const selectedMonth = useMemo(() => travelDate.slice(0, 7), [travelDate]); const visibleSlots = useMemo(() => dates.filter((date) => date.startsWith(selectedMonth)), [dates, selectedMonth]); const months = useMemo(() => Array.from(new Set(dates.map((date) => date.slice(0, 7)))), [dates]); const decision = getDepartureDecision(travelDate, packageDuration);
 
-  async function submit(event: React.FormEvent) { event.preventDefault(); if (ratesPending) { alert("Group sharing rates for this package are being configured. Please check back after the rates are published."); return; } if (!decision.bookable) { alert(`Online booking is unavailable for this departure. ${decision.reason} Please send an enquiry instead.`); return; } if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; } setSubmitting(true); try { const response = await fetch("/api/payment-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ amount: advance, purpose: `${packageTitle} | ${sharing} sharing | Departure ${travelDate} | Arrival ${arrivalDateFor(travelDate, packageDuration)} | ${travellers} traveller${travellers > 1 ? "s" : ""}`, customer_name: name, customer_email: email, customer_phone: phone }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Failed to create payment link."); const url = data.link_url || data.url || data.paymentUrl || data.payment_link; if (!url) throw new Error("Payment link was not returned by the payment service."); window.location.href = url; } catch (error) { alert(error instanceof Error ? error.message : "Unable to start payment. Please try again."); } finally { setSubmitting(false); } }
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (ratesPending) { alert("Group sharing rates for this package are being configured. Please check back after the rates are published."); return; }
+    if (!decision.bookable) { alert(`Online booking is unavailable for this departure. ${decision.reason} Please send an enquiry instead.`); return; }
+    if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; }
+    setSubmitting(true);
+    try {
+      const params = new URLSearchParams({ title: packageTitle, packageId: packageId ?? "", duration: packageDuration, date: travelDate, returnDate: arrivalDateFor(travelDate, packageDuration), sharing: sharing === "quad" ? "Quad Sharing" : sharing === "triple" ? "Triple Sharing" : "Double Sharing", travellers: String(travellers), rate: String(selectedRate ?? 0), total: String(total), advance: String(advance), balance: String(balance), name, phone, email, purpose: message });
+      window.location.href = `/payment?${params.toString()}`;
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Unable to continue to payment. Please try again.");
+    } finally { setSubmitting(false); }
+  }
 
   const sharingOptions: { id: Sharing; label: string }[] = [{ id: "quad", label: "Quad Sharing" }, { id: "triple", label: "Triple Sharing" }, { id: "double", label: "Double Sharing" }]; const rateLabel = (id: Sharing) => rates[id] === null ? "Rate Coming Soon" : `₹${rates[id]!.toLocaleString("en-IN")}`;
 
