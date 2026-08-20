@@ -4,143 +4,38 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { CalendarDays, Check, ChevronDown, CreditCard, Users } from "lucide-react";
 import { getGroupSharingRates, getPilgrimageGroupTourDates } from "@/data/groupTourPricing";
+import { arrivalDateFor, getDepartureDecision, todayPlusDays } from "@/data/departureCalendar";
 
 type Sharing = "quad" | "triple" | "double";
-type Props = { packageTitle: string; packageId?: string; packageDuration?: string };
+type Props = { packageTitle: string; packageId?: string; packageDuration?: string; initialDepartureDate?: string; initialArrivalDate?: string };
 type Rates = { quad: number | null; triple: number | null; double: number | null };
 
 const DEFAULT_FRIDAYS = [
-  "2026-08-21","2026-08-28","2026-09-04","2026-09-11","2026-09-18","2026-09-25",
-  "2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30",
-  "2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18","2026-12-25",
-  "2027-01-01","2027-01-08","2027-01-15","2027-01-22","2027-01-29","2027-02-05","2027-02-12","2027-02-19","2027-02-26",
-  "2027-03-05","2027-03-12","2027-03-19","2027-03-26","2027-04-02","2027-04-09","2027-04-16","2027-04-23","2027-04-30",
-  "2027-05-07","2027-05-14","2027-05-21","2027-05-28","2027-06-04","2027-06-11","2027-06-18","2027-06-25",
-  "2027-07-02","2027-07-09","2027-07-16","2027-07-23","2027-07-30","2027-08-06","2027-08-13","2027-08-20","2027-08-27",
-  "2027-09-03","2027-09-10","2027-09-17","2027-09-24","2027-10-01","2027-10-08","2027-10-15","2027-10-22","2027-10-29",
-  "2027-11-05","2027-11-12","2027-11-19","2027-11-26","2027-12-03","2027-12-10","2027-12-17","2027-12-24","2027-12-31",
-  "2028-01-07","2028-01-14","2028-01-21","2028-01-28",
+  "2026-08-21","2026-08-28","2026-09-04","2026-09-11","2026-09-18","2026-09-25","2026-10-02","2026-10-09","2026-10-16","2026-10-23","2026-10-30","2026-11-06","2026-11-13","2026-11-20","2026-11-27","2026-12-04","2026-12-11","2026-12-18","2026-12-25","2027-01-01","2027-01-08","2027-01-15","2027-01-22","2027-01-29","2027-02-05","2027-02-12","2027-02-19","2027-02-26","2027-03-05","2027-03-12","2027-03-19","2027-03-26","2027-04-02","2027-04-09","2027-04-16","2027-04-23","2027-04-30","2027-05-07","2027-05-14","2027-05-21","2027-05-28","2027-06-04","2027-06-11","2027-06-18","2027-06-25","2027-07-02","2027-07-09","2027-07-16","2027-07-23","2027-07-30","2027-08-06","2027-08-13","2027-08-20","2027-08-27","2027-09-03","2027-09-10","2027-09-17","2027-09-24","2027-10-01","2027-10-08","2027-10-15","2027-10-22","2027-10-29","2027-11-05","2027-11-12","2027-11-19","2027-11-26","2027-12-03","2027-12-10","2027-12-17","2027-12-24","2027-12-31","2028-01-07","2028-01-14","2028-01-21","2028-01-28",
 ];
 
-function formatDate(value: string) {
-  return new Date(`${value}T12:00:00`).toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
+function formatDate(value: string) { return new Date(`${value}T12:00:00`).toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" }); }
+function returnDate(value: string, duration: string) { return arrivalDateFor(value, duration) ? formatDate(arrivalDateFor(value, duration)) : ""; }
+function isPilgrimage(packageTitle: string, packageId?: string) { return /char[- ]dham|do[- ]dham|kedarnath/i.test(`${packageTitle} ${packageId ?? ""}`); }
+function getRates(packageTitle: string, packageId?: string): Rates { const result = getGroupSharingRates({ title: packageTitle, packageId, themes: ["Group Tour"] }); if (result) return { quad: result.find((r) => r.type === "Quad Sharing")?.price ?? null, triple: result.find((r) => r.type === "Triple Sharing")?.price ?? null, double: result.find((r) => r.type === "Double Sharing")?.price ?? null }; return { quad: 7499, triple: 7999, double: 8499 }; }
+
+export default function GroupBookingForm({ packageTitle, packageId, packageDuration = "2 Nights / 3 Days", initialDepartureDate }: Props) {
+  const pilgrimage = isPilgrimage(packageTitle, packageId); const rates = getRates(packageTitle, packageId); const ratesPending = rates.quad === null || rates.triple === null || rates.double === null;
+  const dates = useMemo(() => (pilgrimage ? getPilgrimageGroupTourDates() : DEFAULT_FRIDAYS).filter((date) => date >= todayPlusDays(0)), [pilgrimage]);
+  const defaultDate = initialDepartureDate && dates.includes(initialDepartureDate) ? initialDepartureDate : dates[0] ?? todayPlusDays(7);
+  const [travelDate, setTravelDate] = useState(defaultDate); const [sharing, setSharing] = useState<Sharing>("double"); const [travellers, setTravellers] = useState(1); const [name, setName] = useState(""); const [phone, setPhone] = useState(""); const [email, setEmail] = useState(""); const [message, setMessage] = useState(""); const [accepted, setAccepted] = useState(false); const [submitting, setSubmitting] = useState(false);
+  const selectedRate = rates[sharing]; const total = selectedRate === null ? 0 : selectedRate * travellers; const advance = selectedRate === null ? 0 : Math.ceil(total * 0.3); const balance = total - advance;
+  const selectedMonth = useMemo(() => travelDate.slice(0, 7), [travelDate]); const visibleSlots = useMemo(() => dates.filter((date) => date.startsWith(selectedMonth)), [dates, selectedMonth]); const months = useMemo(() => Array.from(new Set(dates.map((date) => date.slice(0, 7)))), [dates]); const decision = getDepartureDecision(travelDate, packageDuration);
+
+  async function submit(event: React.FormEvent) { event.preventDefault(); if (ratesPending) { alert("Group sharing rates for this package are being configured. Please check back after the rates are published."); return; } if (!decision.bookable) { alert(`Online booking is unavailable for this departure. ${decision.reason} Please send an enquiry instead.`); return; } if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; } setSubmitting(true); try { const response = await fetch("/api/payment-link", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ amount: advance, purpose: `${packageTitle} | ${sharing} sharing | Departure ${travelDate} | Arrival ${arrivalDateFor(travelDate, packageDuration)} | ${travellers} traveller${travellers > 1 ? "s" : ""}`, customer_name: name, customer_email: email, customer_phone: phone }) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Failed to create payment link."); const url = data.link_url || data.url || data.paymentUrl || data.payment_link; if (!url) throw new Error("Payment link was not returned by the payment service."); window.location.href = url; } catch (error) { alert(error instanceof Error ? error.message : "Unable to start payment. Please try again."); } finally { setSubmitting(false); } }
+
+  const sharingOptions: { id: Sharing; label: string }[] = [{ id: "quad", label: "Quad Sharing" }, { id: "triple", label: "Triple Sharing" }, { id: "double", label: "Double Sharing" }]; const rateLabel = (id: Sharing) => rates[id] === null ? "Rate Coming Soon" : `₹${rates[id]!.toLocaleString("en-IN")}`;
+
+  return <section id="booking" className="mt-7 scroll-mt-28"><div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_360px]"><div className="rounded-3xl bg-white p-6 shadow-xl md:p-8"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">Group Tour Booking</p><h2 className="mt-2 text-3xl font-extrabold text-slate-950">Select Your Trip</h2><p className="mt-2 text-sm font-medium text-slate-500">{packageTitle}{packageId ? ` • ${packageId}` : ""}</p></div><span className="rounded-full bg-emerald-50 px-4 py-2 text-xs font-extrabold text-emerald-700">5% GST INCLUDED</span></div>
+  <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200"><div className="bg-[#153e75] px-5 py-4 text-xl font-extrabold text-white">Package Cost</div><div className="grid gap-3 p-4 md:grid-cols-3">{sharingOptions.map((option) => { const selected = sharing === option.id; return <button key={option.id} type="button" onClick={() => setSharing(option.id)} className={`rounded-xl border-2 p-4 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{option.label}</span><span className={`h-5 w-5 rounded-full border-2 ${selected ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-3 text-2xl font-extrabold text-blue-800">{rateLabel(option.id)}</p><p className="mt-0.5 text-xs text-slate-500">Per Person • GST included</p></button>; })}</div><div className="border-t bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-600">Select Quad, Triple or Double Sharing above. The selected rate immediately updates the booking summary and payment amount. GST @ 5% is already included.</div></div>
+  <div className="mt-7 rounded-2xl border border-slate-200 p-5"><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-extrabold text-slate-950">Departure Calendar</h3><p className="mt-1 text-sm text-slate-500">{pilgrimage ? "Seasonal Friday departures • Calendar follows the package's published dates" : `Friday departures • ${packageDuration}`}</p></div><CalendarDays className="text-blue-700" /></div><div className="relative mt-4"><select value={selectedMonth} onChange={(e) => { const first = dates.find((date) => date.startsWith(e.target.value)); if (first) setTravelDate(first); }} className="w-full appearance-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 pr-10 text-sm font-bold text-slate-800">{months.map((month) => <option key={month} value={month}>{new Date(`${month}-01T12:00:00`).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-3 text-slate-500" size={18}/></div><div className="mt-4 grid gap-2 sm:grid-cols-2">{visibleSlots.map((date) => { const selected = travelDate === date; const slotDecision = getDepartureDecision(date, packageDuration); return <button key={date} type="button" onClick={() => setTravelDate(date)} className={`flex w-full items-center justify-between rounded-xl border-2 px-4 py-3 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div><p className="font-extrabold text-slate-900">{formatDate(date)}</p><p className="mt-0.5 text-xs text-slate-500">Return: {returnDate(date, packageDuration)}</p></div><span className={`rounded-full px-3 py-1 text-xs font-bold ${slotDecision.bookable ? "bg-emerald-50 text-emerald-700" : "bg-orange-50 text-orange-700"}`}>{selected ? (slotDecision.bookable ? "Selected" : "Enquiry Only") : (slotDecision.bookable ? "Available" : "Enquiry")}</span></button>; })}</div></div>
+  <form onSubmit={submit} className="mt-7 space-y-5"><div className="grid gap-5 md:grid-cols-2"><Field label="Selected Departure"><div className={`rounded-xl border px-4 py-3 font-extrabold ${decision.bookable ? "border-blue-200 bg-blue-50 text-blue-950" : "border-orange-200 bg-orange-50 text-orange-900"}`}>{formatDate(travelDate)} → {returnDate(travelDate, packageDuration)}<p className="mt-1 text-xs font-semibold">{decision.bookable ? "Online booking available" : `Enquiry only — ${decision.reason}`}</p></div></Field><Field label="Room Sharing"><select value={sharing} onChange={(e) => setSharing(e.target.value as Sharing)} className="input"><option value="quad">Quad Sharing — {rateLabel("quad")}/person</option><option value="triple">Triple Sharing — {rateLabel("triple")}/person</option><option value="double">Double Sharing — {rateLabel("double")}/person</option></select></Field><Field label="Travellers"><input required type="number" min={1} max={12} value={travellers} onChange={(e) => setTravellers(Math.min(12, Math.max(1, Number(e.target.value) || 1)))} className="input" /></Field><Field label="Full Name"><input required value={name} onChange={(e) => setName(e.target.value)} className="input" /></Field><Field label="Mobile Number"><input required type="tel" inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 15))} className="input" /></Field><Field label="Email Address"><input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" /></Field></div><Field label="Special Request"><textarea rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className="input" placeholder="Any pickup, meal, room or travel requirement" /></Field><div className="rounded-xl border bg-slate-50 p-4"><label className="flex gap-3"><input required type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-1 h-4 w-4 accent-blue-700" /><span className="text-sm">I have read and agree to the <Link href="/terms-and-conditions" target="_blank" className="font-bold text-blue-700 underline">Terms & Conditions</Link> and <Link href="/cancellation-policy" target="_blank" className="font-bold text-blue-700 underline">Cancellation Policy</Link>.</span></label></div><button disabled={submitting || ratesPending} type="submit" className={`w-full rounded-xl py-4 text-lg font-extrabold text-white shadow-lg transition disabled:cursor-not-allowed disabled:opacity-60 ${decision.bookable ? "bg-blue-800 hover:bg-blue-900" : "bg-orange-600 hover:bg-orange-700"}`}>{ratesPending ? "Rates Coming Soon" : submitting ? "Creating Secure Payment..." : decision.bookable ? `Book Now • Pay ₹${advance.toLocaleString("en-IN")}` : "Send Enquiry"}</button></form></div>
+  <aside className="xl:sticky xl:top-28"><div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"><div className="bg-slate-950 px-5 py-4 text-xl font-extrabold text-white">Booking Summary</div><div className="space-y-4 p-5"><p className="text-xs font-bold uppercase tracking-wide text-slate-400">{packageTitle}</p><div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Departure</span><b>{formatDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Return</span><b>{returnDate(travelDate, packageDuration)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Sharing</span><b>{sharing === "quad" ? "Quad" : sharing === "triple" ? "Triple" : "Double"}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{travellers}</b></div></div><Row label={selectedRate === null ? "Group rate" : `₹${selectedRate.toLocaleString("en-IN")} × ${travellers}`} value={total} /><div className="flex justify-between gap-4 text-xs font-semibold text-emerald-700"><span>GST @ 5%</span><span>Included</span></div><div className="border-t pt-3"><Row label="Total package cost" value={total} strong /></div>{ratesPending ? <div className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-800">Quad / Triple / Double costing will be published here once supplied.</div> : <div className="rounded-xl bg-blue-50 p-4"><div className="flex justify-between gap-3 font-bold text-blue-950"><span>30% booking advance</span><span>₹{advance.toLocaleString("en-IN")}</span></div><div className="mt-2 flex justify-between gap-3 border-t border-blue-100 pt-2 text-sm"><span>Balance after advance</span><b>₹{balance.toLocaleString("en-IN")}</b></div></div>}<div className="flex items-center gap-2 text-xs text-slate-500"><Users size={15} className="text-blue-700"/> Traveller count can be 1 to 12.</div><div className="flex items-center gap-2 text-xs text-slate-500"><CreditCard size={15} className="text-blue-700"/> Secure online payment • <Check size={15} className="text-emerald-600"/> GST included</div></div></div></aside></div><style jsx>{`.input{width:100%;border:1px solid #cbd5e1;border-radius:.75rem;padding:.75rem;outline:none;background:#fff}.input:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.1)}`}</style></section>;
 }
-
-function returnDate(value: string, duration: string) {
-  const nights = Number(String(duration).match(/(\d+)\s*Nights?/i)?.[1] ?? 2);
-  const d = new Date(`${value}T12:00:00`);
-  d.setDate(d.getDate() + nights);
-  return d.toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short", year: "numeric" });
-}
-
-function isPilgrimage(packageTitle: string, packageId?: string) {
-  return /char[- ]dham|do[- ]dham|kedarnath/i.test(`${packageTitle} ${packageId ?? ""}`);
-}
-
-function getRates(packageTitle: string, packageId?: string): Rates {
-  const result = getGroupSharingRates({ title: packageTitle, packageId, themes: ["Group Tour"] });
-  if (result) return {
-    quad: result.find((r) => r.type === "Quad Sharing")?.price ?? null,
-    triple: result.find((r) => r.type === "Triple Sharing")?.price ?? null,
-    double: result.find((r) => r.type === "Double Sharing")?.price ?? null,
-  };
-  return { quad: 7499, triple: 7999, double: 8499 };
-}
-
-export default function GroupBookingForm({ packageTitle, packageId, packageDuration = "2 Nights / 3 Days" }: Props) {
-  const pilgrimage = isPilgrimage(packageTitle, packageId);
-  const rates = getRates(packageTitle, packageId);
-  const ratesPending = rates.quad === null || rates.triple === null || rates.double === null;
-  const dates = useMemo(() => pilgrimage ? getPilgrimageGroupTourDates() : DEFAULT_FRIDAYS, [pilgrimage]);
-  const [travelDate, setTravelDate] = useState(dates[0]);
-  const [sharing, setSharing] = useState<Sharing>("double");
-  const [travellers, setTravellers] = useState(1);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [accepted, setAccepted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-
-  const selectedRate = rates[sharing];
-  const total = selectedRate === null ? 0 : selectedRate * travellers;
-  const advance = selectedRate === null ? 0 : Math.ceil(total * 0.3);
-  const balance = total - advance;
-  const selectedMonth = useMemo(() => travelDate.slice(0, 7), [travelDate]);
-  const visibleSlots = useMemo(() => dates.filter((date) => date.startsWith(selectedMonth)), [dates, selectedMonth]);
-  const months = useMemo(() => Array.from(new Set(dates.map((date) => date.slice(0, 7)))), [dates]);
-
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
-    if (ratesPending) { alert("Group sharing rates for this package are being configured. Please check back after the rates are published."); return; }
-    if (!accepted) { alert("Please accept the Terms & Conditions and Cancellation Policy before continuing."); return; }
-    setSubmitting(true);
-    try {
-      const response = await fetch("/api/payment-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: advance, purpose: `${packageTitle} | ${sharing} sharing | ${travelDate} | ${travellers} traveller${travellers > 1 ? "s" : ""}`, customer_name: name, customer_email: email, customer_phone: phone }),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Failed to create payment link.");
-      const url = data.link_url || data.url || data.paymentUrl || data.payment_link;
-      if (!url) throw new Error("Payment link was not returned by the payment service.");
-      window.location.href = url;
-    } catch (error) { alert(error instanceof Error ? error.message : "Unable to start payment. Please try again."); }
-    finally { setSubmitting(false); }
-  }
-
-  const sharingOptions: { id: Sharing; label: string }[] = [
-    { id: "quad", label: "Quad Sharing" },
-    { id: "triple", label: "Triple Sharing" },
-    { id: "double", label: "Double Sharing" },
-  ];
-  const rateLabel = (id: Sharing) => rates[id] === null ? "Rate Coming Soon" : `₹${rates[id]!.toLocaleString("en-IN")}`;
-
-  return (
-    <section id="booking" className="mt-7 scroll-mt-28">
-      <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="rounded-3xl bg-white p-6 shadow-xl md:p-8">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div><p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">Group Tour Booking</p><h2 className="mt-2 text-3xl font-extrabold text-slate-950">Select Your Trip</h2><p className="mt-2 text-sm font-medium text-slate-500">{packageTitle}{packageId ? ` • ${packageId}` : ""}</p></div>
-            <span className="rounded-full bg-emerald-50 px-4 py-2 text-xs font-extrabold text-emerald-700">5% GST INCLUDED</span>
-          </div>
-
-          <div className="mt-7 overflow-hidden rounded-2xl border border-slate-200">
-            <div className="bg-[#153e75] px-5 py-4 text-xl font-extrabold text-white">Package Cost</div>
-            <div className="grid gap-3 p-4 md:grid-cols-3">
-              {sharingOptions.map((option) => { const selected = sharing === option.id; return <button key={option.id} type="button" onClick={() => setSharing(option.id)} className={`rounded-xl border-2 p-4 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{option.label}</span><span className={`h-5 w-5 rounded-full border-2 ${selected ? "border-blue-700 bg-blue-700 ring-4 ring-blue-100" : "border-slate-300"}`} /></div><p className="mt-3 text-2xl font-extrabold text-blue-800">{rateLabel(option.id)}</p><p className="mt-0.5 text-xs text-slate-500">Per Person • GST included</p></button>; })}
-            </div>
-            <div className="border-t bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-600">Select Quad, Triple or Double Sharing above. The selected rate immediately updates the booking summary and payment amount. GST @ 5% is already included.</div>
-          </div>
-
-          <div className="mt-7 rounded-2xl border border-slate-200 p-5">
-            <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-xl font-extrabold text-slate-950">Departure Calendar</h3><p className="mt-1 text-sm text-slate-500">{pilgrimage ? "Seasonal Friday departures • Current season closes 22 Oct 2026 • Next season May–22 Oct 2027" : `Friday departures • ${packageDuration}`}</p></div><CalendarDays className="text-blue-700" /></div>
-            <div className="relative mt-4"><select value={selectedMonth} onChange={(e) => { const first = dates.find((date) => date.startsWith(e.target.value)); if (first) setTravelDate(first); }} className="w-full appearance-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 pr-10 text-sm font-bold text-slate-800">{months.map((month) => <option key={month} value={month}>{new Date(`${month}-01T12:00:00`).toLocaleDateString("en-IN", { month: "long", year: "numeric" })}</option>)}</select><ChevronDown className="pointer-events-none absolute right-3 top-3 text-slate-500" size={18}/></div>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">{visibleSlots.map((date) => { const selected = travelDate === date; return <button key={date} type="button" onClick={() => setTravelDate(date)} className={`flex w-full items-center justify-between rounded-xl border-2 px-4 py-3 text-left transition ${selected ? "border-blue-700 bg-blue-50 shadow-sm" : "border-slate-200 bg-white hover:border-blue-300"}`}><div><p className="font-extrabold text-slate-900">{formatDate(date)}</p><p className="mt-0.5 text-xs text-slate-500">Return: {returnDate(date, packageDuration)}</p></div><span className={`rounded-full px-3 py-1 text-xs font-bold ${selected ? "bg-blue-700 text-white" : "bg-emerald-50 text-emerald-700"}`}>{selected ? "Selected" : "Available"}</span></button>; })}</div>
-          </div>
-
-          <form onSubmit={submit} className="mt-7 space-y-5">
-            <div className="grid gap-5 md:grid-cols-2">
-              <Field label="Selected Departure"><div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 font-extrabold text-blue-950">{formatDate(travelDate)} → {returnDate(travelDate, packageDuration)}</div></Field>
-              <Field label="Room Sharing"><select value={sharing} onChange={(e) => setSharing(e.target.value as Sharing)} className="input"><option value="quad">Quad Sharing — {rateLabel("quad")}/person</option><option value="triple">Triple Sharing — {rateLabel("triple")}/person</option><option value="double">Double Sharing — {rateLabel("double")}/person</option></select></Field>
-              <Field label="Travellers"><input required type="number" min={1} max={12} value={travellers} onChange={(e) => setTravellers(Math.min(12, Math.max(1, Number(e.target.value) || 1)))} className="input" /></Field>
-              <Field label="Full Name"><input required value={name} onChange={(e) => setName(e.target.value)} className="input" /></Field>
-              <Field label="Mobile Number"><input required type="tel" inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 15))} className="input" /></Field>
-              <Field label="Email Address"><input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input" /></Field>
-            </div>
-            <Field label="Special Request"><textarea rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className="input" placeholder="Any pickup, meal, room or travel requirement" /></Field>
-            <div className="rounded-xl border bg-slate-50 p-4"><label className="flex gap-3"><input required type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} className="mt-1 h-4 w-4 accent-blue-700" /><span className="text-sm">I have read and agree to the <Link href="/terms-and-conditions" target="_blank" className="font-bold text-blue-700 underline">Terms & Conditions</Link> and <Link href="/cancellation-policy" target="_blank" className="font-bold text-blue-700 underline">Cancellation Policy</Link>.</span></label></div>
-            <button disabled={submitting || ratesPending} type="submit" className="w-full rounded-xl bg-blue-800 py-4 text-lg font-extrabold text-white shadow-lg transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-60">{ratesPending ? "Rates Coming Soon" : submitting ? "Creating Secure Payment..." : `Book Now • Pay ₹${advance.toLocaleString("en-IN")}`}</button>
-          </form>
-        </div>
-
-        <aside className="xl:sticky xl:top-28"><div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"><div className="bg-slate-950 px-5 py-4 text-xl font-extrabold text-white">Booking Summary</div><div className="space-y-4 p-5"><p className="text-xs font-bold uppercase tracking-wide text-slate-400">{packageTitle}</p><div className="rounded-xl bg-slate-50 p-4 text-sm"><div className="flex justify-between gap-4"><span>Departure</span><b>{formatDate(travelDate)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Return</span><b>{returnDate(travelDate, packageDuration)}</b></div><div className="mt-2 flex justify-between gap-4"><span>Sharing</span><b>{sharing === "quad" ? "Quad" : sharing === "triple" ? "Triple" : "Double"}</b></div><div className="mt-2 flex justify-between gap-4"><span>Travellers</span><b>{travellers}</b></div></div><Row label={selectedRate === null ? "Group rate" : `₹${selectedRate.toLocaleString("en-IN")} × ${travellers}`} value={total} /><div className="flex justify-between gap-4 text-xs font-semibold text-emerald-700"><span>GST @ 5%</span><span>Included</span></div><div className="border-t pt-3"><Row label="Total package cost" value={total} strong /></div>{ratesPending ? <div className="rounded-xl bg-amber-50 p-4 text-sm font-semibold text-amber-800">Quad / Triple / Double costing will be published here once supplied.</div> : <div className="rounded-xl bg-blue-50 p-4"><div className="flex justify-between gap-3 font-bold text-blue-950"><span>30% booking advance</span><span>₹{advance.toLocaleString("en-IN")}</span></div><div className="mt-2 flex justify-between gap-3 border-t border-blue-100 pt-2 text-sm"><span>Balance after advance</span><b>₹{balance.toLocaleString("en-IN")}</b></div></div>}<div className="flex items-center gap-2 text-xs text-slate-500"><Users size={15} className="text-blue-700"/> Traveller count can be 1 to 12.</div><div className="flex items-center gap-2 text-xs text-slate-500"><CreditCard size={15} className="text-blue-700"/> Secure online payment • <Check size={15} className="text-emerald-600"/> GST included</div></div></div></aside>
-      </div>
-      <style jsx>{`.input{width:100%;border:1px solid #cbd5e1;border-radius:.75rem;padding:.75rem;outline:none;background:#fff}.input:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.1)}`}</style>
-    </section>
-  );
-}
-
 function Field({ label, children }: { label: string; children: React.ReactNode }) { return <div><label className="mb-2 block font-semibold text-slate-800">{label}</label>{children}</div>; }
 function Row({ label, value, strong = false }: { label: string; value: number; strong?: boolean }) { return <div className={`flex justify-between gap-3 ${strong ? "text-lg font-extrabold" : "text-sm text-slate-700"}`}><span>{label}</span><span className="shrink-0">₹{value.toLocaleString("en-IN")}</span></div>; }
