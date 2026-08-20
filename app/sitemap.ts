@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import packages from "@/data/packages";
-import seoPages from "@/data/seo-pages";
+import { seoPages } from "@/data/seo-pages";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
