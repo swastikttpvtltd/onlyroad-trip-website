@@ -26,32 +26,71 @@ async function readApiResponse(res: Response) {
   throw new Error(clean.slice(0, 240) || `Payment service returned HTTP ${res.status}. Please try again.`);
 }
 
+function nonEmpty<T>(value: T | undefined | null): value is T {
+  if (value === undefined || value === null) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  return true;
+}
+
+function mergeBooking(urlBooking: Booking, stored: Booking | null): Booking {
+  if (!stored) return urlBooking;
+  return {
+    ...stored,
+    ...urlBooking,
+    bookingNumber: nonEmpty(urlBooking.bookingNumber) ? urlBooking.bookingNumber : stored.bookingNumber,
+    gateway: urlBooking.gateway ?? stored.gateway,
+    packageTitle: nonEmpty(urlBooking.packageTitle) ? urlBooking.packageTitle : stored.packageTitle,
+    packageId: nonEmpty(urlBooking.packageId) ? urlBooking.packageId : stored.packageId,
+    duration: nonEmpty(urlBooking.duration) ? urlBooking.duration : stored.duration,
+    departure: nonEmpty(urlBooking.departure) ? urlBooking.departure : stored.departure,
+    returnDate: nonEmpty(urlBooking.returnDate) ? urlBooking.returnDate : stored.returnDate,
+    sharing: nonEmpty(urlBooking.sharing) ? urlBooking.sharing : stored.sharing,
+    travellers: Number(urlBooking.travellers) > 0 ? Number(urlBooking.travellers) : stored.travellers,
+    rate: Number(urlBooking.rate) > 0 ? Number(urlBooking.rate) : stored.rate,
+    total: Number(urlBooking.total) > 0 ? Number(urlBooking.total) : stored.total,
+    advance: Number(urlBooking.advance) > 0 ? Number(urlBooking.advance) : stored.advance,
+    balance: nonEmpty(urlBooking.balance) && Number(urlBooking.balance) >= 0 ? Number(urlBooking.balance) : stored.balance,
+    name: nonEmpty(urlBooking.name) ? urlBooking.name : stored.name,
+    phone: nonEmpty(urlBooking.phone) ? urlBooking.phone : stored.phone,
+    email: nonEmpty(urlBooking.email) ? urlBooking.email : stored.email,
+    purpose: nonEmpty(urlBooking.purpose) ? urlBooking.purpose : stored.purpose,
+  };
+}
+
 export default function PaymentSelection({ booking }: { booking: Booking }) {
   const [gateway, setGateway] = useState<"cashfree" | "payu">("cashfree");
   const [loading, setLoading] = useState(false);
   const [storedBooking, setStoredBooking] = useState<Booking | null>(null);
-  const hasBookingFromUrl = useMemo(() => Boolean(booking.name || booking.phone || booking.email || booking.packageTitle || booking.advance), [booking]);
+  const hasBookingFromUrl = useMemo(() => Boolean(booking.name || booking.phone || booking.email || booking.packageTitle || booking.advance || booking.departure || booking.returnDate || booking.sharing), [booking]);
 
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(LEGACY_STORAGE_KEY);
+      let saved: Booking | null = null;
       if (raw) {
-        const saved = JSON.parse(raw) as Booking;
+        saved = JSON.parse(raw) as Booking;
         setStoredBooking(saved);
         if (saved.gateway) setGateway(saved.gateway);
       }
       const requested = new URLSearchParams(window.location.search).get("gateway");
       if (requested === "cashfree" || requested === "payu") setGateway(requested);
+      if (saved && hasBookingFromUrl) {
+        const merged = mergeBooking(booking, saved);
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+        sessionStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(merged));
+        setStoredBooking(merged);
+      }
     } catch { /* ignore invalid/stale browser storage */ }
-  }, []);
+  }, [booking, hasBookingFromUrl]);
 
-  const currentBooking: Booking = hasBookingFromUrl ? booking : storedBooking || emptyBooking;
+  const currentBooking: Booking = hasBookingFromUrl ? mergeBooking(booking, storedBooking) : storedBooking || emptyBooking;
 
   useEffect(() => {
     if (!hasBookingFromUrl) return;
     try {
       const existing = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "null") as Booking | null;
-      const next = { ...booking, bookingNumber: existing?.bookingNumber || booking.bookingNumber || makeBookingNumber() };
+      const next = mergeBooking(booking, existing);
+      next.bookingNumber = existing?.bookingNumber || booking.bookingNumber || makeBookingNumber();
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       sessionStorage.setItem(LEGACY_STORAGE_KEY, JSON.stringify(next));
       setStoredBooking(next);
