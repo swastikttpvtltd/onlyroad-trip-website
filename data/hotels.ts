@@ -8,7 +8,7 @@ export type Hotel = {
   googleMapsUrl?: string;
 };
 
-export const hotels: Record<string, Hotel | null> = {
+export const hotels: Record<string, Hotel> = {
   varanasi: {
     name: "3★ Recommended Hotel – Varanasi",
     city: "Varanasi, Uttar Pradesh",
@@ -25,6 +25,12 @@ export const hotels: Record<string, Hotel | null> = {
     description: "Comfortable 3-star stay suitable for pilgrims and family travellers.",
     googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=3%20star%20hotels%20Ayodhya%20Uttar%20Pradesh",
   },
-  // This itinerary has no overnight stay in Prayagraj, so no hotel is shown there.
-  prayagraj: null,
+  // No overnight stay in Prayagraj in this itinerary; HotelCard will not render this placeholder.
+  prayagraj: {
+    name: "",
+    city: "",
+    rating: 0,
+    stars: 3,
+    description: "",
+  },
 };
