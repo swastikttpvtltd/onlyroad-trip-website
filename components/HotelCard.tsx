@@ -21,6 +21,10 @@ export default function HotelCard({
   makemytripUrl,
   googleMapsUrl,
 }: HotelCardProps) {
+  // Some itineraries include a destination for sightseeing/transfer but not for an overnight stay.
+  // In that case the data intentionally uses an empty hotel placeholder, so no card is rendered.
+  if (!name.trim()) return null;
+
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl">
       <div className="bg-gradient-to-r from-slate-950 via-blue-950 to-blue-800 px-5 py-4 text-white">
