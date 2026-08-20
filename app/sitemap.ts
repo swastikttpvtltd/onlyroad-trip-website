@@ -1,40 +1,112 @@
-import { MetadataRoute } from "next";
+import type { MetadataRoute } from "next";
 import packages from "@/data/packages";
+import seoPages from "@/data/seo-pages";
 
 const baseUrl = "https://www.onlyroadtrip.com";
-const destinationSlugs = ["andhra-pradesh","gujarat","himachal-pradesh","jammu-kashmir","kedarnath","kerala","ladakh","lakshadweep","maharashtra","meghalaya","odisha","rajasthan","sikkim","tamil-nadu","uttar-pradesh","uttarakhand","west-bengal"];
-const seoSlugs = [
-  "kashmir-tour","manali-tour","leh-ladakh-tour","himachal-tour","uttarakhand-tour","rajasthan-tour","kerala-tour","goa-tour","sikkim-tour","darjeeling-tour",
-  "kedarnath-yatra-from-delhi","kedarnath-badrinath-yatra-from-delhi","char-dham-yatra-from-delhi","ayodhya-varanasi-tour","varanasi-ayodhya-prayagraj-tour","kashmir-tour-from-delhi","manali-tour-from-delhi","leh-ladakh-tour-from-delhi","rajasthan-tour-from-delhi",
-  "corporate-tour-packages","group-tour-packages","family-tour-packages","senior-citizen-tour-packages","customized-tour-packages","luxury-tour-packages","road-trip-packages","pilgrimage-tour-packages",
-  "travel-agent-in-delhi","travel-agent-in-gurgaon","travel-agent-in-noida","travel-agent-in-faridabad","travel-agent-in-rohtak"
+
+const staticPages = [
+  "",
+  "about",
+  "contact",
+  "destinations",
+  "packages",
+  "corporate-travel",
+  "corporate-mice-travel",
+  "solo-women-travel-packages",
+  "char-dham-yatra-package",
+  "kedarnath-yatra-package",
+  "kashi-yatra-package",
+  "ayodhya-yatra-package",
+  "jyotirlinga-yatra",
+  "plan-your-trip",
+  "booking-policy",
+  "cancellation-policy",
+  "refund-policy",
+  "privacy-policy",
+  "cookie-policy",
+  "disclaimer",
+  "terms-and-conditions",
+] as const;
+
+const destinationSlugs = [
+  "andhra-pradesh",
+  "gujarat",
+  "himachal-pradesh",
+  "jammu-kashmir",
+  "kedarnath",
+  "kerala",
+  "ladakh",
+  "lakshadweep",
+  "maharashtra",
+  "meghalaya",
+  "odisha",
+  "rajasthan",
+  "sikkim",
+  "tamil-nadu",
+  "uttar-pradesh",
+  "uttarakhand",
+  "west-bengal",
 ];
 
+const legalPages = new Set([
+  "privacy-policy",
+  "cookie-policy",
+  "disclaimer",
+  "terms-and-conditions",
+]);
+
+function makePage(
+  path: string,
+  priority: number,
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly",
+): MetadataRoute.Sitemap[number] {
+  return {
+    url: path ? `${baseUrl}/${path}` : baseUrl,
+    lastModified: new Date(),
+    changeFrequency,
+    priority,
+  };
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    { url: `${baseUrl}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${baseUrl}/destinations`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/packages`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
-    { url: `${baseUrl}/corporate-travel`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/corporate-mice-travel`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/solo-women-travel-packages`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${baseUrl}/char-dham-yatra-package`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
-    { url: `${baseUrl}/kedarnath-yatra-package`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
-    { url: `${baseUrl}/kashi-yatra-package`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
-    { url: `${baseUrl}/ayodhya-yatra-package`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
-    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${baseUrl}/terms-and-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${baseUrl}/booking-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${baseUrl}/refund-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${baseUrl}/cancellation-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${baseUrl}/cookie-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${baseUrl}/disclaimer`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-  ];
-  const destinationPages = destinationSlugs.map((slug) => ({ url: `${baseUrl}/destinations/${slug}`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.85 }));
-  const packagePages = packages.map((pkg) => ({ url: `${baseUrl}/packages/${pkg.slug}`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.85 }));
-  const seoPages = seoSlugs.map((slug) => ({ url: `${baseUrl}/${slug}`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.9 }));
-  return [...staticPages, ...destinationPages, ...packagePages, ...seoPages];
+  const staticEntries = staticPages.map((path) => {
+    if (path === "") return makePage(path, 1, "weekly");
+    if (legalPages.has(path)) return makePage(path, 0.2, "yearly");
+    if (
+      [
+        "char-dham-yatra-package",
+        "kedarnath-yatra-package",
+        "kashi-yatra-package",
+        "ayodhya-yatra-package",
+      ].includes(path)
+    ) {
+      return makePage(path, 0.95, "weekly");
+    }
+    return makePage(path, 0.8, "weekly");
+  });
+
+  const destinationEntries = destinationSlugs.map((slug) =>
+    makePage(`destinations/${slug}`, 0.85, "weekly"),
+  );
+
+  const packageEntries = packages
+    .filter((pkg) => Boolean(pkg?.slug))
+    .map((pkg) => makePage(`packages/${pkg.slug}`, 0.9, "weekly"));
+
+  const seoEntries = Object.keys(seoPages)
+    .filter(Boolean)
+    .map((slug) => makePage(slug, 0.9, "weekly"));
+
+  // Keep every public URL only once.
+  const unique = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const entry of [
+    ...staticEntries,
+    ...destinationEntries,
+    ...packageEntries,
+    ...seoEntries,
+  ]) {
+    if (!unique.has(entry.url)) unique.set(entry.url, entry);
+  }
+
+  return Array.from(unique.values());
 }
