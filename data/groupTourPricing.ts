@@ -5,7 +5,8 @@ export type GroupSharingRate = {
 
 export function isGroupTourPackage(pkg: any) {
   const text = `${pkg?.packageId ?? ""} ${pkg?.title ?? ""} ${pkg?.category ?? ""} ${pkg?.duration ?? ""} ${(pkg?.themes ?? []).join(" ")}`.toLowerCase();
-  return text.includes("group tour") || text.includes("group-tour") || text.includes("group") || (text.includes("weekend") && text.includes("2 nights / 3 days"));
+  const hasGroupSize = Boolean(String(pkg?.groupSize ?? "").trim());
+  return text.includes("group tour") || text.includes("group-tour") || text.includes("group") || hasGroupSize || (text.includes("weekend") && text.includes("2 nights / 3 days"));
 }
 
 export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
@@ -46,12 +47,12 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
     ];
   }
 
-  // Kedarnath single-yatra rate has not been supplied yet.
-  return null;
+  // Generic group-size packages still get the departure calendar, while their existing package price remains the displayed price.
+  return [];
 }
 
 export function getGroupTourStartingPrice(pkg: any): number | null {
-  return getGroupSharingRates(pkg)?.[0]?.price ?? null;
+  return getGroupSharingRates(pkg)?.[0]?.price ?? (typeof pkg?.price === "number" ? pkg.price : null);
 }
 
 /**
