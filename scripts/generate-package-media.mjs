@@ -92,6 +92,10 @@ async function main() {
     "himachal-pradesh/mcleodganj-weekend-group-tour": "multi-state/mcleodganj-weekend-group-tour",
     "rajasthan/udaipur-weekend-group-tour": "multi-state/udaipur-weekend-group-tour",
     "uttarakhand/nainital-weekend-group-tour": "multi-state/nainital-weekend-group-tour",
+
+    // Vaishno Devi uses the shared Jammu & Kashmir media folder until its
+    // dedicated photo set is promoted into the live repository.
+    "kashmir/vaishno-devi-group-yatra": "jammu-kashmir",
   };
 
   for (const [alias, source] of Object.entries(mediaAliases)) {
