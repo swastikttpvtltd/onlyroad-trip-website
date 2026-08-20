@@ -6,10 +6,6 @@ import individualJyotirlingaPackages from "@/data/packages/multi-state/individua
 
 type PackageLike = any;
 
-// Keep this route compatible with either a named export or a default export
-// from the multi-state Jyotirlinga library. This prevents the route from
-// breaking when the library's export shape changes while we expand the
-// package catalogue.
 const multiStatePackages: PackageLike[] = Object.values(multiStateJyotirlingaModule).flatMap((value: any) => {
   if (Array.isArray(value)) return value;
   if (value && typeof value === "object" && Array.isArray(value.jyotirlingaPackages)) return value.jyotirlingaPackages;
@@ -21,19 +17,39 @@ const allPackages: PackageLike[] = [
   ...(Array.isArray(individualJyotirlingaPackages) ? individualJyotirlingaPackages : []),
 ];
 
+// Some existing cards/links use a friendly "-yatra" suffix while the
+// package library stores the canonical slug without it. Accept both forms
+// so old links never become 404s.
+function canonicalSlug(slug: string) {
+  return decodeURIComponent(slug).replace(/-yatra$/, "");
+}
+
+function findPackage(slug: string) {
+  const requested = decodeURIComponent(slug);
+  const canonical = canonicalSlug(requested);
+  return allPackages.find((item) => {
+    const itemSlug = String(item?.slug ?? "");
+    return itemSlug === requested || itemSlug === canonical || `${itemSlug}-yatra` === requested;
+  });
+}
+
 export function generateStaticParams() {
-  return allPackages.map((pkg) => ({ slug: pkg.slug }));
+  const params = allPackages.flatMap((pkg) => {
+    const slug = String(pkg.slug);
+    return [{ slug }, ...(slug.endsWith("-yatra") ? [] : [{ slug: `${slug}-yatra` }])];
+  });
+  return params;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const pkg = allPackages.find((item) => item.slug === slug);
+  const pkg = findPackage(slug);
   return pkg ? { title: `${pkg.title} | Only Road Trip`, description: pkg.overview ?? pkg.short } : {};
 }
 
 export default async function JyotirlingaPackagePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const pkg = allPackages.find((item) => item.slug === slug);
+  const pkg = findPackage(slug);
   if (!pkg) notFound();
 
   const heroImage = pkg.hero?.image ?? pkg.image ?? `/images/packages/multi-state/${pkg.slug}/hero.jpg`;
@@ -75,7 +91,7 @@ export default async function JyotirlingaPackagePage({ params }: { params: Promi
 
             <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
               <div className="mb-7"><p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Day by Day</p><h2 className="mt-1 text-2xl font-black">Detailed Itinerary</h2></div>
-              {itinerary.length > 0 ? <div className="space-y-5">{itinerary.map((day: any, index: number) => <article key={`${day.day}-${index}`} className="rounded-2xl border border-slate-200 p-5 md:p-6"><div className="flex flex-wrap items-start justify-between gap-3"><div><span className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-800">{day.day}</span><h3 className="mt-3 text-xl font-black">{day.title}</h3></div>{day.distance && <div className="rounded-xl bg-slate-50 px-3 py-2 text-right text-xs text-slate-500"><b className="block text-slate-700">{day.distance}</b>{day.driveTime}</div>}</div><div className="mt-5 grid gap-4 md:grid-cols-3"><div><p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">Morning</p><ul className="space-y-2">{(day.morning ?? []).map((x: string) => <li key={x} className="text-sm leading-5 text-slate-600">• {x}</li>)}</ul></div><div><p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">Afternoon</p><ul className="space-y-2">{(day.afternoon ?? []).map((x: string) => <li key={x} className="text-sm leading-5 text-slate-600">• {x}</li>)}</ul></div><div><p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">Evening</p><ul className="space-y-2">{(day.evening ?? []).map((x: string) => <li key={x} className="text-sm leading-5 text-slate-600">• {x}</li>)}</ul></div></div></article>)}</div> : <p className="text-slate-600">Detailed itinerary will be confirmed with the selected departure plan.</p>}
+              {itinerary.length > 0 ? <div className="space-y-5">{itinerary.map((day: any, index: number) => <article key={`${day.day}-${index}`} className="rounded-2xl border border-slate-200 p-5 md:p-6"><div className="flex flex-wrap items-start justify-between gap-3"><div><span className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-800">{day.day}</span><h3 className="mt-3 text-xl font-black">{day.title}</h3></div>{day.distance && <div className="rounded-xl bg-slate-50 px-3 py-2 text-right text-xs text-slate-500"><b className="block text-slate-700">{day.distance}</b>{day.driveTime}</div>}</div><div className="mt-5 grid gap-4 md:grid-cols-3">{([['Morning', day.morning], ['Afternoon', day.afternoon], ['Evening', day.evening]] as const).map(([label, items]) => <div key={label}><p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">{label}</p><ul className="space-y-2">{(items ?? []).map((x: string) => <li key={x} className="text-sm leading-5 text-slate-600">• {x}</li>)}</ul></div>)}</div></article>)}</div> : <p className="text-slate-600">Detailed itinerary will be confirmed with the selected departure plan.</p>}
             </section>
           </div>
 
