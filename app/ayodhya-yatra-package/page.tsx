@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import PilgrimageLandingPage from "@/components/PilgrimageLandingPage";
 import RelatedPilgrimageLinks from "@/components/RelatedPilgrimageLinks";
+import HotelCard from "@/components/HotelCard";
+import { hotels } from "@/data/hotels";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
@@ -22,5 +24,23 @@ const schema = {
 };
 
 export default function AyodhyaYatraPackagePage() {
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /><PilgrimageLandingPage variant="ayodhya" /><RelatedPilgrimageLinks current="ayodhya" /></>;
+  return <>
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+    <PilgrimageLandingPage variant="ayodhya" />
+    <section className="bg-slate-50 py-16">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mb-8 max-w-3xl">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">Stay Recommendations</p>
+          <h2 className="mt-3 text-3xl font-extrabold text-slate-950 md:text-4xl">Recommended 3★ stays for your yatra</h2>
+          <p className="mt-3 text-sm leading-7 text-slate-600">Hotel recommendations are shown separately from package costing. Verify current availability and rates directly before booking.</p>
+        </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <HotelCard {...hotels.varanasi} />
+          <HotelCard {...hotels.ayodhya} />
+          <HotelCard {...hotels.prayagraj} />
+        </div>
+      </div>
+    </section>
+    <RelatedPilgrimageLinks current="ayodhya" />
+  </>;
 }
