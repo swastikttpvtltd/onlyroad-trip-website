@@ -10,7 +10,7 @@ export type Hotel = {
 
 export const hotels: Record<string, Hotel> = {
   varanasi: {
-    name: "Hotel Hari Vilaas",
+    name: "Hotel Hari Vilaas or Similar",
     city: "Varanasi, Uttar Pradesh",
     rating: 4.3,
     stars: 3,
@@ -19,7 +19,7 @@ export const hotels: Record<string, Hotel> = {
     googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Hotel%20Hari%20Vilaas%20Varanasi",
   },
   ayodhya: {
-    name: "GOLDEN PALACE 200 METER FROM RAM JANMBHOOMI",
+    name: "GOLDEN PALACE 200 METER FROM RAM JANMBHOOMI or Similar",
     city: "Ayodhya, Uttar Pradesh",
     rating: 4.5,
     stars: 3,
