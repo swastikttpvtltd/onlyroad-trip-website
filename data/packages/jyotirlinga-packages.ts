@@ -1,0 +1,137 @@
+const stay = "3-Star Hotels / Similar";
+const d = (n: string, title: string, morning: string[], afternoon: string[], evening: string[]) => ({ day: `Day ${n}`, title, morning, afternoon, evening });
+const mk = (x: any) => {
+  const base = `/images/packages/multi-state/${x.slug}`;
+  return {
+    ...x,
+    state: "Multi-State",
+    hero: { image: `${base}/hero.jpg`, shortDescription: x.short },
+    gallery: [1, 2, 3, 4, 5].map((n) => ({ image: `${base}/gallery${n}.jpg`, alt: `${x.title} – image ${n}` })),
+    hotels: [{ name: stay, category: "3-Star", star: "3-Star Hotel" }],
+    meals: ["Breakfast", "Dinner"],
+    inclusions: [],
+    exclusions: [],
+    groupSize: x.groupSize || "2-12 Persons",
+    difficulty: x.difficulty || "Easy",
+    quickFacts: { pickup: x.pickup || "Delhi", drop: x.drop || "Delhi", transport: "Private AC Vehicle / Flights where specified", meals: "Breakfast & Dinner", hotelCategory: stay, bestSeason: x.bestTime || "October – March" },
+  };
+};
+
+export const jyotirlingaTwo = mk({
+  id: "jyotirlinga-2-dwarka-somnath-3n4d",
+  slug: "2-jyotirlinga-dwarka-somnath-yatra",
+  title: "2 Jyotirlinga Dwarka Somnath Yatra",
+  duration: "3 Nights / 4 Days",
+  destination: "Dwarka • Nageshwar • Somnath",
+  category: "Pilgrimage",
+  themes: ["Jyotirlinga", "Pilgrimage", "Spiritual", "Group Tour"],
+  short: "A compact Gujarat pilgrimage covering Nageshwar and Somnath Jyotirlingas with Dwarkadhish Temple.",
+  overview: "A short, high-conversion Gujarat spiritual circuit designed around two Jyotirlinga darshans: Nageshwar near Dwarka and Somnath at Prabhas Patan, with Dwarkadhish Temple and key coastal pilgrimage sights.",
+  highlights: ["Nageshwar Jyotirlinga", "Somnath Jyotirlinga", "Dwarkadhish Temple", "Bet Dwarka", "Somnath evening temple programme", "Gujarat coastal pilgrimage route"],
+  bestTime: "October – March; available year-round subject to weather and temple schedules",
+  pickup: "Ahmedabad / Rajkot",
+  drop: "Ahmedabad / Rajkot",
+  itinerary: [
+    d("1", "Ahmedabad / Rajkot → Dwarka", ["Pickup from confirmed gateway", "Drive towards Dwarka", "Hotel check-in"], ["Dwarkadhish Temple darshan subject to official timings", "Gomti Ghat and local pilgrimage area"], ["Dwarka evening aarti / temple area", "Dinner and stay"]),
+    d("2", "Nageshwar Jyotirlinga + Bet Dwarka", ["Breakfast", "Proceed to Nageshwar Jyotirlinga"], ["Nageshwar darshan", "Bet Dwarka and coastal pilgrimage circuit subject to local ferry/road operations", "Return to Dwarka"], ["Dwarka leisure", "Dinner and stay"]),
+    d("3", "Dwarka → Porbandar → Somnath", ["Breakfast and checkout", "Drive towards Somnath"], ["Porbandar / Kirti Mandir stop subject to route and timing", "Somnath hotel check-in"], ["Somnath Jyotirlinga darshan", "Temple evening programme subject to official schedule", "Dinner and stay"]),
+    d("4", "Somnath → Ahmedabad / Rajkot", ["Breakfast", "Optional Triveni Sangam / Bhalka Tirth stop"], ["Return transfer", "Lunch at own expense"], ["Drop at confirmed gateway", "Yatra concludes"]),
+  ],
+});
+
+export const jyotirlingaFour = mk({
+  id: "jyotirlinga-4-gujarat-madhya-pradesh-7n8d",
+  slug: "4-jyotirlinga-gujarat-madhya-pradesh-yatra",
+  title: "4 Jyotirlinga Gujarat Madhya Pradesh Yatra",
+  duration: "7 Nights / 8 Days",
+  destination: "Dwarka • Nageshwar • Somnath • Ujjain • Omkareshwar",
+  category: "Pilgrimage",
+  themes: ["Jyotirlinga", "Pilgrimage", "Spiritual", "Group Tour"],
+  short: "A west-central India Jyotirlinga circuit covering Nageshwar, Somnath, Mahakaleshwar and Omkareshwar.",
+  overview: "A geographically sensible four-Jyotirlinga circuit combining Gujarat's Nageshwar and Somnath with Madhya Pradesh's Mahakaleshwar and Omkareshwar, while keeping Dwarkadhish Temple and selected spiritual landmarks in the route.",
+  highlights: ["Nageshwar Jyotirlinga", "Somnath Jyotirlinga", "Mahakaleshwar Jyotirlinga", "Omkareshwar Jyotirlinga", "Dwarkadhish Temple", "Mahakal Lok"],
+  bestTime: "October – March",
+  pickup: "Ahmedabad",
+  drop: "Indore / Ahmedabad",
+  itinerary: [
+    d("1", "Ahmedabad → Dwarka", ["Pickup and drive towards Dwarka", "Hotel check-in"], ["Dwarkadhish Temple / Gomti Ghat", "Local pilgrimage sightseeing"], ["Aarti subject to official timing", "Dinner and stay"]),
+    d("2", "Nageshwar Jyotirlinga + Bet Dwarka", ["Breakfast", "Nageshwar darshan"], ["Bet Dwarka / coastal circuit subject to local operations", "Return to Dwarka"], ["Leisure", "Dinner and stay"]),
+    d("3", "Dwarka → Porbandar → Somnath", ["Breakfast and checkout", "Drive to Somnath"], ["Porbandar stop subject to route/time", "Hotel check-in"], ["Somnath Jyotirlinga darshan", "Evening temple programme subject to official schedule"]),
+    d("4", "Somnath → Ahmedabad / Indore", ["Breakfast", "Checkout"], ["Long transfer towards Indore gateway / connecting travel as booked"], ["Ujjain arrival as operationally scheduled", "Dinner and stay"]),
+    d("5", "Mahakaleshwar Jyotirlinga – Ujjain", ["Early morning Mahakaleshwar darshan / Bhasma Aarti only with official advance eligibility", "Breakfast"], ["Mahakal Lok", "Ram Ghat / selected Ujjain temples"], ["Leisure", "Dinner and stay"]),
+    d("6", "Ujjain → Omkareshwar", ["Breakfast and checkout", "Drive to Omkareshwar"], ["Omkareshwar Jyotirlinga darshan", "Narmada ghats / Mamleshwar"], ["Temple-area leisure", "Dinner and stay"]),
+    d("7", "Omkareshwar → Indore", ["Breakfast", "Optional parikrama / local temple time subject to access"], ["Drive to Indore", "Hotel check-in"], ["Indore leisure", "Dinner and stay"]),
+    d("8", "Departure", ["Breakfast and checkout"], ["Airport / railway station transfer"], ["Yatra concludes"]),
+  ],
+});
+
+export const jyotirlingaSix = mk({
+  id: "jyotirlinga-6-west-central-10n11d",
+  slug: "6-jyotirlinga-west-central-india-yatra",
+  title: "6 Jyotirlinga West Central India Yatra",
+  duration: "10 Nights / 11 Days",
+  destination: "Ujjain • Omkareshwar • Dwarka • Somnath • Nashik • Grishneshwar",
+  category: "Pilgrimage",
+  themes: ["Jyotirlinga", "Pilgrimage", "Spiritual", "Group Tour"],
+  short: "A six-shrine circuit linking Mahakaleshwar, Omkareshwar, Nageshwar, Somnath, Trimbakeshwar and Grishneshwar.",
+  overview: "A flagship west-central India circuit covering six major Jyotirlingas with a route designed to minimise unnecessary backtracking. The journey combines Ujjain and Omkareshwar, Gujarat's Nageshwar and Somnath, and Maharashtra's Trimbakeshwar and Grishneshwar.",
+  highlights: ["Mahakaleshwar Jyotirlinga", "Omkareshwar Jyotirlinga", "Nageshwar Jyotirlinga", "Somnath Jyotirlinga", "Trimbakeshwar Jyotirlinga", "Grishneshwar Jyotirlinga"],
+  bestTime: "October – March",
+  pickup: "Indore / Ahmedabad",
+  drop: "Mumbai / Pune / Indore",
+  itinerary: [
+    d("1", "Arrival Indore → Ujjain", ["Pickup from airport / railway station", "Transfer to Ujjain"], ["Hotel check-in", "Mahakal Lok if time permits"], ["Rest and prepare for early darshan", "Dinner and stay"]),
+    d("2", "Mahakaleshwar Jyotirlinga", ["Early Mahakaleshwar darshan / Bhasma Aarti only with official advance eligibility", "Breakfast"], ["Ujjain temple circuit", "Ram Ghat"], ["Leisure", "Dinner and stay"]),
+    d("3", "Ujjain → Omkareshwar", ["Breakfast and checkout", "Drive to Omkareshwar"], ["Omkareshwar Jyotirlinga darshan", "Mamleshwar / Narmada ghats"], ["Temple area leisure", "Dinner and stay"]),
+    d("4", "Omkareshwar → Indore → Dwarka", ["Breakfast and checkout", "Transfer towards airport/rail gateway"], ["Connecting travel to Gujarat as booked", "Arrive Dwarka"], ["Hotel check-in", "Dinner and stay"]),
+    d("5", "Nageshwar Jyotirlinga + Dwarka", ["Breakfast", "Nageshwar darshan"], ["Bet Dwarka / Rukmini Devi Temple subject to local operations", "Dwarka sightseeing"], ["Dwarkadhish aarti subject to official timing", "Dinner and stay"]),
+    d("6", "Dwarka → Somnath", ["Breakfast and checkout", "Drive via coastal Gujarat"], ["Porbandar stop subject to route/time", "Somnath check-in"], ["Somnath Jyotirlinga darshan", "Evening temple programme subject to official schedule"]),
+    d("7", "Somnath → Nashik", ["Breakfast", "Checkout"], ["Long transfer / connecting travel towards Nashik"], ["Nashik arrival and rest", "Dinner and stay"]),
+    d("8", "Trimbakeshwar Jyotirlinga", ["Breakfast", "Drive to Trimbak"], ["Trimbakeshwar darshan", "Kushavarta Kund / Brahmagiri region subject to access"], ["Nashik Panchavati if time permits", "Dinner and stay"]),
+    d("9", "Nashik → Grishneshwar / Ellora", ["Breakfast and checkout", "Drive towards Verul"], ["Grishneshwar Jyotirlinga darshan", "Ellora Caves / Kailasa Temple subject to opening and time"], ["Aurangabad / Chhatrapati Sambhajinagar stay", "Dinner"]),
+    d("10", "Maharashtra → Departure Gateway", ["Breakfast", "Checkout"], ["Transfer towards Mumbai / Pune / confirmed gateway"], ["Hotel or transit rest if required", "Dinner as per selected plan"]),
+    d("11", "Departure", ["Breakfast if applicable"], ["Airport / railway station transfer"], ["Yatra concludes"]),
+  ],
+});
+
+export const jyotirlingaTwelve = mk({
+  id: "jyotirlinga-12-complete-india-18n19d",
+  slug: "12-jyotirlinga-complete-india-mahayatra",
+  title: "12 Jyotirlinga Complete India Mahayatra",
+  duration: "18 Nights / 19 Days",
+  destination: "Somnath • Nageshwar • Maharashtra • South India • Varanasi • Deoghar • Kedarnath",
+  category: "Pilgrimage",
+  themes: ["Jyotirlinga", "Pilgrimage", "Spiritual", "Premium", "Group Tour", "Senior Citizen"],
+  short: "The flagship all-India pilgrimage covering all 12 Jyotirlingas with coordinated flights, road transfers and dedicated support.",
+  overview: "A premium all-India Mahayatra covering all twelve Jyotirlinga shrines. The route is designed as a mixed-mode pilgrimage using flights for long inter-regional jumps, private AC road transfers for regional circuits and dedicated buffers for Kedarnath weather and high-altitude logistics.",
+  highlights: ["All 12 Jyotirlingas", "Somnath + Nageshwar", "Maharashtra Jyotirlinga circuit", "Mallikarjuna at Srisailam", "Rameshwaram", "Kashi Vishwanath", "Baidyanath Dham", "Kedarnath"],
+  bestTime: "Best planned regionally: October–March for most shrines; Kedarnath leg only during its official open season",
+  pickup: "Delhi",
+  drop: "Delhi",
+  difficulty: "Moderate to Challenging",
+  groupSize: "10-25 Persons",
+  itinerary: [
+    d("1", "Delhi → Ahmedabad / Rajkot → Somnath", ["Report at airport / railway gateway", "Flight / onward transfer as booked"], ["Drive to Somnath", "Hotel check-in"], ["Somnath Jyotirlinga darshan subject to official timing", "Dinner and stay"]),
+    d("2", "Somnath → Dwarka", ["Breakfast", "Somnath local pilgrimage sights"], ["Drive towards Dwarka", "Porbandar stop subject to route/time"], ["Dwarkadhish Temple", "Dinner and stay"]),
+    d("3", "Nageshwar Jyotirlinga → Mumbai / Nashik", ["Breakfast", "Nageshwar darshan"], ["Bet Dwarka subject to local operations", "Transfer towards airport / next gateway"], ["Connecting travel to Maharashtra", "Dinner and stay"]),
+    d("4", "Trimbakeshwar Jyotirlinga", ["Breakfast", "Drive to Trimbak"], ["Trimbakeshwar darshan", "Nashik Panchavati / Kushavarta as time permits"], ["Rest", "Dinner and stay"]),
+    d("5", "Bhimashankar Jyotirlinga", ["Early breakfast", "Drive towards Bhimashankar"], ["Bhimashankar darshan", "Forest sanctuary area subject to access and weather"], ["Return towards Pune / stay", "Dinner"]),
+    d("6", "Grishneshwar Jyotirlinga + Ellora", ["Breakfast and transfer", "Grishneshwar darshan"], ["Ellora Caves / Kailasa Temple subject to official opening", "Daulatabad if time permits"], ["Aurangabad / Chhatrapati Sambhajinagar stay", "Dinner"]),
+    d("7", "Maharashtra → Srisailam", ["Breakfast", "Transfer to airport / railway gateway"], ["Flight / connecting travel to Hyderabad", "Road transfer to Srisailam"], ["Hotel check-in and rest", "Dinner"]),
+    d("8", "Mallikarjuna Jyotirlinga", ["Breakfast", "Mallikarjuna Jyotirlinga darshan"], ["Bhramaramba Devi Temple / Srisailam sights", "Krishna River viewpoints subject to access"], ["Rest", "Dinner and stay"]),
+    d("9", "Srisailam → Madurai / Rameshwaram", ["Breakfast and checkout", "Transfer towards Hyderabad / flight gateway"], ["Connecting travel to Madurai", "Drive to Rameshwaram"], ["Hotel check-in", "Dinner and stay"]),
+    d("10", "Rameshwaram Jyotirlinga", ["Early Ramanathaswamy Temple darshan", "Theertham rituals only as permitted by temple rules"], ["Dhanushkodi / Pamban Bridge viewpoint", "Agni Theertham subject to access"], ["Leisure", "Dinner and stay"]),
+    d("11", "Rameshwaram → Varanasi", ["Breakfast and checkout", "Transfer to Madurai airport"], ["Connecting flight to Varanasi", "Hotel check-in"], ["Ganga Aarti subject to official arrangements", "Dinner and stay"]),
+    d("12", "Kashi Vishwanath Jyotirlinga", ["Early morning temple darshan subject to official slot/rules", "Breakfast"], ["Kashi Vishwanath Corridor, ghats and selected temples", "Optional Sarnath"], ["Ganga-side leisure", "Dinner and stay"]),
+    d("13", "Varanasi → Deoghar", ["Breakfast and checkout", "Train / flight / road connection as booked"], ["Arrive Deoghar", "Hotel check-in"], ["Baidyanath Dham Jyotirlinga darshan subject to official timing", "Dinner"]),
+    d("14", "Deoghar → Delhi / Uttarakhand Gateway", ["Breakfast", "Checkout and transfer"], ["Connecting travel towards Delhi / Dehradun / Haridwar"], ["Hotel rest", "Dinner"]),
+    d("15", "Gateway → Guptkashi / Phata", ["Early departure", "Road transfer into Uttarakhand hills"], ["Check-in and acclimatisation", "Briefing for Kedarnath logistics"], ["Early rest", "Dinner"]),
+    d("16", "Kedarnath Jyotirlinga", ["Helicopter / trek to Kedarnath subject to official booking, weather and operations", "Darshan"], ["Temple area time", "Return to base subject to weather/operations"], ["Rest", "Dinner and stay"]),
+    d("17", "Kedarnath Region → Haridwar / Delhi", ["Breakfast", "Return transfer"], ["Drive towards Haridwar / Delhi"], ["Hotel stay", "Dinner"]),
+    d("18", "Buffer / Completion Day", ["Reserved operational buffer for weather, flight or road disruption", "Final pilgrimage support"], ["Optional Delhi local visit / rest depending on actual completion status"], ["Farewell dinner", "Yatra completion ceremony"]),
+    d("19", "Departure Delhi", ["Breakfast and checkout"], ["Airport / railway station transfer"], ["Mahayatra concludes"]),
+  ],
+});
+
+export const jyotirlingaPackages = [jyotirlingaTwo, jyotirlingaFour, jyotirlingaSix, jyotirlingaTwelve];
+export default jyotirlingaPackages;
