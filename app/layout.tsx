@@ -54,7 +54,11 @@ const websiteSchema = { "@context": "https://schema.org", "@type": "WebSite", "@
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-IN" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html
+      lang="en-IN"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
