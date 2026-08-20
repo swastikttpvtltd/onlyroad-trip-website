@@ -7,7 +7,10 @@ import { packages } from "@/data/packages";
 
 export default function JyotirlingaSlider() {
   const trackRef = useRef<HTMLDivElement>(null);
-  const items = packages.filter((pkg: any) => /jyotirlinga\s*$/i.test(String(pkg.title ?? "").trim()));
+  const items = packages.filter((pkg: any) => {
+    const title = String(pkg.title ?? "").trim();
+    return /jyotirlinga/i.test(title) && !/(varanasi.*ayodhya|ayodhya.*varanasi)/i.test(title);
+  });
 
   const scroll = (direction: number) => {
     const track = trackRef.current;
@@ -26,7 +29,7 @@ export default function JyotirlingaSlider() {
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-700">Experiences</p>
             <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-950 md:text-4xl">Jyotirlinga Yatra</h2>
-            <p className="mt-2 max-w-2xl text-sm text-slate-600 md:text-base">Sacred Jyotirlinga journeys — only the packages specifically marked as Jyotirlinga are shown here.</p>
+            <p className="mt-2 max-w-2xl text-sm text-slate-600 md:text-base">Dedicated Jyotirlinga journeys — only packages specifically built around Jyotirlinga darshan are shown here.</p>
           </div>
           <div className="hidden gap-2 md:flex">
             <button type="button" aria-label="Previous Jyotirlinga package" onClick={() => scroll(-1)} className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-700 shadow-sm hover:border-blue-700 hover:text-blue-700"><ArrowLeft size={20} /></button>
