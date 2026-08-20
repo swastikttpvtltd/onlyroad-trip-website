@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 const experienceThemes = [
   { name: "Spiritual", query: "Spiritual", description: "Sacred journeys & peaceful escapes" },
   { name: "Pilgrimage", query: "Pilgrimage", description: "Temples, dhams & holy circuits" },
+  { name: "Jyotirlinga", query: "Jyotirlinga", description: "Sacred Jyotirlinga temple journeys" },
   { name: "Trekking", query: "Trekking", description: "Trails, peaks & Himalayan walks" },
   { name: "Adventure", query: "Adventure", description: "Thrilling outdoor journeys" },
   { name: "Women Special", query: "Women", description: "Curated journeys for women" },
