@@ -62,10 +62,10 @@ export default function HeroSearch() {
   };
 
   return (
-    <div className="relative overflow-visible rounded-[28px] border border-white/40 bg-white/15 p-3.5 font-semibold backdrop-blur-3xl shadow-[0_16px_55px_rgba(15,23,42,0.30)]">
+    <div className="relative z-[100] isolate overflow-visible rounded-[28px] border border-white/40 bg-white/15 p-3.5 font-semibold backdrop-blur-3xl shadow-[0_16px_55px_rgba(15,23,42,0.30)]">
       <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px] bg-gradient-to-r from-white/10 via-white/5 to-blue-500/10" />
       <div className="relative z-10 grid grid-cols-1 gap-3.5 lg:grid-cols-4">
-        <div className="relative rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
+        <div className="relative z-[110] rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
           <div className="mb-2 flex items-center gap-2">
             <MapPin className="h-5 w-5 font-bold text-blue-800" strokeWidth={2.5} />
             <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Destination</span>
@@ -73,8 +73,8 @@ export default function HeroSearch() {
           <input
             type="text"
             value={destination}
-            onFocus={() => setShowSuggestions(Boolean(destination.trim()))}
-            onBlur={() => window.setTimeout(() => setShowSuggestions(false), 120)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => window.setTimeout(() => setShowSuggestions(false), 300)}
             onChange={(e) => {
               const value = e.target.value;
               setDestination(value);
@@ -86,21 +86,27 @@ export default function HeroSearch() {
             }}
             placeholder="Type Varanasi, Goa, Gujarat..."
             autoComplete="off"
+            inputMode="search"
             className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none placeholder:text-slate-500"
           />
           {showSuggestions && (
-            <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-2xl">
+            <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-[9999] max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-2xl">
               {suggestions.length ? (
                 suggestions.map((place) => (
                   <button
                     key={place}
                     type="button"
+                    onPointerDown={(e) => {
+                      e.preventDefault();
+                      setDestination(place);
+                      setShowSuggestions(false);
+                    }}
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => {
                       setDestination(place);
                       setShowSuggestions(false);
                     }}
-                    className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left font-bold transition hover:bg-blue-50 hover:text-blue-800"
+                    className="flex w-full items-center gap-2 rounded-xl px-3 py-3 text-left font-bold transition hover:bg-blue-50 hover:text-blue-800 active:bg-blue-100"
                   >
                     <MapPin className="h-4 w-4 shrink-0 text-blue-700" />
                     {place}
