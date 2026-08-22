@@ -87,7 +87,7 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
   const finalDestination = pkg?.destination ?? destination ?? "India";
   const groupRates = getGroupSharingRates(pkg);
   const isGroup = isGroupTourPackage(pkg) && !!groupRates;
-  const displayPrice = isGroup ? getGroupTourStartingPrice(pkg) : (price ?? pkg?.price ?? 0);
+  const displayPrice = isGroup ? (getGroupTourStartingPrice(pkg) ?? 0) : (price ?? pkg?.price ?? 0);
   const formattedPrice = displayPrice ? `₹${displayPrice.toLocaleString("en-IN")}` : "Price on Request";
   const sharingRates = groupRates ?? pkg?.sharingRates ?? pkg?.groupRates?.sharingRates ?? [];
   const [selectedDate, setSelectedDate] = useState(() => firstBookableDate(isGroup, finalDuration));

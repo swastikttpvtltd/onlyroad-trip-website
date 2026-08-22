@@ -89,11 +89,11 @@ function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates) {
     ["Up to 25 Travellers", groupRates?.[25]],
     ["Up to 30 Travellers", groupRates?.[30]],
     ["30+ Travellers", groupRates?.["30+"]],
-  ].filter(([, price]) => typeof price === "number") as Array<[string, number]>;
+  ].filter((entry): entry is [string, number] => typeof entry[1] === "number");
 
   if (!slabs.length) return `<p class="muted">Price will be shared in the confirmed quotation.</p>`;
   return `<table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${slabs
-    .map(([label, price]) => `<tr><td>${escapeHtml(label)}</td><td>₹${price.toLocaleString("en-IN")}/-</td></tr>`)
+    .map(([label, price]) => `<tr><td>${escapeHtml(label)}</td><td>₹${Number(price).toLocaleString("en-IN")}/-</td></tr>`)
     .join("")}</tbody></table>`;
 }
 

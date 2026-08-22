@@ -851,5 +851,11 @@ export const packageMedia: Record<string, string[]> = {
     "/images/packages/multi-state/nainital-weekend-group-tour/gallery2.jpg",
     "/images/packages/multi-state/nainital-weekend-group-tour/gallery3.jpg",
     "/images/packages/multi-state/nainital-weekend-group-tour/gallery4.jpg"
+  ],
+  "kashmir/vaishno-devi-group-yatra": [
+    "/images/packages/jammu-kashmir/hero.avif",
+    "/images/packages/jammu-kashmir/gallery1.avif",
+    "/images/packages/jammu-kashmir/gallery2.avif",
+    "/images/packages/jammu-kashmir/gallery3.avif"
   ]
 };
