@@ -52,8 +52,6 @@ const buildFaqs = (name: string): SeoFaq[] => [
   { question: `How do I choose the right ${name}?`, answer: "Choose based on your travel dates, preferred destinations, duration, group size, accommodation needs and budget. Our team can help tailor the itinerary." },
 ];
 
-const withAiContent = (config: SeoPageConfig, pricing?: SeoPricing, inclusions?: string[], exclusions?: string[], faqs?: SeoFaq[]): SeoPageConfig => ({ ...config, pricing, inclusions, exclusions, faqs });
-
 export const seoPages: Record<string, SeoPageConfig> = {
   "kashmir-tour": withAiContent(destination("kashmir-tour", "Kashmir Tour Packages", "Kashmir Tour Packages", "Plan a customized Kashmir holiday with scenic stays, private transport and flexible itineraries for families, couples and groups.", ["Customized itineraries", "Hotels and transport", "Family and couple options"], ["Kashmir tour packages", "Kashmir tour package", "Kashmir holiday package"]), { price: 18500, duration: "4N/5D", destinations: ["Srinagar", "Gulmarg", "Pahalgam", "Sonmarg"] }, defaultInclusions, defaultExclusions, buildFaqs("Kashmir tour packages")),
   "manali-tour": withAiContent(destination("manali-tour", "Manali Tour Packages", "Manali Tour Packages", "Book a customized Manali tour with comfortable transport, hotel options and sightseeing planned around your dates.", ["Delhi departure options", "Private transport", "Flexible sightseeing"], ["Manali tour packages", "Manali tour package", "Manali trip"]), { price: 7499, duration: "2N/3D", destinations: ["Manali", "Solang Valley"] }, defaultInclusions, defaultExclusions, buildFaqs("Manali tour packages")),
