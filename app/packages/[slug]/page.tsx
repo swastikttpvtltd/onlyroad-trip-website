@@ -3,6 +3,8 @@ import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
 import InclusionsExclusions from "@/components/package/InclusionsExclusions";
+import HotelCard from "@/components/HotelCard";
+import { hotels as recommendedHotels } from "@/data/hotels";
 import Image from "next/image";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -108,6 +110,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const planningNotes = travelPlanningNotes(state);
   const faqs = faqItems(pkg, state);
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) };
+  const isSpiritualTriangle = String(pkg.slug) === "varanasi-prayagraj-ayodhya";
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
@@ -119,6 +122,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <ContentCard id="overview" title="Tour Overview"><p className="leading-8 text-slate-600">{pkg.overview}</p><div className="mt-6 rounded-xl border-l-4 border-orange-500 bg-orange-50 p-5"><h3 className="font-bold">About {state.name}</h3><p className="mt-2 leading-7 text-slate-600">{state.famousFor}</p></div><h3 className="mt-7 text-xl font-bold">Tour Highlights</h3><div className="mt-4 grid gap-3 md:grid-cols-2">{(Array.isArray(pkg.highlights) ? pkg.highlights : []).map((x: string) => <div key={x} className="flex gap-3 rounded-lg bg-slate-50 p-4"><span className="text-orange-500">✓</span><span>{x}</span></div>)}</div></ContentCard>
         <ContentCard id="gallery" title="Tour Gallery"><PackageGallerySlider gallery={gallery} title={pkg.title} /></ContentCard>
         <ContentCard id="itinerary" title="Day-wise Itinerary"><ItineraryAccordion itinerary={Array.isArray(pkg.itinerary) ? pkg.itinerary : []} destination={String(pkg.destination ?? "")} category={String(pkg.category ?? "Tour")} vibeHook={pkg.vibeHook} packageTitle={String(pkg.title ?? "")} packageId={String(pkg.packageId ?? "")} duration={String(pkg.duration ?? "")} overview={String(pkg.overview ?? "")} highlights={Array.isArray(pkg.highlights) ? pkg.highlights : []} inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} groupRates={pkg.groupRates} sharingRates={Array.isArray(pkg.groupRates?.sharingRates) ? pkg.groupRates.sharingRates : []} bestTime={String(pkg.bestTime ?? "")} hotels={Array.isArray(pkg.hotels) ? pkg.hotels : []} meals={Array.isArray(pkg.meals) ? pkg.meals : []} /></ContentCard>
+        {isSpiritualTriangle ? <ContentCard id="recommended-stays" title="Recommended 3★ Night Stays"><p className="mb-5 text-sm leading-6 text-slate-600">Recommended stay options are shown for the overnight destinations in this itinerary. Final hotel allocation remains subject to availability and confirmation.</p><div className="grid gap-6 md:grid-cols-2"><HotelCard {...recommendedHotels.varanasi} /><HotelCard {...recommendedHotels.prayagraj} /><HotelCard {...recommendedHotels.ayodhya} /></div></ContentCard> : null}
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
         <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.category}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
         <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>

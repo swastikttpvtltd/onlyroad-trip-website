@@ -1,5 +1,4 @@
 import { packages } from "@/data/packages";
-import { getPackagePrimaryImage } from "@/data/packageMediaFallback";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
@@ -15,7 +14,6 @@ export default async function PackageLayout({ params, children }: LayoutProps) {
   if (!pkg) return children;
 
   const url = `${baseUrl}/packages/${pkg.slug}`;
-  const image = getPackagePrimaryImage(pkg);
   const numericPrice = "price" in pkg && typeof pkg.price === "number" ? pkg.price : undefined;
 
   const breadcrumbSchema = {
@@ -28,35 +26,50 @@ export default async function PackageLayout({ params, children }: LayoutProps) {
     ],
   };
 
-  const tripSchema = {
+  const packageSchema = {
     "@context": "https://schema.org",
-    "@type": "TouristTrip",
-    "@id": `${url}#tourist-trip`,
-    name: pkg.title,
+    "@type": "Trip",
+    name: `${pkg.title} - Only Road Trip`,
     description: pkg.overview,
-    url,
-    image: [image],
-    touristType: pkg.category,
-    areaServed: { "@type": "Country", name: "India" },
-    provider: { "@id": `${baseUrl}/#travel-agency` },
+    provider: {
+      "@type": "TravelAgency",
+      "@id": `${baseUrl}/#organization`,
+    },
     ...(numericPrice !== undefined
       ? {
           offers: {
             "@type": "Offer",
-            url,
-            priceCurrency: "INR",
             price: numericPrice,
-            availability: "https://schema.org/InStock",
-            seller: { "@id": `${baseUrl}/#travel-agency` },
+            priceCurrency: "INR",
+            url,
+            category: "Premium Package Tour",
+            priceValidUntil: "2027-12-31",
+            valueAddedService: [
+              { "@type": "Service", name: "24/7 On-Road Support" },
+              { "@type": "Service", name: "Verified Accommodations" },
+            ],
           },
         }
       : {}),
+    itinerary: {
+      "@type": "ItemList",
+      numberOfItems: Array.isArray(pkg.itinerary) ? pkg.itinerary.length : 0,
+      itemListElement: (Array.isArray(pkg.itinerary) ? pkg.itinerary : []).map((day, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "TouristAttraction",
+          name: day.title,
+          description: day.description,
+        },
+      })),
+    },
   };
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(tripSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(packageSchema) }} />
       {children}
     </>
   );

@@ -32,25 +32,116 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#0891b2", colorScheme: "light" };
 
-const organizationSchema = {
+const ultraPremiumSchema = {
   "@context": "https://schema.org",
-  "@type": "TravelAgency",
-  "name": "Only Road Trip (Swastik Tour and Travels Private Limited)",
-  "url": "https://www.onlyroadtrip.com",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "F163, PH-1, New Palam Vihar",
-    "addressLocality": "Gurugram",
-    "addressRegion": "Haryana",
-    "postalCode": "122001",
-    "addressCountry": "IN"
-  },
-  "telephone": "+91-9211796168",
-  "email": "info@onlyroadtrip.com",
-  "priceRange": "$$"
+  "@graph": [
+    {
+      "@type": "TravelAgency",
+      "@id": "https://www.onlyroadtrip.com/#organization",
+      "name": "Only Road Trip",
+      "legalName": "Swastik Tour And Travels Private Limited",
+      "url": "https://www.onlyroadtrip.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://www.onlyroadtrip.com/#logo",
+        "url": `${baseUrl}${socialImage}`,
+        "caption": "Only Road Trip Logo"
+      },
+      "image": `${baseUrl}${socialImage}`,
+      "telephone": "+91-9211796168",
+      "email": "info@onlyroadtrip.com",
+      "priceRange": "₹₹₹",
+      "currenciesAccepted": "INR",
+      "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking, Cash",
+      "duns": "771608667",
+      "taxID": "U52291HR2025PTC132225",
+      "description": "Premium travel management platform specializing in handcrafted domestic journeys across India. Offering 24/7 support, verified accommodations, customized road trips, sacred pilgrimage tours, wildlife safaris, and specialized itineraries for women and corporate clients.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "F163, Phase-1 New Palam Vihar",
+        "addressLocality": "Gurugram",
+        "addressRegion": "Haryana",
+        "postalCode": "122001",
+        "addressCountry": "IN"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+91-9211796168",
+          "contactType": "customer service",
+          "email": "info@onlyroadtrip.com",
+          "availableLanguage": ["English", "Hindi"],
+          "areaServed": "IN"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=61587958079412",
+        "https://www.instagram.com/onlyroadtrip.official"
+      ],
+      "knowsAbout": [
+        "Sacred Pilgrimage Tours",
+        "Himalayan Road Trips",
+        "Char Dham Yatra",
+        "Wildlife Safaris",
+        "Corporate Travel Management",
+        "Customized Tour Packages",
+        "Women Special Travels"
+      ],
+      "areaServed": [
+        { "@type": "AdministrativeArea", "name": "India" },
+        { "@type": "AdministrativeArea", "name": "Uttarakhand" },
+        { "@type": "AdministrativeArea", "name": "Kashmir" },
+        { "@type": "AdministrativeArea", "name": "Ladakh" },
+        { "@type": "AdministrativeArea", "name": "Kerala" },
+        { "@type": "AdministrativeArea", "name": "Gujarat" },
+        { "@type": "AdministrativeArea", "name": "Rajasthan" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Only Road Trip Premium Holiday Packages",
+        "itemListElement": [
+          {
+            "@type": "OfferCatalog",
+            "name": "Spiritual & Pilgrimage Yatras",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Char Dham Yatra" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Do Dham Yatra" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Kashi, Ayodhya & Varanasi Yatra" } }
+            ]
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "Himalayan Road Trips & Escapes",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Kashmir Classic & Offbeat Tours" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Leh Nubra Pangong Expedition" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Spiti Valley Road Trip" } }
+            ]
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "Corporate Offsites & Retreats",
+            "itemListElement": [
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Rishikesh Team Offsite" } },
+              { "@type": "Offer", "itemOffered": { "@type": "Trip", "name": "Goa Business Corporate Offsite" } }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.onlyroadtrip.com/#website",
+      "url": "https://www.onlyroadtrip.com/",
+      "name": "Only Road Trip",
+      "description": "Premium customized road trips, pilgrimage tours, and corporate offsites across India.",
+      "publisher": {
+        "@id": "https://www.onlyroadtrip.com/#organization"
+      },
+      "inLanguage": "en-IN"
+    }
+  ]
 };
-
-const websiteSchema = { "@context": "https://schema.org", "@type": "WebSite", "@id": `${baseUrl}/#website`, url: `${baseUrl}/`, name: "Only Road Trip", publisher: { "@type": "Organization", name: "Only Road Trip (Swastik Tour and Travels Private Limited)" }, inLanguage: "en-IN" };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -71,8 +162,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     `,
           }}
         />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ultraPremiumSchema)
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900">
         <noscript>
