@@ -4,6 +4,8 @@ import { seoPages } from "@/data/seo-pages";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
+export const revalidate = 3600;
+
 const staticPages = [
   "",
   "about",
@@ -29,17 +31,23 @@ const staticPages = [
 ] as const;
 
 const destinationSlugs = [
+  "andaman-nicobar",
   "andhra-pradesh",
+  "assam",
+  "goa",
   "gujarat",
   "himachal-pradesh",
   "jammu-kashmir",
+  "karnataka",
   "kedarnath",
   "kerala",
   "ladakh",
   "lakshadweep",
   "maharashtra",
+  "madhya-pradesh",
   "meghalaya",
   "odisha",
+  "punjab",
   "rajasthan",
   "sikkim",
   "tamil-nadu",
