@@ -1,21 +1,62 @@
+export type SeoFaq = {
+  question: string;
+  answer: string;
+};
+
+export type SeoPricing = {
+  price: number;
+  duration: string;
+  destinations: string[];
+};
+
 export type SeoPageConfig = {
   slug: string;
   title: string;
   eyebrow: string;
   intro: string;
+  description?: string;
   focus: "destination" | "package" | "service" | "local";
   highlights: string[];
   keywords: string[];
+  pricing?: SeoPricing;
+  inclusions?: string[];
+  exclusions?: string[];
+  faqs?: SeoFaq[];
 };
 
-const destination = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, focus: "destination", highlights, keywords });
-const packagePage = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, focus: "package", highlights, keywords });
-const service = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, focus: "service", highlights, keywords });
-const local = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, focus: "local", highlights, keywords });
+const withAiContent = (
+  config: SeoPageConfig,
+  pricing?: SeoPricing,
+  inclusions?: string[],
+  exclusions?: string[],
+  faqs?: SeoFaq[]
+): SeoPageConfig => ({
+  ...config,
+  pricing,
+  inclusions,
+  exclusions,
+  faqs,
+});
+
+const destination = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, description: intro, focus: "destination", highlights, keywords });
+const packagePage = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, description: intro, focus: "package", highlights, keywords });
+const service = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, description: intro, focus: "service", highlights, keywords });
+const local = (slug: string, title: string, eyebrow: string, intro: string, highlights: string[], keywords: string[]): SeoPageConfig => ({ slug, title, eyebrow, intro, description: intro, focus: "local", highlights, keywords });
+
+const defaultInclusions = ["Accommodation as per selected package", "Meals as specified", "Sightseeing and transport coordination", "Travel assistance"];
+const defaultExclusions = ["Personal expenses", "Airfare or train fare unless specified", "Adventure activities unless included", "Anything not listed in inclusions"];
+
+const buildFaqs = (name: string): SeoFaq[] => [
+  { question: `What is included in ${name}?`, answer: "The selected package or travel plan specifies accommodation, meals, transport, sightseeing and other inclusions. Please review the final inclusions before booking." },
+  { question: `Can ${name} be customized?`, answer: "Yes. Travel dates, duration, accommodation category, transport, sightseeing and group requirements can be customized with Only Road Trip." },
+  { question: `How do I choose the right ${name}?`, answer: "Choose based on your travel dates, preferred destinations, duration, group size, accommodation needs and budget. Our team can help tailor the itinerary." },
+];
+
+const withAiContent = (config: SeoPageConfig, pricing?: SeoPricing, inclusions?: string[], exclusions?: string[], faqs?: SeoFaq[]): SeoPageConfig => ({ ...config, pricing, inclusions, exclusions, faqs });
 
 export const seoPages: Record<string, SeoPageConfig> = {
-  "kashmir-tour": destination("kashmir-tour", "Kashmir Tour Packages", "Kashmir Tour Packages", "Plan a customized Kashmir holiday with scenic stays, private transport and flexible itineraries for families, couples and groups.", ["Customized itineraries", "Hotels and transport", "Family and couple options"], ["Kashmir tour packages", "Kashmir tour package", "Kashmir holiday package"]),
-  "manali-tour": destination("manali-tour", "Manali Tour Packages", "Manali Tour Packages", "Book a customized Manali tour with comfortable transport, hotel options and sightseeing planned around your dates.", ["Delhi departure options", "Private transport", "Flexible sightseeing"], ["Manali tour packages", "Manali tour package", "Manali trip"]),
+  "kashmir-tour": withAiContent(destination("kashmir-tour", "Kashmir Tour Packages", "Kashmir Tour Packages", "Plan a customized Kashmir holiday with scenic stays, private transport and flexible itineraries for families, couples and groups.", ["Customized itineraries", "Hotels and transport", "Family and couple options"], ["Kashmir tour packages", "Kashmir tour package", "Kashmir holiday package"]), { price: 18500, duration: "4N/5D", destinations: ["Srinagar", "Gulmarg", "Pahalgam", "Sonmarg"] }, defaultInclusions, defaultExclusions, buildFaqs("Kashmir tour packages")),
+  "manali-tour": withAiContent(destination("manali-tour", "Manali Tour Packages", "Manali Tour Packages", "Book a customized Manali tour with comfortable transport, hotel options and sightseeing planned around your dates.", ["Delhi departure options", "Private transport", "Flexible sightseeing"], ["Manali tour packages", "Manali tour package", "Manali trip"]), { price: 7499, duration: "2N/3D", destinations: ["Manali", "Solang Valley"] }, defaultInclusions, defaultExclusions, buildFaqs("Manali tour packages")),
   "leh-ladakh-tour": destination("leh-ladakh-tour", "Leh Ladakh Tour Packages", "Leh Ladakh Tour Packages", "Plan a Leh Ladakh road trip with route planning, stays, transport and practical travel coordination from Only Road Trip.", ["Road-trip planning", "Route and stay coordination", "Group options"], ["Leh Ladakh tour packages", "Ladakh road trip", "Leh Ladakh package"]),
   "himachal-tour": destination("himachal-tour", "Himachal Tour Packages", "Himachal Pradesh Tour Packages", "Explore Himachal with customized holiday packages covering Manali, Shimla, Dharamshala and other popular destinations.", ["Multiple hill destinations", "Family holidays", "Private and group travel"], ["Himachal tour packages", "Himachal Pradesh tour", "Himachal holiday package"]),
   "uttarakhand-tour": destination("uttarakhand-tour", "Uttarakhand Tour Packages", "Uttarakhand Tour Packages", "Discover Uttarakhand with customized hill holidays, pilgrimage journeys, road trips and family tour packages.", ["Hill holidays", "Pilgrimage routes", "Customized road trips"], ["Uttarakhand tour packages", "Uttarakhand holiday", "Uttarakhand tour"]),
