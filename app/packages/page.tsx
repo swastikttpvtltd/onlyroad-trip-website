@@ -5,11 +5,22 @@ import PackageCard from "@/components/PackageCard";
 import { packages } from "@/data/packages";
 import type { Package } from "@/data/packagesTypes";
 
-type SearchParams = { q?: string; category?: string; state?: string; theme?: string; sort?: "price-low" | "price-high"; minPrice?: string; maxPrice?: string; duration?: string };
+type SearchParams = { q?: string; category?: string; state?: string; theme?: string; sort?: "price-low" | "price-high"; minPrice?: string; maxPrice?: string; duration?: string; travellers?: string };
 type RawPackage = Record<string, any>;
 
+function rawSearchText(pkg: RawPackage) {
+  const themes = Array.isArray(pkg.themes) ? pkg.themes : [];
+  const highlights = Array.isArray(pkg.highlights) ? pkg.highlights : [];
+  return [pkg.title, pkg.destination, pkg.state, pkg.category, pkg.overview, ...themes, ...highlights]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
 function normalizePackage(pkg: RawPackage): Package & { themes: string[]; rawSearch: string } {
-  const gallery = Array.isArray(pkg.gallery) ? pkg.gallery.map((item: any) => typeof item === "string" ? item : item?.image ?? "/images/package-placeholder.jpg") : [];
+  const gallery = Array.isArray(pkg.gallery)
+    ? pkg.gallery.map((item: any) => typeof item === "string" ? item : item?.image ?? "/images/package-placeholder.jpg")
+    : [];
   const themes = Array.isArray(pkg.themes) ? pkg.themes.map(String) : [];
   const highlights = Array.isArray(pkg.highlights) ? pkg.highlights : [];
   return {
@@ -21,14 +32,17 @@ function normalizePackage(pkg: RawPackage): Package & { themes: string[]; rawSea
     hotels: Array.isArray(pkg.hotels) ? pkg.hotels.map((hotel: any) => ({ name: hotel.name ?? "Hotel", category: hotel.category ?? "Standard" })) : [],
     meals: Array.isArray(pkg.meals) ? pkg.meals : [], inclusions: Array.isArray(pkg.inclusions) ? pkg.inclusions : [], exclusions: Array.isArray(pkg.exclusions) ? pkg.exclusions : [],
     bestTime: pkg.bestTime ?? "", groupSize: pkg.groupSize ?? "", difficulty: pkg.difficulty ?? "", themes,
-    rawSearch: [pkg.title, pkg.destination, pkg.state, pkg.category, pkg.overview, ...themes, ...highlights].filter(Boolean).join(" ").toLowerCase(),
+    rawSearch: rawSearchText(pkg),
   };
 }
 
-const packageList = packages.map(normalizePackage);
-const states = [...new Set(packageList.map((p) => p.state).filter(Boolean))].sort();
-const categories = [...new Set(packageList.map((p) => p.category).filter(Boolean))].sort();
-const suggestions = [...new Set(packageList.flatMap((p) => [p.title, p.state, p.destination, p.category, ...p.themes].flatMap((value) => String(value || "").split(/[•,|/]/).map((part) => part.trim()).filter(Boolean))))].sort((a, b) => a.localeCompare(b));
+const states = [...new Set(packages.map((p: RawPackage) => String(p.state ?? "")).filter(Boolean))].sort();
+const categories = [...new Set(packages.map((p: RawPackage) => String(p.category ?? "Tour")).filter(Boolean))].sort();
+const suggestions = [...new Set(packages.flatMap((p: RawPackage) => {
+  const themes = Array.isArray(p.themes) ? p.themes : [];
+  return [p.title, p.state, p.destination, p.category, ...themes]
+    .flatMap((value) => String(value || "").split(/[•,|/]/).map((part) => part.trim()).filter(Boolean));
+}))].sort((a, b) => a.localeCompare(b));
 
 export const metadata: Metadata = {
   title: "Tour Packages | Only Road Trip",
@@ -50,17 +64,34 @@ const durationOptions = [["1-3", "1–3 Days"], ["4-6", "4–6 Days"], ["7+", "7
 function durationMatches(duration: string, filter: string) { const numbers = duration.match(/\d+/g)?.map(Number) ?? []; const days = numbers.length ? Math.max(...numbers) + (duration.toLowerCase().includes("night") ? 1 : 0) : 0; if (filter === "1-3") return days > 0 && days <= 3; if (filter === "4-6") return days >= 4 && days <= 6; return days >= 7; }
 
 export default async function PackagesPage({ searchParams }: { searchParams: Promise<SearchParams> | SearchParams }) {
-  const sp = await Promise.resolve(searchParams); const query = sp?.q?.trim().toLowerCase() ?? ""; const activeCategory = sp?.category; const activeState = sp?.state; const activeTheme = sp?.theme; const sort = sp?.sort; const minPrice = Number(sp?.minPrice || 0); const maxPrice = Number(sp?.maxPrice || 0); const duration = sp?.duration;
-  let filteredPackages = packageList;
-  if (query) filteredPackages = filteredPackages.filter((p) => p.rawSearch.includes(query));
-  if (activeCategory) filteredPackages = filteredPackages.filter((p) => p.category === activeCategory);
-  if (activeState) filteredPackages = filteredPackages.filter((p) => p.state === activeState);
-  if (activeTheme) { const terms = aliases[activeTheme.toLowerCase()] ?? [activeTheme.toLowerCase()]; filteredPackages = filteredPackages.filter((p) => terms.some((term) => p.rawSearch.includes(term))); }
-  if (minPrice > 0) filteredPackages = filteredPackages.filter((p) => p.price >= minPrice);
-  if (maxPrice > 0) filteredPackages = filteredPackages.filter((p) => p.price <= maxPrice);
-  if (duration) filteredPackages = filteredPackages.filter((p) => durationMatches(p.duration, duration));
-  if (sort === "price-low") filteredPackages = [...filteredPackages].sort((a, b) => a.price - b.price);
-  if (sort === "price-high") filteredPackages = [...filteredPackages].sort((a, b) => b.price - a.price);
+  const sp = await Promise.resolve(searchParams);
+  const query = sp?.q?.trim().toLowerCase() ?? "";
+  const activeCategory = sp?.category;
+  const activeState = sp?.state;
+  const activeTheme = sp?.theme;
+  const sort = sp?.sort;
+  const minPrice = Number(sp?.minPrice || 0);
+  const maxPrice = Number(sp?.maxPrice || 0);
+  const duration = sp?.duration;
+
+  // Filter lightweight raw package objects first. The previous version normalized every package
+  // (gallery + itinerary + hotels) before filtering, which was unnecessarily expensive on search requests.
+  let filteredRawPackages: RawPackage[] = packages as RawPackage[];
+  if (query) filteredRawPackages = filteredRawPackages.filter((p) => rawSearchText(p).includes(query));
+  if (activeCategory) filteredRawPackages = filteredRawPackages.filter((p) => (p.category ?? "Tour") === activeCategory);
+  if (activeState) filteredRawPackages = filteredRawPackages.filter((p) => (p.state ?? "") === activeState);
+  if (activeTheme) {
+    const terms = aliases[activeTheme.toLowerCase()] ?? [activeTheme.toLowerCase()];
+    filteredRawPackages = filteredRawPackages.filter((p) => terms.some((term) => rawSearchText(p).includes(term)));
+  }
+  if (minPrice > 0) filteredRawPackages = filteredRawPackages.filter((p) => Number(p.price ?? 0) >= minPrice);
+  if (maxPrice > 0) filteredRawPackages = filteredRawPackages.filter((p) => Number(p.price ?? 0) <= maxPrice);
+  if (duration) filteredRawPackages = filteredRawPackages.filter((p) => durationMatches(String(p.duration ?? ""), duration));
+  if (sort === "price-low") filteredRawPackages = [...filteredRawPackages].sort((a, b) => Number(a.price ?? 0) - Number(b.price ?? 0));
+  if (sort === "price-high") filteredRawPackages = [...filteredRawPackages].sort((a, b) => Number(b.price ?? 0) - Number(a.price ?? 0));
+
+  // Only build the expensive card-ready shape for packages that survived filtering.
+  const filteredPackages = filteredRawPackages.map(normalizePackage);
   const hasFilters = Boolean(query || activeCategory || activeState || activeTheme || duration || minPrice || maxPrice || sort);
 
   return <main className="min-h-screen bg-slate-50">
