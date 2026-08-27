@@ -23,6 +23,14 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/packages/:state",
+        destination: "/state-packages/:state",
+      },
+    ];
+  },
   async headers() {
     return [
       {
