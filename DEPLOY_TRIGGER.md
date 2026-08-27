@@ -2,4 +2,6 @@
 
 This file triggers a fresh Cloudflare Workers deployment for the connected `main` branch.
 
-Package route fix deployment trigger: 2026-08-12T19:42:00+05:30
+State landing pages deployment trigger: 2026-08-27T12:00:00+05:30
+
+Includes the current state landing pages and multi-state landing page routes on `main`.
