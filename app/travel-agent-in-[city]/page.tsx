@@ -4,19 +4,20 @@ const capitalize = (str: string) =>
   str.replace(/\b\w/g, (char) => char.toUpperCase());
 
 type Props = {
-  params: Promise<{ city: string }>;
+  params: Promise<{ city?: string }>;
 };
 
 export default async function DynamicCityPage({ params }: Props) {
   const { city } = await params;
-  const cityName = capitalize(city.replace(/-/g, " "));
+  const safeCity = city?.trim() || "India";
+  const cityName = capitalize(safeCity.replace(/-/g, " "));
 
   const localAgencySchema = {
     "@context": "https://schema.org",
     "@type": "TravelAgency",
-    "@id": `https://www.onlyroadtrip.com/travel-agent-in-${city}#travelagency`,
+    "@id": `https://www.onlyroadtrip.com/travel-agent-in-${safeCity}#travelagency`,
     "name": `Only Road Trip - ${cityName}`,
-    "url": `https://www.onlyroadtrip.com/travel-agent-in-${city}`,
+    "url": `https://www.onlyroadtrip.com/travel-agent-in-${safeCity}`,
     "telephone": "+919211796168",
     "email": "info@onlyroadtrip.com",
     "areaServed": {
