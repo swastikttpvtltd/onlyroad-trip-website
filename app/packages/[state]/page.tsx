@@ -1,6 +1,8 @@
-import { notFound } from "next/navigation";
 import Link from "next/link";
-import { rawPackages } from "@/data/packages";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import PackageCard from "@/components/PackageCard";
+import { packages } from "@/data/packages";
 
 const STATES = [
   { slug: "gujarat", name: "Gujarat" },
@@ -26,56 +28,59 @@ const STATES = [
   { slug: "multi-state", name: "Multi-State Tours" },
 ] as const;
 
+type Params = { params: Promise<{ state: string }> };
+
 export function generateStaticParams() {
   return STATES.map(({ slug }) => ({ state: slug }));
 }
 
-export function generateMetadata({ params }: { params: { state: string } }) {
-  const state = STATES.find((item) => item.slug === params.state);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { state: slug } = await params;
+  const state = STATES.find((item) => item.slug === slug);
   if (!state) return {};
   return {
     title: `${state.name} Tour Packages | Only Road Trip`,
     description: `Explore all live ${state.name} tour packages by Only Road Trip. Compare itineraries, inclusions, prices and book your next trip.`,
+    alternates: { canonical: `/packages/${state.slug}` },
+    robots: { index: true, follow: true },
   };
 }
 
-export default function StatePackagesPage({ params }: { params: { state: string } }) {
-  const state = STATES.find((item) => item.slug === params.state);
+export default async function StatePackagesPage({ params }: Params) {
+  const { state: slug } = await params;
+  const state = STATES.find((item) => item.slug === slug);
   if (!state) notFound();
 
-  const packages = rawPackages.filter((pkg: any) => {
-    if (state.slug === "multi-state") return !pkg.state;
-    const value = String(pkg.state ?? "").toLowerCase().trim();
+  const statePackages = packages.filter((pkg) => {
+    const value = String(pkg.state ?? "").trim().toLowerCase();
+    if (state.slug === "multi-state") return value === "multi-state";
     return value === state.name.toLowerCase() || (state.slug === "kashmir" && value === "jammu & kashmir");
   });
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-slate-50">
+      <section className="bg-gradient-to-br from-[#0f172a] via-[#172554] to-[#1e3a8a] pb-14 pt-32 text-white">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-300">Only Road Trip Experiences</p>
+          <h1 className="mt-3 text-4xl font-extrabold tracking-tight md:text-5xl">{state.name} Tour Packages</h1>
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-200">Explore our live {state.name} packages with complete itineraries, inclusions, stays, pricing and booking options.</p>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-700">Only Road Trip</p>
-          <h1 className="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">{state.name} Tour Packages</h1>
-          <p className="mt-3 max-w-3xl text-slate-600">Discover all currently available packages for {state.name}. Open any package to see the complete itinerary, inclusions, hotels, pricing and booking details.</p>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-blue-700">{statePackages.length} Packages Available</p>
+            <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">{state.name} Travel Packages</h2>
+          </div>
+          <Link href="/packages" className="rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-blue-600 hover:text-blue-700">View All Packages</Link>
         </div>
 
-        {packages.length === 0 ? (
-          <div className="rounded-2xl border border-slate-200 p-8 text-center text-slate-600">No live packages found for this destination yet.</div>
+        {statePackages.length === 0 ? (
+          <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-600">No live packages found for {state.name} yet.</div>
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {packages.map((pkg: any) => (
-              <Link key={pkg.slug ?? pkg.id ?? pkg.title} href={`/packages/${pkg.slug}`} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-                {pkg.image && <img src={pkg.image} alt={pkg.title} className="h-52 w-full object-cover" />}
-                <div className="p-5">
-                  <h2 className="text-xl font-bold text-slate-900 group-hover:text-blue-700">{pkg.title}</h2>
-                  {pkg.destination && <p className="mt-1 text-sm text-slate-500">{pkg.destination}</p>}
-                  {pkg.overview && <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{pkg.overview}</p>}
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="font-semibold text-slate-900">View Full Package</span>
-                    <span aria-hidden className="text-blue-700">→</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            {statePackages.map((pkg) => <PackageCard key={pkg.slug} pkg={pkg} />)}
           </div>
         )}
       </section>
