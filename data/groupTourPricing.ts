@@ -46,21 +46,13 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
     ];
   }
 
-  // Kedarnath single-yatra rate has not been supplied yet.
   return null;
 }
 
-export function getGroupTourStartingPrice(pkg: any): number | null {
-  return getGroupSharingRates(pkg)?.[0]?.price ?? null;
+export function getGroupTourStartingPrice(pkg: any): number {
+  return getGroupSharingRates(pkg)?.[0]?.price ?? 0;
 }
 
-/**
- * Pilgrimage group-tour departure season requested for the website:
- * - Current season: from the current August 2026 calendar through 22 Oct 2026.
- * - Next season: starts May 2027 and closes before 25 Oct 2027.
- * Weekly departures are Fridays; 22 Oct 2026 is also kept as the requested
- * season-closing date, even though it falls on Thursday.
- */
 export function getPilgrimageGroupTourDates() {
   const dates: string[] = [];
 
@@ -68,9 +60,7 @@ export function getPilgrimageGroupTourDates() {
     const cursor = new Date(`${start}T12:00:00`);
     const last = new Date(`${end}T12:00:00`);
     while (cursor <= last) {
-      if (cursor.getDay() === 5) {
-        dates.push(cursor.toISOString().slice(0, 10));
-      }
+      if (cursor.getDay() === 5) dates.push(cursor.toISOString().slice(0, 10));
       cursor.setDate(cursor.getDate() + 1);
     }
   };
