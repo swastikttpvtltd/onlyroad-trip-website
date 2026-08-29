@@ -14,7 +14,7 @@ const googleTagManagerId = "GTM-MX42J8KW";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: { default: "Only Road Trip | Premium Tours & Travel Company in India", template: "%s | Only Road Trip" },
-  description: "Explore India with Only Road Trip. Premium pilgrimage tours, domestic holidays, luxury road trips, corporate travel, family vacations and customized travel packages across India.",
+  description: "Explore India with Only Road Trip for premium pilgrimage tours, domestic holidays, road trips, family vacations and customized travel packages.",
   keywords: ["Only Road Trip", "Swastik Tour And Travels", "India Tour Packages", "Pilgrimage Tours", "Kedarnath Package", "Char Dham Yatra", "Amarnath Yatra", "Vaishno Devi Tour", "Leh Ladakh Tour", "Kashmir Tour", "Manali Tour", "Goa Tour", "Kerala Tour", "Corporate Travel", "Luxury Road Trips", "Family Holidays", "Senior Citizen Tours"],
   authors: [{ name: "Swastik Tour And Travels Private Limited" }],
   creator: "Swastik Tour And Travels Private Limited",
