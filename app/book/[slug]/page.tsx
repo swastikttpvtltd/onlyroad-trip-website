@@ -5,6 +5,13 @@ import { notFound } from "next/navigation";
 
 type Props={params:Promise<{slug:string}>;searchParams?:Promise<{departureDate?:string;arrivalDate?:string}>};
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 function isGroupTour(pkg:any){
  const text=`${pkg?.packageId??""} ${pkg?.title??""} ${pkg?.category??""} ${pkg?.duration??""} ${(pkg?.themes??[]).join(" ")}`.toLowerCase();
  return text.includes("group tour") || text.includes("group-tour") || text.includes("group") || (text.includes("weekend") && text.includes("2 nights / 3 days"));
