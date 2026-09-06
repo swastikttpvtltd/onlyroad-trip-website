@@ -1,6 +1,13 @@
 import PaymentSelection from "@/components/PaymentSelection";
 import { packages } from "@/data/packages";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 export default async function PaymentPage({
   searchParams,
 }: {
