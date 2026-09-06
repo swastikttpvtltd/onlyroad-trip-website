@@ -4,6 +4,10 @@ import { packages } from "@/data/packages";
 
 interface Props { state: string; }
 
+const PACKAGE_ROUTE_SLUGS: Record<string, string> = {
+  "Andaman & Nicobar Islands": "andaman-nicobar", "Andhra Pradesh": "andhra-pradesh", "Assam": "assam", "Goa": "goa", "Gujarat": "gujarat", "Himachal Pradesh": "himachal-pradesh", "Karnataka": "karnataka", "Kashmir": "kashmir", "Kerala": "kerala", "Ladakh": "ladakh", "Madhya Pradesh": "madhya-pradesh", "Maharashtra": "maharashtra", "Meghalaya": "meghalaya", "Multi-State Tours": "multi-state", "Punjab": "punjab", "Rajasthan": "rajasthan", "Sikkim": "sikkim", "Tamil Nadu": "tamil-nadu", "Uttar Pradesh": "uttar-pradesh", "Uttarakhand": "uttarakhand", "West Bengal": "west-bengal"
+};
+
 export default function StatePackagesLanding({ state }: Props) {
   const statePackages = packages.filter((pkg) => {
     const value = String(pkg.state ?? "").trim().toLowerCase();
@@ -12,7 +16,7 @@ export default function StatePackagesLanding({ state }: Props) {
     return value === state.toLowerCase();
   });
   const baseUrl = "https://www.onlyroadtrip.com";
-  const slug = state.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const slug = PACKAGE_ROUTE_SLUGS[state] ?? state.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const pageUrl = `${baseUrl}/packages/${slug}`;
   const schema = { "@context": "https://schema.org", "@graph": [
     { "@type": "BreadcrumbList", "itemListElement": [
