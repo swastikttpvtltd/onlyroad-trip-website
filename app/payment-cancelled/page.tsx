@@ -3,6 +3,10 @@ import Link from "next/link";
 export const metadata = {
   title: "Payment Cancelled | Only Road Trip",
   description: "Your payment was cancelled. Return to Only Road Trip to try again.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function PaymentCancelledPage() {
