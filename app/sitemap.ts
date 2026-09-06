@@ -13,9 +13,6 @@ const staticPages = [
   "corporate-travel",
   "corporate-mice-travel",
   "solo-women-travel-packages",
-  "char-dham-yatra-package",
-  "kedarnath-yatra-package",
-  "kashi-yatra-package",
   "ayodhya-yatra-package",
   "jyotirlinga-yatra",
   "plan-your-trip",
@@ -53,60 +50,31 @@ const legalPages = new Set([
   "cookie-policy",
   "disclaimer",
   "terms-and-conditions",
+  "booking-policy",
+  "cancellation-policy",
+  "refund-policy",
 ]);
 
-function makePage(
-  path: string,
-  priority: number,
-  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly",
-): MetadataRoute.Sitemap[number] {
-  return {
-    url: path ? `${baseUrl}/${path}` : baseUrl,
-    lastModified: new Date(),
-    changeFrequency,
-    priority,
-  };
+function makePage(path: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly"): MetadataRoute.Sitemap[number] {
+  return { url: path ? `${baseUrl}/${path}` : baseUrl, lastModified: new Date(), changeFrequency, priority };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries = staticPages.map((path) => {
     if (path === "") return makePage(path, 1, "weekly");
     if (legalPages.has(path)) return makePage(path, 0.2, "yearly");
-    if (
-      [
-        "char-dham-yatra-package",
-        "kedarnath-yatra-package",
-        "kashi-yatra-package",
-        "ayodhya-yatra-package",
-      ].includes(path)
-    ) {
-      return makePage(path, 0.95, "weekly");
-    }
+    if (path === "jyotirlinga-yatra") return makePage(path, 0.9, "weekly");
+    if (path === "ayodhya-yatra-package") return makePage(path, 0.95, "weekly");
     return makePage(path, 0.8, "weekly");
   });
 
-  const destinationEntries = destinationSlugs.map((slug) =>
-    makePage(`destinations/${slug}`, 0.85, "weekly"),
-  );
+  const destinationEntries = destinationSlugs.map((slug) => makePage(`destinations/${slug}`, 0.85, "weekly"));
+  const packageEntries = packages.filter((pkg) => Boolean(pkg?.slug)).map((pkg) => makePage(`packages/${pkg.slug}`, 0.9, "weekly"));
+  const seoEntries = Object.keys(seoPages).filter(Boolean).map((slug) => makePage(slug, 0.9, "weekly"));
 
-  const packageEntries = packages
-    .filter((pkg) => Boolean(pkg?.slug))
-    .map((pkg) => makePage(`packages/${pkg.slug}`, 0.9, "weekly"));
-
-  const seoEntries = Object.keys(seoPages)
-    .filter(Boolean)
-    .map((slug) => makePage(slug, 0.9, "weekly"));
-
-  // Keep every public URL only once.
   const unique = new Map<string, MetadataRoute.Sitemap[number]>();
-  for (const entry of [
-    ...staticEntries,
-    ...destinationEntries,
-    ...packageEntries,
-    ...seoEntries,
-  ]) {
+  for (const entry of [...staticEntries, ...destinationEntries, ...packageEntries, ...seoEntries]) {
     if (!unique.has(entry.url)) unique.set(entry.url, entry);
   }
-
   return Array.from(unique.values());
 }
