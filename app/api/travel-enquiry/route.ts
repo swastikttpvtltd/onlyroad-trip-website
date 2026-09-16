@@ -48,23 +48,23 @@ export async function POST(request: Request) {
       return undefined;
     };
 
-    // Support both the current SMTP_* names and the existing Zoho variable
-    // names already used by the Cloudflare deployment/environment template.
-    const host = readEnv("SMTP_HOST", "ZOHO_SMTP_HOST") || "smtp.zoho.in";
-    const port = Number(readEnv("SMTP_PORT", "ZOHO_SMTP_PORT") || "465");
+    // Gmail SMTP configuration. Values can be supplied through Cloudflare
+    // environment variables; safe defaults are provided for the public settings.
+    const host = readEnv("SMTP_HOST") || "smtp.gmail.com";
+    const port = Number(readEnv("SMTP_PORT") || "465");
     const secure = String(readEnv("SMTP_SECURE") ?? (port === 465)).toLowerCase() === "true";
-    const user = readEnv("SMTP_USER", "ZOHO_SMTP_USER");
-    const pass = readEnv("SMTP_PASSWORD", "ZOHO_SMTP_PASSWORD");
-    const from = readEnv("SMTP_FROM", "ENQUIRY_TO_EMAIL", "ZOHO_FROM_EMAIL") || user;
-    const to = readEnv("SMTP_TO", "ENQUIRY_TO_EMAIL", "TRAVEL_ENQUIRY_TO") || "info@onlyroadtrip.com";
+    const user = readEnv("SMTP_USER") || "swastikttpvtltd@gmail.com";
+    const pass = readEnv("SMTP_PASSWORD");
+    const from = readEnv("SMTP_FROM") || user;
+    const to = readEnv("SMTP_TO") || "swastikttpvtltd@gmail.com";
     const cc = readEnv("SMTP_CC", "ENQUIRY_CC_EMAIL", "TRAVEL_ENQUIRY_CC") || undefined;
 
     const missing: string[] = [];
-    if (!host) missing.push("SMTP_HOST / ZOHO_SMTP_HOST");
-    if (!port) missing.push("SMTP_PORT / ZOHO_SMTP_PORT");
-    if (!user) missing.push("SMTP_USER / ZOHO_SMTP_USER");
-    if (!pass) missing.push("SMTP_PASSWORD / ZOHO_SMTP_PASSWORD");
-    if (!from) missing.push("SMTP_FROM / ZOHO_FROM_EMAIL");
+    if (!host) missing.push("SMTP_HOST");
+    if (!port) missing.push("SMTP_PORT");
+    if (!user) missing.push("SMTP_USER");
+    if (!pass) missing.push("SMTP_PASSWORD (Gmail App Password)");
+    if (!from) missing.push("SMTP_FROM");
 
     if (missing.length > 0) {
       console.error("Travel enquiry email configuration missing:", missing);
