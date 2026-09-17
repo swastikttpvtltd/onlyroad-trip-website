@@ -17,7 +17,7 @@ export default function AboutHero() {
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/75 to-slate-900/50" />
 
       {/* Content */}
-      <div className="relative mx-auto flex h-full max-w-7xl items-center px-6">
+      <div className="relative mx-auto flex h-full max-w-7xl items-center px-6 pt-24">
         <div className="max-w-3xl">
 
           <span className="rounded-full bg-cyan-500/20 px-5 py-2 text-sm font-semibold tracking-wide text-cyan-300 backdrop-blur">
@@ -48,7 +48,7 @@ export default function AboutHero() {
 
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-8 py-4 font-semibold text-white transition hover:bg-white hover:text-slate-900"
+              className="inline-flex items-center gap-2 rounded-full bg-cyan-500 px-8 py-4 font-semibold text-white transition hover:bg-cyan-600"
             >
               Contact Us
               <ArrowRight size={18} />
