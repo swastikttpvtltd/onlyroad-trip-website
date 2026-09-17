@@ -78,6 +78,7 @@ export default function PackageGallerySlider({
                   alt={slide.alt || buildImageAlt(title, sourceImage, index)}
                   className="block h-full w-full object-contain object-center"
                   loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : "auto"}
                   decoding="async"
                   onError={(event) => {
                     const image = event.currentTarget;
