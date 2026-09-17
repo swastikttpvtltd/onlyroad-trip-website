@@ -63,13 +63,23 @@ const legalPages = new Set([
   "terms-and-conditions",
 ]);
 
+function normalizeSlug(value: unknown): string {
+  return String(value ?? "").trim().toLowerCase();
+}
+
 function makePage(
   path: string,
   priority: number,
   changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly",
 ): MetadataRoute.Sitemap[number] {
+  const normalizedPath = path
+    .split("/")
+    .map((segment) => normalizeSlug(segment))
+    .filter(Boolean)
+    .join("/");
+
   return {
-    url: path ? `${baseUrl}/${path}` : baseUrl,
+    url: normalizedPath ? `${baseUrl}/${normalizedPath}` : `${baseUrl}/`,
     lastModified: new Date(),
     changeFrequency,
     priority,
@@ -95,15 +105,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return makePage(path, 0.8, "weekly");
   });
 
-  const destinationEntries = destinationSlugs.map((slug) =>
-    makePage(`destinations/${slug}`, 0.85, "weekly"),
-  );
+  const destinationEntries = destinationSlugs
+    .map((slug) => normalizeSlug(slug))
+    .filter(Boolean)
+    .map((slug) => makePage(`destinations/${slug}`, 0.85, "weekly"));
 
   const packageEntries = packages
-    .filter((pkg) => Boolean(pkg?.slug))
-    .map((pkg) => makePage(`packages/${pkg.slug}`, 0.9, "weekly"));
+    .map((pkg) => normalizeSlug(pkg?.slug))
+    .filter(Boolean)
+    .map((slug) => makePage(`packages/${slug}`, 0.9, "weekly"));
 
   const seoEntries = Object.keys(seoPages)
+    .map((slug) => normalizeSlug(slug))
     .filter(Boolean)
     .map((slug) => makePage(slug, 0.9, "weekly"));
 
