@@ -124,13 +124,26 @@ const ultraPremiumSchema = {
         "https://in.pinterest.com/onlyroadtrip/"
       ],
       "knowsAbout": [
-        "Sacred Pilgrimage Tours",
-        "Himalayan Road Trips",
-        "Char Dham Yatra",
+        "Travel Agency Services",
+        "Travel Management",
+        "Domestic Tourism",
+        "Domestic Tour Packages",
+        "Pilgrimage Tours",
+        "Spiritual Tourism",
+        "Road Trips",
+        "Adventure Travel",
         "Wildlife Safaris",
+        "Mountain Travel",
+        "Beach Holidays",
+        "Cultural and Heritage Travel",
+        "Family Holidays",
+        "Solo Travel",
+        "Women Travel",
+        "Senior Citizen Travel",
+        "Accessible and Inclusive Travel",
         "Corporate Travel Management",
-        "Customized Tour Packages",
-        "Women Special Travels"
+        "MICE Travel",
+        "Customized Travel Planning"
       ],
       "areaServed": {
         "@type": "Country",
@@ -177,7 +190,23 @@ const ultraPremiumSchema = {
             ]
           }
         ]
-      }
+      },
+      "serviceType": [
+        "Domestic Travel",
+        "Pilgrimage Tours",
+        "Spiritual Travel",
+        "Road Trips",
+        "Adventure Travel",
+        "Wildlife Travel",
+        "Family Holidays",
+        "Solo Travel",
+        "Women Travel",
+        "Senior Citizen Travel",
+        "Accessible Travel",
+        "Corporate Travel",
+        "MICE Travel",
+        "Customized Travel"
+      ]
     },
     {
       "@type": "WebSite",
