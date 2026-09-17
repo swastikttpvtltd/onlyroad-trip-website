@@ -20,6 +20,27 @@ export default function Footer() {
               We deliver premium holidays, customized road trips, hotel bookings, flight reservations,
               pilgrimage tours and corporate travel across India.
             </p>
+            <div className="mt-5">
+              <h3 className="mb-3 text-sm font-semibold">Follow Only Road Trip</h3>
+              <div className="flex flex-wrap gap-2">
+                <a href="https://www.instagram.com/onlyroadtrip.official" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Instagram" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true"><path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.1 2A3.7 3.7 0 0 0 4 7.7v8.6A3.7 3.7 0 0 0 7.7 20h8.6a3.7 3.7 0 0 0 3.7-3.7V7.7A3.7 3.7 0 0 0 16.3 4H7.7Zm8.9 1.5a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+                  Instagram
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61587958079412" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Facebook" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true"><path d="M13.5 22v-8h2.8l.4-3h-3.2V9.1c0-.9.3-1.5 1.6-1.5h1.7V4.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V11H7.3v3h2.8v8h3.4Z"/></svg>
+                  Facebook
+                </a>
+                <a href="https://www.linkedin.com/company/only-road-trip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on LinkedIn" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true"><path d="M5.2 3.8A2.2 2.2 0 1 1 5.2 8a2.2 2.2 0 0 1 0-4.2ZM3.4 9.5h3.6V21H3.4V9.5Zm5.8 0h3.5v1.6h.1c.5-.9 1.7-1.9 3.6-1.9 3.8 0 4.5 2.5 4.5 5.8V21h-3.6v-5.3c0-1.3 0-3.1-1.9-3.1s-2.2 1.5-2.2 3V21H9.2V9.5Z"/></svg>
+                  LinkedIn
+                </a>
+                <a href="https://in.pinterest.com/onlyroadtrip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Pinterest" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.7 19.3c-.1-1.6 0-3.4.4-4.9l1.2-5.1s-.3-.7-.3-1.7c0-1.6.9-2.8 2-2.8.9 0 1.4.7 1.4 1.6 0 1-.6 2.4-.9 3.7-.3 1.1.6 2 1.7 2 2.1 0 3.5-2.2 3.5-5.3 0-2.8-2-4.8-5-4.8-3.4 0-5.4 2.5-5.4 5.1 0 1 .4 2 .9 2.6.1.1.1.2.1.4l-.3 1.2c-.1.4-.4.5-.7.3-1.4-.6-2.2-2.5-2.2-4 0-3.3 2.4-7.9 8.7-7.9 4.6 0 7.7 3.3 7.7 6.8 0 4.7-2.6 8.2-6.4 8.2-1.3 0-2.6-.7-3-1.5l-.8 3.1c-.3 1.1-1 2.5-1.5 3.4A10 10 0 1 0 12 2Z"/></svg>
+                  Pinterest
+                </a>
+              </div>
+            </div>
           </div>
 
           <div>
@@ -68,24 +89,6 @@ export default function Footer() {
             <div className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Call Us</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div></div>
             <div className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Email</p><a href="mailto:info@onlyroadtrip.com" className="text-xs text-gray-300 hover:text-cyan-400">info@onlyroadtrip.com</a></div></div>
             <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div></div>
-          </div>
-        </div>
-
-        <div className="mt-6 border-t border-white/10 pt-5">
-          <h3 className="mb-4 text-center text-base font-semibold">Follow Only Road Trip</h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a href="https://www.instagram.com/onlyroadtrip.official" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Instagram" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <span className="font-semibold">Instagram</span>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61587958079412" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Facebook" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <span className="font-semibold">Facebook</span>
-            </a>
-            <a href="https://www.linkedin.com/company/only-road-trip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on LinkedIn" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <span className="font-semibold">LinkedIn</span>
-            </a>
-            <a href="https://in.pinterest.com/onlyroadtrip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Pinterest" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <span className="font-bold text-base leading-none">P</span> Pinterest
-            </a>
           </div>
         </div>
 
