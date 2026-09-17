@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ShieldCheck, Instagram, Facebook, Linkedin, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -68,6 +68,24 @@ export default function Footer() {
             <div className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Call Us</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div></div>
             <div className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Email</p><a href="mailto:info@onlyroadtrip.com" className="text-xs text-gray-300 hover:text-cyan-400">info@onlyroadtrip.com</a></div></div>
             <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div></div>
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-white/10 pt-5">
+          <h3 className="mb-4 text-center text-base font-semibold">Follow Only Road Trip</h3>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a href="https://www.instagram.com/onlyroadtrip.official" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Instagram" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+              <Instagram className="h-4 w-4" /> Instagram
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61587958079412" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Facebook" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+              <Facebook className="h-4 w-4" /> Facebook
+            </a>
+            <a href="https://www.linkedin.com/company/only-road-trip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on LinkedIn" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+              <Linkedin className="h-4 w-4" /> LinkedIn
+            </a>
+            <a href="https://in.pinterest.com/onlyroadtrip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Pinterest" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
+              <span className="font-bold text-base leading-none">P</span> Pinterest
+            </a>
           </div>
         </div>
 
