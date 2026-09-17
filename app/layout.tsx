@@ -14,20 +14,54 @@ const googleTagManagerId = "GTM-MX42J8KW";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
-  title: { default: "Only Road Trip | Premium Tours & Travel Company in India", template: "%s | Only Road Trip" },
-  description: "Explore India with Only Road Trip. Premium pilgrimage tours, domestic holidays, luxury road trips, corporate travel, family vacations and customized travel packages across India.",
-  keywords: ["Only Road Trip", "Swastik Tour And Travels", "India Tour Packages", "Pilgrimage Tours", "Kedarnath Package", "Char Dham Yatra", "Amarnath Yatra", "Vaishno Devi Tour", "Leh Ladakh Tour", "Kashmir Tour", "Manali Tour", "Goa Tour", "Kerala Tour", "Corporate Travel", "Luxury Road Trips", "Family Holidays", "Senior Citizen Tours"],
+  title: {
+    default: "Only Road Trip | Premium Tours & Travel Company in India",
+    template: "%s | Only Road Trip",
+  },
+  description:
+    "Explore India with Only Road Trip through thoughtfully curated pilgrimage tours, domestic holidays, road trips, corporate travel, family vacations and customized travel packages.",
   authors: [{ name: "Swastik Tour And Travels Private Limited" }],
-  creator: "Swastik Tour And Travels Private Limited",
+  creator: "Only Road Trip",
   publisher: "Swastik Tour And Travels Private Limited",
-  alternates: { canonical: "/" },
-  openGraph: { title: "Only Road Trip | Premium Tours & Travel Company in India", description: "Premium pilgrimage tours, luxury road trips, corporate travel and customized holiday packages across India.", url: baseUrl, siteName: "Only Road Trip", locale: "en_IN", type: "website", images: [{ url: socialImage, alt: "Only Road Trip" }] },
-  twitter: { card: "summary_large_image", title: "Only Road Trip", description: "Premium Tours & Customized Holidays Across India.", images: [socialImage] },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-video-preview": -1, "max-snippet": -1 } },
-  icons: { icon: "/favicon.ico" },
-  manifest: "/site.webmanifest",
   applicationName: "Only Road Trip",
   category: "Travel",
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: baseUrl,
+    siteName: "Only Road Trip",
+    title: "Only Road Trip | Premium Tours & Travel Company in India",
+    description:
+      "Thoughtfully curated pilgrimage tours, domestic holidays, road trips, corporate travel and customized travel experiences across India.",
+    images: [
+      {
+        url: socialImage,
+        alt: "Only Road Trip - Premium Travel Experiences Across India",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Only Road Trip | Premium Tours & Travel Company in India",
+    description:
+      "Thoughtfully curated tours, road trips, pilgrimage journeys and customized travel experiences across India.",
+    images: [socialImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+      "max-snippet": -1,
+    },
+  },
+  icons: { icon: "/favicon.ico" },
+  manifest: "/site.webmanifest",
   referrer: "origin-when-cross-origin",
 };
 
@@ -137,7 +171,7 @@ const ultraPremiumSchema = {
       "@id": "https://www.onlyroadtrip.com/#website",
       "url": "https://www.onlyroadtrip.com/",
       "name": "Only Road Trip",
-      "description": "Premium customized road trips, pilgrimage tours, and corporate offsites across India.",
+      "description": "Premier door-to-door road trip & travel management company in India.",
       "publisher": {
         "@id": "https://www.onlyroadtrip.com/#organization"
       },
@@ -162,7 +196,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-MX42J8KW');
+      })(window,document,'script','dataLayer','${googleTagManagerId}');
     `,
           }}
         />
@@ -176,7 +210,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-full flex flex-col bg-white text-gray-900">
         <noscript>
           <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-MX42J8KW"
+            src={`https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}`}
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
