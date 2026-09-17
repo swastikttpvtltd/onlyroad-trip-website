@@ -133,7 +133,7 @@ function packageStructuredData(
       }))
     : [];
 
-  return {
+  const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "TouristTrip",
     "@id": `${canonicalUrl}#tourist-trip`,
@@ -155,15 +155,6 @@ function packageStructuredData(
       name: "Only Road Trip",
       url: baseUrl,
     },
-    offers: pkg.price
-      ? {
-          "@type": "Offer",
-          priceCurrency: "INR",
-          price: String(pkg.price).replace(/[^0-9]/g, ""),
-          availability: "https://schema.org/InStock",
-          url: canonicalUrl,
-        }
-      : undefined,
     itinerary: {
       "@type": "ItemList",
       name: `${cleanText(pkg.title)} Itinerary`,
@@ -177,6 +168,22 @@ function packageStructuredData(
       name: cleanText(state.name),
     },
   };
+
+  if (pkg.price) {
+    const numericPrice = String(pkg.price).replace(/[^0-9.]/g, "");
+
+    if (numericPrice) {
+      schema.offers = {
+        "@type": "Offer",
+        priceCurrency: "INR",
+        price: numericPrice,
+        availability: "https://schema.org/InStock",
+        url: canonicalUrl,
+      };
+    }
+  }
+
+  return schema;
 }
 
 export function generateStaticParams() {
