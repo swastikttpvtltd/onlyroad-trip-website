@@ -306,23 +306,38 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const { slug } = await params;
   const normalizedSlug = normalizeSlug(slug);
   const pkg = packages.find((item) => normalizeSlug(item.slug) === normalizedSlug) as PackageItem | undefined;
+
   if (!pkg) notFound();
-  const image = heroImage(pkg);
+
+  const state = getStateDetails(cleanText(pkg.state));
   const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
-  const state = getStateDetails(pkg.state);
-  const planningNotes = travelPlanningNotes(state);
+  const rating = numberField(pkg, "rating");
+  const reviews = numberField(pkg, "reviews");
   const faqs = faqItems(pkg, state);
+  const planningNotes = travelPlanningNotes(state);
   const relatedLinks = relatedTravelLinks(pkg);
-  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) };
-  const packageSchema = packageStructuredData(pkg, state, normalizedSlug);
-  const isSpiritualTriangle = normalizeSlug(pkg.slug) === "varanasi-prayagraj-ayodhya";
+  const isSpiritualTriangle = /kashi|varanasi/i.test(cleanText(pkg.title)) && /ayodhya|prayagraj|allahabad/i.test(cleanText(pkg.destination));
+
+  const structuredData = packageStructuredData(pkg, state, normalizedSlug);
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
 
   return (
-    <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(packageSchema) }} />
-      <section className="relative h-[430px] overflow-hidden"><Image src={image} alt={pkg.title} fill priority sizes="100vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" /><div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="flex h-full items-end pb-10 sm:pb-12"><div className="max-w-4xl text-white"><div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div><p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p></div></div></div></section>
+    <main className="bg-slate-50 text-slate-900">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <section className="relative h-[430px] overflow-hidden"><Image src={heroImage(pkg)} alt={pkg.title} fill priority sizes="100vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" /><div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="flex h-full items-end pb-10 sm:pb-12"><div className="max-w-4xl text-white"><div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div><p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p></div></div></div></section>
       <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals'], ['faqs', 'FAQ']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]"><div className="space-y-7">
         <section className="grid grid-cols-2 gap-3 rounded-2xl bg-white p-5 shadow-sm md:grid-cols-4"><Fact label="Package ID" value={String(pkg.packageId ?? "—")} /><Fact label="Duration" value={String(pkg.duration ?? "—")} /><Fact label="Destination" value={String(pkg.destination ?? "—")} /><Fact label="Best Time" value={String(pkg.bestTime ?? "—")} /></section>
@@ -333,13 +348,9 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
         <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p><p className="mt-1 text-sm text-slate-500">{hotel.category}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
         <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>
-        <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</ContentCard>
+        <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</div></ContentCard>
         {relatedLinks.length > 0 ? <ContentCard title="Explore Related Travel"><div className="flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold"><span className="text-slate-500">Related journeys:</span>{relatedLinks.map((link) => <Link key={link.href} href={link.href} className="text-blue-800 hover:text-orange-600 hover:underline">{link.label}</Link>)}</div></ContentCard> : null}
       </div><aside className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
     </main>
   );
 }
-
-function Fact({ label, value }: { label: string; value: string }) { return <div className="rounded-xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-wider text-slate-500">{label}</p><p className="mt-2 font-bold text-slate-900">{value}</p></div>; }
-function ContentCard({ id, title, children }: { id?: string; title: string; children: ReactNode }) { return <section id={id} className="rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900">{title}</h2><div className="mt-5">{children}</div></section>; }
-function InfoColumn({ title, children }: { title: string; children: ReactNode }) { return <div><h3 className="mb-3 text-lg font-bold text-slate-900">{title}</h3><div className="space-y-3">{children}</div></div>; }
