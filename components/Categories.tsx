@@ -30,7 +30,7 @@ export default function Categories() {
         <div className="relative px-8 md:px-10">
           <button type="button" className="categories-prev absolute left-0 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-md transition hover:scale-105 hover:bg-slate-50" aria-label="Previous travel category"><ChevronLeft size={20} /></button>
 
-          <Swiper modules={[Navigation, Pagination, Autoplay]} navigation={{ prevEl: ".categories-prev", nextEl: ".categories-next" }} pagination={{ clickable: true }} autoplay={{ delay: 4500, disableOnInteraction: false }} loop={categories.length > 6} centerInsufficientSlides={true} spaceBetween={16} slidesPerView={1.15} breakpoints={{ 640: { slidesPerView: 2 }, 900: { slidesPerView: 3 }, 1200: { slidesPerView: 4 }, 1450: { slidesPerView: 6 } }} className="categories-swiper !pb-9">
+          <Swiper modules={[Navigation, Pagination, Autoplay]} navigation={{ prevEl: ".categories-prev", nextEl: ".categories-next" }} pagination={{ clickable: true }} autoplay={{ delay: 4500, disableOnInteraction: false }} loop={categories.length > 6} centerInsufficientSlides={true} spaceBetween={16} slidesPerView={1.15} breakpoints={{ 640: { slidesPerView: 2 }, 900: { slidesPerView: 3 }, 1200: { slidesPerView: 4 }, 1450: { slidesPerView: 5 } }} className="categories-swiper !pb-9">
             {categories.map((category) => {
               const Icon = icons[category.icon as keyof typeof icons];
               return (
