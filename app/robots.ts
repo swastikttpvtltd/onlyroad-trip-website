@@ -47,3 +47,5 @@ export default function robots(): MetadataRoute.Robots {
     host: baseUrl,
   };
 }
+
+// Keep the current production branch deployment in sync with the latest fixed package-page source.
