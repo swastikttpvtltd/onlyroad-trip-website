@@ -95,7 +95,7 @@ const ultraPremiumSchema = {
         "propertyID": "CIN",
         "value": "U52291HR2025PTC132225"
       },
-      "description": "Premium travel management platform specializing in handcrafted domestic journeys across India. Offering 24/7 support, verified accommodations, customized road trips, sacred pilgrimage tours, wildlife safaris, and specialized itineraries for women and corporate clients.",
+      "description": "Only Road Trip is a premium travel brand and travel management company offering customized domestic tours, pilgrimage journeys, road trips, adventure and wildlife travel, family holidays, solo and women travel, accessible travel, corporate travel and MICE services across India.",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "F163, Phase-1 New Palam Vihar",
