@@ -76,7 +76,9 @@ const ultraPremiumSchema = {
       ],
       "sameAs": [
         "https://www.facebook.com/profile.php?id=61587958079412",
-        "https://www.instagram.com/onlyroadtrip.official"
+        "https://www.instagram.com/onlyroadtrip.official",
+        "https://www.linkedin.com/company/only-road-trip/",
+        "https://in.pinterest.com/onlyroadtrip/"
       ],
       "knowsAbout": [
         "Sacred Pilgrimage Tours",
