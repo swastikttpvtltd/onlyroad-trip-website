@@ -74,6 +74,7 @@ const ultraPremiumSchema = {
       "@type": "TravelAgency",
       "@id": "https://www.onlyroadtrip.com/#organization",
       "name": "Only Road Trip",
+      "alternateName": "ONLYROADTRIP",
       "legalName": "Swastik Tour And Travels Private Limited",
       "url": "https://www.onlyroadtrip.com",
       "logo": {
@@ -89,7 +90,11 @@ const ultraPremiumSchema = {
       "currenciesAccepted": "INR",
       "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking, Cash",
       "duns": "771608667",
-      "taxID": "U52291HR2025PTC132225",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "CIN",
+        "value": "U52291HR2025PTC132225"
+      },
       "description": "Premium travel management platform specializing in handcrafted domestic journeys across India. Offering 24/7 support, verified accommodations, customized road trips, sacred pilgrimage tours, wildlife safaris, and specialized itineraries for women and corporate clients.",
       "address": {
         "@type": "PostalAddress",
