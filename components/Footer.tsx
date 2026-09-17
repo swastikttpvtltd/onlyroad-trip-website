@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, ShieldCheck, Instagram, Facebook, Linkedin, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -75,13 +75,13 @@ export default function Footer() {
           <h3 className="mb-4 text-center text-base font-semibold">Follow Only Road Trip</h3>
           <div className="flex flex-wrap justify-center gap-3">
             <a href="https://www.instagram.com/onlyroadtrip.official" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Instagram" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <Instagram className="h-4 w-4" /> Instagram
+              <span className="font-semibold">Instagram</span>
             </a>
             <a href="https://www.facebook.com/profile.php?id=61587958079412" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Facebook" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <Facebook className="h-4 w-4" /> Facebook
+              <span className="font-semibold">Facebook</span>
             </a>
             <a href="https://www.linkedin.com/company/only-road-trip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on LinkedIn" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
-              <Linkedin className="h-4 w-4" /> LinkedIn
+              <span className="font-semibold">LinkedIn</span>
             </a>
             <a href="https://in.pinterest.com/onlyroadtrip/" target="_blank" rel="noopener noreferrer" aria-label="Only Road Trip on Pinterest" className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-gray-200 transition hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-cyan-300">
               <span className="font-bold text-base leading-none">P</span> Pinterest
