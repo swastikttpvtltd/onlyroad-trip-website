@@ -151,6 +151,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <meta name="p:domain_verify" content="e69d8f969be01f0e5597ae44e796e43d" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
