@@ -48,6 +48,10 @@ function getStateDetails(state: string): StateDetails {
   return stateDetails[normalized] ?? { name: normalized || "India", famousFor: `${normalized || "This destination"} is known for its distinctive landscapes, culture, heritage, local cuisine and travel experiences.` };
 }
 
+function normalizeSlug(value: unknown): string {
+  return String(value ?? "").trim().toLowerCase();
+}
+
 function heroImage(pkg: PackageItem): string {
   return String(pkg?.image ?? pkg?.hero?.image ?? "/images/package-placeholder.jpg");
 }
@@ -111,7 +115,8 @@ function packageStructuredData(
   slug: string
 ) {
   const baseUrl = "https://www.onlyroadtrip.com";
-  const canonicalUrl = `${baseUrl}/packages/${encodeURIComponent(slug)}`;
+  const normalizedSlug = normalizeSlug(slug);
+  const canonicalUrl = `${baseUrl}/packages/${encodeURIComponent(normalizedSlug)}`;
   const image = heroImage(pkg);
 
   const itineraryItems = Array.isArray(pkg.itinerary)
@@ -187,14 +192,17 @@ function packageStructuredData(
 }
 
 export function generateStaticParams() {
-  return packages.map((pkg) => ({ slug: String(pkg.slug) })).filter((item) => item.slug);
+  return packages
+    .map((pkg) => ({ slug: normalizeSlug(pkg.slug) }))
+    .filter((item) => item.slug);
 }
 
 export const dynamicParams = false;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
+  const normalizedSlug = normalizeSlug(slug);
+  const pkg = packages.find((item) => normalizeSlug(item.slug) === normalizedSlug) as PackageItem | undefined;
 
   if (!pkg) {
     return {
@@ -206,7 +214,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const title = cleanText(pkg.title) || "India Tour Package";
   const state = getStateDetails(cleanText(pkg.state));
   const description = metadataDescription(pkg, state);
-  const canonicalPath = `/packages/${encodeURIComponent(slug)}`;
+  const canonicalPath = `/packages/${encodeURIComponent(normalizedSlug)}`;
   const canonicalUrl = `${baseUrl}${canonicalPath}`;
   const image = heroImage(pkg);
   const seoKeywords: string[] = Array.isArray(pkg.seoKeywords)
@@ -256,7 +264,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PackageDetailsPage({ params }: PageProps) {
   const { slug } = await params;
-  const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
+  const normalizedSlug = normalizeSlug(slug);
+  const pkg = packages.find((item) => normalizeSlug(item.slug) === normalizedSlug) as PackageItem | undefined;
   if (!pkg) notFound();
   const image = heroImage(pkg);
   const gallery = galleryImages(pkg);
@@ -265,8 +274,8 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const planningNotes = travelPlanningNotes(state);
   const faqs = faqItems(pkg, state);
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.question, acceptedAnswer: { "@type": "Answer", text: faq.answer } })) };
-  const packageSchema = packageStructuredData(pkg, state, slug);
-  const isSpiritualTriangle = String(pkg.slug) === "varanasi-prayagraj-ayodhya";
+  const packageSchema = packageStructuredData(pkg, state, normalizedSlug);
+  const isSpiritualTriangle = normalizeSlug(pkg.slug) === "varanasi-prayagraj-ayodhya";
 
   return (
     <main className="min-h-screen bg-[#f6f6f6] text-slate-800">
