@@ -21,6 +21,7 @@ export default function PackageHero({ data }: PackageHeroProps) {
         alt={data.title}
         fill
         priority
+        sizes="100vw"
         className="object-cover"
       />
 
