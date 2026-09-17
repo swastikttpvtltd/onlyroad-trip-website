@@ -95,7 +95,15 @@ const ultraPremiumSchema = {
         "propertyID": "CIN",
         "value": "U52291HR2025PTC132225"
       },
-      "description": "Only Road Trip is a premium travel brand and travel management company offering customized domestic tours, pilgrimage journeys, road trips, adventure and wildlife travel, family holidays, solo and women travel, accessible travel, corporate travel and MICE services across India.",
+      "description": "Only Road Trip is a premium travel brand operated by Swastik Tour And Travels Private Limited, providing domestic travel, pilgrimage tours, customized journeys, road trips, corporate travel and MICE services across India.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Only Road Trip"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Rahul"
+      },
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "F163, Phase-1 New Palam Vihar",
