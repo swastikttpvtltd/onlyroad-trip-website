@@ -80,6 +80,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries = staticPages.map((path) => {
     if (path === "") return makePage(path, 1, "weekly");
     if (legalPages.has(path)) return makePage(path, 0.2, "yearly");
+    if (path === "packages") return makePage(path, 0.9, "daily");
+    if (path === "corporate-travel") return makePage(path, 0.9, "weekly");
     if (
       [
         "char-dham-yatra-package",
