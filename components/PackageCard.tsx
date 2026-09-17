@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Bus,
@@ -39,9 +40,9 @@ export default function PackageCard({ pkg }: Props) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,0.07)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_16px_38px_rgba(15,23,42,0.12)]">
       <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-slate-100 sm:h-[230px]">
-        <img src={primaryImage} alt="" aria-hidden="true" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-xl" />
+        <Image src={primaryImage} alt="" aria-hidden="true" fill sizes="(max-width: 640px) 100vw, 50vw" loading="lazy" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-xl" />
         <div className="absolute inset-0 bg-slate-900/5" />
-        <img src={thumbnailSrc} alt={pkg.title} loading="lazy" decoding="async" onError={(event) => { const image = event.currentTarget; if (image.src.endsWith(thumbnailSrc)) image.src = primaryImage; }} className="absolute inset-0 h-full w-full object-contain object-center" />
+        <Image src={thumbnailSrc} alt={pkg.title} fill sizes="(max-width: 640px) 100vw, 50vw" loading="lazy" onError={(event) => { const image = event.currentTarget; if (image.src.endsWith(thumbnailSrc)) image.src = primaryImage; }} className="absolute inset-0 h-full w-full object-contain object-center" />
         <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2"><span className="inline-flex max-w-[78%] rounded-full bg-blue-800 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white shadow-md">{pkg.category}</span><button type="button" aria-label="Add to Wishlist" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-md transition hover:scale-105 hover:text-blue-800"><Heart className="h-5 w-5 stroke-[1.8]" /></button></div>
         <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2"><div className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-md"><Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" /><span className="text-sm font-bold text-slate-900">{pkg.rating}</span><span className="text-xs text-slate-500">({pkg.reviews})</span></div><span className="inline-flex items-center gap-1 rounded-full bg-amber-500 px-3 py-1.5 text-xs font-bold text-white shadow-md"><Sparkles className="h-3.5 w-3.5" /> Bestseller</span></div>
       </div>
