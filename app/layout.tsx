@@ -111,7 +111,10 @@ const ultraPremiumSchema = {
           "contactType": "customer service",
           "email": "info@onlyroadtrip.com",
           "availableLanguage": ["English", "Hindi"],
-          "areaServed": "IN"
+          "areaServed": {
+            "@type": "Country",
+            "name": "India"
+          }
         }
       ],
       "sameAs": [
@@ -129,14 +132,19 @@ const ultraPremiumSchema = {
         "Customized Tour Packages",
         "Women Special Travels"
       ],
-      "areaServed": [
-        { "@type": "AdministrativeArea", "name": "India" },
-        { "@type": "AdministrativeArea", "name": "Uttarakhand" },
-        { "@type": "AdministrativeArea", "name": "Kashmir" },
-        { "@type": "AdministrativeArea", "name": "Ladakh" },
-        { "@type": "AdministrativeArea", "name": "Kerala" },
-        { "@type": "AdministrativeArea", "name": "Gujarat" },
-        { "@type": "AdministrativeArea", "name": "Rajasthan" }
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "keywords": [
+        "Travel Agency",
+        "Travel Management",
+        "Domestic Tours",
+        "Pilgrimage Tours",
+        "Road Trips",
+        "Corporate Travel",
+        "MICE Travel",
+        "Customized Travel"
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
