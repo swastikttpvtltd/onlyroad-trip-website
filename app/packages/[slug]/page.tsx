@@ -16,6 +16,8 @@ type PackageItem = any;
 type PageProps = { params: Promise<{ slug: string }> };
 type StateDetails = { name: string; famousFor: string };
 
+const baseUrl = "https://www.onlyroadtrip.com";
+
 const stateDetails: Record<string, StateDetails> = {
   Gujarat: { name: "Gujarat", famousFor: "Gujarat is famous for the Rann of Kutch, Gir National Park, Dwarka and Somnath, vibrant handicrafts, Gujarati cuisine and rich heritage." },
   Rajasthan: { name: "Rajasthan", famousFor: "Rajasthan is famous for royal forts and palaces, Jaipur, Udaipur, Jaisalmer, Jodhpur, desert landscapes, folk culture and colourful traditions." },
@@ -65,6 +67,25 @@ function numberField(pkg: PackageItem, key: "price" | "rating" | "reviews"): num
   return typeof value === "number" ? value : undefined;
 }
 
+function cleanText(value: unknown): string {
+  return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function metadataDescription(pkg: PackageItem, state: StateDetails): string {
+  const overview = cleanText(pkg?.overview);
+  const destination = cleanText(pkg?.destination);
+  const duration = cleanText(pkg?.duration);
+  const title = cleanText(pkg?.title);
+
+  const source = overview || `Explore ${title || "this journey"} with Only Road Trip across ${destination || state.name}.`;
+  const suffix = `${duration ? ` ${duration}.` : ""} Thoughtfully planned travel across India with Only Road Trip.`;
+  const combined = `${source}${suffix}`;
+
+  if (combined.length <= 160) return combined;
+  const shortened = combined.slice(0, 157).replace(/\s+\S*$/, "").trim();
+  return `${shortened}...`;
+}
+
 function travelPlanningNotes(state: StateDetails) {
   return [
     `Check the published duration, Best Time, difficulty and group-size information before choosing dates for this ${state.name} journey.`,
@@ -93,10 +114,63 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const pkg = packages.find((item) => item.slug === slug) as PackageItem | undefined;
-  if (!pkg) return { title: "Package Not Found | Only Road Trip", robots: "noindex" };
-  const seoKeywords: string[] = Array.isArray(pkg.seoKeywords) ? pkg.seoKeywords.map((value: unknown) => String(value)) : [pkg.title, pkg.destination, pkg.state].filter(Boolean).map(String);
-  const aliasText = seoKeywords.slice(0, 4).join(", ");
-  return { title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Search for this journey as ${aliasText}.`, keywords: seoKeywords, alternates: { canonical: `https://www.onlyroadtrip.com/packages/${slug}` }, openGraph: { title: `${pkg.title} | Only Road Trip`, description: `${pkg.overview} Explore ${aliasText}.`, url: `https://www.onlyroadtrip.com/packages/${slug}`, siteName: "Only Road Trip", locale: "en_IN", type: "website", images: [{ url: heroImage(pkg), alt: pkg.title }] } };
+
+  if (!pkg) {
+    return {
+      title: "Package Not Found | Only Road Trip",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = cleanText(pkg.title) || "India Tour Package";
+  const state = getStateDetails(cleanText(pkg.state));
+  const description = metadataDescription(pkg, state);
+  const canonicalPath = `/packages/${encodeURIComponent(slug)}`;
+  const canonicalUrl = `${baseUrl}${canonicalPath}`;
+  const image = heroImage(pkg);
+  const seoKeywords: string[] = Array.isArray(pkg.seoKeywords)
+    ? pkg.seoKeywords.map((value: unknown) => cleanText(value)).filter(Boolean)
+    : [title, cleanText(pkg.destination), cleanText(pkg.state)].filter(Boolean);
+
+  return {
+    title,
+    description,
+    keywords: seoKeywords.length ? seoKeywords : undefined,
+    alternates: {
+      canonical: canonicalPath,
+    },
+    openGraph: {
+      type: "website",
+      locale: "en_IN",
+      url: canonicalUrl,
+      siteName: "Only Road Trip",
+      title: `${title} | Only Road Trip`,
+      description,
+      images: [
+        {
+          url: image,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | Only Road Trip`,
+      description,
+      images: [image],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-video-preview": -1,
+        "max-snippet": -1,
+      },
+    },
+  };
 }
 
 export default async function PackageDetailsPage({ params }: PageProps) {
