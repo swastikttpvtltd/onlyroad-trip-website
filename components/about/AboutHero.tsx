@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export default function AboutHero() {
   return (
-    <section className="relative h-[90vh] overflow-hidden">
+    <section className="relative min-h-[90vh] overflow-hidden">
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -24,7 +24,7 @@ export default function AboutHero() {
             ABOUT ONLY ROAD TRIP
           </span>
 
-          <h1 className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-7xl">
+          <h1 className="mt-8 text-5xl font-extrabold leading-tight text-white lg:text-6xl">
             Creating
             <span className="text-cyan-400"> Unforgettable </span>
             Journeys Across India
