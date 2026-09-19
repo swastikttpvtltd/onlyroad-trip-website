@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function Footer() {
   return (
@@ -115,6 +116,13 @@ export default function Footer() {
               <p>CIN: U52291HR2025PTC132225</p>
               <p className="mt-1">D-U-N-S®: 771608667</p>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-5 border-t border-white/10 pt-5">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-gray-400">Language</span>
+            <LanguageSelector />
           </div>
         </div>
       </div>
