@@ -1,20 +1,46 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import SeoLandingPage, { buildSeoMetadata } from "@/components/SeoLandingPage";
+import SeoLandingPage from "@/components/SeoLandingPage";
+import { SUPPORTED_LOCALES, type Locale } from "@/lib/i18n";
 import { seoPages } from "@/data/seo-pages";
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = { params: Promise<{ locale: string; slug: string }> };
 
 export function generateStaticParams() {
-  return Object.keys(seoPages).map((slug) => ({ slug }));
+  return SUPPORTED_LOCALES.flatMap((locale) =>
+    Object.keys(seoPages).map((slug) => ({ locale, slug }))
+  );
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
   const config = seoPages[slug];
 
-  if (!config) return {};
-  return buildSeoMetadata(config);
+  if (!config || !SUPPORTED_LOCALES.includes(rawLocale as Locale)) return {};
+
+  const locale = rawLocale as Locale;
+  const baseUrl = "https://www.onlyroadtrip.com";
+  const canonical = `${baseUrl}/${locale}/${slug}`;
+  const languages: Record<string, string> = Object.fromEntries(
+    SUPPORTED_LOCALES.map((item) => [item, `${baseUrl}/${item}/${slug}`])
+  );
+  languages["x-default"] = `${baseUrl}/en/${slug}`;
+
+  return {
+    title: `${config.title} | Only Road Trip`,
+    description: config.description ?? config.intro,
+    metadataBase: new URL(baseUrl),
+    alternates: { canonical, languages },
+    openGraph: {
+      title: `${config.title} | Only Road Trip`,
+      description: config.description ?? config.intro,
+      url: canonical,
+      siteName: "Only Road Trip",
+      locale: locale === "en" ? "en_IN" : locale,
+      type: "website",
+    },
+    robots: { index: true, follow: true },
+  };
 }
 
 function PricingSection({ config }: { config: (typeof seoPages)[string] }) {
@@ -158,7 +184,9 @@ function FaqSection({ config }: { config: (typeof seoPages)[string] }) {
 }
 
 export default async function SeoPage({ params }: Props) {
-  const { slug } = await params;
+  const { locale: rawLocale, slug } = await params;
+
+  if (!SUPPORTED_LOCALES.includes(rawLocale as Locale)) notFound();
   const config = seoPages[slug];
 
   if (!config) notFound();

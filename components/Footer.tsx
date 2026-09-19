@@ -1,8 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations("common");
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[#071325] text-white">
       <div className="absolute inset-0">
@@ -23,13 +26,13 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-3 text-base font-semibold">Quick Links</h3>
+            <h3 className="mb-3 text-base font-semibold">{t("quickLinks")}</h3>
             <ul className="space-y-2 text-xs text-gray-300">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/packages">Packages</Link></li>
-              <li><Link href="/destinations">Destinations</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+              <li><Link href="/">{t("home")}</Link></li>
+              <li><Link href="/about">{t("about")}</Link></li>
+              <li><Link href="/packages">{t("packages")}</Link></li>
+              <li><Link href="/destinations">{t("destinations")}</Link></li>
+              <li><Link href="/contact">{t("contact")}</Link></li>
               <li><Link href="/packages?theme=spiritual">Pilgrimage Tours</Link></li>
               <li><Link href="/packages?theme=wildlife">Wildlife Safaris</Link></li>
               <li><Link href="/packages?theme=women">Women Special</Link></li>
@@ -39,46 +42,46 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-3 text-base font-semibold">Services</h3>
+            <h3 className="mb-3 text-base font-semibold">{t("services")}</h3>
             <ul className="space-y-2 text-xs text-gray-300">
-              <li>Domestic Tours</li>
-              <li>International Tours</li>
-              <li>Hotel Booking</li>
-              <li>Flight Booking</li>
+              <li>{t("domesticTours")}</li>
+              <li>{t("internationalTours")}</li>
+              <li>{t("hotelBooking")}</li>
+              <li>{t("flightBooking")}</li>
               <li>Corporate Travel</li>
-              <li>Visa Assistance</li>
+              <li>{t("visaAssistance")}</li>
             </ul>
           </div>
 
           <div>
-            <h3 className="mb-3 text-base font-semibold">Why Choose Us</h3>
+            <h3 className="mb-3 text-base font-semibold">{t("whyChooseUs")}</h3>
             <div className="space-y-2">
-              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">Trusted Travel Partner</span></div>
-              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">Best Price Guarantee</span></div>
-              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">24×7 Customer Support</span></div>
-              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">Secure Online Booking</span></div>
+              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">{t("trustedPartner")}</span></div>
+              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">{t("bestPrice")}</span></div>
+              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">{t("customerSupport")}</span></div>
+              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-cyan-400" /><span className="text-xs text-gray-300">{t("secureBooking")}</span></div>
             </div>
           </div>
         </div>
 
         <div className="mt-7 border-t border-white/10 pt-6">
-          <h3 className="mb-5 text-center text-lg font-semibold">Contact Information</h3>
+          <h3 className="mb-5 text-center text-lg font-semibold">{t("contactInformation")}</h3>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            <div className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Registered Office</p><p className="mt-1 text-xs leading-5 text-gray-400">F163, Phase-1<br />New Palam Vihar<br />Gurugram, Haryana 122001</p></div></div>
-            <div className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Call Us</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div></div>
+            <div className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">{t("registeredOffice")}</p><p className="mt-1 text-xs leading-5 text-gray-400">F163, Phase-1<br />New Palam Vihar<br />Gurugram, Haryana 122001</p></div></div>
+            <div className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">{t("callUs")}</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div></div>
             <div className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Email</p><a href="mailto:info@onlyroadtrip.com" className="text-xs text-gray-300 hover:text-cyan-400">info@onlyroadtrip.com</a></div></div>
-            <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div></div>
+            <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">{t("officeHours")}</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div></div>
           </div>
         </div>
 
         <div className="mt-6 border-t border-white/10 pt-5">
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-gray-400">
-            <Link href="/privacy-policy" className="hover:text-cyan-400">Privacy Policy</Link>
-            <Link href="/terms-and-conditions" className="hover:text-cyan-400">Terms & Conditions</Link>
-            <Link href="/refund-policy" className="hover:text-cyan-400">Refund Policy</Link>
-            <Link href="/cancellation-policy" className="hover:text-cyan-400">Cancellation Policy</Link>
-            <Link href="/booking-policy" className="hover:text-cyan-400">Booking Policy</Link>
-            <Link href="/cookie-policy" className="hover:text-cyan-400">Cookie Policy</Link>
+            <Link href="/privacy-policy" className="hover:text-cyan-400">{t("privacyPolicy")}</Link>
+            <Link href="/terms-and-conditions" className="hover:text-cyan-400">{t("termsConditions")}</Link>
+            <Link href="/refund-policy" className="hover:text-cyan-400">{t("refundPolicy")}</Link>
+            <Link href="/cancellation-policy" className="hover:text-cyan-400">{t("cancellationPolicy")}</Link>
+            <Link href="/booking-policy" className="hover:text-cyan-400">{t("bookingPolicy")}</Link>
+            <Link href="/cookie-policy" className="hover:text-cyan-400">{t("cookiePolicy")}</Link>
           </div>
         </div>
 
@@ -94,8 +97,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-6 border-t border-white/10 pt-5 text-center">
-          <h3 className="text-base font-semibold">🔒 Secure Payments</h3>
-          <p className="mt-1 text-xs text-gray-400">We accept all major payment methods</p>
+          <h3 className="text-base font-semibold">🔒 {t("securePayments")}</h3>
+          <p className="mt-1 text-xs text-gray-400">{t("paymentMethods")}</p>
           <div className="mt-2 flex items-center justify-center gap-2">
             <Image src="/images/payments/visa.svg" alt="Visa" width={32} height={20} className="h-5 w-8 object-contain" />
             <Image src="/images/payments/mastercard.svg" alt="Mastercard" width={32} height={20} className="h-5 w-8 object-contain" />
@@ -115,6 +118,13 @@ export default function Footer() {
               <p>CIN: U52291HR2025PTC132225</p>
               <p className="mt-1">D-U-N-S®: 771608667</p>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-5 border-t border-white/10 pt-5">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-gray-400">{t("chooseLanguage")}</span>
+            <LanguageSelector />
           </div>
         </div>
       </div>

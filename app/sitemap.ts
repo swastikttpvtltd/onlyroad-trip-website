@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import packages from "@/data/packages";
 import { seoPages } from "@/data/seo-pages";
+import { SUPPORTED_LOCALES } from "@/lib/i18n";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
@@ -26,55 +27,43 @@ const staticPages = [
 ] as const;
 
 const destinationSlugs = [
-  "andhra-pradesh",
-  "gujarat",
-  "himachal-pradesh",
-  "jammu-kashmir",
-  "kedarnath",
-  "kerala",
-  "ladakh",
-  "lakshadweep",
-  "maharashtra",
-  "meghalaya",
-  "odisha",
-  "rajasthan",
-  "sikkim",
-  "tamil-nadu",
-  "uttar-pradesh",
-  "uttarakhand",
-  "west-bengal",
+  "andhra-pradesh", "gujarat", "himachal-pradesh", "jammu-kashmir",
+  "kedarnath", "kerala", "ladakh", "lakshadweep", "maharashtra",
+  "meghalaya", "odisha", "rajasthan", "sikkim", "tamil-nadu",
+  "uttar-pradesh", "uttarakhand", "west-bengal",
 ];
 
 const legalPages = new Set([
-  "privacy-policy",
-  "cookie-policy",
-  "disclaimer",
-  "terms-and-conditions",
-  "booking-policy",
-  "cancellation-policy",
-  "refund-policy",
+  "privacy-policy", "cookie-policy", "disclaimer", "terms-and-conditions",
+  "booking-policy", "cancellation-policy", "refund-policy",
 ]);
 
-function makePage(path: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly"): MetadataRoute.Sitemap[number] {
-  return { url: path ? `${baseUrl}/${path}` : baseUrl, lastModified: new Date(), changeFrequency, priority };
+function makePage(path: string, priority: number, changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly") {
+  return {
+    url: path ? `${baseUrl}/${path}` : baseUrl,
+    lastModified: new Date(),
+    changeFrequency,
+    priority,
+  };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticEntries = staticPages.map((path) => {
-    if (path === "") return makePage(path, 1, "weekly");
-    if (legalPages.has(path)) return makePage(path, 0.2, "yearly");
-    if (path === "jyotirlinga-yatra") return makePage(path, 0.9, "weekly");
-    if (path === "ayodhya-yatra-package") return makePage(path, 0.95, "weekly");
-    return makePage(path, 0.8, "weekly");
-  });
+  const paths = [
+    ...staticPages,
+    ...destinationSlugs.map((slug) => `destinations/${slug}`),
+    ...packages.filter((pkg) => Boolean(pkg?.slug)).map((pkg) => `packages/${pkg.slug}`),
+    ...Object.keys(seoPages).filter(Boolean),
+  ];
 
-  const destinationEntries = destinationSlugs.map((slug) => makePage(`destinations/${slug}`, 0.85, "weekly"));
-  const packageEntries = packages.filter((pkg) => Boolean(pkg?.slug)).map((pkg) => makePage(`packages/${pkg.slug}`, 0.9, "weekly"));
-  const seoEntries = Object.keys(seoPages).filter(Boolean).map((slug) => makePage(slug, 0.9, "weekly"));
+  const unique = new Set(paths);
+  const entries: MetadataRoute.Sitemap = [];
 
-  const unique = new Map<string, MetadataRoute.Sitemap[number]>();
-  for (const entry of [...staticEntries, ...destinationEntries, ...packageEntries, ...seoEntries]) {
-    if (!unique.has(entry.url)) unique.set(entry.url, entry);
+  for (const locale of SUPPORTED_LOCALES) {
+    for (const path of unique) {
+      const priority = path === "" ? 1 : legalPages.has(path) ? 0.2 : path.includes("packages/") ? 0.9 : 0.8;
+      entries.push(makePage(`${locale}/${path}`, priority, legalPages.has(path) ? "yearly" : "weekly"));
+    }
   }
-  return Array.from(unique.values());
+
+  return entries;
 }
