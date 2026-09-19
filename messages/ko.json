@@ -14,7 +14,8 @@
     "back": "패키지로 돌아가기",
     "exploreByExperience": "경험별 탐색",
     "explorePackagesByState": "주별 패키지 탐색",
-    "selectState": "모든 여행 패키지를 보려면 주를 선택하세요"
+    "selectState": "모든 여행 패키지를 보려면 주를 선택하세요",
+    "destinations": "여행지"
   },
   "home": {
     "heroTitle": "놀라운 인도를 탐험하세요",
