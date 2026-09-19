@@ -1,13 +1,20 @@
 {
   "common": {
     "language": "French",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "Choisir la langue",
     "home": "Accueil",
     "about": "À propos",
-    "packages": "Circuits",
+    "packages": "Forfaits",
     "corporateTravel": "Voyages d'affaires",
     "contact": "Contact",
-    "planYourTrip": "Planifier votre voyage"
+    "planYourTrip": "Planifiez votre voyage",
+    "experiences": "Expériences",
+    "viewAll": "Voir tout",
+    "menu": "Menu",
+    "back": "Retour aux forfaits",
+    "exploreByExperience": "Explorer par expérience",
+    "explorePackagesByState": "Explorer les forfaits par État",
+    "selectState": "Sélectionnez un État pour voir tous les forfaits"
   },
   "home": {
     "travelCategories": "Catégories de voyage",
@@ -54,5 +61,50 @@
     "heroTitle": "Découvrez l'incroyable Inde",
     "heroBrand": "Avec Only Road Trip",
     "heroDesc": "Découvrez des voyages conçus par des experts à travers l'Inde : pèlerinages, vacances en famille, lunes de miel, aventures, séjours de luxe et voyages d'affaires."
+  },
+  "search": {
+    "destination": "Destination",
+    "travelDate": "Date du voyage",
+    "travellers": "Voyageurs",
+    "searchTours": "Rechercher",
+    "destinationPlaceholder": "Saisissez Varanasi, Goa, Gujarat...",
+    "noDestination": "Aucune destination correspondante.",
+    "enterDestination": "Veuillez saisir une destination."
+  },
+  "categories": {
+    "pilgrimage": "Pèlerinages",
+    "pilgrimageDesc": "Voyages sacrés vers les temples et destinations spirituelles les plus vénérés d'Inde.",
+    "wildlife": "Safaris animaliers",
+    "wildlifeDesc": "Découvrez les célèbres parcs nationaux et aventures animalières de l'Inde.",
+    "women": "Spécial femmes",
+    "womenDesc": "Des voyages sûrs et mémorables conçus pour les voyageuses.",
+    "corporate": "Voyages d'affaires",
+    "corporateDesc": "Gestion des voyages professionnels avec planification et assistance.",
+    "family": "Vacances en famille",
+    "familyDesc": "Des vacances amusantes pour les familles de toutes tailles.",
+    "previous": "Catégorie précédente",
+    "next": "Catégorie suivante"
+  },
+  "packageCard": {
+    "viewMap": "Voir la carte",
+    "highlights": "Points forts",
+    "tourIncludes": "Le voyage comprend",
+    "accommodation": "Hébergement",
+    "mealsIncluded": "Repas inclus",
+    "sightseeingIncluded": "Visites incluses",
+    "transportIncluded": "Transport inclus",
+    "groupPrice": "Tarif de départ du voyage en groupe",
+    "allInclusive": "Tarif tout compris à partir de",
+    "perPerson": "Par personne",
+    "rateSoon": "Tarif bientôt disponible",
+    "quad": "Quadruple / Triple / Double",
+    "flexiblePayment": "Paiement flexible",
+    "optionsAvailable": "options disponibles",
+    "viewTour": "Voir le voyage",
+    "bookOnline": "Réserver en ligne",
+    "whatsapp": "Demande WhatsApp",
+    "getItinerary": "Voir l'itinéraire",
+    "bestseller": "Meilleure vente",
+    "addWishlist": "Ajouter aux favoris"
   }
 }
