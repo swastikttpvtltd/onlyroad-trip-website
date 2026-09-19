@@ -7,7 +7,14 @@
     "packages": "Packages",
     "corporateTravel": "Corporate Travel",
     "contact": "Contact",
-    "planYourTrip": "Plan Your Trip"
+    "planYourTrip": "Plan Your Trip",
+    "experiences": "Experiences",
+    "viewAll": "View All",
+    "menu": "Menu",
+    "back": "Back to Packages",
+    "exploreByExperience": "Explore by Experience",
+    "explorePackagesByState": "Explore Packages by State",
+    "selectState": "Select a state to view all available tour packages"
   },
   "home": {
     "travelCategories": "Travel Categories",
@@ -54,5 +61,50 @@
     "heroTitle": "Explore Incredible India",
     "heroBrand": "With Only Road Trip",
     "heroDesc": "Experience handcrafted journeys across India with premium pilgrimage tours, family vacations, honeymoon packages, wildlife adventures, luxury holidays and corporate travel solutions—all planned by travel experts."
+  },
+  "search": {
+    "destination": "Destination",
+    "travelDate": "Travel Date",
+    "travellers": "Travellers",
+    "searchTours": "Search Tours",
+    "destinationPlaceholder": "Type Varanasi, Goa, Gujarat...",
+    "noDestination": "No matching destination found.",
+    "enterDestination": "Please enter a destination."
+  },
+  "categories": {
+    "pilgrimage": "Pilgrimage Tours",
+    "pilgrimageDesc": "Sacred journeys across India's most revered temples and spiritual destinations.",
+    "wildlife": "Wildlife Safaris",
+    "wildlifeDesc": "Experience India's famous national parks and wildlife adventures.",
+    "women": "Women Special",
+    "womenDesc": "Curated travel experiences and safe, memorable journeys designed especially for women travellers.",
+    "corporate": "Corporate Travel",
+    "corporateDesc": "Business travel management with seamless planning and support.",
+    "family": "Family Vacations",
+    "familyDesc": "Fun-filled holidays designed for families of every size.",
+    "previous": "Previous travel category",
+    "next": "Next travel category"
+  },
+  "packageCard": {
+    "viewMap": "View Map",
+    "highlights": "Highlights",
+    "tourIncludes": "Tour Includes",
+    "accommodation": "Accommodation",
+    "mealsIncluded": "Meals included",
+    "sightseeingIncluded": "Sightseeing included",
+    "transportIncluded": "Transport included",
+    "groupPrice": "Group Tour price starts",
+    "allInclusive": "All inclusive price starts",
+    "perPerson": "Per Person",
+    "rateSoon": "Rate Soon",
+    "quad": "Quad / Triple / Double",
+    "flexiblePayment": "Flexible payment",
+    "optionsAvailable": "options available",
+    "viewTour": "View Tour",
+    "bookOnline": "Book Online",
+    "whatsapp": "WhatsApp Enquiry",
+    "getItinerary": "Get Itinerary",
+    "bestseller": "Bestseller",
+    "addWishlist": "Add to Wishlist"
   }
 }
