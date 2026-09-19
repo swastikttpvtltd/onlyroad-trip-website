@@ -1,8 +1,11 @@
 import Footer from "@/components/Footer";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import Header from "@/components/Header";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { LOCALE_INFO, type Locale } from "@/lib/i18n";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -143,11 +146,17 @@ const ultraPremiumSchema = {
   ]
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const locale = (await getLocale()) as Locale;
+  const messages = await getMessages();
+  const htmlLang = locale === "en" ? "en-IN" : locale;
+  const dir = LOCALE_INFO[locale]?.dir ?? "ltr";
+
   return (
     <html
-      lang="en-IN"
+      lang={htmlLang}
       suppressHydrationWarning
+      dir={dir}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
@@ -171,6 +180,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body className="min-h-full flex flex-col bg-white text-gray-900">
+        <NextIntlClientProvider messages={messages}>
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MX42J8KW"
@@ -182,6 +192,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
