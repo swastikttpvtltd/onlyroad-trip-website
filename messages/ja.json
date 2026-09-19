@@ -87,7 +87,15 @@
     "statsRating": "Customer Rating",
     "heroTitle": "魅力あふれるインドを探索",
     "heroBrand": "Only Road Tripとともに",
-    "heroDesc": "旅行の専門家が企画したインド各地の巡礼、家族旅行、新婚旅行、野生動物アドベンチャー、ラグジュアリー休暇、法人旅行をお楽しみください。"
+    "heroDesc": "旅行の専門家が企画したインド各地の巡礼、家族旅行、新婚旅行、野生動物アドベンチャー、ラグジュアリー休暇、法人旅行をお楽しみください。",
+    "exploreAllPackages": "すべてのパッケージを見る",
+    "planYourTrip": "旅行を計画する",
+    "curatedPackages": "厳選パッケージ {count} 件",
+    "popularTourPackages": "人気のツアーパッケージ",
+    "talkToTravelTeam": "旅行チームに相談する",
+    "customJourneyTitle": "{title}のカスタム旅行を計画する",
+    "customJourneyDesc": "旅行日程、人数、ホテルカテゴリー、予算をお知らせください。ご希望に合わせて旅程、交通、宿泊を調整します。",
+    "startPlanning": "計画を始める"
   },
   "search": {
     "destination": "目的地",
@@ -132,6 +140,9 @@
     "whatsapp": "WhatsAppで問い合わせ",
     "getItinerary": "旅程を見る",
     "bestseller": "人気商品",
-    "addWishlist": "お気に入りに追加"
+    "addWishlist": "お気に入りに追加",
+    "wishlist": "すべてのパッケージを見る",
+    "previousGroupTour": "すべてのパッケージを見る",
+    "nextGroupTour": "すべてのパッケージを見る"
   }
 }

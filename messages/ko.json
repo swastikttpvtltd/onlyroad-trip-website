@@ -87,7 +87,15 @@
     "statsRating": "Customer Rating",
     "heroTitle": "놀라운 인도를 탐험하세요",
     "heroBrand": "Only Road Trip과 함께",
-    "heroDesc": "여행 전문가가 계획한 인도 전역의 순례, 가족 휴가, 허니문, 야생동물 모험, 럭셔리 휴가 및 기업 여행을 경험하세요."
+    "heroDesc": "여행 전문가가 계획한 인도 전역의 순례, 가족 휴가, 허니문, 야생동물 모험, 럭셔리 휴가 및 기업 여행을 경험하세요.",
+    "exploreAllPackages": "모든 패키지 보기",
+    "planYourTrip": "여행 계획하기",
+    "curatedPackages": "엄선된 패키지 {count}개",
+    "popularTourPackages": "인기 투어 패키지",
+    "talkToTravelTeam": "여행팀과 상담하기",
+    "customJourneyTitle": "{title} 맞춤 여행 계획하기",
+    "customJourneyDesc": "여행 날짜, 인원, 호텔 등급과 예산을 알려주세요. 필요에 맞춰 일정, 교통, 숙박을 맞춤 구성합니다.",
+    "startPlanning": "계획 시작"
   },
   "search": {
     "destination": "목적지",
@@ -132,6 +140,9 @@
     "whatsapp": "WhatsApp 문의",
     "getItinerary": "일정 보기",
     "bestseller": "베스트셀러",
-    "addWishlist": "위시리스트에 추가"
+    "addWishlist": "위시리스트에 추가",
+    "wishlist": "모든 패키지 보기",
+    "previousGroupTour": "모든 패키지 보기",
+    "nextGroupTour": "모든 패키지 보기"
   }
 }

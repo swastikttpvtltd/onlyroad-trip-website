@@ -87,7 +87,15 @@
     "statsRating": "Klantbeoordeling",
     "heroTitle": "Ontdek het ongelooflijke India",
     "heroBrand": "Met Only Road Trip",
-    "heroDesc": "Ervaar zorgvuldig samengestelde reizen door India met premium pelgrimstochten, familievakanties, huwelijksreizen, wildlife-avonturen, luxe vakanties en zakelijke reisoplossingen, gepland door reisspecialisten."
+    "heroDesc": "Ervaar zorgvuldig samengestelde reizen door India met premium pelgrimstochten, familievakanties, huwelijksreizen, wildlife-avonturen, luxe vakanties en zakelijke reisoplossingen, gepland door reisspecialisten.",
+    "exploreAllPackages": "Alle pakketten bekijken",
+    "planYourTrip": "Plan je reis",
+    "curatedPackages": "{count} geselecteerde pakketten",
+    "popularTourPackages": "Populaire reispakketten",
+    "talkToTravelTeam": "Praat met ons reisteam",
+    "customJourneyTitle": "Plan een reis op maat naar {title}",
+    "customJourneyDesc": "Vertel ons je reisdata, aantal reizigers, hotelcategorie en budget. We stemmen route, vervoer en verblijf af op jouw wensen.",
+    "startPlanning": "Begin met plannen"
   },
   "search": {
     "destination": "Bestemming",
@@ -132,6 +140,9 @@
     "whatsapp": "WhatsApp-aanvraag",
     "getItinerary": "Reisprogramma ontvangen",
     "bestseller": "Bestseller",
-    "addWishlist": "Aan verlanglijst toevoegen"
+    "addWishlist": "Aan verlanglijst toevoegen",
+    "wishlist": "Alle pakketten bekijken",
+    "previousGroupTour": "Alle pakketten bekijken",
+    "nextGroupTour": "Alle pakketten bekijken"
   }
 }

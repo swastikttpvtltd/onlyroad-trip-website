@@ -87,7 +87,15 @@
     "statsRating": "Avaliação dos clientes",
     "heroTitle": "Explore a incrível Índia",
     "heroBrand": "Com a Only Road Trip",
-    "heroDesc": "Descubra viagens planejadas por especialistas por toda a Índia, com peregrinações, férias em família, lua de mel, aventuras, férias de luxo e soluções corporativas."
+    "heroDesc": "Descubra viagens planejadas por especialistas por toda a Índia, com peregrinações, férias em família, lua de mel, aventuras, férias de luxo e soluções corporativas.",
+    "exploreAllPackages": "Explorar todos os pacotes",
+    "planYourTrip": "Planeie a sua viagem",
+    "curatedPackages": "{count} pacotes selecionados",
+    "popularTourPackages": "Pacotes turísticos populares",
+    "talkToTravelTeam": "Falar com a nossa equipa de viagens",
+    "customJourneyTitle": "Planear uma viagem personalizada para {title}",
+    "customJourneyDesc": "Indique as datas, número de viajantes, categoria do hotel e orçamento. Personalizaremos o itinerário, transporte e alojamento às suas necessidades.",
+    "startPlanning": "Começar a planear"
   },
   "search": {
     "destination": "Destino",
@@ -132,6 +140,9 @@
     "whatsapp": "Consulta pelo WhatsApp",
     "getItinerary": "Ver itinerário",
     "bestseller": "Mais vendido",
-    "addWishlist": "Adicionar aos favoritos"
+    "addWishlist": "Adicionar aos favoritos",
+    "wishlist": "Explorar todos os pacotes",
+    "previousGroupTour": "Explorar todos os pacotes",
+    "nextGroupTour": "Explorar todos os pacotes"
   }
 }

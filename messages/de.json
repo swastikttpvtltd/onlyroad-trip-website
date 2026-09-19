@@ -87,7 +87,15 @@
     "statsRating": "Kundenbewertung",
     "heroTitle": "Entdecken Sie das unglaubliche Indien",
     "heroBrand": "Mit Only Road Trip",
-    "heroDesc": "Erleben Sie von Reiseexperten geplante Reisen durch Indien mit Pilgerreisen, Familienurlaub, Honeymoon-Paketen, Wildnisabenteuern, Luxusurlaub und Geschäftsreisen."
+    "heroDesc": "Erleben Sie von Reiseexperten geplante Reisen durch Indien mit Pilgerreisen, Familienurlaub, Honeymoon-Paketen, Wildnisabenteuern, Luxusurlaub und Geschäftsreisen.",
+    "exploreAllPackages": "Alle Pakete entdecken",
+    "planYourTrip": "Reise planen",
+    "curatedPackages": "{count} ausgewählte Pakete",
+    "popularTourPackages": "Beliebte Reisepakete",
+    "talkToTravelTeam": "Unser Reiseteam kontaktieren",
+    "customJourneyTitle": "Eine individuelle {title}-Reise planen",
+    "customJourneyDesc": "Nennen Sie uns Reisedaten, Anzahl der Reisenden, Hotelkategorie und Budget. Wir passen Route, Transport und Unterkunft an Ihre Wünsche an.",
+    "startPlanning": "Planung starten"
   },
   "search": {
     "destination": "Reiseziel",
@@ -132,6 +140,9 @@
     "whatsapp": "WhatsApp-Anfrage",
     "getItinerary": "Reiseplan ansehen",
     "bestseller": "Bestseller",
-    "addWishlist": "Zur Wunschliste hinzufügen"
+    "addWishlist": "Zur Wunschliste hinzufügen",
+    "wishlist": "Alle Pakete entdecken",
+    "previousGroupTour": "Alle Pakete entdecken",
+    "nextGroupTour": "Alle Pakete entdecken"
   }
 }
