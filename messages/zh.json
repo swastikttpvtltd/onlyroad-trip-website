@@ -14,7 +14,8 @@
     "back": "返回套餐",
     "exploreByExperience": "按体验探索",
     "explorePackagesByState": "按邦探索套餐",
-    "selectState": "选择邦以查看所有旅游套餐"
+    "selectState": "选择邦以查看所有旅游套餐",
+    "destinations": "旅游目的地"
   },
   "home": {
     "travelCategories": "旅行类别",
