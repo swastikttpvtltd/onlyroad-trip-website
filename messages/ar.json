@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Arabic",
+    "chooseLanguage": "Choose language",
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "packages": "الباقات",
+    "corporateTravel": "سفر الشركات",
+    "contact": "اتصل بنا",
+    "planYourTrip": "خطط لرحلتك"
+  }
+}
