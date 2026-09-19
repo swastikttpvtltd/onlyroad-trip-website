@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Japanese",
+    "chooseLanguage": "Choose language",
+    "home": "ホーム",
+    "about": "私たちについて",
+    "packages": "ツアーパッケージ",
+    "corporateTravel": "法人旅行",
+    "contact": "お問い合わせ",
+    "planYourTrip": "旅行を計画する"
+  }
+}
