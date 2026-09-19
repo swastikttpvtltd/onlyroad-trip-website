@@ -14,7 +14,8 @@
     "back": "Zurück zu den Paketen",
     "exploreByExperience": "Nach Erlebnis entdecken",
     "explorePackagesByState": "Pakete nach Bundesstaat",
-    "selectState": "Wählen Sie einen Bundesstaat, um alle Pakete zu sehen"
+    "selectState": "Wählen Sie einen Bundesstaat, um alle Pakete zu sehen",
+    "destinations": "Reiseziele"
   },
   "home": {
     "travelCategories": "Reisekategorien",
