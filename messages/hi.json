@@ -14,7 +14,8 @@
     "back": "पैकेज पर वापस जाएँ",
     "exploreByExperience": "अनुभव के अनुसार देखें",
     "explorePackagesByState": "राज्य के अनुसार पैकेज देखें",
-    "selectState": "सभी उपलब्ध टूर पैकेज देखने के लिए राज्य चुनें"
+    "selectState": "सभी उपलब्ध टूर पैकेज देखने के लिए राज्य चुनें",
+    "destinations": "गंतव्य"
   },
   "home": {
     "travelCategories": "यात्रा श्रेणियाँ",
