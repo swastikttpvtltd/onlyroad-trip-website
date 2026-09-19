@@ -1,13 +1,20 @@
 {
   "common": {
     "language": "Hindi",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "भाषा चुनें",
     "home": "होम",
     "about": "हमारे बारे में",
     "packages": "पैकेज",
     "corporateTravel": "कॉर्पोरेट ट्रैवल",
     "contact": "संपर्क",
-    "planYourTrip": "अपनी यात्रा प्लान करें"
+    "planYourTrip": "अपनी यात्रा प्लान करें",
+    "experiences": "अनुभव",
+    "viewAll": "सभी देखें",
+    "menu": "मेन्यू",
+    "back": "पैकेज पर वापस जाएँ",
+    "exploreByExperience": "अनुभव के अनुसार देखें",
+    "explorePackagesByState": "राज्य के अनुसार पैकेज देखें",
+    "selectState": "सभी उपलब्ध टूर पैकेज देखने के लिए राज्य चुनें"
   },
   "home": {
     "travelCategories": "यात्रा श्रेणियाँ",
@@ -54,5 +61,50 @@
     "heroTitle": "अद्भुत भारत की खोज करें",
     "heroBrand": "ओनली रोड ट्रिप के साथ",
     "heroDesc": "पूरे भारत में प्रीमियम तीर्थ यात्राओं, फैमिली वेकेशन, हनीमून पैकेज, वाइल्डलाइफ एडवेंचर, लक्ज़री छुट्टियों और कॉर्पोरेट ट्रैवल के साथ खास यात्राओं का अनुभव लें।"
+  },
+  "search": {
+    "destination": "गंतव्य",
+    "travelDate": "यात्रा की तारीख",
+    "travellers": "यात्री",
+    "searchTours": "टूर खोजें",
+    "destinationPlaceholder": "वाराणसी, गोवा, गुजरात लिखें...",
+    "noDestination": "कोई मिलान वाला गंतव्य नहीं मिला।",
+    "enterDestination": "कृपया गंतव्य दर्ज करें।"
+  },
+  "categories": {
+    "pilgrimage": "तीर्थ यात्रा",
+    "pilgrimageDesc": "भारत के प्रसिद्ध मंदिरों और आध्यात्मिक स्थलों की पवित्र यात्राएँ।",
+    "wildlife": "वाइल्डलाइफ सफारी",
+    "wildlifeDesc": "भारत के प्रसिद्ध राष्ट्रीय उद्यानों और वन्यजीवों का अनुभव लें।",
+    "women": "महिलाओं के लिए विशेष",
+    "womenDesc": "महिलाओं के लिए सुरक्षित और यादगार यात्रा अनुभव।",
+    "corporate": "कॉर्पोरेट ट्रैवल",
+    "corporateDesc": "सुव्यवस्थित योजना और सहायता के साथ बिज़नेस ट्रैवल मैनेजमेंट।",
+    "family": "फैमिली वेकेशन",
+    "familyDesc": "हर परिवार के लिए मज़ेदार और यादगार छुट्टियाँ।",
+    "previous": "पिछली यात्रा श्रेणी",
+    "next": "अगली यात्रा श्रेणी"
+  },
+  "packageCard": {
+    "viewMap": "मैप देखें",
+    "highlights": "मुख्य आकर्षण",
+    "tourIncludes": "टूर में शामिल",
+    "accommodation": "ठहरने की व्यवस्था",
+    "mealsIncluded": "भोजन शामिल",
+    "sightseeingIncluded": "दर्शनीय स्थल शामिल",
+    "transportIncluded": "ट्रांसपोर्ट शामिल",
+    "groupPrice": "ग्रुप टूर की शुरुआती कीमत",
+    "allInclusive": "ऑल-इंक्लूसिव शुरुआती कीमत",
+    "perPerson": "प्रति व्यक्ति",
+    "rateSoon": "रेट जल्द",
+    "quad": "क्वाड / ट्रिपल / डबल",
+    "flexiblePayment": "लचीले भुगतान",
+    "optionsAvailable": "विकल्प उपलब्ध",
+    "viewTour": "टूर देखें",
+    "bookOnline": "ऑनलाइन बुक करें",
+    "whatsapp": "व्हाट्सऐप पूछताछ",
+    "getItinerary": "इटिनरेरी देखें",
+    "bestseller": "बेस्टसेलर",
+    "addWishlist": "विशलिस्ट में जोड़ें"
   }
 }
