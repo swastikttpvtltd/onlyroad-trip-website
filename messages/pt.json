@@ -14,7 +14,8 @@
     "back": "Voltar aos pacotes",
     "exploreByExperience": "Explorar por experiência",
     "explorePackagesByState": "Explorar pacotes por estado",
-    "selectState": "Selecione um estado para ver todos os pacotes"
+    "selectState": "Selecione um estado para ver todos os pacotes",
+    "destinations": "Destinos"
   },
   "home": {
     "travelCategories": "Categorias de viagem",
