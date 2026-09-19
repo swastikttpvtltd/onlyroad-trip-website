@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "German",
+    "chooseLanguage": "Choose language",
+    "home": "Startseite",
+    "about": "Über uns",
+    "packages": "Reisepakete",
+    "corporateTravel": "Geschäftsreisen",
+    "contact": "Kontakt",
+    "planYourTrip": "Reise planen"
+  }
+}
