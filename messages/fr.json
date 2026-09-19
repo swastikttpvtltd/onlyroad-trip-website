@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "French",
+    "chooseLanguage": "Choose language",
+    "home": "Accueil",
+    "about": "À propos",
+    "packages": "Circuits",
+    "corporateTravel": "Voyages d'affaires",
+    "contact": "Contact",
+    "planYourTrip": "Planifier votre voyage"
+  }
+}
