@@ -14,7 +14,8 @@
     "back": "Back to Packages",
     "exploreByExperience": "Explore by Experience",
     "explorePackagesByState": "Explore Packages by State",
-    "selectState": "Select a state to view all available tour packages"
+    "selectState": "Select a state to view all available tour packages",
+    "destinations": "Destinations"
   },
   "home": {
     "travelCategories": "Travel Categories",
