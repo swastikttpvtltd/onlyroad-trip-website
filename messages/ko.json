@@ -1,17 +1,69 @@
 {
   "common": {
     "language": "Korean",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "언어 선택",
     "home": "홈",
     "about": "회사 소개",
-    "packages": "여행 패키지",
+    "packages": "패키지",
     "corporateTravel": "기업 여행",
     "contact": "문의",
-    "planYourTrip": "여행 계획하기"
+    "planYourTrip": "여행 계획하기",
+    "experiences": "여행 경험",
+    "viewAll": "전체 보기",
+    "menu": "메뉴",
+    "back": "패키지로 돌아가기",
+    "exploreByExperience": "경험별 탐색",
+    "explorePackagesByState": "주별 패키지 탐색",
+    "selectState": "모든 여행 패키지를 보려면 주를 선택하세요"
   },
   "home": {
     "heroTitle": "놀라운 인도를 탐험하세요",
     "heroBrand": "Only Road Trip과 함께",
     "heroDesc": "여행 전문가가 계획한 인도 전역의 순례, 가족 휴가, 허니문, 야생동물 모험, 럭셔리 휴가 및 기업 여행을 경험하세요."
+  },
+  "search": {
+    "destination": "목적지",
+    "travelDate": "여행 날짜",
+    "travellers": "여행객",
+    "searchTours": "투어 검색",
+    "destinationPlaceholder": "바라나시, 고아, 구자라트를 입력하세요...",
+    "noDestination": "일치하는 목적지를 찾을 수 없습니다.",
+    "enterDestination": "목적지를 입력하세요."
+  },
+  "categories": {
+    "pilgrimage": "성지 순례 여행",
+    "pilgrimageDesc": "인도의 유명한 사원과 영적 명소를 방문하는 성지 여행.",
+    "wildlife": "야생동물 사파리",
+    "wildlifeDesc": "인도의 유명 국립공원과 야생동물을 경험하세요.",
+    "women": "여성 전용 여행",
+    "womenDesc": "여성을 위해 안전하고 특별하게 구성한 여행 경험.",
+    "corporate": "기업 여행",
+    "corporateDesc": "원활한 계획과 지원을 제공하는 비즈니스 여행 관리.",
+    "family": "가족 휴가",
+    "familyDesc": "모든 가족을 위한 즐거운 휴가.",
+    "previous": "이전 여행 카테고리",
+    "next": "다음 여행 카테고리"
+  },
+  "packageCard": {
+    "viewMap": "지도 보기",
+    "highlights": "주요 볼거리",
+    "tourIncludes": "투어 포함 사항",
+    "accommodation": "숙박",
+    "mealsIncluded": "식사 포함",
+    "sightseeingIncluded": "관광 포함",
+    "transportIncluded": "교통 포함",
+    "groupPrice": "그룹 투어 시작 가격",
+    "allInclusive": "올인클루시브 시작 가격",
+    "perPerson": "1인 기준",
+    "rateSoon": "요금 곧 공개",
+    "quad": "쿼드 / 트리플 / 더블",
+    "flexiblePayment": "유연한 결제",
+    "optionsAvailable": "옵션 제공",
+    "viewTour": "투어 보기",
+    "bookOnline": "온라인 예약",
+    "whatsapp": "WhatsApp 문의",
+    "getItinerary": "일정 보기",
+    "bestseller": "베스트셀러",
+    "addWishlist": "위시리스트에 추가"
   }
 }
