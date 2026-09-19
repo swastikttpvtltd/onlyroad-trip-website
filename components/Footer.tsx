@@ -1,9 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
 import LanguageSelector from "@/components/LanguageSelector";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations("common");
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[#071325] text-white">
       <div className="absolute inset-0">
@@ -26,11 +28,11 @@ export default function Footer() {
           <div>
             <h3 className="mb-3 text-base font-semibold">Quick Links</h3>
             <ul className="space-y-2 text-xs text-gray-300">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/packages">Packages</Link></li>
+              <li><Link href="/">{t("home")}</Link></li>
+              <li><Link href="/about">{t("about")}</Link></li>
+              <li><Link href="/packages">{t("packages")}</Link></li>
               <li><Link href="/destinations">Destinations</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+              <li><Link href="/contact">{t("contact")}</Link></li>
               <li><Link href="/packages?theme=spiritual">Pilgrimage Tours</Link></li>
               <li><Link href="/packages?theme=wildlife">Wildlife Safaris</Link></li>
               <li><Link href="/packages?theme=women">Women Special</Link></li>
