@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useTranslations } from "next-intl";
 import { Landmark,Trees,Gem,Briefcase,CarFront,Users,ArrowRight,ChevronLeft,ChevronRight } from "lucide-react";
 import { Swiper,SwiperSlide } from "swiper/react";
