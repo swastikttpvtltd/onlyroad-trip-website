@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
-// Required so `next dev` initializes the OpenNext Cloudflare dev runtime.
-// This prevents getCloudflareContext() errors during local development.
+// Required so next dev initializes the OpenNext Cloudflare dev runtime.
 initOpenNextCloudflareForDev();
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
@@ -39,4 +41,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
