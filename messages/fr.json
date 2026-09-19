@@ -14,7 +14,8 @@
     "back": "Retour aux forfaits",
     "exploreByExperience": "Explorer par expérience",
     "explorePackagesByState": "Explorer les forfaits par État",
-    "selectState": "Sélectionnez un État pour voir tous les forfaits"
+    "selectState": "Sélectionnez un État pour voir tous les forfaits",
+    "destinations": "Destinations"
   },
   "home": {
     "travelCategories": "Catégories de voyage",
