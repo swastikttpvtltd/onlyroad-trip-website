@@ -1,13 +1,20 @@
 {
   "common": {
     "language": "Portuguese",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "Escolher idioma",
     "home": "Início",
     "about": "Sobre nós",
     "packages": "Pacotes",
     "corporateTravel": "Viagens corporativas",
     "contact": "Contato",
-    "planYourTrip": "Planeje sua viagem"
+    "planYourTrip": "Planeje sua viagem",
+    "experiences": "Experiências",
+    "viewAll": "Ver tudo",
+    "menu": "Menu",
+    "back": "Voltar aos pacotes",
+    "exploreByExperience": "Explorar por experiência",
+    "explorePackagesByState": "Explorar pacotes por estado",
+    "selectState": "Selecione um estado para ver todos os pacotes"
   },
   "home": {
     "travelCategories": "Categorias de viagem",
@@ -54,5 +61,50 @@
     "heroTitle": "Explore a incrível Índia",
     "heroBrand": "Com a Only Road Trip",
     "heroDesc": "Descubra viagens planejadas por especialistas por toda a Índia, com peregrinações, férias em família, lua de mel, aventuras, férias de luxo e soluções corporativas."
+  },
+  "search": {
+    "destination": "Destino",
+    "travelDate": "Data da viagem",
+    "travellers": "Viajantes",
+    "searchTours": "Pesquisar viagens",
+    "destinationPlaceholder": "Digite Varanasi, Goa, Gujarat...",
+    "noDestination": "Nenhum destino correspondente encontrado.",
+    "enterDestination": "Digite um destino."
+  },
+  "categories": {
+    "pilgrimage": "Tours de peregrinação",
+    "pilgrimageDesc": "Viagens sagradas pelos templos e destinos espirituais mais venerados da Índia.",
+    "wildlife": "Safáris de vida selvagem",
+    "wildlifeDesc": "Conheça os famosos parques nacionais e aventuras de vida selvagem da Índia.",
+    "women": "Especial para mulheres",
+    "womenDesc": "Experiências seguras e memoráveis criadas para mulheres viajantes.",
+    "corporate": "Viagens corporativas",
+    "corporateDesc": "Gestão de viagens de negócios com planejamento e suporte.",
+    "family": "Férias em família",
+    "familyDesc": "Férias divertidas para famílias de todos os tamanhos.",
+    "previous": "Categoria anterior",
+    "next": "Próxima categoria"
+  },
+  "packageCard": {
+    "viewMap": "Ver mapa",
+    "highlights": "Destaques",
+    "tourIncludes": "O tour inclui",
+    "accommodation": "Hospedagem",
+    "mealsIncluded": "Refeições incluídas",
+    "sightseeingIncluded": "Passeios incluídos",
+    "transportIncluded": "Transporte incluído",
+    "groupPrice": "Tour em grupo a partir de",
+    "allInclusive": "Preço com tudo incluído a partir de",
+    "perPerson": "Por pessoa",
+    "rateSoon": "Preço em breve",
+    "quad": "Quádruplo / Triplo / Duplo",
+    "flexiblePayment": "Pagamento flexível",
+    "optionsAvailable": "opções disponíveis",
+    "viewTour": "Ver tour",
+    "bookOnline": "Reservar online",
+    "whatsapp": "Consulta pelo WhatsApp",
+    "getItinerary": "Ver itinerário",
+    "bestseller": "Mais vendido",
+    "addWishlist": "Adicionar aos favoritos"
   }
 }
