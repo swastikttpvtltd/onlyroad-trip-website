@@ -10,7 +10,7 @@ function getStoredLocale(): Locale {
   return (SUPPORTED_LOCALES as readonly string[]).includes(value || "") ? (value as Locale) : "en";
 }
 
-export default function LanguageSelector() {
+export default function LanguageSelector({ overLight = false }: { overLight?: boolean }) {
   const [locale, setLocale] = useState<Locale>("en");
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -39,7 +39,7 @@ export default function LanguageSelector() {
   const current = LOCALE_INFO[locale];
   return (
     <div ref={ref} className="relative">
-      <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={"Select language. Current language: " + current.name} onClick={() => setOpen((value) => !value)} className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/55 bg-white/15 px-3 text-sm font-bold text-white shadow-sm backdrop-blur-md transition hover:bg-white/25">
+      <button type="button" aria-haspopup="listbox" aria-expanded={open} aria-label={"Select language. Current language: " + current.name} onClick={() => setOpen((value) => !value)} className={"inline-flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-bold shadow-sm backdrop-blur-md transition " + (overLight ? "border-slate-400 bg-white/70 text-slate-900 hover:bg-white" : "border-white/55 bg-white/15 text-white hover:bg-white/25")}>
         <span aria-hidden="true" className="text-base">{current.flag}</span><span className="hidden sm:inline">{current.nativeName}</span><span aria-hidden="true" className="text-xs">⌄</span>
       </button>
       {open && <div role="listbox" aria-label="Website languages" className="absolute right-0 top-12 z-[100] w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 text-slate-900 shadow-2xl">
