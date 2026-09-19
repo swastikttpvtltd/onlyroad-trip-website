@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Korean",
+    "chooseLanguage": "Choose language",
+    "home": "홈",
+    "about": "회사 소개",
+    "packages": "여행 패키지",
+    "corporateTravel": "기업 여행",
+    "contact": "문의",
+    "planYourTrip": "여행 계획하기"
+  }
+}
