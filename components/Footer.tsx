@@ -26,12 +26,12 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-3 text-base font-semibold">{t("viewAll") === "View All" ? "Quick Links" : t("viewAll")}</h3>
+            <h3 className="mb-3 text-base font-semibold">Quick Links</h3>
             <ul className="space-y-2 text-xs text-gray-300">
               <li><Link href="/">{t("home")}</Link></li>
               <li><Link href="/about">{t("about")}</Link></li>
               <li><Link href="/packages">{t("packages")}</Link></li>
-              <li><Link href="/destinations">Destinations</Link></li>
+              <li><Link href="/destinations">{t("destinations")}</Link></li>
               <li><Link href="/contact">{t("contact")}</Link></li>
               <li><Link href="/packages?theme=spiritual">Pilgrimage Tours</Link></li>
               <li><Link href="/packages?theme=wildlife">Wildlife Safaris</Link></li>
@@ -123,7 +123,7 @@ export default function Footer() {
 
         <div className="mt-5 border-t border-white/10 pt-5">
           <div className="flex flex-col items-center gap-2 text-center">
-            <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-gray-400">Language</span>
+            <span className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-gray-400">{t("chooseLanguage")}</span>
             <LanguageSelector />
           </div>
         </div>
