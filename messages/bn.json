@@ -1,17 +1,69 @@
 {
   "common": {
     "language": "Bengali",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "ভাষা বেছে নিন",
     "home": "হোম",
     "about": "আমাদের সম্পর্কে",
     "packages": "প্যাকেজ",
-    "corporateTravel": "কর্পোরেট ভ্রমণ",
+    "corporateTravel": "কর্পোরেট ট্রাভেল",
     "contact": "যোগাযোগ",
-    "planYourTrip": "আপনার ভ্রমণ পরিকল্পনা করুন"
+    "planYourTrip": "আপনার ভ্রমণ পরিকল্পনা করুন",
+    "experiences": "অভিজ্ঞতা",
+    "viewAll": "সব দেখুন",
+    "menu": "মেনু",
+    "back": "প্যাকেজে ফিরে যান",
+    "exploreByExperience": "অভিজ্ঞতা অনুযায়ী দেখুন",
+    "explorePackagesByState": "রাজ্য অনুযায়ী প্যাকেজ",
+    "selectState": "সব ট্যুর প্যাকেজ দেখতে রাজ্য বেছে নিন"
   },
   "home": {
     "heroTitle": "অবিশ্বাস্য ভারত ঘুরে দেখুন",
     "heroBrand": "Only Road Trip-এর সঙ্গে",
     "heroDesc": "ভারতজুড়ে ভ্রমণ বিশেষজ্ঞদের পরিকল্পনায় তীর্থযাত্রা, পারিবারিক ছুটি, হানিমুন, বন্যপ্রাণী অভিযান, বিলাসবহুল ছুটি এবং কর্পোরেট ভ্রমণ উপভোগ করুন।"
+  },
+  "search": {
+    "destination": "গন্তব্য",
+    "travelDate": "ভ্রমণের তারিখ",
+    "travellers": "ভ্রমণকারী",
+    "searchTours": "ট্যুর খুঁজুন",
+    "destinationPlaceholder": "বারাণসী, গোয়া, গুজরাট লিখুন...",
+    "noDestination": "মিলছে এমন গন্তব্য পাওয়া যায়নি।",
+    "enterDestination": "দয়া করে গন্তব্য লিখুন।"
+  },
+  "categories": {
+    "pilgrimage": "তীর্থযাত্রা",
+    "pilgrimageDesc": "ভারতের বিখ্যাত মন্দির ও আধ্যাত্মিক গন্তব্যে পবিত্র ভ্রমণ।",
+    "wildlife": "বন্যপ্রাণী সাফারি",
+    "wildlifeDesc": "ভারতের বিখ্যাত জাতীয় উদ্যান ও বন্যপ্রাণীর অভিজ্ঞতা নিন।",
+    "women": "নারীদের জন্য বিশেষ",
+    "womenDesc": "নারীদের জন্য নিরাপদ ও স্মরণীয় ভ্রমণ অভিজ্ঞতা।",
+    "corporate": "কর্পোরেট ট্রাভেল",
+    "corporateDesc": "সুশৃঙ্খল পরিকল্পনা ও সহায়তায় ব্যবসায়িক ভ্রমণ ব্যবস্থাপনা।",
+    "family": "পারিবারিক ছুটি",
+    "familyDesc": "সব ধরনের পরিবারের জন্য আনন্দময় ছুটি।",
+    "previous": "আগের ভ্রমণ বিভাগ",
+    "next": "পরের ভ্রমণ বিভাগ"
+  },
+  "packageCard": {
+    "viewMap": "মানচিত্র দেখুন",
+    "highlights": "বিশেষ আকর্ষণ",
+    "tourIncludes": "ট্যুরে অন্তর্ভুক্ত",
+    "accommodation": "থাকার ব্যবস্থা",
+    "mealsIncluded": "খাবার অন্তর্ভুক্ত",
+    "sightseeingIncluded": "দর্শনীয় স্থান অন্তর্ভুক্ত",
+    "transportIncluded": "পরিবহন অন্তর্ভুক্ত",
+    "groupPrice": "গ্রুপ ট্যুরের শুরু",
+    "allInclusive": "সব-সহ মূল্য শুরু",
+    "perPerson": "প্রতি ব্যক্তি",
+    "rateSoon": "মূল্য শীঘ্রই",
+    "quad": "কোয়াড / ট্রিপল / ডাবল",
+    "flexiblePayment": "নমনীয় পেমেন্ট",
+    "optionsAvailable": "বিকল্প উপলব্ধ",
+    "viewTour": "ট্যুর দেখুন",
+    "bookOnline": "অনলাইনে বুক করুন",
+    "whatsapp": "WhatsApp জিজ্ঞাসা",
+    "getItinerary": "ইটিনেরারি দেখুন",
+    "bestseller": "বেস্টসেলার",
+    "addWishlist": "উইশলিস্টে যোগ করুন"
   }
 }
