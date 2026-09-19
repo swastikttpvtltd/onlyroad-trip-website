@@ -18,6 +18,8 @@ const titles: Record<Locale, string> = {
   ru: "Only Road Trip | Туры и путешествия по Индии",
   pt: "Only Road Trip | Pacotes de viagem pela Índia",
   de: "Only Road Trip | Indien-Reisepakete & Rundreisen",
+  it: "Only Road Trip | Tour e pacchetti viaggio in India",
+  nl: "Only Road Trip | Rondreizen en reispakketten in India",
 };
 
 const descriptions: Record<Locale, string> = {
@@ -33,6 +35,8 @@ const descriptions: Record<Locale, string> = {
   ru: "Исследуйте Индию с Only Road Trip: паломнические туры, отдых, автопутешествия и индивидуальные программы.",
   pt: "Explore a Índia com a Only Road Trip através de peregrinações, férias, road trips e pacotes personalizados.",
   de: "Entdecken Sie Indien mit Only Road Trip – Pilgerreisen, Rundreisen, Familienurlaub und individuelle Reisepakete.",
+  it: "Esplora l’India con Only Road Trip: pellegrinaggi, vacanze, road trip e pacchetti personalizzati.",
+  nl: "Ontdek India met Only Road Trip: pelgrimstochten, vakanties, roadtrips en persoonlijke reispakketten.",
 };
 
 export function generateStaticParams() {
