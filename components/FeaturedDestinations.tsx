@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/LocalizedLink";
 import { useTranslations } from "next-intl";
 import { MapPin,Star,Heart,Clock3,ArrowRight } from "lucide-react";
 import { packages } from "@/data/packages";
