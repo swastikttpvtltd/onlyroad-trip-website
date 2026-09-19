@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Russian",
+    "chooseLanguage": "Choose language",
+    "home": "Главная",
+    "about": "О нас",
+    "packages": "Туры",
+    "corporateTravel": "Корпоративные поездки",
+    "contact": "Контакты",
+    "planYourTrip": "Спланировать поездку"
+  }
+}
