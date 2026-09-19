@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Spanish",
+    "chooseLanguage": "Choose language",
+    "home": "Inicio",
+    "about": "Sobre nosotros",
+    "packages": "Paquetes",
+    "corporateTravel": "Viajes corporativos",
+    "contact": "Contacto",
+    "planYourTrip": "Planifica tu viaje"
+  }
+}
