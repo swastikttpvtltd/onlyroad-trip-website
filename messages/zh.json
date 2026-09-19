@@ -1,13 +1,20 @@
 {
   "common": {
     "language": "Mandarin Chinese",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "选择语言",
     "home": "首页",
     "about": "关于我们",
     "packages": "旅游套餐",
     "corporateTravel": "企业旅行",
     "contact": "联系我们",
-    "planYourTrip": "规划您的旅行"
+    "planYourTrip": "规划您的旅行",
+    "experiences": "旅行体验",
+    "viewAll": "查看全部",
+    "menu": "菜单",
+    "back": "返回套餐",
+    "exploreByExperience": "按体验探索",
+    "explorePackagesByState": "按邦探索套餐",
+    "selectState": "选择邦以查看所有旅游套餐"
   },
   "home": {
     "travelCategories": "旅行类别",
@@ -54,5 +61,50 @@
     "heroTitle": "探索令人惊叹的印度",
     "heroBrand": "与 Only Road Trip 一起",
     "heroDesc": "与旅行专家一起探索印度，体验朝圣之旅、家庭度假、蜜月套餐、野生动物探险、豪华假期和企业旅行。"
+  },
+  "search": {
+    "destination": "目的地",
+    "travelDate": "旅行日期",
+    "travellers": "旅行人数",
+    "searchTours": "搜索行程",
+    "destinationPlaceholder": "输入瓦拉纳西、果阿、古吉拉特...",
+    "noDestination": "未找到匹配的目的地。",
+    "enterDestination": "请输入目的地。"
+  },
+  "categories": {
+    "pilgrimage": "朝圣之旅",
+    "pilgrimageDesc": "探索印度最受尊崇的寺庙和精神目的地。",
+    "wildlife": "野生动物探险",
+    "wildlifeDesc": "体验印度著名国家公园和野生动物之旅。",
+    "women": "女性专属",
+    "womenDesc": "为女性精心设计的安全、难忘旅行体验。",
+    "corporate": "企业旅行",
+    "corporateDesc": "提供顺畅规划与支持的商务旅行管理。",
+    "family": "家庭度假",
+    "familyDesc": "为各种家庭打造的欢乐假期。",
+    "previous": "上一旅行类别",
+    "next": "下一旅行类别"
+  },
+  "packageCard": {
+    "viewMap": "查看地图",
+    "highlights": "亮点",
+    "tourIncludes": "行程包含",
+    "accommodation": "住宿",
+    "mealsIncluded": "包含餐食",
+    "sightseeingIncluded": "包含观光",
+    "transportIncluded": "包含交通",
+    "groupPrice": "跟团游起价",
+    "allInclusive": "全包起价",
+    "perPerson": "每人",
+    "rateSoon": "价格即将公布",
+    "quad": "四人 / 三人 / 双人",
+    "flexiblePayment": "灵活付款",
+    "optionsAvailable": "可用选项",
+    "viewTour": "查看行程",
+    "bookOnline": "在线预订",
+    "whatsapp": "WhatsApp咨询",
+    "getItinerary": "查看行程单",
+    "bestseller": "畅销",
+    "addWishlist": "加入愿望清单"
   }
 }
