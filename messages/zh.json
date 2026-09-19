@@ -87,7 +87,15 @@
     "statsRating": "客户评分",
     "heroTitle": "探索令人惊叹的印度",
     "heroBrand": "与 Only Road Trip 一起",
-    "heroDesc": "与旅行专家一起探索印度，体验朝圣之旅、家庭度假、蜜月套餐、野生动物探险、豪华假期和企业旅行。"
+    "heroDesc": "与旅行专家一起探索印度，体验朝圣之旅、家庭度假、蜜月套餐、野生动物探险、豪华假期和企业旅行。",
+    "exploreAllPackages": "探索所有套餐",
+    "planYourTrip": "规划您的行程",
+    "curatedPackages": "{count} 个精选套餐",
+    "popularTourPackages": "热门旅游套餐",
+    "talkToTravelTeam": "联系我们的旅行团队",
+    "customJourneyTitle": "规划定制的 {title} 之旅",
+    "customJourneyDesc": "告诉我们您的出行日期、人数、酒店偏好和预算，我们会根据需求定制行程、交通和住宿。",
+    "startPlanning": "开始规划"
   },
   "search": {
     "destination": "目的地",
@@ -132,6 +140,9 @@
     "whatsapp": "WhatsApp咨询",
     "getItinerary": "查看行程单",
     "bestseller": "畅销",
-    "addWishlist": "加入愿望清单"
+    "addWishlist": "加入愿望清单",
+    "wishlist": "探索所有套餐",
+    "previousGroupTour": "探索所有套餐",
+    "nextGroupTour": "探索所有套餐"
   }
 }

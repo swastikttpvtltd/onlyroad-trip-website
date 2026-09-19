@@ -87,7 +87,15 @@
     "statsRating": "Customer Rating",
     "heroTitle": "Explore Incredible India",
     "heroBrand": "With Only Road Trip",
-    "heroDesc": "Experience handcrafted journeys across India with premium pilgrimage tours, family vacations, honeymoon packages, wildlife adventures, luxury holidays and corporate travel solutions—all planned by travel experts."
+    "heroDesc": "Experience handcrafted journeys across India with premium pilgrimage tours, family vacations, honeymoon packages, wildlife adventures, luxury holidays and corporate travel solutions—all planned by travel experts.",
+    "exploreAllPackages": "Explore All Packages",
+    "planYourTrip": "Plan Your Trip",
+    "curatedPackages": "{count} curated packages",
+    "popularTourPackages": "Popular tour packages",
+    "talkToTravelTeam": "Talk to our travel team",
+    "customJourneyTitle": "Plan a customised {title} journey",
+    "customJourneyDesc": "Tell us your travel dates, number of travellers, preferred hotel category and budget. Our team can customise the itinerary, transport and stay around your requirements.",
+    "startPlanning": "Start Planning"
   },
   "search": {
     "destination": "Destination",
@@ -132,6 +140,9 @@
     "whatsapp": "WhatsApp Enquiry",
     "getItinerary": "Get Itinerary",
     "bestseller": "Bestseller",
-    "addWishlist": "Add to Wishlist"
+    "addWishlist": "Add to Wishlist",
+    "wishlist": "Explore All Packages",
+    "previousGroupTour": "Explore All Packages",
+    "nextGroupTour": "Explore All Packages"
   }
 }

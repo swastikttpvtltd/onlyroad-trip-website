@@ -87,7 +87,15 @@
     "statsRating": "Note des clients",
     "heroTitle": "Découvrez l'incroyable Inde",
     "heroBrand": "Avec Only Road Trip",
-    "heroDesc": "Découvrez des voyages conçus par des experts à travers l'Inde : pèlerinages, vacances en famille, lunes de miel, aventures, séjours de luxe et voyages d'affaires."
+    "heroDesc": "Découvrez des voyages conçus par des experts à travers l'Inde : pèlerinages, vacances en famille, lunes de miel, aventures, séjours de luxe et voyages d'affaires.",
+    "exploreAllPackages": "Voir tous les forfaits",
+    "planYourTrip": "Planifiez votre voyage",
+    "curatedPackages": "{count} forfaits sélectionnés",
+    "popularTourPackages": "Forfaits populaires",
+    "talkToTravelTeam": "Parler à notre équipe voyage",
+    "customJourneyTitle": "Planifiez un voyage personnalisé à {title}",
+    "customJourneyDesc": "Indiquez vos dates, le nombre de voyageurs, la catégorie d’hôtel et votre budget. Nous adapterons l’itinéraire, le transport et l’hébergement à vos besoins.",
+    "startPlanning": "Commencer la planification"
   },
   "search": {
     "destination": "Destination",
@@ -132,6 +140,9 @@
     "whatsapp": "Demande WhatsApp",
     "getItinerary": "Voir l'itinéraire",
     "bestseller": "Meilleure vente",
-    "addWishlist": "Ajouter aux favoris"
+    "addWishlist": "Ajouter aux favoris",
+    "wishlist": "Voir tous les forfaits",
+    "previousGroupTour": "Voir tous les forfaits",
+    "nextGroupTour": "Voir tous les forfaits"
   }
 }

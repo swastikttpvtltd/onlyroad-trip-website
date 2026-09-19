@@ -87,7 +87,15 @@
     "statsRating": "Valoración de clientes",
     "heroTitle": "Explora la increíble India",
     "heroBrand": "Con Only Road Trip",
-    "heroDesc": "Vive viajes diseñados por expertos por toda India, con peregrinaciones, vacaciones familiares, lunas de miel, aventuras, escapadas de lujo y soluciones corporativas."
+    "heroDesc": "Vive viajes diseñados por expertos por toda India, con peregrinaciones, vacaciones familiares, lunas de miel, aventuras, escapadas de lujo y soluciones corporativas.",
+    "exploreAllPackages": "Explorar todos los paquetes",
+    "planYourTrip": "Planifica tu viaje",
+    "curatedPackages": "{count} paquetes seleccionados",
+    "popularTourPackages": "Paquetes turísticos populares",
+    "talkToTravelTeam": "Habla con nuestro equipo de viajes",
+    "customJourneyTitle": "Planifica un viaje personalizado a {title}",
+    "customJourneyDesc": "Indícanos tus fechas, viajeros, categoría de hotel y presupuesto. Personalizaremos el itinerario, transporte y alojamiento según tus necesidades.",
+    "startPlanning": "Empezar a planificar"
   },
   "search": {
     "destination": "Destino",
@@ -132,6 +140,9 @@
     "whatsapp": "Consulta por WhatsApp",
     "getItinerary": "Ver itinerario",
     "bestseller": "Más vendido",
-    "addWishlist": "Añadir a favoritos"
+    "addWishlist": "Añadir a favoritos",
+    "wishlist": "Explorar todos los paquetes",
+    "previousGroupTour": "Explorar todos los paquetes",
+    "nextGroupTour": "Explorar todos los paquetes"
   }
 }
