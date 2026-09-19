@@ -1,13 +1,20 @@
 {
   "common": {
     "language": "Russian",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "Выберите язык",
     "home": "Главная",
     "about": "О нас",
     "packages": "Туры",
     "corporateTravel": "Корпоративные поездки",
     "contact": "Контакты",
-    "planYourTrip": "Спланировать поездку"
+    "planYourTrip": "Спланировать поездку",
+    "experiences": "Впечатления",
+    "viewAll": "Смотреть все",
+    "menu": "Меню",
+    "back": "Назад к турам",
+    "exploreByExperience": "По типу путешествия",
+    "explorePackagesByState": "Туры по штатам",
+    "selectState": "Выберите штат, чтобы увидеть все туры"
   },
   "home": {
     "travelCategories": "Категории путешествий",
@@ -54,5 +61,50 @@
     "heroTitle": "Откройте удивительную Индию",
     "heroBrand": "С Only Road Trip",
     "heroDesc": "Путешествуйте по Индии с маршрутами от экспертов: паломничества, семейный отдых, медовый месяц, сафари, роскошные каникулы и корпоративные поездки."
+  },
+  "search": {
+    "destination": "Направление",
+    "travelDate": "Дата поездки",
+    "travellers": "Путешественники",
+    "searchTours": "Найти туры",
+    "destinationPlaceholder": "Введите Варанаси, Гоа, Гуджарат...",
+    "noDestination": "Подходящее направление не найдено.",
+    "enterDestination": "Введите направление."
+  },
+  "categories": {
+    "pilgrimage": "Паломнические туры",
+    "pilgrimageDesc": "Священные путешествия к самым почитаемым храмам и духовным местам Индии.",
+    "wildlife": "Сафари и дикая природа",
+    "wildlifeDesc": "Национальные парки Индии и незабываемые встречи с дикой природой.",
+    "women": "Туры для женщин",
+    "womenDesc": "Безопасные и продуманные путешествия специально для женщин.",
+    "corporate": "Корпоративные поездки",
+    "corporateDesc": "Организация деловых поездок с полной поддержкой.",
+    "family": "Семейный отдых",
+    "familyDesc": "Яркие каникулы для семей любого размера.",
+    "previous": "Предыдущая категория",
+    "next": "Следующая категория"
+  },
+  "packageCard": {
+    "viewMap": "Смотреть карту",
+    "highlights": "Главное",
+    "tourIncludes": "В тур входит",
+    "accommodation": "Проживание",
+    "mealsIncluded": "Питание включено",
+    "sightseeingIncluded": "Экскурсии включены",
+    "transportIncluded": "Транспорт включён",
+    "groupPrice": "Групповой тур от",
+    "allInclusive": "Цена «всё включено» от",
+    "perPerson": "На человека",
+    "rateSoon": "Цена скоро",
+    "quad": "Четырёхместный / Трёхместный / Двухместный",
+    "flexiblePayment": "Гибкая оплата",
+    "optionsAvailable": "доступные варианты",
+    "viewTour": "Смотреть тур",
+    "bookOnline": "Забронировать онлайн",
+    "whatsapp": "Запрос в WhatsApp",
+    "getItinerary": "Смотреть маршрут",
+    "bestseller": "Бестселлер",
+    "addWishlist": "В избранное"
   }
 }
