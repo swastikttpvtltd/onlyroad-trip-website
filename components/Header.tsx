@@ -57,7 +57,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const pathWithoutLocale = pathname.replace(/^\/(en|hi|zh|es|ar|fr|bn|ja|ko|ru|pt|de)(?=\/|$)/, "") || "/";
+  const pathWithoutLocale = pathname.replace(/^\/(en|hi|zh|es|ar|fr|bn|ja|ko|ru|pt|de|it|nl)(?=\/|$)/, "") || "/";
   const isPackagePage = pathWithoutLocale === "/packages" || pathWithoutLocale.startsWith("/packages/") || pathWithoutLocale.startsWith("/book/");
 
   useEffect(() => {
@@ -133,7 +133,7 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <LanguageSelector overLight={overLight} />
             <Link href="/plan-your-trip" className={`hidden rounded-full border px-4 py-2 text-sm font-bold sm:inline-flex sm:px-6 sm:py-2.5 ${overLight ? "border-slate-500/70 bg-white/55 text-slate-950" : "border-white/80 bg-white/15 text-white"}`}>{t("planYourTrip")}</Link>
-            <button type="button" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)} className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border lg:hidden ${overLight ? "border-slate-400 bg-white/70 text-slate-900" : "border-white/60 bg-white/15 text-white"}`}><span className="sr-only">{t("menu")}</span><span className="flex flex-col gap-1.5"><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""} bg-current`} /></span></button>
+            <button type="button" aria-label={mobileOpen ? t("closeMenu") : t("openMenu")} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)} className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border lg:hidden ${overLight ? "border-slate-400 bg-white/70 text-slate-900" : "border-white/60 bg-white/15 text-white"}`}><span className="sr-only">{t("menu")}</span><span className="flex flex-col gap-1.5"><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""} bg-current`} /></span></button>
           </div>
         </div>
 
