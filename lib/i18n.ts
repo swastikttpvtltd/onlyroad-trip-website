@@ -1,5 +1,5 @@
 export const SUPPORTED_LOCALES = [
-  "en", "hi", "zh", "es", "ar", "fr", "bn", "ja", "ko", "ru", "pt", "de",
+  "en", "hi", "zh", "es", "ar", "fr", "bn", "ja", "ko", "ru", "pt", "de", "it", "nl",
 ] as const;
 
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
@@ -17,6 +17,8 @@ export const LOCALE_INFO: Record<Locale, { name: string; nativeName: string; fla
   ru: { name: "Russian", nativeName: "Русский", flag: "🇷🇺", dir: "ltr" },
   pt: { name: "Portuguese", nativeName: "Português", flag: "🇵🇹", dir: "ltr" },
   de: { name: "German", nativeName: "Deutsch", flag: "🇩🇪", dir: "ltr" },
+  it: { name: "Italian", nativeName: "Italiano", flag: "🇮🇹", dir: "ltr" },
+  nl: { name: "Dutch", nativeName: "Nederlands", flag: "🇳🇱", dir: "ltr" },
 };
 
 export const DEFAULT_LOCALE: Locale = "en";
