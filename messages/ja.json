@@ -8,5 +8,10 @@
     "corporateTravel": "法人旅行",
     "contact": "お問い合わせ",
     "planYourTrip": "旅行を計画する"
+  },
+  "home": {
+    "heroTitle": "魅力あふれるインドを探索",
+    "heroBrand": "Only Road Tripとともに",
+    "heroDesc": "旅行の専門家が企画したインド各地の巡礼、家族旅行、新婚旅行、野生動物アドベンチャー、ラグジュアリー休暇、法人旅行をお楽しみください。"
   }
 }
