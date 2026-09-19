@@ -1,17 +1,69 @@
 {
   "common": {
     "language": "Arabic",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "اختر اللغة",
     "home": "الرئيسية",
     "about": "من نحن",
     "packages": "الباقات",
     "corporateTravel": "سفر الشركات",
     "contact": "اتصل بنا",
-    "planYourTrip": "خطط لرحلتك"
+    "planYourTrip": "خطط لرحلتك",
+    "experiences": "التجارب",
+    "viewAll": "عرض الكل",
+    "menu": "القائمة",
+    "back": "العودة إلى الباقات",
+    "exploreByExperience": "استكشف حسب التجربة",
+    "explorePackagesByState": "استكشف الباقات حسب الولاية",
+    "selectState": "اختر ولاية لعرض جميع الباقات"
   },
   "home": {
     "heroTitle": "اكتشف الهند المذهلة",
     "heroBrand": "مع Only Road Trip",
     "heroDesc": "استمتع برحلات مصممة بعناية في جميع أنحاء الهند تشمل رحلات الحج والعطلات العائلية وشهر العسل ومغامرات الحياة البرية والعطلات الفاخرة والسفر للشركات."
+  },
+  "search": {
+    "destination": "الوجهة",
+    "travelDate": "تاريخ السفر",
+    "travellers": "المسافرون",
+    "searchTours": "بحث عن الرحلات",
+    "destinationPlaceholder": "اكتب فاراناسي أو غوا أو غوجارات...",
+    "noDestination": "لم يتم العثور على وجهة مطابقة.",
+    "enterDestination": "يرجى إدخال الوجهة."
+  },
+  "categories": {
+    "pilgrimage": "رحلات الحج",
+    "pilgrimageDesc": "رحلات روحانية إلى أشهر المعابد والوجهات المقدسة في الهند.",
+    "wildlife": "رحلات الحياة البرية",
+    "wildlifeDesc": "استمتع بالحدائق الوطنية الشهيرة ومغامرات الحياة البرية في الهند.",
+    "women": "رحلات خاصة للنساء",
+    "womenDesc": "تجارب سفر آمنة ومميزة مصممة للنساء.",
+    "corporate": "سفر الشركات",
+    "corporateDesc": "إدارة سفر الأعمال مع تخطيط ودعم سلس.",
+    "family": "عطلات عائلية",
+    "familyDesc": "عطلات ممتعة مصممة للعائلات من جميع الأحجام.",
+    "previous": "فئة السفر السابقة",
+    "next": "فئة السفر التالية"
+  },
+  "packageCard": {
+    "viewMap": "عرض الخريطة",
+    "highlights": "أبرز المعالم",
+    "tourIncludes": "يشمل البرنامج",
+    "accommodation": "الإقامة",
+    "mealsIncluded": "الوجبات مشمولة",
+    "sightseeingIncluded": "الجولات مشمولة",
+    "transportIncluded": "النقل مشمول",
+    "groupPrice": "يبدأ سعر الرحلة الجماعية من",
+    "allInclusive": "يبدأ السعر الشامل من",
+    "perPerson": "لكل شخص",
+    "rateSoon": "السعر قريباً",
+    "quad": "رباعي / ثلاثي / مزدوج",
+    "flexiblePayment": "دفع مرن",
+    "optionsAvailable": "خيارات متاحة",
+    "viewTour": "عرض الرحلة",
+    "bookOnline": "احجز عبر الإنترنت",
+    "whatsapp": "استفسار واتساب",
+    "getItinerary": "عرض خط سير الرحلة",
+    "bestseller": "الأكثر مبيعاً",
+    "addWishlist": "أضف إلى المفضلة"
   }
 }
