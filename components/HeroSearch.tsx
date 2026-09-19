@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Search, Users } from "lucide-react";
 import { packages } from "@/data/packages";
@@ -13,6 +14,7 @@ const todayIso = () => {
 const cleanPlace = (value: string) => value.trim().replace(/\s+/g, " ");
 
 export default function HeroSearch() {
+  const t = useTranslations("search");
   const router = useRouter();
   const [destination, setDestination] = useState("");
   const [travelDate, setTravelDate] = useState("");
@@ -50,7 +52,7 @@ export default function HeroSearch() {
   const handleSearch = () => {
     const q = destination.trim();
     if (!q) {
-      alert("Please enter a destination.");
+      alert(t("enterDestination"));
       return;
     }
     const params = new URLSearchParams();
@@ -68,7 +70,7 @@ export default function HeroSearch() {
         <div className="relative z-[110] rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
           <div className="mb-2 flex items-center gap-2">
             <MapPin className="h-5 w-5 font-bold text-blue-800" strokeWidth={2.5} />
-            <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Destination</span>
+            <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">{t("destination")}</span>
           </div>
           <input
             type="text"
@@ -84,7 +86,7 @@ export default function HeroSearch() {
               if (e.key === "Enter") handleSearch();
               if (e.key === "Escape") setShowSuggestions(false);
             }}
-            placeholder="Type Varanasi, Goa, Gujarat..."
+            placeholder={t("destinationPlaceholder")}
             autoComplete="off"
             inputMode="search"
             className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none placeholder:text-slate-500"
@@ -113,7 +115,7 @@ export default function HeroSearch() {
                   </button>
                 ))
               ) : (
-                <div className="px-3 py-3 text-sm font-semibold text-slate-500">No matching destination found.</div>
+                <div className="px-3 py-3 text-sm font-semibold text-slate-500">{t("noDestination")}</div>
               )}
             </div>
           )}
@@ -122,7 +124,7 @@ export default function HeroSearch() {
         <div className="rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
           <div className="mb-2 flex items-center gap-2">
             <Calendar className="h-5 w-5 font-bold text-blue-800" strokeWidth={2.5} />
-            <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Travel Date</span>
+            <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">{t("travelDate")}</span>
           </div>
           <input type="date" min={todayIso()} value={travelDate} onChange={(e) => setTravelDate(e.target.value)} className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none" />
         </div>
@@ -130,7 +132,7 @@ export default function HeroSearch() {
         <div className="rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
           <div className="mb-2 flex items-center gap-2">
             <Users className="h-5 w-5 font-bold text-blue-800" strokeWidth={2.5} />
-            <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Travellers</span>
+            <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">{t("travellers")}</span>
           </div>
           <div className="flex items-center justify-between">
             <button type="button" onClick={() => setTravellers((p) => Math.max(1, p - 1))} className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-50 text-xl font-extrabold leading-none text-slate-900 shadow-sm">−</button>
