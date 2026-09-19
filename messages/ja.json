@@ -1,17 +1,69 @@
 {
   "common": {
     "language": "Japanese",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "言語を選択",
     "home": "ホーム",
-    "about": "私たちについて",
-    "packages": "ツアーパッケージ",
+    "about": "会社情報",
+    "packages": "ツアー",
     "corporateTravel": "法人旅行",
     "contact": "お問い合わせ",
-    "planYourTrip": "旅行を計画する"
+    "planYourTrip": "旅行を計画する",
+    "experiences": "体験",
+    "viewAll": "すべて見る",
+    "menu": "メニュー",
+    "back": "ツアーに戻る",
+    "exploreByExperience": "体験から探す",
+    "explorePackagesByState": "州別にツアーを探す",
+    "selectState": "州を選択してツアーを見る"
   },
   "home": {
     "heroTitle": "魅力あふれるインドを探索",
     "heroBrand": "Only Road Tripとともに",
     "heroDesc": "旅行の専門家が企画したインド各地の巡礼、家族旅行、新婚旅行、野生動物アドベンチャー、ラグジュアリー休暇、法人旅行をお楽しみください。"
+  },
+  "search": {
+    "destination": "目的地",
+    "travelDate": "旅行日",
+    "travellers": "旅行者",
+    "searchTours": "ツアーを検索",
+    "destinationPlaceholder": "バラナシ、ゴア、グジャラートを入力...",
+    "noDestination": "一致する目的地が見つかりません。",
+    "enterDestination": "目的地を入力してください。"
+  },
+  "categories": {
+    "pilgrimage": "巡礼ツアー",
+    "pilgrimageDesc": "インドの由緒ある寺院や精神的な名所を巡る旅。",
+    "wildlife": "野生動物サファリ",
+    "wildlifeDesc": "インドの有名な国立公園と野生動物を体験。",
+    "women": "女性向け特別ツアー",
+    "womenDesc": "女性のために企画された安全で思い出に残る旅。",
+    "corporate": "法人旅行",
+    "corporateDesc": "スムーズな計画とサポートを備えたビジネス旅行管理。",
+    "family": "家族旅行",
+    "familyDesc": "あらゆる家族に向けた楽しい休暇。",
+    "previous": "前の旅行カテゴリー",
+    "next": "次の旅行カテゴリー"
+  },
+  "packageCard": {
+    "viewMap": "地図を見る",
+    "highlights": "見どころ",
+    "tourIncludes": "ツアーに含まれるもの",
+    "accommodation": "宿泊",
+    "mealsIncluded": "食事込み",
+    "sightseeingIncluded": "観光込み",
+    "transportIncluded": "交通込み",
+    "groupPrice": "グループツアー料金",
+    "allInclusive": "オールインクルーシブ料金",
+    "perPerson": "1名あたり",
+    "rateSoon": "料金近日公開",
+    "quad": "4名 / 3名 / 2名",
+    "flexiblePayment": "柔軟な支払い",
+    "optionsAvailable": "利用可能なオプション",
+    "viewTour": "ツアーを見る",
+    "bookOnline": "オンライン予約",
+    "whatsapp": "WhatsAppで問い合わせ",
+    "getItinerary": "旅程を見る",
+    "bestseller": "人気商品",
+    "addWishlist": "お気に入りに追加"
   }
 }
