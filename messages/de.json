@@ -1,13 +1,20 @@
 {
   "common": {
     "language": "German",
-    "chooseLanguage": "Choose language",
+    "chooseLanguage": "Sprache wählen",
     "home": "Startseite",
     "about": "Über uns",
     "packages": "Reisepakete",
     "corporateTravel": "Geschäftsreisen",
     "contact": "Kontakt",
-    "planYourTrip": "Reise planen"
+    "planYourTrip": "Reise planen",
+    "experiences": "Erlebnisse",
+    "viewAll": "Alle ansehen",
+    "menu": "Menü",
+    "back": "Zurück zu den Paketen",
+    "exploreByExperience": "Nach Erlebnis entdecken",
+    "explorePackagesByState": "Pakete nach Bundesstaat",
+    "selectState": "Wählen Sie einen Bundesstaat, um alle Pakete zu sehen"
   },
   "home": {
     "travelCategories": "Reisekategorien",
@@ -54,5 +61,50 @@
     "heroTitle": "Entdecken Sie das unglaubliche Indien",
     "heroBrand": "Mit Only Road Trip",
     "heroDesc": "Erleben Sie von Reiseexperten geplante Reisen durch Indien mit Pilgerreisen, Familienurlaub, Honeymoon-Paketen, Wildnisabenteuern, Luxusurlaub und Geschäftsreisen."
+  },
+  "search": {
+    "destination": "Reiseziel",
+    "travelDate": "Reisedatum",
+    "travellers": "Reisende",
+    "searchTours": "Reisen suchen",
+    "destinationPlaceholder": "Varanasi, Goa, Gujarat eingeben...",
+    "noDestination": "Kein passendes Reiseziel gefunden.",
+    "enterDestination": "Bitte ein Reiseziel eingeben."
+  },
+  "categories": {
+    "pilgrimage": "Pilgerreisen",
+    "pilgrimageDesc": "Heilige Reisen zu den bedeutendsten Tempeln und spirituellen Zielen Indiens.",
+    "wildlife": "Wildtiersafaris",
+    "wildlifeDesc": "Erleben Sie Indiens berühmte Nationalparks und Wildtierabenteuer.",
+    "women": "Spezial für Frauen",
+    "womenDesc": "Sichere und unvergessliche Reiseerlebnisse für Frauen.",
+    "corporate": "Geschäftsreisen",
+    "corporateDesc": "Professionelles Geschäftsreisemanagement mit nahtloser Planung und Support.",
+    "family": "Familienurlaub",
+    "familyDesc": "Abwechslungsreiche Ferien für Familien jeder Größe.",
+    "previous": "Vorherige Reisekategorie",
+    "next": "Nächste Reisekategorie"
+  },
+  "packageCard": {
+    "viewMap": "Karte ansehen",
+    "highlights": "Highlights",
+    "tourIncludes": "Im Paket enthalten",
+    "accommodation": "Unterkunft",
+    "mealsIncluded": "Mahlzeiten inklusive",
+    "sightseeingIncluded": "Besichtigungen inklusive",
+    "transportIncluded": "Transport inklusive",
+    "groupPrice": "Gruppenreise ab",
+    "allInclusive": "All-inclusive-Preis ab",
+    "perPerson": "Pro Person",
+    "rateSoon": "Preis folgt",
+    "quad": "Vierbett / Dreibett / Doppelzimmer",
+    "flexiblePayment": "Flexible Zahlung",
+    "optionsAvailable": "Optionen verfügbar",
+    "viewTour": "Reise ansehen",
+    "bookOnline": "Online buchen",
+    "whatsapp": "WhatsApp-Anfrage",
+    "getItinerary": "Reiseplan ansehen",
+    "bestseller": "Bestseller",
+    "addWishlist": "Zur Wunschliste hinzufügen"
   }
 }
