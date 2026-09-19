@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Hindi",
+    "chooseLanguage": "Choose language",
+    "home": "होम",
+    "about": "हमारे बारे में",
+    "packages": "पैकेज",
+    "corporateTravel": "कॉर्पोरेट ट्रैवल",
+    "contact": "संपर्क",
+    "planYourTrip": "अपनी यात्रा प्लान करें"
+  }
+}
