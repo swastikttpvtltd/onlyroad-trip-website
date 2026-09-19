@@ -1,8 +1,5 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
-import LocaleHtmlAttributes from "@/components/LocaleHtmlAttributes";
 import { LOCALE_INFO, SUPPORTED_LOCALES, type Locale } from "@/lib/i18n";
 
 const baseUrl = "https://www.onlyroadtrip.com";
@@ -42,21 +39,15 @@ export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   if (!SUPPORTED_LOCALES.includes(rawLocale as Locale)) return {};
-
   const locale = rawLocale as Locale;
   const localizedUrl = baseUrl + "/" + locale;
   const languages: Record<string, string> = Object.fromEntries(
     SUPPORTED_LOCALES.map((item) => [item, baseUrl + "/" + item])
   );
   languages["x-default"] = baseUrl + "/en";
-
   return {
     title: titles[locale],
     description: descriptions[locale],
@@ -78,21 +69,9 @@ export async function generateMetadata({
 export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}>) {
+}: Readonly<{ children: React.ReactNode; params: Promise<{ locale: string }> }>) {
   const { locale: rawLocale } = await params;
-
   if (!SUPPORTED_LOCALES.includes(rawLocale as Locale)) notFound();
-
-  const locale = rawLocale as Locale;
-  const messages = await getMessages();
-
-  return (
-    <NextIntlClientProvider messages={messages}>
-      <LocaleHtmlAttributes locale={locale} />
-      {children}
-    </NextIntlClientProvider>
-  );
+  void LOCALE_INFO;
+  return children;
 }
