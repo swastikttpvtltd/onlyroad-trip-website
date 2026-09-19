@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LOCALE_COOKIE,
@@ -10,6 +11,7 @@ import {
 } from "@/lib/i18n";
 
 export default function LanguageSelector({ overLight = false }: { overLight?: boolean }) {
+  const t = useTranslations("common");
   const router = useRouter();
   const pathname = usePathname();
   const [locale, setLocale] = useState<Locale>("en");
@@ -56,7 +58,7 @@ export default function LanguageSelector({ overLight = false }: { overLight?: bo
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={"Select language. Current language: " + current.name}
+        aria-label={t("chooseLanguage") + ". " + current.name}
         onClick={() => setOpen((value) => !value)}
         className={
           "inline-flex h-10 items-center gap-2 rounded-xl border px-3 text-sm font-bold shadow-sm backdrop-blur-md transition " +
