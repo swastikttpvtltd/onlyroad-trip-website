@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Bengali",
+    "chooseLanguage": "Choose language",
+    "home": "হোম",
+    "about": "আমাদের সম্পর্কে",
+    "packages": "প্যাকেজ",
+    "corporateTravel": "কর্পোরেট ভ্রমণ",
+    "contact": "যোগাযোগ",
+    "planYourTrip": "আপনার ভ্রমণ পরিকল্পনা করুন"
+  }
+}
