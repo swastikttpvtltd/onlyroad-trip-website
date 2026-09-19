@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "Mandarin Chinese",
+    "chooseLanguage": "Choose language",
+    "home": "首页",
+    "about": "关于我们",
+    "packages": "旅游套餐",
+    "corporateTravel": "企业旅行",
+    "contact": "联系我们",
+    "planYourTrip": "规划您的旅行"
+  }
+}
