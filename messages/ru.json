@@ -14,7 +14,8 @@
     "back": "Назад к турам",
     "exploreByExperience": "По типу путешествия",
     "explorePackagesByState": "Туры по штатам",
-    "selectState": "Выберите штат, чтобы увидеть все туры"
+    "selectState": "Выберите штат, чтобы увидеть все туры",
+    "destinations": "Направления"
   },
   "home": {
     "travelCategories": "Категории путешествий",
