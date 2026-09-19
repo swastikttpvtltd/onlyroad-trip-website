@@ -14,7 +14,8 @@
     "back": "প্যাকেজে ফিরে যান",
     "exploreByExperience": "অভিজ্ঞতা অনুযায়ী দেখুন",
     "explorePackagesByState": "রাজ্য অনুযায়ী প্যাকেজ",
-    "selectState": "সব ট্যুর প্যাকেজ দেখতে রাজ্য বেছে নিন"
+    "selectState": "সব ট্যুর প্যাকেজ দেখতে রাজ্য বেছে নিন",
+    "destinations": "গন্তব্য"
   },
   "home": {
     "heroTitle": "অবিশ্বাস্য ভারত ঘুরে দেখুন",
