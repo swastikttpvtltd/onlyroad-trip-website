@@ -1,0 +1,12 @@
+{
+  "common": {
+    "language": "English",
+    "chooseLanguage": "Choose language",
+    "home": "Home",
+    "about": "About Us",
+    "packages": "Packages",
+    "corporateTravel": "Corporate Travel",
+    "contact": "Contact",
+    "planYourTrip": "Plan Your Trip"
+  }
+}
