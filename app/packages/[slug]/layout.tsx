@@ -2,13 +2,6 @@ import { packages } from "@/data/packages";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
-export const dynamic = "force-static";
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return packages.map((pkg) => ({ slug: String(pkg.slug ?? "").trim().toLowerCase() })).filter((item) => item.slug);
-}
-
 type LayoutProps = {
   params: Promise<{ slug: string }>;
   children: React.ReactNode;
