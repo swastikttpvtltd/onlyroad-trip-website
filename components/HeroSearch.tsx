@@ -12,6 +12,14 @@ const todayIso = () => {
 
 const cleanPlace = (value: string) => value.trim().replace(/\s+/g, " ");
 
+const villageRegions = [
+  { label: "Haryana Villages", slug: "haryana" },
+  { label: "Punjab Villages", slug: "punjab" },
+  { label: "Rajasthan Villages", slug: "rajasthan" },
+  { label: "J&K Villages", slug: "jammu-kashmir" },
+  { label: "Himachal Villages", slug: "himachal-pradesh" },
+];
+
 export default function HeroSearch() {
   const router = useRouter();
   const [destination, setDestination] = useState("");
@@ -31,7 +39,7 @@ export default function HeroSearch() {
       }
       if (pkg.state) places.add(cleanPlace(String(pkg.state)));
     });
-    return Array.from(places).sort((a, b) => a.localeCompare(b));
+    return [...villageRegions.map((item) => item.label), ...Array.from(places)].sort((a, b) => a.localeCompare(b));
   }, []);
 
   const suggestions = useMemo(() => {
@@ -51,6 +59,17 @@ export default function HeroSearch() {
     const q = destination.trim();
     if (!q) {
       alert("Please enter a destination.");
+      return;
+    }
+    const village = villageRegions.find((item) => item.label.toLowerCase() === q.toLowerCase());
+    if (village) {
+      if (travelDate) {
+        const params = new URLSearchParams({ date: travelDate, travellers: String(travellers) });
+        router.push(`/village-immersion/${village.slug}?${params.toString()}`);
+      } else {
+        router.push(`/village-immersion/${village.slug}`);
+      }
+      setShowSuggestions(false);
       return;
     }
     const params = new URLSearchParams();
@@ -84,7 +103,7 @@ export default function HeroSearch() {
               if (e.key === "Enter") handleSearch();
               if (e.key === "Escape") setShowSuggestions(false);
             }}
-            placeholder="Type Varanasi, Goa, Gujarat..."
+            placeholder="Try Haryana Villages, Punjab or Varanasi..."
             autoComplete="off"
             inputMode="search"
             className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none placeholder:text-slate-500"
