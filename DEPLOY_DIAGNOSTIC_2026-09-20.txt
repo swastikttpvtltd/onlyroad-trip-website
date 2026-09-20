@@ -1,0 +1,3 @@
+Diagnostic deployment trigger. No application code changes.
+Timestamp: 2026-09-20
+Purpose: verify whether the current main branch is automatically deployed to Cloudflare and whether the production build passes.
