@@ -232,13 +232,6 @@ function packageStructuredData(
 
 export const dynamic = "force-dynamic";
 
-export function generateStaticParams() {
-  return packages
-    .map((pkg) => ({ slug: normalizeSlug(pkg.slug) }))
-    .filter((item) => item.slug);
-}
-
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const normalizedSlug = normalizeSlug(slug);
