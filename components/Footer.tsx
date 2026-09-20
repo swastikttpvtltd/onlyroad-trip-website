@@ -28,6 +28,7 @@ export default function Footer() {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/packages">Packages</Link></li>
+              <li><Link href="/village-immersion">Village Immersion</Link></li>
               <li><Link href="/destinations">Destinations</Link></li>
               <li><Link href="/contact">Contact</Link></li>
               <li><Link href="/packages?theme=spiritual">Pilgrimage Tours</Link></li>
