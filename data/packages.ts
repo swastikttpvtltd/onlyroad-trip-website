@@ -1,4 +1,5 @@
 import gujaratPackages from "./packages/gujarat/gujarat-packages";
+import haryanaPackages from "./packages/haryana/haryana-packages";
 import rajasthanPackages from "./packages/rajasthan/rajasthan-packages";
 import uttarakhandPackages from "./packages/uttarakhand/uttarakhand-packages";
 import uttarPradeshPackages from "./packages/uttar-pradesh/uttar-pradesh-packages";
@@ -26,6 +27,7 @@ import { getBestTime } from "./packageBestTime";
 import { packageMedia } from "./packageMedia";
 
 const stateWisePackages = [
+  ...haryanaPackages,
   ...gujaratPackages,
   ...rajasthanPackages,
   ...andamanPackages,
