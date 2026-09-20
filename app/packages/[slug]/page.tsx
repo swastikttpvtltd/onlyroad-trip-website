@@ -353,3 +353,15 @@ export default async function PackageDetailsPage({ params }: PageProps) {
     </main>
   );
 }
+
+function Fact({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-xl bg-slate-50 p-4"><p className="text-xs font-bold uppercase tracking-wider text-slate-500">{label}</p><p className="mt-2 font-bold text-slate-900">{value}</p></div>;
+}
+
+function ContentCard({ id, title, children }: { id?: string; title: string; children: ReactNode }) {
+  return <section id={id} className="rounded-2xl bg-white p-6 shadow-sm md:p-7"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900">{title}</h2><div className="mt-5">{children}</div></section>;
+}
+
+function InfoColumn({ title, children }: { title: string; children: ReactNode }) {
+  return <div><h3 className="mb-3 text-lg font-bold text-slate-900">{title}</h3><div className="space-y-3">{children}</div></div>;
+}
