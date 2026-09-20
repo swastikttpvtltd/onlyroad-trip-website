@@ -230,6 +230,8 @@ function packageStructuredData(
   return schema;
 }
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return packages
     .map((pkg) => ({ slug: normalizeSlug(pkg.slug) }))
