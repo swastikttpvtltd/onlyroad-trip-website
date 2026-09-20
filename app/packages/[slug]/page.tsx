@@ -236,6 +236,7 @@ export function generateStaticParams() {
     .filter((item) => item.slug);
 }
 
+export const dynamic = "force-static";
 export const dynamicParams = false;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
