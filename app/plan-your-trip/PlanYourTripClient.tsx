@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CalendarDays, Car, CheckCircle2, MapPin, MessageCircle, Minus, Plus, Search, Users } from "lucide-react";
-import { getCountries, getCountryCallingCode } from "libphonenumber-js";
+import { getCountries, getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
 
 const steps = [
@@ -49,6 +49,8 @@ export default function PlanYourTripClient() {
   const destinationRef = useRef<HTMLDivElement>(null);
   const countryRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
+  const partialIdRef = useRef("");
+  const internationalCaptureTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const today = useMemo(() => {
     const date = new Date();
@@ -71,6 +73,52 @@ export default function PlanYourTripClient() {
     };
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
+
+  const getPartialId = () => {
+    if (!partialIdRef.current) {
+      partialIdRef.current = `ORT-PARTIAL-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    }
+    return partialIdRef.current;
+  };
+
+  const capturePartialLead = (overrides: Partial<{
+    fullName: string;
+    mobile: string;
+    email: string;
+    destination: string;
+    travelDate: string;
+    phoneCountry: string;
+  }> = {}) => {
+    const nextMobile = overrides.mobile ?? mobile;
+    const nextCountry = overrides.phoneCountry ?? phoneCountry;
+    const country = countryOptions.find((item) => item.iso2 === nextCountry) ?? selectedCountry;
+    const nextEmail = overrides.email ?? email;
+
+    if (!nextMobile && !nextEmail) return;
+
+    void fetch("/api/partial-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({
+        partialId: getPartialId(),
+        fullName: overrides.fullName ?? fullName,
+        mobile: nextMobile ? `+${country.callingCode}${nextMobile}` : "",
+        countryCode: `+${country.callingCode}`,
+        email: nextEmail,
+        destination: overrides.destination ?? destination,
+        travelDate: overrides.travelDate ?? travelDate,
+      }),
+    }).catch(() => {
+      // Partial capture must never interrupt the customer's form experience.
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (internationalCaptureTimerRef.current) clearTimeout(internationalCaptureTimerRef.current);
+    };
   }, []);
 
   const closeDestinationResults = () => {
@@ -113,6 +161,7 @@ export default function PlanYourTripClient() {
       if (!response.ok) throw new Error(data.error || "Unable to send enquiry.");
 
       setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
+      partialIdRef.current = "";
       setFullName("");
       setMobile("");
       setPhoneCountry("IN");
@@ -152,13 +201,40 @@ export default function PlanYourTripClient() {
             <div ref={countryRef} className="relative">
               <div className="flex w-full rounded-xl border border-slate-300 bg-slate-50 focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100">
                 <button type="button" onClick={() => { setShowCountryCodes((value) => !value); setShowDestinationResults(false); }} className="flex shrink-0 items-center gap-1.5 rounded-l-xl border-r border-slate-300 px-3.5 text-sm font-extrabold text-slate-800 hover:bg-white" aria-label="Select country calling code"><span>{selectedCountry.displayCode}</span><span className="text-slate-400">⌄</span><span className="text-blue-700">+{selectedCountry.callingCode}</span></button>
-                <input required value={mobile} onChange={(event) => setMobile(event.target.value.replace(/\D/g, "").slice(0, 15))} type="tel" inputMode="numeric" pattern="[0-9]{6,15}" maxLength={15} placeholder="Mobile Number" onFocus={() => { setShowDestinationResults(false); setShowCountryCodes(false); }} className="min-w-0 flex-1 rounded-r-xl bg-transparent px-3.5 py-3.5 outline-none" />
+                <input required value={mobile} onChange={(event) => {
+                  const value = event.target.value.replace(/\D/g, "").slice(0, 15);
+                  setMobile(value);
+
+                  if (internationalCaptureTimerRef.current) {
+                    clearTimeout(internationalCaptureTimerRef.current);
+                    internationalCaptureTimerRef.current = null;
+                  }
+
+                  if (phoneCountry === "IN" && value.length === 10) {
+                    capturePartialLead({ mobile: value });
+                  } else if (phoneCountry !== "IN" && value.length >= 6) {
+                    internationalCaptureTimerRef.current = setTimeout(() => {
+                      const fullNumber = `+${selectedCountry.callingCode}${value}`;
+                      if (isValidPhoneNumber(fullNumber)) capturePartialLead({ mobile: value });
+                    }, 1500);
+                  }
+                }} type="tel" inputMode="numeric" pattern="[0-9]{6,15}" maxLength={15} placeholder="Mobile Number" onFocus={() => { setShowDestinationResults(false); setShowCountryCodes(false); }} className="min-w-0 flex-1 rounded-r-xl bg-transparent px-3.5 py-3.5 outline-none" />
               </div>
               {showCountryCodes && <div className="absolute left-0 top-[calc(100%+8px)] z-[70] w-full min-w-[250px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_20px_45px_rgba(15,23,42,0.20)]"><div className="border-b border-slate-100 px-4 py-3 text-xs font-extrabold uppercase tracking-[0.14em] text-slate-500">Country code</div><div className="max-h-72 overflow-y-auto p-2">{countryOptions.map((country) => <button key={country.iso2} type="button" onClick={() => { setPhoneCountry(country.iso2); setShowCountryCodes(false); }} className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left transition hover:bg-blue-50 ${phoneCountry === country.iso2 ? "bg-blue-50" : ""}`}><span className="font-extrabold text-slate-800">{country.displayCode}</span><span className="font-semibold text-blue-700">+{country.callingCode}</span></button>)}</div></div>}
             </div>
-            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Email Address" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
-            <div ref={destinationRef} className="relative"><Search className="pointer-events-none absolute left-4 top-4 z-10 text-blue-600" size={19} /><input required value={destination} onChange={(event) => { const value = event.target.value; setDestination(value); setShowDestinationResults(value.trim().length > 0); }} onFocus={() => setShowDestinationResults(destination.trim().length > 0)} placeholder="Search destination, state or district" autoComplete="off" className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />{showDestinationResults && filteredDestinations.length > 0 && <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-64 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">{filteredDestinations.map((item) => <button key={item} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setDestination(item); setShowDestinationResults(false); }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-slate-800 transition hover:bg-blue-50"><MapPin size={18} className="shrink-0 text-blue-600" /><span>{item}</span></button>)}</div>}{showDestinationResults && destination.trim() && filteredDestinations.length === 0 && <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-500 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">No matching destination found. You can continue with your typed destination.</div>}</div>
-            <div className="relative cursor-pointer" onClick={openCalendar}><input required ref={dateRef} value={travelDate} onChange={(event) => setTravelDate(event.target.value)} type="date" min={today} onFocus={closeDestinationResults} className="pointer-events-none w-full cursor-pointer rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-4 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:h-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:opacity-0" aria-label="Travel date" /><div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-3 flex w-9 items-center justify-center rounded-lg text-blue-600"><CalendarDays size={19} /></div></div>
+            <input value={email} onChange={(event) => {
+              const value = event.target.value;
+              setEmail(value);
+              if (/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(value.trim())) {
+                capturePartialLead({ email: value.trim() });
+              }
+            }} type="email" placeholder="Email Address" onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+            <div ref={destinationRef} className="relative"><Search className="pointer-events-none absolute left-4 top-4 z-10 text-blue-600" size={19} /><input required value={destination} onChange={(event) => { const value = event.target.value; setDestination(value); setShowDestinationResults(value.trim().length > 0); }} onFocus={() => setShowDestinationResults(destination.trim().length > 0)} placeholder="Search destination, state or district" autoComplete="off" className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />{showDestinationResults && filteredDestinations.length > 0 && <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-64 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">{filteredDestinations.map((item) => <button key={item} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setDestination(item); setShowDestinationResults(false); capturePartialLead({ destination: item }); }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-slate-800 transition hover:bg-blue-50"><MapPin size={18} className="shrink-0 text-blue-600" /><span>{item}</span></button>)}</div>}{showDestinationResults && destination.trim() && filteredDestinations.length === 0 && <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-500 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">No matching destination found. You can continue with your typed destination.</div>}</div>
+            <div className="relative cursor-pointer" onClick={openCalendar}><input required ref={dateRef} value={travelDate} onChange={(event) => {
+              const value = event.target.value;
+              setTravelDate(value);
+              capturePartialLead({ travelDate: value });
+            }} type="date" min={today} onFocus={closeDestinationResults} className="pointer-events-none w-full cursor-pointer rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-4 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:right-4 [&::-webkit-calendar-picker-indicator]:h-0 [&::-webkit-calendar-picker-indicator]:w-0 [&::-webkit-calendar-picker-indicator]:opacity-0" aria-label="Travel date" /><div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-3 flex w-9 items-center justify-center rounded-lg text-blue-600"><CalendarDays size={19} /></div></div>
             <div className="relative" onFocus={closeDestinationResults}><Users className="pointer-events-none absolute left-4 top-4 z-10 text-blue-600" size={19} /><div className="flex w-full items-center rounded-xl border border-slate-300 bg-slate-50 py-1.5 pl-11 pr-2 focus-within:border-blue-600 focus-within:ring-4 focus-within:ring-blue-100"><span className="flex-1 py-2 text-slate-700">{travellers} {travellers === 1 ? "Traveller" : "Travellers"}</span><button type="button" aria-label="Decrease travellers" disabled={travellers <= 1} onClick={() => setTravellers((value) => Math.max(1, value - 1))} className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-600 transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-35"><Minus size={17} /></button><button type="button" aria-label="Increase travellers" onClick={() => setTravellers((value) => value + 1)} className="flex h-9 w-9 items-center justify-center rounded-lg text-blue-700 transition hover:bg-blue-100"><Plus size={17} /></button></div></div>
             <select required value={travelType} onChange={(event) => setTravelType(event.target.value)} onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option value="">Travel Type</option><option>Family Holiday</option><option>Honeymoon</option><option>Pilgrimage</option><option>Road Trip</option><option>Group Travel</option><option>Corporate Travel</option></select>
             <select value={budget} onChange={(event) => setBudget(event.target.value)} onFocus={closeDestinationResults} className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3.5 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"><option value="">Approx. Budget</option><option>Under ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000 – ₹1,00,000</option><option>₹1,00,000+</option></select>
