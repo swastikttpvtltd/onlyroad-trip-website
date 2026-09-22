@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
     const context = await getCloudflareContext({ async: true });
     const cloudflareEnv = (context?.env ?? {}) as Record<string, unknown>;
-    const db = cloudflareEnv.DB as D1Database | undefined;
+    const db = cloudflareEnv.DB as { prepare: (query: string) => { bind: (...values: unknown[]) => { run: () => Promise<unknown> } } } | undefined;
 
     if (!db) {
       console.error("Travel enquiry database binding DB is missing.");
@@ -100,14 +100,16 @@ export async function POST(request: Request) {
     if (!from) missing.push("SMTP_FROM");
 
     if (missing.length > 0) {
-      console.error("Travel enquiry email configuration missing:", missing);
-      return NextResponse.json(
-        {
-          error: "Email service is not configured yet.",
-          missing,
-        },
-        { status: 500 },
-      );
+      console.error("Travel enquiry saved but email configuration is missing:", missing);
+      await db.prepare(
+        "UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?",
+      ).bind("FAILED", "Email configuration unavailable", leadId).run();
+
+      return NextResponse.json({
+        success: true,
+        leadId,
+        notificationPending: true,
+      });
     }
 
     const transporter = nodemailer.createTransport({
