@@ -35,12 +35,45 @@ export async function POST(request: Request) {
     }
 
     const context = await getCloudflareContext({ async: true });
-    const cloudflareEnv = (context?.env ?? {}) as Record<string, string | undefined>;
+    const cloudflareEnv = (context?.env ?? {}) as Record<string, unknown>;
+    const db = cloudflareEnv.DB as D1Database | undefined;
+
+    if (!db) {
+      console.error("Travel enquiry database binding DB is missing.");
+      return NextResponse.json(
+        { error: "Enquiry service is temporarily unavailable." },
+        { status: 503 },
+      );
+    }
+
+    const leadId = `ORT-${new Date().toISOString().replace(/\D/g, "").slice(0, 14)}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    const requestUrl = new URL(request.url);
+    const sourcePage = request.headers.get("referer") || requestUrl.origin;
+
+    await db.prepare(`
+      INSERT INTO leads (
+        lead_id, full_name, mobile, email, destination, travel_date,
+        travellers, travel_type, budget, message, source, source_page
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      leadId,
+      String(fullName).trim(),
+      String(mobile).trim(),
+      email ? String(email).trim() : null,
+      String(destination).trim(),
+      String(travelDate).trim(),
+      String(travellers).trim(),
+      String(travelType).trim(),
+      budget ? String(budget).trim() : null,
+      String(message).trim(),
+      "website",
+      sourcePage,
+    ).run();
 
     const readEnv = (...names: string[]) => {
       for (const name of names) {
         const runtimeValue = cloudflareEnv[name];
-        if (runtimeValue) return runtimeValue;
+        if (typeof runtimeValue === "string" && runtimeValue) return runtimeValue;
 
         const processValue = process.env[name];
         if (processValue) return processValue;
@@ -84,7 +117,8 @@ export async function POST(request: Request) {
       auth: { user, pass },
     });
 
-    await transporter.sendMail({
+    try {
+      await transporter.sendMail({
       from,
       to,
       cc,
@@ -133,9 +167,23 @@ export async function POST(request: Request) {
           </div>
         </div>
       `,
-    });
+      });
 
-    return NextResponse.json({ success: true });
+      await db.prepare(
+        "UPDATE leads SET email_status = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?",
+      ).bind("SENT", leadId).run();
+
+      return NextResponse.json({ success: true, leadId });
+    } catch (emailError) {
+      console.error("Travel enquiry saved but email delivery failed:", emailError);
+      await db.prepare(
+        "UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?",
+      ).bind("FAILED", "Email delivery failed", leadId).run();
+
+      // The enquiry is already safely stored in D1, so do not ask the customer
+      // to submit it again and risk creating a duplicate lead.
+      return NextResponse.json({ success: true, leadId, notificationPending: true });
+    }
   } catch (error) {
     console.error("Travel enquiry email failed:", error);
     return NextResponse.json(
