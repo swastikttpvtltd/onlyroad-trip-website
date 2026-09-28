@@ -3,6 +3,8 @@ import Link from "next/link";
 import { MapPin, Star, Heart, Clock3, ArrowRight } from "lucide-react";
 import { packages } from "@/data/packages";
 
+import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
+
 export default function FeaturedDestinations() {
   const featuredPackages = packages
     .filter((pkg) => pkg.image && pkg.image !== "/images/package-placeholder.jpg")
@@ -36,7 +38,7 @@ export default function FeaturedDestinations() {
                   <div><p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Starting From</p><p className="mt-0.5 text-xl font-extrabold text-blue-800">₹{pkg.price.toLocaleString("en-IN")}</p><p className="text-[10px] text-slate-400">Per Person</p></div>
                   <div className="grid grid-cols-2 gap-2">
                     <Link href={`/packages/${pkg.slug}`} className="inline-flex items-center justify-center gap-1 rounded-lg border border-blue-700 px-3 py-2.5 text-xs font-bold text-blue-800 transition hover:bg-blue-50">View Tour</Link>
-                    <Link href={`/packages/${pkg.slug}#booking`} className="inline-flex items-center justify-center gap-1 rounded-lg bg-blue-800 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-900">Book Now</Link>
+                    {isGroupTourBookingPaused(pkg.slug) ? <button type="button" disabled title="Online booking is temporarily unavailable" className="inline-flex cursor-not-allowed items-center justify-center rounded-lg bg-slate-300 px-3 py-2.5 text-xs font-bold text-slate-600">Booking Paused</button> : <Link href={`/packages/${pkg.slug}#booking`} className="inline-flex items-center justify-center gap-1 rounded-lg bg-blue-800 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-blue-900">Book Now</Link>}
                   </div>
                 </div>
               </div>

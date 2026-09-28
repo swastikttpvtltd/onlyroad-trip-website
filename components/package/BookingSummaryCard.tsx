@@ -80,6 +80,8 @@ function PrintItinerary({ pkg, finalTitle, finalDuration, finalDestination, disp
   );
 }
 
+import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
+
 export default function BookingSummaryCard({ pkg, slug, title, price, duration, destination }: Props) {
   const finalSlug = pkg?.slug ?? slug ?? "package";
   const finalTitle = pkg?.title ?? title ?? "Tour Package";
@@ -118,7 +120,7 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
           <DepartureCalendar duration={finalDuration} isGroup={isGroup} selectedDate={selectedDate} onSelect={(date) => setSelectedDate(date)} />
 
           <div className="border-t border-slate-200 bg-slate-50 px-5 py-5"><div className="flex items-end justify-between gap-4"><div><p className="text-[22px] font-extrabold text-slate-900">Tour Price</p><p className="mt-1 text-xs text-slate-500">*Price is per person on the displayed group rate card.</p></div><div className="text-right"><p className="text-[28px] font-extrabold tracking-tight text-slate-900">{formattedPrice}</p><p className="text-xs text-slate-500">Per Person*</p></div></div><div className="mt-5 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4 text-sm"><div className="flex items-center gap-2"><IndianRupee size={17} className="text-[#153e75]"/><span className="text-slate-500">EMI</span><b>Available</b></div><div className="flex items-center justify-end gap-2"><Check size={17} className="text-emerald-600"/><span className="text-slate-500">Online Payment</span><b>Available</b></div></div></div>
-          <div className="grid grid-cols-2 gap-2 border-t border-slate-200 p-5"><a href={enquiryHref} className="rounded-lg border border-slate-300 px-3 py-3 text-center text-sm font-bold text-slate-700">Enquire Now</a>{decision.bookable ? <Link href={`/book/${finalSlug}?departureDate=${encodeURIComponent(selectedDate)}&arrivalDate=${encodeURIComponent(arrivalDate)}`} className="rounded-lg bg-[#153e75] px-3 py-3 text-center text-sm font-bold text-white">Book Now</Link> : <a href={enquiryHref} className="rounded-lg bg-orange-600 px-3 py-3 text-center text-sm font-bold text-white">Send Enquiry</a>}</div>
+          <div className="grid grid-cols-2 gap-2 border-t border-slate-200 p-5"><a href={enquiryHref} className="rounded-lg border border-slate-300 px-3 py-3 text-center text-sm font-bold text-slate-700">Enquire Now</a>{isGroupTourBookingPaused(finalSlug) ? <button type="button" disabled title="Online booking is temporarily unavailable" className="cursor-not-allowed rounded-lg bg-slate-300 px-3 py-3 text-center text-sm font-bold text-slate-600">Booking Paused</button> : decision.bookable ? <Link href={`/book/${finalSlug}?departureDate=${encodeURIComponent(selectedDate)}&arrivalDate=${encodeURIComponent(arrivalDate)}`} className="rounded-lg bg-[#153e75] px-3 py-3 text-center text-sm font-bold text-white">Book Now</Link> : <a href={enquiryHref} className="rounded-lg bg-orange-600 px-3 py-3 text-center text-sm font-bold text-white">Send Enquiry</a>}</div>
           {!decision.bookable && <p className="px-5 pb-2 text-center text-xs font-semibold text-orange-700">Online booking is closed for this date. Please send an enquiry and our team will confirm availability.</p>}
           {message && <p className="px-5 pb-4 text-center text-xs text-slate-500">{message}</p>}
         </div>
