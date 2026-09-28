@@ -108,7 +108,9 @@ export const makePackageRates = (pkg: any) => {
     30: rateFor(state, title, nights, 30),
   };
   return {
-    2: addGSTToRate(rates[2]), 4: addGSTToRate(rates[4]), 6: addGSTToRate(rates[6]),
+    // This circuit's 2-traveller per-person card and booking price is ₹30,000 inclusive of 5% GST.
+    2: String(pkg.slug ?? "") === "varanasi-prayagraj-ayodhya" ? addGSTToRate(28571) : addGSTToRate(rates[2]),
+    4: addGSTToRate(rates[4]), 6: addGSTToRate(rates[6]),
     12: addGSTToRate(rates[12]), 16: addGSTToRate(rates[16]), 20: addGSTToRate(rates[20]),
     25: addGSTToRate(rates[25]), 30: addGSTToRate(rates[30]),
     "30+": addGSTToRate(Math.max(500, Math.floor(rates[30] * 0.96 / 500) * 500)),
