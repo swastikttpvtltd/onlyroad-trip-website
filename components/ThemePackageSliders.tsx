@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
 import { packages } from "@/data/packages";
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
@@ -59,7 +59,6 @@ function PackageSlider({ title, description, href, trips, index }: { title: stri
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/50" />
               <span className="absolute left-3 top-3 rounded-full bg-blue-800 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-white shadow-lg">{pkg.category}</span>
               <button type="button" aria-label={`Add ${pkg.title} to wishlist`} className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-700 shadow-lg backdrop-blur transition hover:scale-105"><Heart size={18} /></button>
-              <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-lg"><Star size={14} fill="currentColor" className="text-amber-500" /><span className="text-xs font-bold text-slate-900">{pkg.rating}</span><span className="text-[11px] text-slate-500">({pkg.reviews})</span></div>
             </div>
             <div className="p-4">
               <h3 className="line-clamp-2 min-h-[46px] text-[18px] font-bold leading-[1.25] text-slate-900 transition-colors group-hover:text-blue-800">{pkg.title}</h3>
