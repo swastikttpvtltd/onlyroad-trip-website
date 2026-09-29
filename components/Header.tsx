@@ -107,7 +107,7 @@ export default function Header() {
             <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={150} height={40} priority className="h-10 w-auto max-w-full rounded-md object-contain sm:h-12" />
           </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex">
+          <nav className="hidden items-center gap-5 lg:flex">
             <Link href="/" className={nav}>Home</Link>
             <Link href="/about" className={nav}>About Us</Link>
             <div className="group/experiences relative flex h-[68px] items-center">
@@ -122,6 +122,7 @@ export default function Header() {
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="flex items-center justify-between bg-gradient-to-r from-blue-700 to-cyan-600 px-6 py-4 text-white"><div><p className="text-lg font-bold">Explore Packages by State</p><p className="text-xs text-blue-100">Select a state to view all available tour packages</p></div><Link href="/packages" className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25">View All</Link></div><div className="grid max-h-[430px] grid-cols-3 gap-2 overflow-y-auto p-4">{packageStates.map((state) => <Link key={state} href={`/packages?state=${encodeURIComponent(state)}`} className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"><span>{state}</span><span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">→</span></Link>)}</div></div>
               </div>
             </div>
+            <Link href="/door-to-door-travel" className={`${nav} relative whitespace-nowrap`}>Door-to-Door Travel<span className="absolute -bottom-2 left-0 h-0.5 w-full rounded-full bg-cyan-400/80" /></Link>
             <Link href="/corporate-travel" className={nav}>Corporate Travel</Link>
             <Link href="/contact" className={nav}>Contact</Link>
           </nav>
@@ -132,7 +133,7 @@ export default function Header() {
           </div>
         </div>
 
-        {mobileOpen && <div className="border-t border-slate-200 bg-white p-3 lg:hidden"><div className="grid gap-1">{[["Home", "/"], ["About Us", "/about"], ["Packages", "/packages"], ["Corporate Travel", "/corporate-travel"], ["Contact", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>)}<Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link></div></div>}
+        {mobileOpen && <div className="border-t border-slate-200 bg-white p-3 lg:hidden"><div className="grid gap-1">{[["Home", "/"], ["About Us", "/about"], ["Packages", "/packages"], ["Door-to-Door Travel", "/door-to-door-travel"], ["Corporate Travel", "/corporate-travel"], ["Contact", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>)}<Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link></div></div>}
 
         {isPackagePage && <button onClick={() => { if (window.history.length > 1) router.back(); else router.push("/packages"); }} className={`absolute left-0 top-[74px] z-[70] inline-flex items-center gap-2 rounded-xl border border-white/50 bg-slate-950/40 px-3 py-2 text-xs font-extrabold text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:bg-slate-950/55 sm:top-[82px] sm:px-4 sm:py-2.5 sm:text-sm ${showBackButton ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-3 opacity-0 pointer-events-none"}`}><span>←</span> Back to Packages</button>}
       </div>
