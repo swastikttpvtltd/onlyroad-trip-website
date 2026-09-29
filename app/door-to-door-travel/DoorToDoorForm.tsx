@@ -44,6 +44,7 @@ export default function DoorToDoorForm() {
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<"success" | "pending" | "error" | null>(null);
   const countryRef = useRef<HTMLDivElement>(null);
   const destinationRef = useRef<HTMLDivElement>(null);
   const pickupRef = useRef<HTMLDivElement>(null);
@@ -93,6 +94,7 @@ export default function DoorToDoorForm() {
     if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitMessage("");
+    setSubmitStatus(null);
     try {
       const response = await fetch("/api/door-to-door-enquiry", {
         method: "POST",
@@ -104,12 +106,16 @@ export default function DoorToDoorForm() {
         }),
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Unable to send your enquiry.");
-      setSubmitMessage("Thank you. Your door-to-door travel enquiry has been received. Our team will contact you shortly.");
+      if (!response.ok || !result.success) throw new Error(result.error || "Unable to send your enquiry.");
+      setSubmitStatus(result.notificationPending ? "pending" : "success");
+      setSubmitMessage(result.notificationPending
+        ? "Your enquiry has been saved, but the email notification is pending. Please contact our team if your request is urgent."
+        : "Thank you. Your door-to-door travel enquiry has been received. Our team will contact you shortly.");
       setFullName(""); setMobile(""); setPhoneCountry("IN"); setEmail(""); setPickupCity(""); setShowPickupResults(false);
       setDestination(""); setTravelDate(""); setTravellers(2); setTravellerCategory("");
       setHomePickup("Please discuss"); setMobilityAssistance("Please discuss"); setMessage("");
     } catch (error) {
+      setSubmitStatus("error");
       setSubmitMessage(error instanceof Error ? error.message : "Unable to send your enquiry. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -160,7 +166,7 @@ export default function DoorToDoorForm() {
     <select value={mobilityAssistance} onChange={(event) => setMobilityAssistance(event.target.value)} onFocus={closeDropdowns} aria-label="Wheelchair or mobility assistance" className={input}><option>Please discuss</option><option>Yes, wheelchair assistance</option><option>Yes, other mobility support</option><option>No mobility assistance</option></select>
     <div className="sm:col-span-2"><label htmlFor="dd-message" className="mb-2 block text-sm font-bold text-slate-700">Anything we should consider for your comfort?</label><textarea id="dd-message" required value={message} onChange={(event) => setMessage(event.target.value)} rows={6} placeholder="Tell us as much as you like about the route, pace, food, luggage or assistance needs. Please avoid detailed medical records." className={input} /></div>
     <button disabled={isSubmitting} type="submit" className="rounded-xl bg-blue-700 px-6 py-4 font-extrabold text-white shadow-lg transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-70 sm:col-span-2">{isSubmitting ? "Sending Enquiry..." : "Request My Door-to-Door Plan"}</button>
-    {submitMessage && <p role="status" className="rounded-xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-900 sm:col-span-2">{submitMessage}</p>}
+    {submitMessage && <div role={submitStatus === "error" ? "alert" : "status"} className={`rounded-xl border px-4 py-3 text-sm sm:col-span-2 ${submitStatus === "error" ? "border-red-200 bg-red-50 text-red-900" : submitStatus === "pending" ? "border-amber-200 bg-amber-50 text-amber-950" : "border-green-200 bg-green-50 text-green-900"}`}><strong className="block">{submitStatus === "error" ? "Enquiry could not be submitted" : submitStatus === "pending" ? "Enquiry saved · email pending" : "Enquiry submitted"}</strong><span className="mt-1 block">{submitMessage}</span></div>}
     <p className="text-xs leading-5 text-slate-500 sm:col-span-2">By sending this enquiry, you agree that Only Road Trip, operated by Swastik Tour And Travels Private Limited, may contact you about this travel request. See our <Link href="/privacy-policy" className="underline">Privacy Policy</Link>.</p>
   </form>;
 }
