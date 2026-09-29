@@ -16,10 +16,10 @@ const categories = [
   ["Corporate & Group Mobility", "Bring employee or guest travel into one organised plan, from pickups and transfers to hotel and event movements. We share schedules, meeting points and trip contacts so the group knows what happens next."],
 ] as const;
 const steps = [
-  ["01", "Tell us your needs", "Share your pickup city, destination, dates, travellers and what matters to them."],
-  ["02", "Review your plan", "Receive a personalised itinerary with clear inclusions, exclusions and pricing."],
-  ["03", "Travel with support", "We coordinate the confirmed transfers, stays and travel arrangements in your booking."],
-  ["04", "Return home", "Your agreed return transfer and final drop complete the journey."],
+  ["01", "Tell us your needs", "Share your pickup address, destinations, dates and the people travelling. Tell us about preferred pace, mobility, food, luggage or any assistance that would make the journey more comfortable. We use these details to shape a route around your group."],
+  ["02", "Review your plan", "We present a day-wise itinerary showing your transfers, stays, planned visits and important handoffs. You can review the room and vehicle choices, inclusions, exclusions and one total price before confirming. We refine the proposal with you until the arrangements fit."],
+  ["03", "Travel with support", "Your trip coordinator connects the confirmed pickups, hotel check-ins and local travel in your booking. You receive the meeting details and contact information needed for each stage. If a travel timing changes, we coordinate the next practical step and keep your agreed contact informed."],
+  ["04", "Return home", "We plan the return leg with the same attention to pickup time, luggage and any agreed assistance. Your confirmed transfer takes you to the final drop address in the itinerary. Your coordinator stays available for travel-related coordination until that handoff is complete."],
 ] as const;
 const faqs = [
   ["What does door-to-door travel actually cover?", "Your journey begins at the pickup address you choose and is planned through to your final drop-off. We bring the agreed parts of the trip together in one personalised itinerary: your home transfer, flight or train where included, arrival pickup, hotel stay, private ground transport, planned visits, and the journey home. Before departure, we share the key timings, meeting points and contact details so every handoff is clear. A dedicated trip contact helps coordinate the confirmed arrangements and travel-related changes along the way. Your written proposal sets out exactly what is included, which services are optional, and the total price—allowing you to enjoy the journey with the details thoughtfully taken care of."],
