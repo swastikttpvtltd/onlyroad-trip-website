@@ -7,6 +7,7 @@ import { ArrowRight, CheckCircle2, MapPin, ShieldCheck, Users, HeartHandshake } 
 
 const categories = [
   ["Senior-Friendly Journeys", "Comfortable pacing, suitable transfers and assistance planned in advance."],
+  ["Accessible & Assisted Travel", "Door-to-door journeys planned around your mobility and access needs, with suitable transfers, stays and visits checked in advance."],
   ["Solo Women Travel", "Private journeys planned around your comfort and preferences."],
   ["Women’s Group Journeys", "Shared experiences with clearly coordinated travel arrangements."],
   ["International Visitors", "India arrival-to-departure planning with clear transfers, stays and local coordination."],
