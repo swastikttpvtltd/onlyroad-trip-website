@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { CalendarDays, MapPin, Minus, Plus, Search, Users } from "lucide-react";
 import { getCountries, getCountryCallingCode } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
+import indiaPickupLocations from "../../data/indiaPickupLocations.json";
 
 const destinations = [
   "Agra", "Ahmedabad", "Ajanta", "Ajmer", "Alleppey", "Amaravati", "Amritsar", "Andaman & Nicobar",
@@ -32,6 +33,7 @@ export default function DoorToDoorForm() {
   const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [email, setEmail] = useState("");
   const [pickupCity, setPickupCity] = useState("");
+  const [showPickupResults, setShowPickupResults] = useState(false);
   const [destination, setDestination] = useState("");
   const [showDestinationResults, setShowDestinationResults] = useState(false);
   const [travelDate, setTravelDate] = useState("");
@@ -44,6 +46,7 @@ export default function DoorToDoorForm() {
   const [submitMessage, setSubmitMessage] = useState("");
   const countryRef = useRef<HTMLDivElement>(null);
   const destinationRef = useRef<HTMLDivElement>(null);
+  const pickupRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLInputElement>(null);
 
   const today = useMemo(() => {
@@ -51,6 +54,19 @@ export default function DoorToDoorForm() {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   }, []);
   const selectedCountry = countryOptions.find((item) => item.iso2 === phoneCountry) ?? countryOptions[0];
+  const filteredPickupLocations = useMemo(() => {
+    const query = pickupCity.trim().toLocaleLowerCase("en-IN");
+    if (!query) return [];
+    const matches = [
+      ...indiaPickupLocations.states.map((name) => ({ name, state: "", type: "State / UT" })),
+      ...indiaPickupLocations.cities.map(({ name, state }) => ({ name, state, type: "City" })),
+    ].filter(({ name, state }) => name.toLocaleLowerCase("en-IN").includes(query) || state.toLocaleLowerCase("en-IN").includes(query));
+    matches.sort((a, b) => {
+      const rank = (item: typeof a) => item.name.toLocaleLowerCase("en-IN").startsWith(query) ? 0 : item.name.toLocaleLowerCase("en-IN").split(/\\s+/).some((part) => part.startsWith(query)) ? 1 : 2;
+      return rank(a) - rank(b) || a.name.localeCompare(b.name);
+    });
+    return matches.slice(0, 10);
+  }, [pickupCity]);
   const filteredDestinations = useMemo(() => {
     const query = destination.trim().toLowerCase();
     return query ? destinations.filter((item) => item.toLowerCase().includes(query)).slice(0, 8) : [];
@@ -61,12 +77,13 @@ export default function DoorToDoorForm() {
       const target = event.target as Node;
       if (countryRef.current && !countryRef.current.contains(target)) setShowCountryCodes(false);
       if (destinationRef.current && !destinationRef.current.contains(target)) setShowDestinationResults(false);
+      if (pickupRef.current && !pickupRef.current.contains(target)) setShowPickupResults(false);
     };
     document.addEventListener("mousedown", closeOnOutsideClick);
     return () => document.removeEventListener("mousedown", closeOnOutsideClick);
   }, []);
 
-  const closeDropdowns = () => { setShowCountryCodes(false); setShowDestinationResults(false); };
+  const closeDropdowns = () => { setShowCountryCodes(false); setShowDestinationResults(false); setShowPickupResults(false); };
   const openCalendar = () => { dateRef.current?.focus(); dateRef.current?.showPicker?.(); };
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -87,7 +104,7 @@ export default function DoorToDoorForm() {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Unable to send your enquiry.");
       setSubmitMessage("Thank you. Your door-to-door travel enquiry has been received. Our team will contact you shortly.");
-      setFullName(""); setMobile(""); setPhoneCountry("IN"); setEmail(""); setPickupCity("");
+      setFullName(""); setMobile(""); setPhoneCountry("IN"); setEmail(""); setPickupCity(""); setShowPickupResults(false);
       setDestination(""); setTravelDate(""); setTravellers(2); setTravellerCategory("");
       setHomePickup("Please discuss"); setMobilityAssistance("Please discuss"); setMessage("");
     } catch (error) {
@@ -114,8 +131,13 @@ export default function DoorToDoorForm() {
 
     <label className="sr-only" htmlFor="dd-email">Email address</label>
     <input id="dd-email" value={email} onChange={(event) => setEmail(event.target.value)} type="email" placeholder="Email Address" onFocus={closeDropdowns} className={input} />
-    <label className="sr-only" htmlFor="dd-pickup">Pickup city</label>
-    <input id="dd-pickup" required value={pickupCity} onChange={(event) => setPickupCity(event.target.value)} placeholder="Pickup City / Location" onFocus={closeDropdowns} className={input} />
+    <div ref={pickupRef} className="relative">
+      <MapPin className="pointer-events-none absolute left-4 top-4 z-10 text-blue-600" size={19} />
+      <label className="sr-only" htmlFor="dd-pickup">Pickup city or state</label>
+      <input id="dd-pickup" required value={pickupCity} onChange={(event) => { const value = event.target.value; setPickupCity(value); setShowPickupResults(value.trim().length > 0); }} onFocus={() => { setShowCountryCodes(false); setShowDestinationResults(false); setShowPickupResults(pickupCity.trim().length > 0); }} onKeyDown={(event) => { if (event.key === "Escape") setShowPickupResults(false); }} placeholder="Search pickup city, state or location" autoComplete="off" aria-expanded={showPickupResults && filteredPickupLocations.length > 0} aria-controls="dd-pickup-results" className="w-full rounded-xl border border-slate-300 bg-slate-50 py-3.5 pl-11 pr-4 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" />
+      {showPickupResults && filteredPickupLocations.length > 0 && <div id="dd-pickup-results" className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">{filteredPickupLocations.map(({ name, state, type }) => <button key={`${type}-${name}-${state}`} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => { setPickupCity(state ? `${name}, ${state}` : name); setShowPickupResults(false); }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-slate-800 transition hover:bg-blue-50"><MapPin size={18} className="shrink-0 text-blue-600" /><span className="min-w-0 flex-1"><span className="block font-semibold">{name}</span>{state && <span className="block text-xs text-slate-500">{state}</span>}</span><span className="shrink-0 text-xs text-slate-500">{type}</span></button>)}</div>}
+      {showPickupResults && pickupCity.trim() && filteredPickupLocations.length === 0 && <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600 shadow-[0_20px_45px_rgba(15,23,42,0.18)]">No exact match. You can keep your typed pickup location.</div>}
+    </div>
 
     <div ref={destinationRef} className="relative">
       <Search className="pointer-events-none absolute left-4 top-4 z-10 text-blue-600" size={19} />
