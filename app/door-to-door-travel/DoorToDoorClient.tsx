@@ -125,7 +125,7 @@ export default function DoorToDoorClient() {
     <section className="mx-auto max-w-7xl px-6 py-20">
       <p className="font-bold uppercase tracking-[0.18em] text-blue-700">Your quotation, clearly explained</p>
       <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">What can be included in your door-to-door plan?</h2>
-      <p className="mt-5 max-w-4xl leading-8 text-slate-600">Each journey is custom priced. The services below are available to plan; your individual written quotation states exactly which ones are included, their limits and any extra charges.</p>
+      <p className="mt-5 max-w-4xl leading-8 text-slate-600">Each journey is custom priced. Your confirmed quotation sets one fixed total for the listed services, with their scope and limits clearly shown. We do not add charges later for those included arrangements; any optional change you request is priced and approved separately.</p>
       <div className="mt-9 grid gap-5 md:grid-cols-2">
         <div className="rounded-3xl border border-blue-100 bg-blue-50 p-7"><h3 className="text-xl font-extrabold text-blue-950">Core journey arrangements</h3><ul className="mt-5 space-y-3 text-slate-700">{[
           "Agreed home or hotel pickup and final drop",
