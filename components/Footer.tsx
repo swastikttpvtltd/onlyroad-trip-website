@@ -56,6 +56,7 @@ export default function Footer() {
               <li><Link href="/packages?theme=women">Women Special</Link></li>
               <li><Link href="/packages?theme=corporate">Corporate Travel</Link></li>
               <li><Link href="/packages?theme=family">Family Vacations</Link></li>
+              <li><Link href="/door-to-door-travel">Door-to-Door Travel</Link></li>
             </ul>
           </div>
 
