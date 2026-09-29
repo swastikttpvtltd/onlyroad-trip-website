@@ -20,6 +20,7 @@ export async function POST(request: Request) {
     const travellers = clean(String(body.travellers ?? ""), 5);
     const travellerCategory = clean(body.travellerCategory, 100);
     const homePickup = clean(body.homePickup, 30);
+    const mobilityAssistance = clean(body.mobilityAssistance, 50);
     const message = clean(body.message, 2000);
 
     if (!fullName || !/^[+\d\s()-]{6,25}$/.test(mobile) || !pickupCity || !destination ||
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
     };
 
     const leadId = `ORT-DD-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
-    const details = `Pickup city: ${pickupCity}\nHome pickup and return drop: ${homePickup || "Please discuss"}\n\n${message}`;
+    const details = `Pickup city: ${pickupCity}\nHome pickup and return drop: ${homePickup || "Please discuss"}\nMobility assistance: ${mobilityAssistance || "Please discuss"}\n\n${message}`;
     await db.prepare(`
       INSERT INTO leads (
         lead_id, full_name, mobile, email, destination, travel_date,
@@ -78,7 +79,8 @@ export async function POST(request: Request) {
         ["Email", email || "Not provided"], ["Pickup city", pickupCity],
         ["Destination", destination], ["Travel date", travelDate],
         ["Travellers", travellers], ["Traveller category", travellerCategory],
-        ["Home pickup / return drop", homePickup || "Please discuss"], ["Requirements", message],
+        ["Home pickup / return drop", homePickup || "Please discuss"],
+        ["Mobility assistance", mobilityAssistance || "Please discuss"], ["Requirements", message],
       ];
       await transporter.sendMail({
         from, to, cc: cc || undefined, replyTo: email || undefined,
