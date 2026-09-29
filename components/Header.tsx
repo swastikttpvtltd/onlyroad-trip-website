@@ -122,7 +122,7 @@ export default function Header() {
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="flex items-center justify-between bg-gradient-to-r from-blue-700 to-cyan-600 px-6 py-4 text-white"><div><p className="text-lg font-bold">Explore Packages by State</p><p className="text-xs text-blue-100">Select a state to view all available tour packages</p></div><Link href="/packages" className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25">View All</Link></div><div className="grid max-h-[430px] grid-cols-3 gap-2 overflow-y-auto p-4">{packageStates.map((state) => <Link key={state} href={`/packages?state=${encodeURIComponent(state)}`} className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"><span>{state}</span><span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">→</span></Link>)}</div></div>
               </div>
             </div>
-            <Link href="/door-to-door-travel" className={`${nav} relative whitespace-nowrap`}>Door-to-Door Travel<span className="absolute -bottom-2 left-0 h-0.5 w-full rounded-full bg-cyan-400/80" /></Link>
+            <Link href="/door-to-door-travel" className={`${nav} whitespace-nowrap`}>Door-to-Door Travel</Link>
             <Link href="/corporate-travel" className={nav}>Corporate Travel</Link>
             <Link href="/contact" className={nav}>Contact</Link>
           </nav>
