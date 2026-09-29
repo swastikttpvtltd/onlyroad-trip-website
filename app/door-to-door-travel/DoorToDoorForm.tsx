@@ -15,7 +15,7 @@ const destinations = [
   "Rishikesh", "Shimla", "Sikkim", "Srinagar", "Udaipur", "Ujjain", "Uttarakhand", "Varanasi", "Vrindavan",
 ];
 const categories = [
-  "Senior-Friendly Journeys", "Solo Women Travel", "Women’s Group Journeys",
+  "Senior-Friendly Journeys", "Accessible & Assisted Travel", "Solo Women Travel", "Women’s Group Journeys",
   "International Visitors", "NRI Family Travel", "Private Family Travel", "Corporate & Group Mobility", "Other",
 ];
 const countryOptions = getCountries().map((iso2) => {
