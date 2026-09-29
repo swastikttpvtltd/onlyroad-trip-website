@@ -19,9 +19,9 @@ export async function POST(request: Request) {
     const travelDate = clean(body.travelDate, 20);
     const travellers = clean(String(body.travellers ?? ""), 5);
     const travellerCategory = clean(body.travellerCategory, 100);
-    const homePickup = clean(body.homePickup, 30);
+    const homePickup = clean(body.homePickup, 80);
     const mobilityAssistance = clean(body.mobilityAssistance, 50);
-    const message = clean(body.message, 2000);
+    const message = typeof body.message === "string" ? body.message.trim() : "";
 
     if (!fullName || !/^[+\d\s()-]{6,25}$/.test(mobile) || !pickupCity || !destination ||
         !/^\d{4}-\d{2}-\d{2}$/.test(travelDate) || !/^[1-9]\d{0,2}$/.test(travellers) ||
