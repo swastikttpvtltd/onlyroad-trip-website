@@ -61,9 +61,11 @@ export default function DoorToDoorForm() {
       ...indiaPickupLocations.states.map((name) => ({ name, state: "", type: "State / UT" })),
       ...indiaPickupLocations.cities.map(({ name, state }) => ({ name, state, type: "City" })),
     ].filter(({ name, state }) => name.toLocaleLowerCase("en-IN").includes(query) || state.toLocaleLowerCase("en-IN").includes(query));
+    const popularCities = ["Ahmedabad", "Bengaluru", "Chennai", "Delhi", "Hyderabad", "Jaipur", "Kolkata", "Mumbai", "Pune", "Surat", "Varanasi"];
     matches.sort((a, b) => {
-      const rank = (item: typeof a) => item.name.toLocaleLowerCase("en-IN").startsWith(query) ? 0 : item.name.toLocaleLowerCase("en-IN").split(/\\s+/).some((part) => part.startsWith(query)) ? 1 : 2;
-      return rank(a) - rank(b) || a.name.localeCompare(b.name);
+      const rank = (item: typeof a) => item.name.toLocaleLowerCase("en-IN").startsWith(query) ? 0 : item.name.toLocaleLowerCase("en-IN").split(/\s+/).some((part) => part.startsWith(query)) ? 1 : 2;
+      const popularity = (item: typeof a) => { const index = popularCities.indexOf(item.name); return index < 0 ? 100 : index; };
+      return rank(a) - rank(b) || popularity(a) - popularity(b) || a.name.localeCompare(b.name);
     });
     return matches.slice(0, 10);
   }, [pickupCity]);
