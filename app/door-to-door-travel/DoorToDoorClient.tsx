@@ -6,14 +6,14 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, MapPin, ShieldCheck, Users, HeartHandshake } from "lucide-react";
 
 const categories = [
-  ["Senior-Friendly Journeys", "Comfortable pacing, suitable transfers and assistance planned in advance."],
-  ["Accessible & Assisted Travel", "Door-to-door journeys planned around your mobility and access needs, with suitable transfers, stays and visits checked in advance."],
-  ["Solo Women Travel", "Private journeys planned around your comfort and preferences."],
-  ["Women’s Group Journeys", "Shared experiences with clearly coordinated travel arrangements."],
-  ["International Visitors", "India arrival-to-departure planning with clear transfers, stays and local coordination."],
-  ["NRI Family Travel", "Journeys for you or your family in India, with agreed updates and one clear itinerary."],
-  ["Private Family Travel", "Flexible private trips from the first pickup to the return journey."],
-  ["Corporate & Group Mobility", "Coordinated guest movements, stays and group transfers."],
+  ["Senior-Friendly Journeys", "A gentler journey planned around your preferred pace, walking comfort and rest breaks. We coordinate suitable transfers, stays and assistance in advance, with each arrangement explained in your itinerary."],
+  ["Accessible & Assisted Travel", "Door-to-door journeys planned around your mobility and access needs. We check suitable transfers, hotel access and the practical effort involved at planned visits, then confirm the arrangements in your itinerary."],
+  ["Solo Women Travel", "Travel on your own terms with a private route shaped around your interests, timing and comfort. We coordinate the agreed pickups, stays and local arrangements, with a clear trip contact throughout."],
+  ["Women’s Group Journeys", "Enjoy a women’s group journey with the route, accommodation and transfers planned together. We set out the group schedule, key meeting points and support contacts before departure."],
+  ["International Visitors", "Discover India with arrival pickup, stays, private transfers and planned visits brought into one itinerary. We share clear meeting points and local contacts so every transition is easier to navigate."],
+  ["NRI Family Travel", "Arrange an India journey for yourself or loved ones while planning from overseas. We coordinate the agreed pickups, stays and return, and share travel updates with designated family contacts when the travellers consent."],
+  ["Private Family Travel", "Plan a private holiday around the people travelling together, with room for different ages and interests. We connect the agreed vehicle, hotels and experiences from the first pickup to the final return."],
+  ["Corporate & Group Mobility", "Bring employee or guest travel into one organised plan, from pickups and transfers to hotel and event movements. We share schedules, meeting points and trip contacts so the group knows what happens next."],
 ] as const;
 const steps = [
   ["01", "Tell us your needs", "Share your pickup city, destination, dates, travellers and what matters to them."],
@@ -94,7 +94,7 @@ export default function DoorToDoorClient() {
     <section className="bg-slate-50 px-6 py-20" id="journeys"><div className="mx-auto max-w-7xl">
       <p className="font-bold uppercase tracking-[0.18em] text-blue-700">Who we plan for</p>
       <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">A journey for every kind of traveller.</h2>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{categories.map(([title, copy]) => <a key={title} href="#enquiry" className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><HeartHandshake className="text-blue-700" size={26}/><h3 className="mt-5 text-xl font-extrabold">{title}</h3><p className="mt-3 min-h-16 leading-7 text-slate-600">{copy}</p><span className="mt-5 inline-flex items-center gap-2 font-bold text-blue-700">Plan this journey <ArrowRight size={17}/></span></a>)}</div>
+      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{categories.map(([title, copy]) => <a key={title} href="#enquiry" className="group flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl"><HeartHandshake className="text-blue-700" size={26}/><h3 className="mt-5 text-xl font-extrabold">{title}</h3><p className="mt-3 flex-1 leading-7 text-slate-600">{copy}</p><span className="mt-6 inline-flex items-center gap-2 self-start font-bold text-blue-700">Plan this journey <ArrowRight size={17}/></span></a>)}</div>
     </div></section>
 
     <section id="how-it-works" className="mx-auto max-w-7xl px-6 py-20">
