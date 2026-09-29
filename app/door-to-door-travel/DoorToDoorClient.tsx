@@ -158,7 +158,7 @@ export default function DoorToDoorClient() {
 
     <section id="enquiry" className="px-6 py-20"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.9fr_1.1fr]">
       <div><p className="font-bold uppercase tracking-[0.18em] text-blue-700">Start your journey</p><h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Let’s plan travel that feels right for you.</h2><p className="mt-5 leading-8 text-slate-600">Share the essentials and our team will discuss a personalised, door-to-door travel plan. This enquiry does not confirm a booking.</p><p className="mt-7 text-sm leading-6 text-slate-500">Please do not enter detailed medical records here. We can discuss relevant assistance needs directly.</p></div>
-      <DoorToDoorForm />/form>
+      <DoorToDoorForm />
     </div></section>
   </main>;
 }
