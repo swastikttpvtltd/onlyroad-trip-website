@@ -23,8 +23,9 @@ export async function POST(request: Request) {
     const mobilityAssistance = clean(body.mobilityAssistance, 50);
     const message = typeof body.message === "string" ? body.message.trim() : "";
 
+    const indiaToday = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
     if (!fullName || !/^[+\d\s()-]{6,25}$/.test(mobile) || !pickupCity || !destination ||
-        !/^\d{4}-\d{2}-\d{2}$/.test(travelDate) || !/^[1-9]\d{0,2}$/.test(travellers) ||
+        (!/^\d{4}-\d{2}-\d{2}$/.test(travelDate) || travelDate < indiaToday) || !/^[1-9]\d{0,2}$/.test(travellers) ||
         !travellerCategory || !message || (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
       return NextResponse.json({ error: "Please check the required enquiry details." }, { status: 400 });
     }
