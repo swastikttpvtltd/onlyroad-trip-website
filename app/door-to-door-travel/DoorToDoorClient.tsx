@@ -142,9 +142,9 @@ export default function DoorToDoorClient() {
           "Airport or station wheelchair assistance requests",
           "Foldable wheelchair or suitable accessible transport",
           "Meet-and-assist, personal travel companion or attendant",
-          "Breakfast-only (BB) or all-meals (AP) plans",
+          "CPAI (breakfast), MAPAI (breakfast and dinner) or APAI (all meals)",
           "Guides at listed attractions and language options",
-          "Complimentary water, soft drinks, tea and snacks as quoted",
+          "Premium mineral bottled water, soft drinks, tea and snacks as quoted",
           "Sightseeing tickets and available special-access services",
           "Hotel and vehicle upgrades, extra nights or route changes",
         ].map(item=><li key={item} className="flex gap-3"><CheckCircle2 className="mt-1 shrink-0 text-slate-500" size={18}/>{item}</li>)}</ul></div>
