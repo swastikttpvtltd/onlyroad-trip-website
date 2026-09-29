@@ -35,12 +35,49 @@ export async function POST(request: Request) {
     }
 
     const context = await getCloudflareContext({ async: true });
-    const cloudflareEnv = (context?.env ?? {}) as Record<string, string | undefined>;
+    const cloudflareEnv = (context?.env ?? {}) as Record<string, unknown>;
+    const db = cloudflareEnv.DB as
+      | { prepare: (query: string) => { bind: (...values: unknown[]) => { run: () => Promise<unknown> } } }
+      | undefined;
+
+    if (!db) {
+      console.error("Travel enquiry database binding is unavailable.");
+      return NextResponse.json(
+        { error: "Enquiry service is temporarily unavailable." },
+        { status: 503 },
+      );
+    }
+
+    const leadId = `ORT-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    const sourcePage = request.headers.get("referer") || new URL(request.url).origin;
+
+    await db
+      .prepare(`
+        INSERT INTO leads (
+          lead_id, full_name, mobile, email, destination, travel_date,
+          travellers, travel_type, budget, message, source, source_page
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `)
+      .bind(
+        leadId,
+        String(fullName),
+        String(mobile),
+        email ? String(email) : null,
+        String(destination),
+        String(travelDate),
+        String(travellers),
+        String(travelType),
+        budget ? String(budget) : null,
+        String(message),
+        "website",
+        sourcePage,
+      )
+      .run();
 
     const readEnv = (...names: string[]) => {
       for (const name of names) {
         const runtimeValue = cloudflareEnv[name];
-        if (runtimeValue) return runtimeValue;
+        if (typeof runtimeValue === "string" && runtimeValue) return runtimeValue;
 
         const processValue = process.env[name];
         if (processValue) return processValue;
@@ -68,13 +105,11 @@ export async function POST(request: Request) {
 
     if (missing.length > 0) {
       console.error("Travel enquiry email configuration missing:", missing);
-      return NextResponse.json(
-        {
-          error: "Email service is not configured yet.",
-          missing,
-        },
-        { status: 500 },
-      );
+      await db
+        .prepare("UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
+        .bind("FAILED", "Email configuration unavailable", leadId)
+        .run();
+      return NextResponse.json({ success: true, leadId, notificationPending: true });
     }
 
     const transporter = nodemailer.createTransport({
@@ -84,7 +119,8 @@ export async function POST(request: Request) {
       auth: { user, pass },
     });
 
-    await transporter.sendMail({
+    try {
+      await transporter.sendMail({
       from,
       to,
       cc,
@@ -133,11 +169,24 @@ export async function POST(request: Request) {
           </div>
         </div>
       `,
-    });
+      });
 
-    return NextResponse.json({ success: true });
+      await db
+        .prepare("UPDATE leads SET email_status = ?, email_error = NULL, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
+        .bind("SENT", leadId)
+        .run();
+
+      return NextResponse.json({ success: true, leadId });
+    } catch (emailError) {
+      console.error("Travel enquiry email failed:", emailError);
+      await db
+        .prepare("UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
+        .bind("FAILED", "Email delivery failed", leadId)
+        .run();
+      return NextResponse.json({ success: true, leadId, notificationPending: true });
+    }
   } catch (error) {
-    console.error("Travel enquiry email failed:", error);
+    console.error("Travel enquiry processing failed:", error);
     return NextResponse.json(
       { error: "Unable to send the enquiry right now. Please try again or contact us directly." },
       { status: 500 },
