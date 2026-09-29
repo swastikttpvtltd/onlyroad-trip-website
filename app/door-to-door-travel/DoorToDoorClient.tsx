@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
+import DoorToDoorForm from "./DoorToDoorForm";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2, MapPin, ShieldCheck, Users, HeartHandshake } from "lucide-react";
 
@@ -39,30 +40,7 @@ const faqs = [
 ] as const;
 
 export default function DoorToDoorClient() {
-  const [submitting, setSubmitting] = useState(false);
-  const [feedback, setFeedback] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (submitting) return;
-    setSubmitting(true);
-    setFeedback("");
-    const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
-    try {
-      const response = await fetch("/api/door-to-door-enquiry", {
-        method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Please try again.");
-      form.reset();
-      setFeedback("Thank you. Your enquiry has been received. Our team will contact you about your journey.");
-    } catch (error) {
-      setFeedback(error instanceof Error ? error.message : "Unable to send your enquiry. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
   return <main className="bg-white text-slate-900">
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-blue-800 px-6 pb-24 pt-36 text-white sm:pt-40">
       <div className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-cyan-400/20 blur-3xl" />
@@ -180,22 +158,7 @@ export default function DoorToDoorClient() {
 
     <section id="enquiry" className="px-6 py-20"><div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.9fr_1.1fr]">
       <div><p className="font-bold uppercase tracking-[0.18em] text-blue-700">Start your journey</p><h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Let’s plan travel that feels right for you.</h2><p className="mt-5 leading-8 text-slate-600">Share the essentials and our team will discuss a personalised, door-to-door travel plan. This enquiry does not confirm a booking.</p><p className="mt-7 text-sm leading-6 text-slate-500">Please do not enter detailed medical records here. We can discuss relevant assistance needs directly.</p></div>
-      <form onSubmit={submit} className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-xl sm:grid-cols-2 sm:p-9">
-        <label className="text-sm font-bold">Your name *<input name="fullName" required maxLength={120} className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Phone / WhatsApp *<input name="mobile" required type="tel" maxLength={25} className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Email address<input name="email" type="email" maxLength={160} className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Pickup city *<input name="pickupCity" required maxLength={120} className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Destination *<input name="destination" required maxLength={160} className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Preferred travel date *<input name="travelDate" required type="date" className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Number of travellers *<input name="travellers" required type="number" min="1" max="200" defaultValue="2" className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <label className="text-sm font-bold">Who is travelling? *<select name="travellerCategory" required defaultValue="" className="mt-2 w-full rounded-xl border border-slate-300 bg-white p-3 font-normal"><option value="" disabled>Select a category</option>{categories.map(([title])=><option key={title}>{title}</option>)}<option>Other</option></select></label>
-        <label className="text-sm font-bold">Would you like home pickup and return drop?<select name="homePickup" defaultValue="Please discuss" className="mt-2 w-full rounded-xl border border-slate-300 bg-white p-3 font-normal"><option>Yes</option><option>Please discuss</option><option>No</option></select></label>
-        <label className="text-sm font-bold">Is wheelchair or mobility assistance needed?<select name="mobilityAssistance" defaultValue="Please discuss" className="mt-2 w-full rounded-xl border border-slate-300 bg-white p-3 font-normal"><option>Please discuss</option><option>Yes, wheelchair assistance</option><option>Yes, other mobility support</option><option>No</option></select></label>
-        <label className="text-sm font-bold sm:col-span-2">Anything we should consider for your comfort? *<textarea name="message" required maxLength={2000} rows={4} placeholder="Tell us about preferred pace, luggage, food or assistance needs. Please avoid detailed medical records." className="mt-2 w-full rounded-xl border border-slate-300 p-3 font-normal" /></label>
-        <button disabled={submitting} type="submit" className="rounded-xl bg-blue-700 px-6 py-4 font-extrabold text-white hover:bg-blue-800 disabled:opacity-60 sm:col-span-2">{submitting ? "Sending..." : "Request My Door-to-Door Plan"}</button>
-        {feedback && <p role="status" className="rounded-xl bg-blue-50 p-3 text-sm font-semibold text-blue-900 sm:col-span-2">{feedback}</p>}
-        <p className="text-xs leading-5 text-slate-500 sm:col-span-2">By sending this enquiry, you agree that Only Road Trip, operated by Swastik Tour And Travels Private Limited, may contact you about this travel request. See our <Link className="underline" href="/privacy-policy">Privacy Policy</Link>.</p>
-      </form>
+      <DoorToDoorForm />/form>
     </div></section>
   </main>;
 }
