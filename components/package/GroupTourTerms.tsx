@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const terms = [
+export const groupTourTerms = [
   [
     "Group Size & Departure Confirmation",
     "Each departure requires a minimum of 8 confirmed travellers and accommodates up to 100 travellers. Individual travellers may reserve a seat and join the group. If minimum participation is not met, travellers will be notified at least 5 days before departure and offered an alternative departure or an applicable refund under our published policies. Any alternative involving an additional charge requires the traveller’s prior agreement."
@@ -88,5 +88,5 @@ const terms = [
 ] as const;
 
 export default function GroupTourTerms() {
- return <section id="group-tour-terms" className="scroll-mt-28 rounded-2xl bg-white p-6 shadow-sm"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Terms &amp; Conditions</h2><details className="mt-5 rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">View Group Tour Terms &amp; Conditions</summary><ol className="mt-5 list-decimal space-y-5 pl-5 text-slate-600">{terms.map(([title, text]) => <li key={title} className="pl-1"><h3 className="font-bold text-slate-900">{title}</h3><p className="mt-2 leading-7">{text}</p></li>)}</ol><p className="mt-6 flex flex-wrap gap-4 text-sm font-semibold text-blue-800"><Link href="/terms-and-conditions">Website Terms &amp; Conditions</Link><Link href="/cancellation-policy">Cancellation Policy</Link><Link href="/refund-policy">Refund Policy</Link></p></details></section>;
+ return <section id="group-tour-terms" className="scroll-mt-28 rounded-2xl bg-white p-6 shadow-sm"><h2 className="text-2xl font-extrabold tracking-tight text-slate-900">Terms &amp; Conditions</h2><details className="mt-5 rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">View Group Tour Terms &amp; Conditions</summary><ol className="mt-5 list-decimal space-y-5 pl-5 text-slate-600">{groupTourTerms.map(([title, text]) => <li key={title} className="pl-1"><h3 className="font-bold text-slate-900">{title}</h3><p className="mt-2 leading-7">{text}</p></li>)}</ol><p className="mt-6 flex flex-wrap gap-4 text-sm font-semibold text-blue-800"><Link href="/terms-and-conditions">Website Terms &amp; Conditions</Link><Link href="/cancellation-policy">Cancellation Policy</Link><Link href="/refund-policy">Refund Policy</Link></p></details></section>;
 }
