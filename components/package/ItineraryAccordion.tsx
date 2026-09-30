@@ -258,6 +258,7 @@ function downloadItinerary({
 }
 
 export default function ItineraryAccordion({
+  isGroupTerms = false,
   itinerary,
   destination,
   category,
