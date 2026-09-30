@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { groupTourTerms } from "@/components/package/GroupTourTerms";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Check, Download, Mail, MessageCircle, Utensils, Hotel, Camera, Bus, Users, IndianRupee } from "lucide-react";
@@ -67,7 +68,8 @@ function PrintItinerary({ pkg, finalTitle, finalDuration, finalDestination, disp
   const inclusions = Array.isArray(pkg?.inclusions) ? pkg.inclusions : [];
   const exclusions = Array.isArray(pkg?.exclusions) ? pkg.exclusions : [];
   const customTerms = Array.isArray(pkg?.termsAndConditions) ? pkg.termsAndConditions : Array.isArray(pkg?.terms) ? pkg.terms : [];
-  const terms = customTerms.length ? customTerms : DEFAULT_TERMS;
+  const isGroupTerms = pkg?.themes?.some((theme) => theme.toLowerCase() === "group tour") || pkg?.category?.toLowerCase() === "weekend";
+  const terms = isGroupTerms ? groupTourTerms.map(([heading, body]) => `${heading}: ${body}`) : customTerms.length ? customTerms : DEFAULT_TERMS;
   return (
     <div className="itinerary-print-sheet">
       <div className="itinerary-print-header"><div><p className="itinerary-print-brand">ONLY ROAD TRIP</p><h1>{finalTitle}</h1><p>{finalDestination} • {finalDuration}</p></div><div className="itinerary-print-price">₹{displayPrice.toLocaleString("en-IN")}<span> / person</span></div></div>
