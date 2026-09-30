@@ -32,6 +32,8 @@ export default async function PaymentPage({
         returnDate: get("returnDate"),
         sharing: get("sharing"),
         travellers,
+        billingPax: Number(get("billingPax") || travellers),
+        paymentType: get("paymentType") || "advance",
         rate,
         total,
         advance,
