@@ -57,6 +57,8 @@ export async function POST(request: Request) {
         returnDate,
         sharing: String(body.sharing || ""),
         travellers: String(travellers),
+        billingPax: String(body.billingPax || travellers),
+        paymentType: String(body.paymentType || "advance"),
         rate: String(rate),
         total: String(total),
         advance: String(advance),
