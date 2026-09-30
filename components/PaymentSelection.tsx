@@ -15,6 +15,9 @@ const STORAGE_KEY = "onlyroadtrip_payment_booking";
 const LEGACY_STORAGE_KEY = "onlyroadtrip_pending_booking";
 const money = (n: number) => `₹${Number(n || 0).toLocaleString("en-IN")}`;
 const emptyBooking: Booking = { packageTitle: "", packageId: "", duration: "", departure: "", returnDate: "", sharing: "", travellers: 1, rate: 0, total: 0, advance: 0, balance: 0, name: "", phone: "", email: "", purpose: "" };
+
+function departureLeadDays(value:string){const parts=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Kolkata",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date());const part=(type:string)=>Number(parts.find(p=>p.type===type)?.value);const [year,month,day]=value.split("-").map(Number);return Math.round((Date.UTC(year,month-1,day)-Date.UTC(part("year"),part("month")-1,part("day")))/86400000);}
+
 function makeBookingNumber() { return `ORT-${Date.now().toString(36).slice(-8).toUpperCase()}`; }
 
 async function readApiResponse(res: Response) {
@@ -84,7 +87,11 @@ export default function PaymentSelection({ booking }: { booking: Booking }) {
     } catch { /* ignore invalid/stale browser storage */ }
   }, [booking, hasBookingFromUrl]);
 
-  const currentBooking: Booking = hasBookingFromUrl ? mergeBooking(booking, storedBooking) : storedBooking || emptyBooking;
+  const mergedBooking: Booking = hasBookingFromUrl ? mergeBooking(booking, storedBooking) : storedBooking || emptyBooking;
+  const datedBooking = /^\d{4}-\d{2}-\d{2}$/.test(mergedBooking.departure) && mergedBooking.total > 0;
+  const advanceEligible = datedBooking && departureLeadDays(mergedBooking.departure) >= 30;
+  const payableNow = datedBooking ? (advanceEligible ? Math.ceil(mergedBooking.total * 0.3) : mergedBooking.total) : mergedBooking.advance;
+  const currentBooking: Booking = datedBooking ? { ...mergedBooking, advance: payableNow, balance: mergedBooking.total - payableNow, paymentType: advanceEligible ? "advance" : "full" } : mergedBooking;
 
   useEffect(() => {
     if (!hasBookingFromUrl) return;
