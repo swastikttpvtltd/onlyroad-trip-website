@@ -3,7 +3,7 @@ import Link from "next/link";
 export const groupTourTerms = [
   [
     "Group Size & Departure Confirmation",
-    "Each departure requires a minimum of 8 confirmed travellers and accommodates up to 100 travellers. Individual travellers may reserve a seat and join the group. If minimum participation is not met, travellers will be notified at least 5 days before departure and offered an alternative departure or an applicable refund under our published policies. Any alternative involving an additional charge requires the traveller’s prior agreement."
+    "Each departure requires a minimum of 4 confirmed travellers. Group sizes may range from 4 to 100+ travellers, subject to availability and operational arrangements. Individual travellers may book a seat and join the group. Larger groups may be accommodated across multiple vehicles or hotels, as communicated before departure. If minimum participation is not achieved, travellers will be notified at least 5 days before departure and offered an alternative departure or an applicable refund under our published policies. Any alternative involving additional charges requires the traveller’s prior agreement."
   ],
   [
     "Accommodation",
