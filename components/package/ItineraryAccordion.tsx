@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { groupTourTerms } from "@/components/package/GroupTourTerms";
 
 type ItineraryDay = {
   day: string | number;
@@ -24,6 +25,7 @@ type GroupRates = {
 };
 
 type Props = {
+  isGroupTerms?: boolean;
   itinerary: ItineraryDay[];
   destination: string;
   category: string;
@@ -111,6 +113,7 @@ function buildItineraryHtml(itinerary: ItineraryDay[]) {
 }
 
 function downloadItinerary({
+  isGroupTerms = false,
   itinerary,
   destination,
   category,
@@ -234,11 +237,13 @@ function downloadItinerary({
     <div class="info-card"><h3>Meals</h3><p>${escapeHtml(mealText || "As per package itinerary")}</p></div>
   </div>
 
-  <h2>Payment Policy</h2>
+  ${isGroupTerms ? `<h2>Group Tour Terms &amp; Conditions</h2><ol>${groupTourTerms.map(([heading, body]) => `<li style="margin-bottom:10px;break-inside:avoid"><strong>${escapeHtml(heading)}</strong><p>${escapeHtml(body)}</p></li>`).join("")}</ol>` : ""}
+
+  ${!isGroupTerms ? `<h2>Payment Policy</h2>
   <div class="info-card">${listHtml(paymentPolicy)}</div>
 
   <h2>Cancellation Policy</h2>
-  <div class="info-card">${listHtml(cancellationPolicy)}</div>
+  <div class="info-card">${listHtml(cancellationPolicy)}</div>` : ""}
 
   <div class="footer-note">This document is a package itinerary and pricing reference. Final booking documents, confirmed quotation and applicable supplier terms prevail.</div>
 
@@ -277,7 +282,7 @@ export default function ItineraryAccordion({
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={() => downloadItinerary({ itinerary, destination, category, vibeHook, packageTitle, packageId, duration, overview, highlights, inclusions, exclusions, groupRates, sharingRates, bestTime, hotels, meals })}
+          onClick={() => downloadItinerary({ isGroupTerms, itinerary, destination, category, vibeHook, packageTitle, packageId, duration, overview, highlights, inclusions, exclusions, groupRates, sharingRates, bestTime, hotels, meals })}
           className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-extrabold text-white shadow-md transition hover:bg-blue-800"
         >
           ↓ Download Complete Itinerary
