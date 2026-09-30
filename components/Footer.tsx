@@ -101,6 +101,7 @@ export default function Footer() {
             <Link href="/cancellation-policy" className="hover:text-cyan-400">Cancellation Policy</Link>
             <Link href="/booking-policy" className="hover:text-cyan-400">Booking Policy</Link>
             <Link href="/cookie-policy" className="hover:text-cyan-400">Cookie Policy</Link>
+            <Link href="/traveller-terms-and-conditions" className="hover:text-cyan-400">Traveller Terms &amp; Conditions</Link>
           </div>
         </div>
 
