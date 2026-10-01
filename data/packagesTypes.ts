@@ -26,6 +26,8 @@ export interface Package {
 
   price: number;
 
+  displayPriceBasis?: "Double Sharing" | "2 Travellers";
+
   rating: number;
 
   reviews: number;

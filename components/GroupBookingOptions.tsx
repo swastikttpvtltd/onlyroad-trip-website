@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { addGSTToRate } from "@/data/priceTax";
 
 type Props = { packageTitle?: string };
 
@@ -25,8 +26,8 @@ function display(d: Date) {
 export default function GroupBookingOptions({ packageTitle }: Props) {
   const isGoa = /goa/i.test(String(packageTitle ?? ""));
   const rates = isGoa
-    ? { quad: 9999, triple: 11599, double: 12599 }
-    : { quad: 7499, triple: 7999, double: 8499 };
+    ? { quad: addGSTToRate(9999), triple: addGSTToRate(11599), double: addGSTToRate(12599) }
+    : { quad: addGSTToRate(7499), triple: addGSTToRate(7999), double: addGSTToRate(8499) };
 
   const slots = useMemo(() => {
     const start = nextFriday(new Date());

@@ -13,6 +13,7 @@ const staticPages = [
   "destinations",
   "packages",
   "corporate-travel",
+  "door-to-door-travel",
   "corporate-mice-travel",
   "solo-women-travel-packages",
   "char-dham-yatra-package",

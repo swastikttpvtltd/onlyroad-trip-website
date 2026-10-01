@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 
-const crawlerRules = [
+const crawlerRules: MetadataRoute.Robots["rules"] = [
   {
     userAgent: "*",
     allow: "/",
@@ -38,7 +38,7 @@ const crawlerRules = [
     allow: "/",
     disallow: ["/api/", "/admin/"],
   },
-] as const;
+];
 
 export default function robots(): MetadataRoute.Robots {
   return {

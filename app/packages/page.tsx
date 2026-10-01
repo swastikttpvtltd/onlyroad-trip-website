@@ -15,7 +15,7 @@ function normalizePackage(pkg: RawPackage): Package & { themes: string[]; rawSea
   return {
     id: typeof pkg.id === "number" ? pkg.id : Number(String(pkg.id || "").replace(/\D/g, "")) || 0,
     slug: pkg.slug ?? "", title: pkg.title ?? "Tour Package", destination: pkg.destination ?? "", state: pkg.state ?? "", category: pkg.category ?? "Tour",
-    image: pkg.image ?? pkg.hero?.image ?? gallery[0] ?? "/images/package-placeholder.jpg", gallery, duration: pkg.duration ?? "", price: typeof pkg.price === "number" ? pkg.price : 0,
+    image: pkg.image ?? pkg.hero?.image ?? gallery[0] ?? "/images/package-placeholder.jpg", gallery, duration: pkg.duration ?? "", price: typeof pkg.price === "number" ? pkg.price : 0, displayPriceBasis: pkg.displayPriceBasis ?? "2 Travellers",
     rating: typeof pkg.rating === "number" ? pkg.rating : 4.5, reviews: typeof pkg.reviews === "number" ? pkg.reviews : 0, overview: pkg.overview ?? "", highlights,
     itinerary: Array.isArray(pkg.itinerary) ? pkg.itinerary.map((day: any, index: number) => ({ day: typeof day.day === "number" ? day.day : Number(String(day.day || "").replace(/\D/g, "")) || index + 1, title: day.title ?? `Day ${index + 1}`, description: [Array.isArray(day.morning) ? `Morning: ${day.morning.join(", ")}` : "", Array.isArray(day.afternoon) ? `Afternoon: ${day.afternoon.join(", ")}` : "", Array.isArray(day.evening) ? `Evening: ${day.evening.join(", ")}` : ""].filter(Boolean).join(" ") })) : [],
     hotels: Array.isArray(pkg.hotels) ? pkg.hotels.map((hotel: any) => ({ name: hotel.name ?? "Hotel", category: hotel.category ?? "Standard" })) : [],

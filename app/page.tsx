@@ -3,6 +3,7 @@ import Stats from "@/components/Stats";
 import Categories from "@/components/Categories";
 import GroupToursSlider from "@/components/GroupToursSlider";
 import FeaturedDestinations from "@/components/FeaturedDestinations";
+import ThemePackageSliders from "@/components/ThemePackageSliders";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import type { Metadata } from "next";
@@ -47,5 +48,5 @@ const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEn
 const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: baseUrl }] };
 
 export default function Home() {
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><Categories /><GroupToursSlider /><FeaturedDestinations /><WhyChooseUs /><Testimonials /><Stats /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><Categories /><GroupToursSlider /><ThemePackageSliders /><FeaturedDestinations /><WhyChooseUs /><Testimonials /><Stats /></>;
 }

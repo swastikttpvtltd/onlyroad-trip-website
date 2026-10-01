@@ -22,6 +22,7 @@ import andhraPradeshPackages from "./packages/andhra-pradesh/andhra-pradesh-pack
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 import { makePackageRates } from "./packagePricing";
+import { getGroupSharingRates } from "./groupTourPricing";
 import { getBestTime } from "./packageBestTime";
 import { packageMedia } from "./packageMedia";
 
@@ -220,6 +221,10 @@ const buildDetailedPackageDescription = (pkg: any) => {
 
 export const packages = rawPackages.map((pkg) => {
   const groupRates = makePackageRates(pkg);
+  const sharingRates = getGroupSharingRates(pkg) ?? groupRates.sharingRates;
+  const displayPrice = sharingRates?.length
+    ? Math.max(...sharingRates.map((rate) => rate.price))
+    : groupRates[2];
   const mediaFolder = getPackageImageFolder(pkg);
   const gallery = getPackageMedia(mediaFolder, pkg.title);
   const cover = gallery[0]?.image ?? "/images/package-placeholder.jpg";
@@ -229,12 +234,13 @@ export const packages = rawPackages.map((pkg) => {
   return {
     ...pkg,
     packageId: makePackageId(pkg.id, pkg.slug, pkg.title),
-    price: groupRates[6],
+    price: displayPrice,
+    displayPriceBasis: sharingRates?.length ? "Double Sharing" : "2 Travellers",
     groupRates,
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,
-    priceBasis: "Per Person | 3-Star Hotel / Similar | Breakfast & Dinner | Standard Transport & Sightseeing",
+    priceBasis: "Per Person | 5% GST Included | 3-Star Hotel / Similar | Breakfast & Dinner | Standard Transport & Sightseeing",
     image: cover,
     hero: {
       ...(pkg.hero || {}),
