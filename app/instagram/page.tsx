@@ -18,7 +18,8 @@ const featured=[
  {title:"Varanasi & Ayodhya", match:["varanasi-ayodhya"]}
 ];
 function pick(keys:string[]){return packages.find(p=>keys.some(key=>String(p.slug).includes(key)));}
-function whatsappUrl(pkg:{title:string;slug:string;duration?:string}){const message=`Hello Only Road Trip, I would like to enquire about ${pkg.title}${pkg.duration?` (${pkg.duration})`:""}. Package: https://www.onlyroadtrip.com/packages/${pkg.slug}. Please share availability and details.`;return `https://wa.me/919211796168?text=${encodeURIComponent(message)}`;}\nfunction miniDay(day:any,index:number){return String(day?.title||day?.description||`Day ${index+1}`).trim();}
+function whatsappUrl(pkg:{title:string;slug:string;duration?:string}){const message=`Hello Only Road Trip, I would like to enquire about ${pkg.title}${pkg.duration?` (${pkg.duration})`:""}. Package: https://www.onlyroadtrip.com/packages/${pkg.slug}. Please share availability and details.`;return `https://wa.me/919211796168?text=${encodeURIComponent(message)}`;}
+function miniDay(day:any,index:number){return String(day?.title||day?.description||`Day ${index+1}`).trim();}
 export default function InstagramPage(){
  const chosen=featured.map(item=>({...item,pkg:pick(item.match)})).filter(item=>item.pkg);
  return <main className="min-h-screen bg-white text-slate-900">
