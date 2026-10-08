@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/InstagramSafeLink";
 import Image from "next/image";
 import { Bus, Camera, Utensils } from "lucide-react";
 import { packages } from "@/data/packages";

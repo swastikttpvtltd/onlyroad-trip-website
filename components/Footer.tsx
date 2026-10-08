@@ -1,6 +1,6 @@
 import WebsiteOnlyLink from "@/components/WebsiteOnlyLink";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/InstagramSafeLink";
 import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
