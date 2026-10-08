@@ -27,5 +27,79 @@ export const corporateRishikesh=make({id:"uk-corp-rishikesh-2n3d",slug:"corporat
 
 export const corporateMussoorie=make({id:"uk-corp-mussoorie-2n3d",slug:"corporate-mussoorie-retreat",title:"Corporate Mussoorie Weekend Retreat",duration:"2 Nights / 3 Days",destination:"Mussoorie • Dehradun",category:"Corporate",themes:["Corporate","MICE","Weekend","Team Building"],short:"A hill-station corporate retreat combining meetings, team engagement and relaxed Mussoorie leisure.",overview:"A practical 2-night corporate weekend from Delhi-NCR for sales meets, leadership retreats, team bonding and reward trips, with flexible activity and meeting blocks.",highlights:["Corporate retreat","Meeting sessions","Team activities","Mussoorie Mall Road","Hill viewpoints","Group dinner"],bestTime:"March – June & September – December",groupSize:"10-100+ Persons",itinerary:[day("1","Delhi – Mussoorie",["Group departure"],["Hotel check-in","Welcome/meeting session"],["Mall Road leisure and group dinner"]),day("2","Conference & Team Day",["Breakfast","Meeting/team-building block"],["Selected Mussoorie sightseeing or activity block"],["Awards/networking dinner"]),day("3","Mussoorie – Delhi",["Breakfast","Closing session"],["Checkout and return"],["Delhi drop"]) ]});
 
-export const uttarakhandPackages=[charDham,doDham,kedarnath,badrinath,haridwarRishikeshMussoorie,choptaTungnath,madhyamaheshwar,nainital,corbett,auliJoshimath,corporateRishikesh,corporateMussoorie];
+export const choptaGroup = {
+  ...choptaTungnath,
+  id: "group-chopta-2n3d",
+  slug: "chopta-tungnath-weekend-group-tour",
+  title: "Chopta Tungnath & Chandrashila Weekend Group Tour",
+  duration: "2 Nights / 3 Days",
+  destination: "Chopta • Tungnath • Chandrashila",
+  category: "Weekend",
+  themes: ["Weekend", "Group Tour", "Trekking", "Adventure", "Pilgrimage", "Nature"],
+  short: "Delhi overnight journey, one hotel night in Chopta and an early-morning Tungnath–Chandrashila trek before the return journey.",
+  overview: "A Friday group departure from Delhi with Night 1 spent travelling by road and Night 2 at a hotel in the Chopta region. Arrive and settle in on Day 2. On Day 3, start the Tungnath–Chandrashila trek early, descend, return to the hotel to collect luggage and complete checkout, then leave for Delhi. Delhi drop may be the following morning; no further hotel night is included. Trek access, Tungnath darshan and the Chandrashila summit depend on weather, trail conditions, fitness and local permissions.",
+  highlights: ["Friday departure from Delhi", "Chopta meadows and forest scenery", "Tungnath trek and seasonal temple darshan", "Chandrashila summit subject to conditions", "1 overnight road journey + 1 hotel night", "Delhi return after the trek"],
+  groupSize: "6-20 Persons",
+  difficulty: "Moderate",
+  inclusions: [
+    "Delhi–Chopta–Delhi transfers by shared group vehicle allocated according to group size; AC may be switched off on hill sections",
+    "1 hotel night in the Chopta region on Night 2, on the booked Quad / Triple / Double Sharing basis; Night 1 is the overnight road journey",
+    "1 hotel dinner on Day 2 and 1 hotel breakfast / packed breakfast on Day 3",
+    "Transfers to and from the trek starting point as required by the itinerary",
+    "Tour coordination and driver charges, fuel, tolls and parking for the published route",
+    "5% GST included in the package price",
+  ],
+  exclusions: [
+    "Arrival breakfast, all lunches, journey meals and personal refreshments",
+    "Entry / forest / trekking permits and local fees, unless explicitly included in the confirmed booking",
+    "Personal trekking equipment, porter / pony services and any specialist trekking guide unless separately confirmed",
+    "Travel insurance, personal expenses and activities outside the published itinerary",
+    "Early check-in, late checkout or extra room use unless confirmed in writing",
+  ],
+  quickFacts: {
+    ...choptaTungnath.quickFacts,
+    pickup: "Delhi",
+    drop: "Delhi — late night / following morning depending on road conditions",
+    transport: "Shared group vehicle as per group size; AC may be switched off on hill sections",
+  },
+  itinerary: [
+    {
+      day: "Day 1",
+      title: "Delhi to Chopta — Overnight Journey",
+      description: "Meet in Delhi on Friday evening and travel overnight towards Chopta. Night 1 is spent in the vehicle; hotel accommodation starts on Day 2.",
+      morning: [],
+      afternoon: [],
+      evening: ["Report at the Delhi pickup point and time stated in the booking confirmation.", "Board the shared group vehicle for the overnight road journey to Chopta, with comfort stops en route."],
+      overnightStay: "Night 1: Overnight journey in the vehicle — no hotel stay",
+      meals: "Journey meals and refreshments payable directly",
+      notes: ["The 2N/3D duration includes one outbound journey night and one hotel night."],
+    },
+    {
+      day: "Day 2",
+      title: "Chopta Arrival — Check-in, Meadows & Rest",
+      description: "Arrive in the Chopta region, check in around noon as available and enjoy a gentle local walk before dinner and the only hotel overnight stay.",
+      morning: ["Arrive in the Chopta region after the overnight journey; arrival depends on traffic and mountain road conditions.", "Arrival breakfast and refreshments are payable directly."],
+      afternoon: ["Hotel check-in around 12 noon, subject to the confirmed property's policy and room availability.", "Rest after the journey, then enjoy Chopta's meadow surroundings and a short local nature walk as conditions permit.", "Lunch at own expense."],
+      evening: ["Discuss the next morning's trek route and departure timing with the tour coordinator; prepare walking shoes, warm layers, water and a daypack.", "Dinner at the hotel and an early night ahead of the trek."],
+      attractions: ["Chopta meadow surroundings", "Local forest scenery"],
+      overnightStay: "Night 2: Chopta region — 1 hotel night only",
+      meals: "Hotel dinner included; arrival breakfast and lunch payable directly",
+      notes: ["Trek-day checkout and luggage storage must be arranged with the hotel before departure; late checkout is not automatically included."],
+    },
+    {
+      day: "Day 3",
+      title: "Early Tungnath–Chandrashila Trek — Checkout & Delhi Return",
+      description: "Start the trek early, walk to Tungnath and continue towards Chandrashila where conditions allow. Descend to the road, return to the hotel, collect luggage and complete checkout before boarding the vehicle for Delhi.",
+      morning: ["Early hotel breakfast or packed breakfast as arranged; keep luggage packed for checkout.", "Transfer to the trek starting point as required and begin the Tungnath trek early in the morning.", "Visit Tungnath; temple darshan is subject to seasonal opening. Continue to Chandrashila only if weather, trail access, fitness and the return schedule allow."],
+      afternoon: ["Descend safely to the trek starting point and return to the hotel to collect luggage and complete the agreed checkout arrangements.", "If checkout was required before the trek, collect the stored luggage; room use or a late checkout requires prior hotel confirmation.", "Lunch at own expense, then board the group vehicle and begin the return road journey to Delhi after the trek."],
+      evening: ["Continue towards Delhi with scheduled comfort stops; dinner en route is payable directly.", "Delhi drop follows the confirmed transport schedule and may be late at night or the following morning. No additional hotel stay is included."],
+      attractions: ["Tungnath", "Chandrashila — subject to safe access and fitness"],
+      overnightStay: "No hotel stay — return road journey to Delhi",
+      meals: "1 hotel breakfast / packed breakfast included; lunch and journey dinner payable directly",
+      notes: ["Snow, rain, trail restrictions or other unsafe conditions may limit or prevent the trek; the summit is not guaranteed.", "Keep onward travel flexible because Delhi arrival may be the following morning."],
+    },
+  ],
+};
+
+export const uttarakhandPackages=[charDham,doDham,kedarnath,badrinath,haridwarRishikeshMussoorie,choptaTungnath,choptaGroup,madhyamaheshwar,nainital,corbett,auliJoshimath,corporateRishikesh,corporateMussoorie];
 export default uttarakhandPackages;

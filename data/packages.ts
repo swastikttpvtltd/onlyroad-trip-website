@@ -93,6 +93,8 @@ const packageStateFolders: Record<string, string> = {
 };
 
 const getPackageImageFolder = (pkg: any) => {
+  // Reuse the existing Chopta photos without duplicating image files.
+  if (pkg.slug === "chopta-tungnath-weekend-group-tour") return "uttarakhand/chopta-tungnath";
   const stateFolder = packageStateFolders[String(pkg.state ?? "").trim()];
   return stateFolder ? `${stateFolder}/${pkg.slug}` : `multi-state/${pkg.slug}`;
 };
@@ -228,6 +230,7 @@ const overnightWeekendSlugs = new Set([
   "mcleodganj-weekend-group-tour",
   "udaipur-weekend-group-tour",
   "nainital-weekend-group-tour",
+  "chopta-tungnath-weekend-group-tour",
   "jim-corbett-weekend"
 ]);
 
@@ -243,7 +246,7 @@ export const packages = rawPackages.map((original) => {
       quickFacts: {
         ...original.quickFacts,
         pickup: "Delhi",
-        drop: "Delhi",
+        drop: original.quickFacts?.drop || "Delhi",
         meals: "1 dinner (Day 2) & 1 breakfast (Day 3)",
         hotelCategory: "3-Star Hotel / Similar — 1 night (Night 2)",
       },
@@ -283,10 +286,10 @@ export const packages = rawPackages.map((original) => {
     gallery,
     hotels: isOvernightWeekend ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
     meals: isOvernightWeekend ? pkg.meals : [...standardMeals],
-    exclusions: [...defaultPackageExclusions, isOvernightWeekend
+    exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
       ? "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included"
       : "Lunch and any meals other than the included breakfast and dinner"],
-    inclusions: [
+    inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.inclusions : [
       ...defaultPackageInclusions,
       ...(/\b(?:Varanasi|Kashi)\b/i.test(String(pkg.destination ?? ""))
         ? ["Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions."] : []),
