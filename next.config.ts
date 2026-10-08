@@ -20,6 +20,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  assetPrefix: process.env.INSTAGRAM_ASSET_ORIGIN || undefined,
   typescript: {
     ignoreBuildErrors: true,
   },
