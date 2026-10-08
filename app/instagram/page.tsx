@@ -18,7 +18,7 @@ const featured=[
  {title:"Varanasi & Ayodhya", match:["varanasi-ayodhya"]}
 ];
 function pick(keys:string[]){return packages.find(p=>keys.some(key=>String(p.slug).includes(key)));}
-function miniDay(day:any,index:number){return String(day?.title||day?.description||`Day ${index+1}`).trim();}
+function whatsappUrl(pkg:{title:string;slug:string;duration?:string}){const message=`Hello Only Road Trip, I would like to enquire about ${pkg.title}${pkg.duration?` (${pkg.duration})`:""}. Package: https://www.onlyroadtrip.com/packages/${pkg.slug}. Please share availability and details.`;return `https://wa.me/919211796168?text=${encodeURIComponent(message)}`;}\nfunction miniDay(day:any,index:number){return String(day?.title||day?.description||`Day ${index+1}`).trim();}
 export default function InstagramPage(){
  const chosen=featured.map(item=>({...item,pkg:pick(item.match)})).filter(item=>item.pkg);
  return <main className="min-h-screen bg-white text-slate-900">
@@ -42,7 +42,7 @@ export default function InstagramPage(){
        <p className="mt-1 text-sm text-slate-600">{pkg!.duration} • {pkg!.destination}</p>
        {typeof pkg!.price==="number"&&pkg!.price>0&&<p className="mt-3 font-bold text-blue-800">From ₹{pkg!.price.toLocaleString("en-IN")} per person*</p>}
        {Array.isArray(pkg!.itinerary)&&pkg!.itinerary.length>0&&<details className="mt-3 rounded-lg bg-slate-50 p-3"><summary className="cursor-pointer text-sm font-semibold text-slate-800">Mini day-wise itinerary</summary><ol className="mt-2 space-y-1 text-sm text-slate-600">{pkg!.itinerary.slice(0,5).map((day:any,i:number)=><li key={i}>Day {i+1}: {miniDay(day,i)}</li>)}</ol>{pkg!.itinerary.length>5&&<p className="mt-2 text-xs text-slate-500">See full itinerary for remaining days.</p>}</details>}
-       <div className="mt-4 grid grid-cols-2 gap-2"><Link href={`/packages/${pkg!.slug}`} className="rounded-lg border border-blue-700 px-3 py-2.5 text-center text-sm font-bold text-blue-800">Full Itinerary</Link><Link href={`/book/${pkg!.slug}`} className="rounded-lg bg-blue-800 px-3 py-2.5 text-center text-sm font-bold text-white">Book Now</Link></div>
+       <div className="mt-4 grid grid-cols-2 gap-2"><a href={whatsappUrl(pkg!)} target="_blank" rel="noopener noreferrer" aria-label={`Enquire about ${pkg!.title} on WhatsApp`} className="rounded-lg border border-blue-700 px-3 py-2.5 text-center text-sm font-bold text-blue-800 transition-colors hover:bg-blue-50">Ask on WhatsApp</a><Link href={`/book/${pkg!.slug}`} aria-label={`Book ${pkg!.title} on Only Road Trip`} className="rounded-lg bg-blue-800 px-3 py-2.5 text-center text-sm font-bold text-white transition-colors hover:bg-blue-900">Book Now</Link></div><Link href={`/packages/${pkg!.slug}`} className="mt-3 block text-center text-sm font-semibold text-slate-600 underline underline-offset-4 hover:text-blue-800">View Full Itinerary →</Link>
       </div>
     </article>)}
    </div>
