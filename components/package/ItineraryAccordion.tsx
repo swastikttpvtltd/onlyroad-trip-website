@@ -1,14 +1,10 @@
 "use client";
 import { useState } from "react";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
+import { formatItineraryDay } from "@/data/itineraryDay";
+import type { DetailedItineraryDay } from "@/data/itineraryDetails";
 
-type ItineraryDay = {
-  day: string | number;
-  title: string;
-  morning: string[];
-  afternoon: string[];
-  evening: string[];
-};
+type ItineraryDay = DetailedItineraryDay;
 
 type SharingRate = { type: string; price: number };
 type GroupRates = {
@@ -45,9 +41,10 @@ type Props = {
 };
 
 const clean = (items: string[] = []) =>
-  items.filter(Boolean).filter((x) => !/^breakfast|^dinner|^stay$|^drop$|^departure$/i.test(x.trim()));
+  items.filter(Boolean);
 
 function experience(day: ItineraryDay) {
+  if (day.description) return day.description;
   const acts = clean([...day.morning, ...day.afternoon, ...day.evening]);
   if (/arrival|check.?in/i.test(day.title)) {
     return `Arrival and settling-in day. ${acts.length ? `The scheduled experience includes ${acts.slice(0, 4).join(", ")}.` : "The pace is intentionally comfortable after the journey."}`;
@@ -81,7 +78,7 @@ function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates) {
       .join("")}</tbody></table>`;
   }
 
-  const slabs: Array<[string, number | undefined]> = [
+  const slabs: Array<[string, number]> = [
     ["Up to 2 Travellers", groupRates?.[2]],
     ["Up to 4 Travellers", groupRates?.[4]],
     ["Up to 6 Travellers", groupRates?.[6]],
@@ -102,12 +99,21 @@ function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates) {
 function buildItineraryHtml(itinerary: ItineraryDay[]) {
   return itinerary.map((day, index) => `
     <section class="day">
-      <div class="day-title">Day ${escapeHtml(String(day.day ?? index + 1))} — ${escapeHtml(day.title || "Travel & Sightseeing")}</div>
+      <div class="day-title">${escapeHtml(formatItineraryDay(day.day, index + 1))} — ${escapeHtml(day.title || "Travel & Sightseeing")}</div>
+      ${day.itineraryId ? `<p class="meta">Itinerary ID: ${escapeHtml(day.itineraryId)}</p>` : ""}
+      ${day.description ? `<p>${escapeHtml(day.description)}</p>` : ""}
+      ${day.attractions?.length ? `<h4>Planned attractions & experiences</h4>${listHtml(day.attractions)}` : ""}
       <div class="cols">
         <div><h4>Morning</h4>${clean(day.morning).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No morning activity listed.</p>"}</div>
         <div><h4>Afternoon</h4>${clean(day.afternoon).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No afternoon activity listed.</p>"}</div>
         <div><h4>Evening</h4>${clean(day.evening).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No evening activity listed.</p>"}</div>
       </div>
+      ${day.overnightStay ? `<p><strong>Night halt:</strong> ${escapeHtml(day.overnightStay)}</p>` : ""}
+      ${day.meals ? `<p><strong>Meal plan:</strong> ${escapeHtml(day.meals)}</p>` : ""}
+      ${day.distance ? `<p><strong>Approximate distance:</strong> ${escapeHtml(day.distance)}</p>` : ""}
+      ${day.driveTime ? `<p><strong>Approximate drive time:</strong> ${escapeHtml(day.driveTime)}</p>` : ""}
+      ${day.optionalActivities?.length ? `<h4>Optional / separately confirmed activities</h4>${listHtml(day.optionalActivities)}` : ""}
+      ${day.notes?.length ? `<h4>Important details</h4>${listHtml(day.notes)}` : ""}
     </section>
   `).join("");
 }
@@ -280,6 +286,10 @@ export default function ItineraryAccordion({
 
   return (
     <div className="space-y-5">
+      <div className="text-sm leading-6 text-slate-600">
+        {packageId && <p className="font-semibold text-slate-900">Package ID: {packageId}</p>}
+        <p>Open each day for the planned stops, transfers, meal plan and night halt. Optional activities and conditional visits are identified in the day details. Morning, afternoon and evening are planning blocks; exact reporting times follow the confirmed booking.</p>
+      </div>
       <div className="flex justify-end">
         <button
           type="button"
@@ -302,17 +312,29 @@ export default function ItineraryAccordion({
         const isOpen = openDay === index;
         return (
           <div key={`${day.day}-${index}`} className="relative border-l-2 border-orange-300 pl-7">
-            <span className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{index + 1}</span>
+            <span className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{formatItineraryDay(day.day, index + 1).replace(/^Day\s+/i, "")}</span>
             <div className="overflow-hidden rounded-xl border bg-white">
               <button type="button" onClick={() => setOpenDay(isOpen ? null : index)} aria-expanded={isOpen} className="flex w-full items-center justify-between gap-5 p-5 text-left hover:bg-slate-50">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Day {day.day}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">{formatItineraryDay(day.day, index + 1)}</p>
                   <h3 className="mt-1 text-xl font-extrabold text-slate-900">{day.title}</h3>
                   <p className="mt-2 text-sm text-slate-500">{experience(day)}</p>
                 </div>
                 <span className="shrink-0 text-3xl font-light text-orange-500">{isOpen ? "−" : "+"}</span>
               </button>
-              {isOpen && <div className="border-t bg-slate-50 p-5"><div className="grid gap-4 md:grid-cols-3"><ActivityBlock title="Morning" items={day.morning} /><ActivityBlock title="Afternoon" items={day.afternoon} /><ActivityBlock title="Evening" items={day.evening} /></div></div>}
+              {isOpen && <div className="space-y-4 border-t bg-slate-50 p-5">
+                {day.itineraryId && <p className="break-words text-xs text-slate-500">Itinerary ID: {day.itineraryId}</p>}
+                {day.attractions?.length ? <ActivityBlock title="Planned attractions & experiences" items={day.attractions} /> : null}
+                <div className="grid gap-4 md:grid-cols-3"><ActivityBlock title="Morning" items={day.morning} /><ActivityBlock title="Afternoon" items={day.afternoon} /><ActivityBlock title="Evening" items={day.evening} /></div>
+                <dl className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm md:grid-cols-2">
+                  {day.overnightStay && <div><dt className="font-bold text-orange-600">Night halt</dt><dd className="mt-1 leading-6 text-slate-600">{day.overnightStay}</dd></div>}
+                  {day.meals && <div><dt className="font-bold text-orange-600">Meal plan</dt><dd className="mt-1 leading-6 text-slate-600">{day.meals}</dd></div>}
+                  {day.distance && <div><dt className="font-bold text-orange-600">Approximate distance</dt><dd className="mt-1 text-slate-600">{day.distance}</dd></div>}
+                  {day.driveTime && <div><dt className="font-bold text-orange-600">Approximate drive time</dt><dd className="mt-1 text-slate-600">{day.driveTime}</dd></div>}
+                </dl>
+                {day.optionalActivities?.length ? <ActivityBlock title="Optional / separately confirmed activities" items={day.optionalActivities} /> : null}
+                {day.notes?.length ? <ActivityBlock title="Important details" items={day.notes} /> : null}
+              </div>}
             </div>
           </div>
         );

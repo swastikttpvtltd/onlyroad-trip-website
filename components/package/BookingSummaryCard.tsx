@@ -4,13 +4,15 @@ import Link from "next/link";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { formatItineraryDay } from "@/data/itineraryDay";
+import type { DetailedItineraryDay } from "@/data/itineraryDetails";
 import { Check, Download, Mail, MessageCircle, Utensils, Hotel, Camera, Bus, Users, IndianRupee } from "lucide-react";
 import { getGroupSharingRates, isGroupTourPackage } from "@/data/groupTourPricing";
 import DepartureCalendar from "@/components/package/DepartureCalendar";
 import { addDays, arrivalDateFor, buildFridayDates, getDepartureDecision, isoDate, todayPlusDays } from "@/data/departureCalendar";
 
 type SharingRate = { type: string; price: number };
-type ItineraryDay = { day?: string | number; title?: string; morning?: string[]; afternoon?: string[]; evening?: string[] };
+type ItineraryDay = DetailedItineraryDay;
 type Props = {
   pkg?: {
     slug?: string;
@@ -73,7 +75,7 @@ function PrintItinerary({ pkg, finalTitle, finalDuration, finalDestination, disp
   return (
     <div className="itinerary-print-sheet">
       <div className="itinerary-print-header"><div><p className="itinerary-print-brand">ONLY ROAD TRIP</p><h1>{finalTitle}</h1><p>{finalDestination} • {finalDuration}</p></div><div className="itinerary-print-price">₹{displayPrice.toLocaleString("en-IN")}<span> / person</span></div></div>
-      <section className="itinerary-print-section"><h2>Day-wise Itinerary</h2>{itinerary.length ? itinerary.map((day, index) => { const periods: Array<[string, string[]]> = [["Morning", Array.isArray(day.morning) ? day.morning : []], ["Afternoon", Array.isArray(day.afternoon) ? day.afternoon : []], ["Evening", Array.isArray(day.evening) ? day.evening : []]]; return <article className="itinerary-print-day" key={`${day.day ?? index}-${index}`}><h3>Day {day.day ?? index + 1}: {day.title ?? "Travel & Sightseeing"}</h3>{periods.map(([label, items]) => items.length > 0 && <div className="itinerary-print-period" key={label}><strong>{label}</strong><ul>{items.map((item, itemIndex) => <li key={`${item}-${itemIndex}`}>{item}</li>)}</ul></div>)}</article>; }) : <p>No day-wise itinerary is available for this package.</p>}</section>
+      <section className="itinerary-print-section"><h2>Day-wise Itinerary</h2>{itinerary.length ? itinerary.map((day, index) => { const periods: Array<[string, string[]]> = [["Morning", Array.isArray(day.morning) ? day.morning : []], ["Afternoon", Array.isArray(day.afternoon) ? day.afternoon : []], ["Evening", Array.isArray(day.evening) ? day.evening : []]]; return <article className="itinerary-print-day" key={`${day.day ?? index}-${index}`}><h3>{formatItineraryDay(day.day, index + 1)}: {day.title ?? "Travel & Sightseeing"}</h3>{day.itineraryId && <p>Itinerary ID: {day.itineraryId}</p>}{day.description && <p>{day.description}</p>}{day.attractions?.length ? <div><strong>Planned attractions & experiences</strong><ul>{day.attractions.map((item, i) => <li key={i}>{item}</li>)}</ul></div> : null}{periods.map(([label, items]) => items.length > 0 && <div className="itinerary-print-period" key={label}><strong>{label}</strong><ul>{items.map((item, itemIndex) => <li key={`${item}-${itemIndex}`}>{item}</li>)}</ul></div>)}{day.overnightStay && <p><strong>Night halt:</strong> {day.overnightStay}</p>}{day.meals && <p><strong>Meal plan:</strong> {day.meals}</p>}{day.distance && <p><strong>Approximate distance:</strong> {day.distance}</p>}{day.driveTime && <p><strong>Approximate drive time:</strong> {day.driveTime}</p>}{day.optionalActivities?.length ? <div><strong>Optional / separately confirmed activities</strong><ul>{day.optionalActivities.map((item, i) => <li key={i}>{item}</li>)}</ul></div> : null}{day.notes?.length ? <div><strong>Important details</strong><ul>{day.notes.map((item, i) => <li key={i}>{item}</li>)}</ul></div> : null}</article>; }) : <p>No day-wise itinerary is available for this package.</p>}</section>
       <section className="itinerary-print-section"><h2>Costing / Package Price</h2><table className="itinerary-print-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>{sharingRates.length > 0 ? sharingRates.map((rate) => <tr key={rate.type}><td>{rate.type}</td><td>₹{rate.price.toLocaleString("en-IN")}/-</td></tr>) : <tr><td>Package Price</td><td>₹{displayPrice.toLocaleString("en-IN")}/- per person</td></tr>}</tbody></table><p className="itinerary-print-note">Final costing is subject to the confirmed quotation, availability, applicable taxes and package-specific booking terms.</p></section>
       <section className="itinerary-print-section"><h2>Inclusions</h2>{inclusions.length ? <ul>{inclusions.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul> : <p>Refer to the package inclusions shown on the website/quotation.</p>}</section>
       <section className="itinerary-print-section"><h2>Exclusions</h2>{exclusions.length ? <ul>{exclusions.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul> : <p>Refer to the package exclusions shown on the website/quotation.</p>}</section>

@@ -25,6 +25,7 @@ import { makePackageRates } from "./packagePricing";
 import { getGroupSharingRates } from "./groupTourPricing";
 import { getBestTime } from "./packageBestTime";
 import { packageMedia } from "./packageMedia";
+import { getDetailedItinerary } from "./itineraryDetails";
 
 const stateWisePackages = [
   ...gujaratPackages,
@@ -219,7 +220,12 @@ const buildDetailedPackageDescription = (pkg: any) => {
   return `${paragraphOne}\n\n${paragraphTwo}\n\n${paragraphThree}`;
 };
 
-export const packages = rawPackages.map((pkg) => {
+export const packages = rawPackages.map((original) => {
+  const packageId = makePackageId(original.id, original.slug, original.title);
+  const pkg = {
+    ...original,
+    itinerary: getDetailedItinerary(original.slug, packageId, original.itinerary ?? []),
+  };
   const groupRates = makePackageRates(pkg);
   const sharingRates = getGroupSharingRates(pkg) ?? groupRates.sharingRates;
   const displayPrice = sharingRates?.length
@@ -233,7 +239,7 @@ export const packages = rawPackages.map((pkg) => {
 
   return {
     ...pkg,
-    packageId: makePackageId(pkg.id, pkg.slug, pkg.title),
+    packageId,
     price: displayPrice,
     displayPriceBasis: sharingRates?.length ? "Double Sharing" : "2 Travellers",
     groupRates,
