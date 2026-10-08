@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { formatItineraryDay } from "@/data/itineraryDay";
 
 type ItineraryValue = string | string[];
 
@@ -68,7 +69,7 @@ export default function PackageItinerary({ data }: PackageItineraryProps) {
                   }`}
                 >
                   <div>
-                    <p className="text-lg font-semibold uppercase tracking-[0.25em] text-blue-700">{item.day}</p>
+                    <p className="text-lg font-semibold uppercase tracking-[0.25em] text-blue-700">{formatItineraryDay(item.day, index + 1)}</p>
                     <h3 className="mt-2 text-3xl font-bold text-gray-900">{item.title}</h3>
                     <p className="mt-3 text-base text-gray-500">Pilgrimage • Sightseeing • Comfortable Stay</p>
                   </div>
