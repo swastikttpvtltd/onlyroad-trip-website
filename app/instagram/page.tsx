@@ -22,12 +22,6 @@ function whatsappUrl(pkg:{title:string;slug:string;duration?:string}){const mess
 export default function InstagramPage(){
  const chosen=featured.map(item=>({...item,pkg:pick(item.match)})).filter(item=>item.pkg);
  return <main className="min-h-screen bg-white text-slate-900">
-  <div className="fixed inset-x-0 top-3 z-50 px-3 sm:px-5">
-   <header className="mx-auto flex h-[64px] max-w-6xl items-center justify-between rounded-2xl border border-blue-100/80 bg-white/65 px-4 shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl supports-[backdrop-filter]:bg-blue-50/60 sm:px-6">
-    <Link href="/" className="flex items-center gap-2"><img src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width="118" height="42" className="h-10 w-auto rounded object-contain"/><span className="sr-only">Only Road Trip home</span></Link>
-    <div className="flex items-center gap-2"><Link href="/packages" className="hidden text-sm font-semibold text-blue-900 sm:inline">Explore Trips</Link><Link href="/plan-your-trip" className="rounded-full bg-blue-800 px-4 py-2.5 text-xs font-bold text-white sm:text-sm">Plan Your Trip</Link></div>
-   </header>
-  </div>
   <InstagramHero/>
   <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6" id="featured">
    <p className="text-xs font-bold uppercase tracking-[.2em] text-cyan-700">Handpicked experiences</p>
