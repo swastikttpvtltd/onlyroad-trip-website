@@ -99,6 +99,8 @@ export default function Header() {
 
   const nav = `group relative text-[15px] font-bold tracking-[0.01em] transition-colors duration-300 ${overLight ? "text-slate-950 hover:text-blue-700" : "text-white hover:text-cyan-200 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"}`;
 
+  if (pathname === "/instagram") return null;
+
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-3 z-50 px-3 sm:px-4">
       <div className={`relative mx-auto max-w-7xl rounded-2xl border shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 ${overLight ? "border-slate-300/80 bg-white/65" : "border-white/45 bg-slate-950/35"}`}>
