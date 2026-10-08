@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { packages } from "@/data/packages";
+import { formatItineraryDay } from "@/data/itineraryDay";
 
 export const metadata: Metadata = {
   title: "Vaishno Devi Group Yatra Package | Katra Mata Vaishno Devi Yatra",
@@ -27,11 +29,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const itinerary = [
-  ["01", "Delhi → Katra", "Group departure from Delhi and journey towards Katra. Meet the tour coordinator and settle into the planned stay after arrival."],
-  ["02", "Katra → Vaishno Devi Bhawan", "Early start for the Mata Vaishno Devi pilgrimage. Proceed towards the Bhawan using the available pilgrimage route and return to Katra after darshan, subject to local operating conditions."],
-  ["03", "Katra → Delhi", "Breakfast, check-out and return journey to Delhi. Tour concludes with group drop-off."],
-];
+const tourPackage = packages.find((pkg) => pkg.slug === "vaishno-devi-group-yatra")!;
+const itinerary = tourPackage.itinerary;
 
 const inclusions = [
   "Group tour coordination and assistance",
@@ -72,11 +71,11 @@ export default function VaishnoDeviGroupYatraPage() {
     touristType: ["Pilgrimage travellers", "Families", "Group travellers", "Senior travellers"],
     itinerary: {
       "@type": "ItemList",
-      itemListElement: itinerary.map(([position, name, description]) => ({
+      itemListElement: itinerary.map((day, index) => ({
         "@type": "ListItem",
-        position: Number(position),
-        name,
-        description,
+        position: index + 1,
+        name: day.title,
+        description: day.description,
       })),
     },
     provider: {
@@ -194,13 +193,22 @@ export default function VaishnoDeviGroupYatraPage() {
         <div className="mx-auto max-w-7xl px-5 py-12 md:px-8 md:py-16">
           <p className="text-sm font-bold uppercase tracking-widest text-orange-600">Day-wise plan</p>
           <h2 className="mt-2 text-3xl font-black md:text-4xl">Vaishno Devi Group Yatra Itinerary</h2>
+          <p className="mt-4 text-sm font-bold text-slate-900">Package ID: {tourPackage.packageId}</p>
           <p className="mt-4 max-w-3xl leading-7 text-slate-600">The sequence below is a planning framework. Final timings, transport, stay and pilgrimage movement are confirmed according to the selected departure.</p>
           <div className="mt-9 space-y-4">
-            {itinerary.map(([day, title, description]) => (
-              <div key={day} className="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-6 md:grid-cols-[80px_230px_1fr] md:items-start">
-                <div className="text-3xl font-black text-orange-500">{day}</div>
-                <h3 className="text-xl font-extrabold">{title}</h3>
-                <p className="leading-7 text-slate-600">{description}</p>
+            {itinerary.map((day, index) => (
+              <div key={day.itineraryId} className="grid gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-6 md:grid-cols-[80px_230px_1fr] md:items-start">
+                <div className="text-xl font-black text-orange-500">{formatItineraryDay(day.day, index + 1)}</div>
+                <h3 className="text-xl font-extrabold">{day.title}</h3>
+                <div className="space-y-4 leading-7 text-slate-600">
+                  <p className="break-words text-xs">Itinerary ID: {day.itineraryId}</p>
+                  <p>{day.description}</p>
+                  {([["Morning", day.morning], ["Afternoon", day.afternoon], ["Evening", day.evening]] as const).map(([period, activities]) => activities.length > 0 && <div key={period}><h4 className="font-bold text-orange-600">{period}</h4><ul className="list-disc space-y-1 pl-5">{activities.map((activity, i) => <li key={i}>{activity}</li>)}</ul></div>)}
+                  <p><strong>Night halt:</strong> {day.overnightStay}</p>
+                  <p><strong>Meal plan:</strong> {day.meals}</p>
+                  {day.optionalActivities?.length ? <div><h4 className="font-bold text-orange-600">Optional / separately confirmed activities</h4><ul className="list-disc pl-5">{day.optionalActivities.map((activity, i) => <li key={i}>{activity}</li>)}</ul></div> : null}
+                  {day.notes?.length ? <div><h4 className="font-bold text-orange-600">Important details</h4><ul className="list-disc pl-5">{day.notes.map((note, i) => <li key={i}>{note}</li>)}</ul></div> : null}
+                </div>
               </div>
             ))}
           </div>
