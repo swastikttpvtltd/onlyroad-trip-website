@@ -221,10 +221,33 @@ const buildDetailedPackageDescription = (pkg: any) => {
   return `${paragraphOne}\n\n${paragraphTwo}\n\n${paragraphThree}`;
 };
 
+// These weekends count the outbound road journey as Night 1 and only one hotel night.
+const overnightWeekendSlugs = new Set([
+  "jibhi-weekend-group-tour",
+  "kasol-weekend-group-tour",
+  "kanatal-weekend-group-tour",
+  "mcleodganj-weekend-group-tour",
+  "udaipur-weekend-group-tour",
+  "nainital-weekend-group-tour",
+  "jim-corbett-weekend"
+]);
+
 export const packages = rawPackages.map((original) => {
+  const isOvernightWeekend = overnightWeekendSlugs.has(String(original.slug));
   const packageId = makePackageId(original.id, original.slug, original.title);
   const pkg = {
     ...original,
+    ...(isOvernightWeekend ? {
+      hotels: [{ name: "3-Star Hotel / Similar — 1 night (Night 2)", category: "3-Star", star: "3-Star Hotel" }],
+      meals: ["1 dinner at hotel on Day 2", "1 breakfast at hotel on Day 3"],
+      quickFacts: {
+        ...original.quickFacts,
+        pickup: "Delhi",
+        drop: "Delhi",
+        meals: "1 dinner (Day 2) & 1 breakfast (Day 3)",
+        hotelCategory: "3-Star Hotel / Similar — 1 night (Night 2)",
+      },
+    } : {}),
     itinerary: getDetailedItinerary(original.slug, packageId, original.itinerary ?? []),
   };
   const groupRates = makePackageRates(pkg);
@@ -242,7 +265,9 @@ export const packages = rawPackages.map((original) => {
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,
-    priceBasis: "Per Person | 3-Star Hotel / Similar | Breakfast & Dinner | Standard Transport & Sightseeing",
+    priceBasis: isOvernightWeekend
+      ? "Per Person | 1 hotel night (Night 2) | 1 Dinner & 1 Breakfast | Standard Transport & Sightseeing"
+      : "Per Person | 3-Star Hotel / Similar | Breakfast & Dinner | Standard Transport & Sightseeing",
     image: cover,
     hero: {
       ...(pkg.hero || {}),
@@ -251,13 +276,19 @@ export const packages = rawPackages.map((original) => {
     },
     overview: detailedDescription,
     gallery,
-    hotels: standardHotels.map((hotel) => ({ ...hotel })),
-    meals: [...standardMeals],
-    exclusions: [...defaultPackageExclusions, "Lunch and any meals other than the included breakfast and dinner"],
+    hotels: isOvernightWeekend ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
+    meals: isOvernightWeekend ? pkg.meals : [...standardMeals],
+    exclusions: [...defaultPackageExclusions, isOvernightWeekend
+      ? "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included"
+      : "Lunch and any meals other than the included breakfast and dinner"],
     inclusions: [
       ...defaultPackageInclusions,
-      "Accommodation in 3-Star Hotels / Similar",
-      "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
+      isOvernightWeekend
+        ? "1 night in a 3-Star Hotel / Similar on Night 2; Night 1 is the overnight road journey from Delhi"
+        : "Accommodation in 3-Star Hotels / Similar",
+      isOvernightWeekend
+        ? "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy"
+        : "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
     ],
   };
 });

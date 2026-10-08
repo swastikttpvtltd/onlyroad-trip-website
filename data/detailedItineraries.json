@@ -3165,64 +3165,69 @@
     "itinerary": [
       {
         "day": "Day 1",
-        "title": "Delhi – Jim Corbett",
-        "morning": [
-          "Meet at Delhi and begin the scheduled arrival or outbound journey for Delhi – Jim Corbett; reporting time and exact meeting point follow the booking confirmation."
-        ],
-        "afternoon": [
-          "Resort check-in and leisure. Room availability follows the accommodation's standard check-in policy."
-        ],
+        "title": "Overnight Journey — Delhi → Jim Corbett",
+        "morning": [],
+        "afternoon": [],
         "evening": [
-          "Group activities, dinner and stay. Accommodation and meal service follow the confirmed hotel booking."
+          "Meet at the confirmed Delhi pickup point in the evening; reporting time follows the booking confirmation.",
+          "Board the booked transport for the overnight road journey to Jim Corbett / Ramnagar; no hotel stay on Night 1."
         ],
         "attractions": [],
-        "notes": [],
-        "meals": "Dinner at the booked accommodation; breakfast on arrival is included only if stated in the confirmed booking. Lunch is not included.",
-        "overnightStay": "Corbett / Ramnagar region",
-        "description": "Delhi – Jim Corbett. Follow the transfer, local experience or leisure programme below. Night halt: Corbett / Ramnagar region.",
+        "notes": [
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
+        ],
+        "meals": "Journey meals are payable directly; no hotel meals on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for Jim Corbett; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
         "day": "Day 2",
-        "title": "Corbett Safari & Leisure",
+        "title": "Arrive Jim Corbett — Resort & Nature Leisure",
         "morning": [
-          "Early safari subject to permit. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings."
+          "Arrive in Jim Corbett after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Resort leisure / team activity. The activity and duration follow the confirmed corporate agenda and venue arrangements."
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
+          "Resort leisure / nature experience and team activity as arranged; lunch at own expense."
         ],
         "evening": [
-          "Return to the booked accommodation for dinner and overnight rest."
+          "Group activities as arranged.",
+          "Group activities, dinner and stay. Accommodation and meal service follow the confirmed hotel booking.",
+          "Night 2: the only hotel/resort overnight stay."
+        ],
+        "attractions": [],
+        "notes": [],
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: Corbett / Ramnagar region — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in Jim Corbett. Night 2 is the only hotel/resort overnight stay.",
+        "optionalActivities": []
+      },
+      {
+        "day": "Day 3",
+        "title": "Jim Corbett — Checkout, Sightseeing & Return to Delhi",
+        "morning": [
+          "Breakfast / packed breakfast as arranged, then hotel checkout and collect luggage before the permitted safari.",
+          "Jeep safari subject to the confirmed permit, zone and reporting time; arrange checkout and luggage handling before leaving the resort."
+        ],
+        "afternoon": [
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
+        ],
+        "evening": [
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
           "Corbett forest safari — subject to the confirmed permit and allotted zone."
         ],
         "notes": [
-          "Safari gate, zone and reporting time follow the confirmed permit. Any additional safari must be separately confirmed; wildlife sightings are not guaranteed."
+          "Safari gate, zone and reporting time follow the confirmed permit. Any additional safari must be separately confirmed; wildlife sightings are not guaranteed.",
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Corbett / Ramnagar region",
-        "description": "Corbett Safari & Leisure. The day covers Corbett forest safari — subject to the confirmed permit and allotted zone. Night halt: Corbett / Ramnagar region.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "Corbett – Delhi",
-        "morning": [
-          "Have breakfast, complete hotel checkout and collect luggage before the onward transfer."
-        ],
-        "afternoon": [
-          "Complete checkout and travel towards Delhi by the booked transport; allow time for traffic and practical comfort stops."
-        ],
-        "evening": [
-          "Transfer to Delhi at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation."
-        ],
-        "attractions": [],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "Corbett – Delhi. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining Jim Corbett sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
@@ -4644,97 +4649,78 @@
     ],
     "itinerary": [
       {
-        "day": "Day 0",
+        "day": "Day 1",
         "title": "Overnight Journey — Delhi → Jibhi",
         "morning": [],
         "afternoon": [],
         "evening": [
           "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 1."
+          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
         ],
         "attractions": [],
         "notes": [
-          "Day 0 is the overnight outbound journey, separate from the destination stay days. Hotel accommodation is not provided during this road journey."
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
         ],
         "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Overnight road journey — no hotel stay",
-        "description": "Assemble at the stated departure point for the overnight journey. Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Travel through the night before the destination programme begins on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for Jibhi; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
-        "day": "Day 1",
+        "day": "Day 2",
         "title": "Jibhi — Escape Mode: ON",
         "morning": [
-          "Arrive in Jibhi after the overnight journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Freshen up and breakfast as per arrival timing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Arrive in Jibhi after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Hotel check-in subject to availability. Room availability follows the accommodation's standard check-in policy.",
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
           "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package.",
           "Jibhi village walk and waterfall area. Spend time at the listed stop according to the day's route and available visitor access."
         ],
         "evening": [
           "Bonfire / group time. Bonfire operation depends on property permission, weather and local fire restrictions.",
-          "Dinner at the booked accommodation according to the hotel's meal plan and service timings."
+          "Cafe hopping / riverside leisure. Shopping, food and drinks ordered during leisure time are payable directly.",
+          "Dinner at the booked accommodation according to the hotel's meal plan and service timings.",
+          "Night 2: the only hotel/resort overnight stay."
         ],
         "attractions": [],
         "notes": [
           "Bonfire and outdoor group activities depend on property permission, weather and local restrictions."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Jibhi region",
-        "description": "Jibhi — Escape Mode: ON. Follow the transfer, local experience or leisure programme below. Night halt: Jibhi region.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 2",
-        "title": "Jibhi → Jalori Pass → Forest Vibes",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Drive towards Jalori Pass subject to road/weather conditions. Follow the published route, with timings depending on traffic, weather and local access."
-        ],
-        "afternoon": [
-          "Short nature walk / Serolsar Lake trail subject to weather and local access. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Return towards Jibhi. Follow the published route, with timings depending on traffic, weather and local access."
-        ],
-        "evening": [
-          "Cafe hopping / riverside leisure. Shopping, food and drinks ordered during leisure time are payable directly.",
-          "Bonfire and dinner. Bonfire operation depends on property permission, weather and local fire restrictions."
-        ],
-        "attractions": [
-          "Short nature walk / Serolsar Lake trail subject to weather and local access."
-        ],
-        "notes": [
-          "Walking or trail sections depend on fitness, weather and local access; discuss assistance needs before booking.",
-          "Bonfire and outdoor group activities depend on property permission, weather and local restrictions."
-        ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Jibhi region",
-        "description": "Jibhi → Jalori Pass → Forest Vibes. The day covers Short nature walk / Serolsar Lake trail subject to weather and local access. Night halt: Jibhi region.",
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: Jibhi region — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in Jibhi. Night 2 is the only hotel/resort overnight stay.",
         "optionalActivities": []
       },
       {
         "day": "Day 3",
-        "title": "Jibhi → Delhi — Back to Reality",
+        "title": "Jibhi — Checkout, Sightseeing & Return to Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Final Jibhi Waterfall / village time subject to schedule. Spend time at the listed stop according to the day's route and available visitor access."
+          "Breakfast at the hotel, then checkout and collect luggage before sightseeing.",
+          "Drive towards Jalori Pass subject to road/weather conditions. Follow the published route, with timings depending on traffic, weather and local access.",
+          "Choose a short forest walk or the Serolsar Lake trail only if weather, fitness and the confirmed return departure allow; the full trail is not guaranteed."
         ],
         "afternoon": [
-          "Checkout and return drive. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package."
+          "Final Jibhi Waterfall / village time subject to schedule. Spend time at the listed stop according to the day's route and available visitor access. Subject to the return departure schedule.",
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
         ],
         "evening": [
-          "Transfer to the confirmed departure gateway / drop point at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation.",
-          "Trip ends. Spend time at the listed stop according to the day's route and available visitor access."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
+          "Short nature walk / Serolsar Lake trail subject to weather and local access.",
           "Final Jibhi Waterfall / village time subject to schedule."
         ],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "Jibhi → Delhi — Back to Reality. The day covers Final Jibhi Waterfall / village time subject to schedule.",
+        "notes": [
+          "Walking or trail sections depend on fitness, weather and local access; discuss assistance needs before booking.",
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Jalori Pass / Serolsar Lake access is subject to road and weather conditions; prioritise timely Delhi return."
+        ],
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining Jibhi sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
@@ -4748,95 +4734,76 @@
     ],
     "itinerary": [
       {
-        "day": "Day 0",
+        "day": "Day 1",
         "title": "Overnight Journey — Delhi → Kasol",
         "morning": [],
         "afternoon": [],
         "evening": [
           "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 1."
+          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
         ],
         "attractions": [],
         "notes": [
-          "Day 0 is the overnight outbound journey, separate from the destination stay days. Hotel accommodation is not provided during this road journey."
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
         ],
         "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Overnight road journey — no hotel stay",
-        "description": "Assemble at the stated departure point for the overnight journey. Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Travel through the night before the destination programme begins on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for Kasol; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
-        "day": "Day 1",
+        "day": "Day 2",
         "title": "Kasol — Leave the City Behind",
         "morning": [
-          "Arrive in Kasol after the overnight journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Freshen up and breakfast as per arrival timing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Arrive in Kasol after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Hotel check-in subject to availability. Room availability follows the accommodation's standard check-in policy.",
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
           "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package.",
           "Riverside walk / local market. Spend time at the listed stop according to the day's route and available visitor access."
         ],
         "evening": [
           "Group introduction & bonfire. Bonfire operation depends on property permission, weather and local fire restrictions.",
-          "Dinner at the booked accommodation according to the hotel's meal plan and service timings."
+          "Riverside leisure. Keep this period flexible for rest or personal exploration; extra activities are payable separately.",
+          "Dinner at the booked accommodation according to the hotel's meal plan and service timings.",
+          "Night 2: the only hotel/resort overnight stay."
         ],
         "attractions": [],
         "notes": [
           "Bonfire and outdoor group activities depend on property permission, weather and local restrictions."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Kasol",
-        "description": "Kasol — Leave the City Behind. Follow the transfer, local experience or leisure programme below. Night halt: Kasol.",
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: Kasol — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in Kasol. Night 2 is the only hotel/resort overnight stay.",
         "optionalActivities": []
       },
       {
-        "day": "Day 2",
-        "title": "Kasol → Manikaran → Parvati Valley",
+        "day": "Day 3",
+        "title": "Kasol — Checkout, Sightseeing & Return to Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
+          "Breakfast at the hotel, then checkout and collect luggage before sightseeing.",
           "Drive to Manikaran Sahib. Follow the published route, with timings depending on traffic, weather and local access."
         ],
         "afternoon": [
           "Visit Manikaran Sahib and hot-spring area. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Return to Kasol. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Cafe / local market time. Shopping, food and drinks ordered during leisure time are payable directly."
+          "Cafe / local market time. Shopping, food and drinks ordered during leisure time are payable directly.",
+          "Final riverside walk / coffee. Spend time at the listed stop according to the day's route and available visitor access. Subject to the return departure schedule.",
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
         ],
         "evening": [
-          "Riverside leisure. Keep this period flexible for rest or personal exploration; extra activities are payable separately.",
-          "Bonfire / group games. Bonfire operation depends on property permission, weather and local fire restrictions."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
           "Visit Manikaran Sahib and hot-spring area."
         ],
         "notes": [
-          "Bonfire and outdoor group activities depend on property permission, weather and local restrictions."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Kasol",
-        "description": "Kasol → Manikaran → Parvati Valley. The day covers Visit Manikaran Sahib and hot-spring area. Night halt: Kasol.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "Kasol → Delhi — Weekend, Upgraded",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Final riverside walk / coffee. Spend time at the listed stop according to the day's route and available visitor access."
-        ],
-        "afternoon": [
-          "Checkout and return drive. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package."
-        ],
-        "evening": [
-          "Transfer to the confirmed departure gateway / drop point at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation.",
-          "The tour concludes after the scheduled departure transfer; no further sightseeing or stay is included."
-        ],
-        "attractions": [],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "Kasol → Delhi — Weekend, Upgraded. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining Kasol sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
@@ -4851,63 +4818,66 @@
     ],
     "itinerary": [
       {
-        "day": "Day 0",
+        "day": "Day 1",
         "title": "Overnight Journey — Delhi → Kanatal",
         "morning": [],
         "afternoon": [],
         "evening": [
           "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 1."
+          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
         ],
         "attractions": [],
         "notes": [
-          "Day 0 is the overnight outbound journey, separate from the destination stay days. Hotel accommodation is not provided during this road journey."
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
         ],
         "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Overnight road journey — no hotel stay",
-        "description": "Assemble at the stated departure point for the overnight journey. Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Travel through the night before the destination programme begins on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for Kanatal; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
-        "day": "Day 1",
+        "day": "Day 2",
         "title": "Kanatal — Mountain Mode Activated",
         "morning": [
-          "Arrive in Kanatal after the overnight journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Freshen up and breakfast as per arrival timing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Arrive in Kanatal after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Hotel/resort check-in subject to availability. Room availability follows the accommodation's standard check-in policy.",
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
           "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package.",
           "Resort / nature walk. Spend time at the listed stop according to the day's route and available visitor access."
         ],
         "evening": [
           "Bonfire and group games. Bonfire operation depends on property permission, weather and local fire restrictions.",
-          "Dinner at the booked accommodation according to the hotel's meal plan and service timings."
+          "Music / games / stargazing where conditions permit. Spend time at the listed stop according to the day's route and available visitor access.",
+          "Dinner at the booked accommodation according to the hotel's meal plan and service timings.",
+          "Night 2: the only hotel/resort overnight stay."
         ],
         "attractions": [],
         "notes": [
           "Bonfire and outdoor group activities depend on property permission, weather and local restrictions."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Kanatal",
-        "description": "Kanatal — Mountain Mode Activated. Follow the transfer, local experience or leisure programme below. Night halt: Kanatal.",
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: Kanatal — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in Kanatal. Night 2 is the only hotel/resort overnight stay.",
         "optionalActivities": []
       },
       {
-        "day": "Day 2",
-        "title": "Kanatal → Surkanda Devi → Forest Vibes",
+        "day": "Day 3",
+        "title": "Kanatal — Checkout, Sightseeing & Return to Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
+          "Breakfast at the hotel, then checkout and collect luggage before sightseeing.",
           "Proceed for Surkanda Devi visit / hike subject to weather and local conditions. Spend time at the listed stop according to the day's route and available visitor access."
         ],
         "afternoon": [
           "Visit Surkanda Devi Temple and enjoy mountain views if the weather is clear; the approach and any ropeway service follow local operation and separate ticket arrangements.",
-          "Return to Kanatal. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Free group leisure. Keep this period flexible for rest or personal exploration; extra activities are payable separately."
+          "Free group leisure. Keep this period flexible for rest or personal exploration; extra activities are payable separately.",
+          "Final viewpoint / short nature walk. Spend time at the listed stop according to the day's route and available visitor access. Subject to the return departure schedule.",
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
         ],
         "evening": [
-          "Bonfire. Bonfire operation depends on property permission, weather and local fire restrictions.",
-          "Music / games / stargazing where conditions permit. Spend time at the listed stop according to the day's route and available visitor access."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
           "Proceed for Surkanda Devi visit / hike subject to weather and local conditions."
@@ -4915,33 +4885,11 @@
         "notes": [
           "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included.",
           "Walking or trail sections depend on fitness, weather and local access; discuss assistance needs before booking.",
-          "Bonfire and outdoor group activities depend on property permission, weather and local restrictions."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Kanatal",
-        "description": "Kanatal → Surkanda Devi → Forest Vibes. The day covers Proceed for Surkanda Devi visit / hike subject to weather and local conditions. Night halt: Kanatal.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "Kanatal → Delhi — Take the Hills Home",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Final viewpoint / short nature walk. Spend time at the listed stop according to the day's route and available visitor access."
-        ],
-        "afternoon": [
-          "Checkout and return journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package."
-        ],
-        "evening": [
-          "Transfer to the confirmed departure gateway / drop point at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation.",
-          "The tour concludes after the scheduled departure transfer; no further sightseeing or stay is included."
-        ],
-        "attractions": [],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "Kanatal → Delhi — Take the Hills Home. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining Kanatal sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
@@ -4955,93 +4903,76 @@
     ],
     "itinerary": [
       {
-        "day": "Day 0",
+        "day": "Day 1",
         "title": "Overnight Journey — Delhi → McLeodganj",
         "morning": [],
         "afternoon": [],
         "evening": [
           "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 1."
+          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
         ],
         "attractions": [],
         "notes": [
-          "Day 0 is the overnight outbound journey, separate from the destination stay days. Hotel accommodation is not provided during this road journey."
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
         ],
         "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Overnight road journey — no hotel stay",
-        "description": "Assemble at the stated departure point for the overnight journey. Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Travel through the night before the destination programme begins on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for McLeodganj; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
-        "day": "Day 1",
+        "day": "Day 2",
         "title": "McLeodganj — Weekend Starts Here",
         "morning": [
-          "Arrive in McLeodganj after the overnight journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Freshen up and breakfast as per arrival timing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Arrive in McLeodganj after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Check-in subject to availability. Room availability follows the accommodation's standard check-in policy.",
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
           "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package.",
           "McLeodganj market walk. Spend time at the listed stop according to the day's route and available visitor access."
         ],
         "evening": [
           "Cafe / group time. Shopping, food and drinks ordered during leisure time are payable directly.",
-          "Dinner at the booked accommodation according to the hotel's meal plan and service timings."
+          "Sunset viewpoint / group leisure. The view depends on weather and arrival time; no clear sunset is guaranteed.",
+          "Dinner at the booked accommodation according to the hotel's meal plan and service timings.",
+          "Night 2: the only hotel/resort overnight stay."
         ],
         "attractions": [],
         "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "McLeodganj region",
-        "description": "McLeodganj — Weekend Starts Here. Follow the transfer, local experience or leisure programme below. Night halt: McLeodganj region.",
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: McLeodganj region — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in McLeodganj. Night 2 is the only hotel/resort overnight stay.",
         "optionalActivities": []
       },
       {
-        "day": "Day 2",
-        "title": "Dharamkot + Bhagsu — Slow Day, Full Vibes",
+        "day": "Day 3",
+        "title": "McLeodganj — Checkout, Sightseeing & Return to Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
+          "Breakfast at the hotel, then checkout and collect luggage before sightseeing.",
           "Walk towards Dharamkot / local lanes. Spend time at the listed stop according to the day's route and available visitor access."
         ],
         "afternoon": [
           "Bhagsu Waterfall walk subject to weather and local conditions. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Cafe hopping / Tibetan market time. Shopping, food and drinks ordered during leisure time are payable directly."
+          "Cafe hopping / Tibetan market time. Shopping, food and drinks ordered during leisure time are payable directly.",
+          "Final cafe / market stop. Spend time at the listed stop according to the day's route and available visitor access. Subject to the return departure schedule.",
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
         ],
         "evening": [
-          "Sunset viewpoint / group leisure. The view depends on weather and arrival time; no clear sunset is guaranteed.",
-          "Dinner at the booked accommodation according to the hotel's meal plan and service timings."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
           "Walk towards Dharamkot / local lanes.",
           "Bhagsu Waterfall walk subject to weather and local conditions."
         ],
         "notes": [
-          "Walking or trail sections depend on fitness, weather and local access; discuss assistance needs before booking."
+          "Walking or trail sections depend on fitness, weather and local access; discuss assistance needs before booking.",
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "McLeodganj region",
-        "description": "Dharamkot + Bhagsu — Slow Day, Full Vibes. The day covers Walk towards Dharamkot / local lanes. Bhagsu Waterfall walk subject to weather and local conditions. Night halt: McLeodganj region.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "McLeodganj → Delhi — Reality Can Wait",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Final cafe / market stop. Spend time at the listed stop according to the day's route and available visitor access."
-        ],
-        "afternoon": [
-          "Checkout and return journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package."
-        ],
-        "evening": [
-          "Transfer to the confirmed departure gateway / drop point at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation.",
-          "The tour concludes after the scheduled departure transfer; no further sightseeing or stay is included."
-        ],
-        "attractions": [],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "McLeodganj → Delhi — Reality Can Wait. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining McLeodganj sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
@@ -5055,98 +4986,79 @@
     ],
     "itinerary": [
       {
-        "day": "Day 0",
+        "day": "Day 1",
         "title": "Overnight Journey — Delhi → Udaipur",
         "morning": [],
         "afternoon": [],
         "evening": [
           "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 1."
+          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
         ],
         "attractions": [],
         "notes": [
-          "Day 0 is the overnight outbound journey, separate from the destination stay days. Hotel accommodation is not provided during this road journey."
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
         ],
         "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Overnight road journey — no hotel stay",
-        "description": "Assemble at the stated departure point for the overnight journey. Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Travel through the night before the destination programme begins on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for Udaipur; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
-        "day": "Day 1",
+        "day": "Day 2",
         "title": "Arrive Udaipur — Royal Weekend Loading",
         "morning": [
-          "Arrive in Udaipur after the overnight journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Freshen up and breakfast as per arrival timing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Arrive in Udaipur after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Hotel check-in subject to availability. Room availability follows the accommodation's standard check-in policy.",
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
           "Old City walk. Spend time at the listed stop according to the day's route and available visitor access.",
           "City Palace visit. Allow time to experience the palace and heritage complex; follow visitor access and any conditions stated above.",
           "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package."
         ],
         "evening": [
           "Lake Pichola sunset / lakeside leisure. Keep this period flexible for rest or personal exploration; extra activities are payable separately.",
-          "Return for the booked dinner and scheduled group time; special dining arrangements or entertainment require separate confirmation."
+          "Return for the booked dinner and scheduled group time; special dining arrangements or entertainment require separate confirmation.",
+          "Night 2: the only hotel/resort overnight stay."
         ],
         "attractions": [
           "City Palace visit.",
           "Lake Pichola sunset / lakeside leisure."
         ],
         "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Udaipur",
-        "description": "Arrive Udaipur — Royal Weekend Loading. The day covers City Palace visit. Lake Pichola sunset / lakeside leisure. Night halt: Udaipur.",
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: Udaipur — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in Udaipur. Night 2 is the only hotel/resort overnight stay.",
         "optionalActivities": []
       },
       {
-        "day": "Day 2",
-        "title": "Udaipur — Palaces, Lakes & Sunset",
+        "day": "Day 3",
+        "title": "Udaipur — Checkout, Sightseeing & Return to Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
+          "Breakfast at the hotel, then checkout and collect luggage before sightseeing.",
           "Jagdish Temple and Old City exploration. The visit follows the site's opening, queue and access arrangements; special rituals or priority entry are not implied."
         ],
         "afternoon": [
           "Sajjangarh / Monsoon Palace subject to opening and weather. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Cafe / shopping time. Shopping, food and drinks ordered during leisure time are payable directly."
+          "Cafe / shopping time. Shopping, food and drinks ordered during leisure time are payable directly.",
+          "Free time for coffee / local shopping. Spend time at the listed stop according to the day's route and available visitor access. Subject to the return departure schedule.",
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
         ],
         "evening": [
-          "Lakeside sunset. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Group dinner / free evening. Accommodation and meal service follow the confirmed hotel booking."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
           "Jagdish Temple and Old City exploration.",
           "Sajjangarh / Monsoon Palace subject to opening and weather."
         ],
         "notes": [
-          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included."
+          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included.",
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Udaipur",
-        "description": "Udaipur — Palaces, Lakes & Sunset. The day covers Jagdish Temple and Old City exploration. Sajjangarh / Monsoon Palace subject to opening and weather. Night halt: Udaipur.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "Udaipur — Last Coffee, Last Look",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Free time for coffee / local shopping. Spend time at the listed stop according to the day's route and available visitor access."
-        ],
-        "afternoon": [
-          "Complete hotel checkout, collect luggage and assemble for the scheduled onward movement.",
-          "Transfer to airport / railway station. Follow the published route, with timings depending on traffic, weather and local access."
-        ],
-        "evening": [
-          "The tour concludes after the scheduled departure transfer; no further sightseeing or stay is included."
-        ],
-        "attractions": [],
-        "notes": [
-          "This published programme ends at Udaipur Airport / Railway Station. A return road transfer to Delhi is not part of this day's itinerary."
-        ],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "Udaipur — Last Coffee, Last Look. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining Udaipur sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
@@ -5161,63 +5073,67 @@
     ],
     "itinerary": [
       {
-        "day": "Day 0",
+        "day": "Day 1",
         "title": "Overnight Journey — Delhi → Nainital",
         "morning": [],
         "afternoon": [],
         "evening": [
           "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 1."
+          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
         ],
         "attractions": [],
         "notes": [
-          "Day 0 is the overnight outbound journey, separate from the destination stay days. Hotel accommodation is not provided during this road journey."
+          "Night 1 is included in the 2 Nights / 3 Days duration as the overnight road journey. Hotel accommodation is only on Night 2."
         ],
         "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Overnight road journey — no hotel stay",
-        "description": "Assemble at the stated departure point for the overnight journey. Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Travel through the night before the destination programme begins on Day 1.",
+        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
+        "description": "Day 1 evening departure from Delhi for Nainital; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
         "optionalActivities": []
       },
       {
-        "day": "Day 1",
+        "day": "Day 2",
         "title": "Nainital — Hills Calling",
         "morning": [
-          "Arrive in Nainital after the overnight journey. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Freshen up and breakfast as per arrival timing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Arrive in Nainital after the overnight road journey; arrival depends on traffic and road conditions.",
+          "Freshen up when facilities are available; arrival breakfast is payable directly."
         ],
         "afternoon": [
-          "Hotel check-in subject to availability. Room availability follows the accommodation's standard check-in policy.",
+          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
           "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package.",
           "Mall Road / lake area walk. Follow the published route, with timings depending on traffic, weather and local access."
         ],
         "evening": [
           "Naini Lake sunset atmosphere. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Return for the booked dinner and scheduled group time; special dining arrangements or entertainment require separate confirmation."
+          "Mall Road leisure. Follow the published route, with timings depending on traffic, weather and local access.",
+          "Return for the booked dinner and scheduled group time; special dining arrangements or entertainment require separate confirmation.",
+          "Night 2: the only hotel/resort overnight stay."
         ],
         "attractions": [
           "Mall Road / lake area walk.",
           "Naini Lake sunset atmosphere."
         ],
         "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Nainital",
-        "description": "Nainital — Hills Calling. The day covers Mall Road / lake area walk. Naini Lake sunset atmosphere. Night halt: Nainital.",
+        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
+        "overnightStay": "Night 2: Nainital — 1 hotel/resort night only",
+        "description": "Arrival, check-in and local sightseeing in Nainital. Night 2 is the only hotel/resort overnight stay.",
         "optionalActivities": []
       },
       {
-        "day": "Day 2",
-        "title": "Nainital + Bhimtal — Lake Day",
+        "day": "Day 3",
+        "title": "Nainital — Checkout, Sightseeing & Return to Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
+          "Breakfast at the hotel, then checkout and collect luggage before sightseeing.",
           "Explore the Naini Lake surroundings and accessible Kumaon viewpoints; visibility and road restrictions determine the stops. Ropeway rides are not automatically included. Ride tickets, operating phase and weather clearance require confirmation; the activity is not automatically included in the sightseeing transfer."
         ],
         "afternoon": [
           "Bhimtal excursion. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Cafe / local market time. Shopping, food and drinks ordered during leisure time are payable directly."
+          "Cafe / local market time. Shopping, food and drinks ordered during leisure time are payable directly.",
+          "Final lake walk / coffee. Spend time at the listed stop according to the day's route and available visitor access. Subject to the return departure schedule.",
+          "Lunch at own expense; begin the return road journey to Delhi after the scheduled stops."
         ],
         "evening": [
-          "Mall Road leisure. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Return for the booked dinner and scheduled group time; special dining arrangements or entertainment require separate confirmation."
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included.",
+          "Tour concludes at Delhi drop; dinner en route is payable directly."
         ],
         "attractions": [
           "Explore the Naini Lake surroundings and accessible Kumaon viewpoints; visibility and road restrictions determine the stops. Ropeway rides are not automatically included.",
@@ -5225,33 +5141,12 @@
           "Mall Road leisure."
         ],
         "notes": [
-          "Rides, boat services and other paid activities are included only where explicitly stated in the confirmed quotation; operation depends on the local operator and conditions."
+          "Rides, boat services and other paid activities are included only where explicitly stated in the confirmed quotation; operation depends on the local operator and conditions.",
+          "Begin the return road journey to Delhi after sightseeing. Drop follows the confirmed transport schedule and traffic; late-night or next-morning arrival is possible. No additional hotel night is included."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Nainital",
-        "description": "Nainital + Bhimtal — Lake Day. The day covers Explore the Naini Lake surroundings and accessible Kumaon viewpoints; visibility and road restrictions determine the stops. Ropeway rides are not automatically included. Bhimtal excursion. Night halt: Nainital.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "Nainital → Delhi — See You Soon, Hills",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Final lake walk / coffee. Spend time at the listed stop according to the day's route and available visitor access."
-        ],
-        "afternoon": [
-          "Checkout and return drive. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package."
-        ],
-        "evening": [
-          "Transfer to the confirmed departure gateway / drop point at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation.",
-          "The tour concludes after the scheduled departure transfer; no further sightseeing or stay is included."
-        ],
-        "attractions": [],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "Nainital → Delhi — See You Soon, Hills. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "meals": "Breakfast on Day 3; lunch, dinner en route and personal refreshments are payable directly.",
+        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
+        "description": "Breakfast and hotel checkout, followed by the remaining Nainital sightseeing subject to access and the return schedule. Return by road to Delhi with no further hotel stay.",
         "optionalActivities": []
       }
     ]
