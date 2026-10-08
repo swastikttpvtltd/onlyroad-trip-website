@@ -260,6 +260,10 @@ export const packages = rawPackages.map((original) => {
     exclusions: [...defaultPackageExclusions, "Lunch and any meals other than the included breakfast and dinner"],
     inclusions: [
       ...defaultPackageInclusions,
+      ...(/\b(?:Varanasi|Kashi)\b/i.test(String(pkg.destination ?? ""))
+        ? ["Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions."] : []),
+      ...(/\b(?:Prayagraj|Allahabad)\b/i.test(String(pkg.destination ?? ""))
+        ? ["Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions."] : []),
       "Accommodation in 3-Star Hotels / Similar",
       "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
     ],
