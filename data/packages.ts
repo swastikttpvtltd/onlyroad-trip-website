@@ -213,7 +213,9 @@ const buildDetailedPackageDescription = (pkg: any) => {
     ? `Depending on the day, the planned experiences include ${activities.slice(0, 6).join(", ")}${activities.length > 6 ? ` and ${activities[6]}` : ""}. These follow the sequence and conditions mentioned in the day-wise itinerary.`
     : "Transfers, sightseeing and leisure time follow the day-wise itinerary and the operating conditions of the destination.";
 
-  const staySentence = `Accommodation is planned at ${hotelText}, with ${meals.length ? meals.join(" and ").toLowerCase() : "the meals specified in the package"}.`;
+  const staySentence = pkg.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya"
+    ? "Accommodation is planned in 3-Star Hotels / Similar: 3 nights in Varanasi (Days 1, 3 and 5), 1 in Ayodhya (Day 2) and 1 in Bodh Gaya (Day 4), with breakfast and dinner as specified in the itinerary. Prayagraj is a sightseeing stop only; arrival and departure are in Varanasi."
+    : `Accommodation is planned at ${hotelText}, with ${meals.length ? meals.join(" and ").toLowerCase() : "the meals specified in the package"}.`;
   const closing = `Overall, ${title.toLowerCase()} is designed around the character of ${destination || "the destination"}, bringing together its key experiences in a comfortable and easy-going journey. Sightseeing, transfers and activities remain subject to local schedules, weather, access and other operating conditions mentioned in the package.`;
 
   const paragraphOne = `${intro} ${route}`;
@@ -238,6 +240,7 @@ const overnightWeekendSlugs = new Set([
 export const packages = rawPackages.map((original) => {
   const isEscape = isWeekendEscape(original);
   const isOvernightWeekend = overnightWeekendSlugs.has(String(original.slug));
+  const isKashiGayaCircuit = original.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya";
 
   const packageId = makePackageId(original.id, original.slug, original.title);
   const pkg = {
@@ -288,7 +291,7 @@ export const packages = rawPackages.map((original) => {
     },
     overview: detailedDescription,
     gallery,
-    hotels: isOvernightWeekend ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
+    hotels: isOvernightWeekend || isKashiGayaCircuit ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
     meals: isOvernightWeekend ? pkg.meals : [...standardMeals],
     exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
       ? (isEscape ? "Arrival breakfast, all lunches, journey meals and refreshments; only hotel dinners on Days 2 & 3 and hotel breakfasts on Days 3 & 4 are included" : "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included")
@@ -301,6 +304,8 @@ export const packages = rawPackages.map((original) => {
         ? ["Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions."] : []),
       isOvernightWeekend
         ? (isEscape ? "2 nights in a 3-Star Hotel / Similar on Nights 2 & 3; Night 1 is the overnight road journey from Delhi" : "1 night in a 3-Star Hotel / Similar on Night 2; Night 1 is the overnight road journey from Delhi")
+        : isKashiGayaCircuit
+        ? "5 hotel nights in 3-Star Hotels / Similar: Varanasi 3 (Days 1, 3 & 5), Ayodhya 1 (Day 2), Bodh Gaya 1 (Day 4); no Prayagraj or Gaya hotel night"
         : "Accommodation in 3-Star Hotels / Similar",
       isOvernightWeekend
         ? (isEscape ? "2 hotel dinners on Days 2 & 3 and 2 hotel breakfasts on Days 3 & 4; service subject to hotel policy and occupancy" : "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy")
