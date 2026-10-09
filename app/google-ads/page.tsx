@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const baseUrl = "https://www.onlyroadtrip.com";
 const phone = "+919211796168";
-const whatsapp = "https://wa.me/919211796168";
+const whatsapp = "https://wa.me/919217259457";
 
 export const metadata: Metadata = {
   title: "India Tour Packages | Only Road Trip",

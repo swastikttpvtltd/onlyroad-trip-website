@@ -1,4 +1,4 @@
-const whatsappNumber = "919211796168";
+const whatsappNumber = "919217259457";
 const whatsappMessage = "Hello Only Road Trip, I would like to plan a trip.";
 
 export default function WhatsAppButton() {
