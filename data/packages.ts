@@ -208,6 +208,7 @@ export const packages = rawPackages.map((original) => {
     price: displayPrice,
     displayPriceBasis: sharingRates?.length ? "Double Sharing" : "2 Travellers",
     groupRates,
+    quickFacts: { ...pkg.quickFacts, bestSeason: getBestTime(pkg) },
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,

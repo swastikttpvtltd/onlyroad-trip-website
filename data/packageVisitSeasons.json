@@ -1,0 +1,1850 @@
+{
+  "dwarka-somnath": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather",
+      "https://www.niti.gov.in/sites/default/files/2026-04/Divya-Bharat-A-WIndow-to-the-Soul-of-India-Web.pdf"
+    ],
+    "basis": "Route recommendation: cooler months for the coastal temples and outdoor monument visits.",
+    "note": "",
+    "profile": "gujarat-coast"
+  },
+  "gir-national-park": {
+    "months": [
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "bestTime": "November to April",
+    "sources": [
+      "https://girlion.gujarat.gov.in/TermsConditions.aspx"
+    ],
+    "basis": "Comfortable winter safaris and warmer April wildlife viewing. Gir Jungle Safari closes during the monsoon.",
+    "note": "Gir Jungle Safari operates only during its notified open season.",
+    "profile": "gir"
+  },
+  "rann-utsav": {
+    "months": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "November to February",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/gujarat/kutch/rann-of-kutch"
+    ],
+    "basis": "Salt-desert winter window; festival accommodation must match the announced Rann Utsav dates.",
+    "note": "Rann Utsav dates are announced separately each season.",
+    "profile": "rann"
+  },
+  "saputara": {
+    "months": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "July to September for greenery; October to February for sightseeing",
+    "sources": [
+      "https://www.indiacinehub.gov.in/location/saputara",
+      "https://dfe.gov.in/uploads/documents/doc_1291_e-journal-field-forester-april-2016.pdf"
+    ],
+    "basis": "Distinguishes monsoon greenery and Gira waterfall flow from cooler, drier sightseeing.",
+    "note": "",
+    "profile": "saputara"
+  },
+  "statue-of-unity": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather",
+      "https://www.niti.gov.in/sites/default/files/2026-04/Divya-Bharat-A-WIndow-to-the-Soul-of-India-Web.pdf"
+    ],
+    "basis": "Route recommendation: cooler months for the coastal temples and outdoor monument visits.",
+    "note": "",
+    "profile": "gujarat-coast"
+  },
+  "gujarat-grand-tour": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://girlion.gujarat.gov.in/TermsConditions.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: winter sightseeing across Gujarat, with the Gir stop restricted to the park season.",
+    "note": "Gir safari is subject to the park opening schedule.",
+    "profile": "gujarat-circuit"
+  },
+  "jaipur-heritage": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
+  },
+  "jodhpur-jaisalmer": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
+  },
+  "udaipur-mount-abu": {
+    "months": [
+      9,
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "September to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/rajasthan/udaipur"
+    ],
+    "basis": "Udaipur window also suits the Mount Abu extension; September may retain showers.",
+    "note": "",
+    "profile": "udaipur"
+  },
+  "jaipur-ajmer-pushkar": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
+  },
+  "jaipur-jodhpur-udaipur": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
+  },
+  "rajasthan-grand-tour": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
+  },
+  "andaman-port-blair-havelock": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bestTime": "October to May",
+    "sources": [
+      "https://www.andamantourism.gov.in/faq.php"
+    ],
+    "basis": "Official island travel season; ferries and water activities depend on sea conditions.",
+    "note": "",
+    "profile": "andaman"
+  },
+  "andaman-havelock-neil-island": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bestTime": "October to May",
+    "sources": [
+      "https://www.andamantourism.gov.in/faq.php"
+    ],
+    "basis": "Official island travel season; ferries and water activities depend on sea conditions.",
+    "note": "",
+    "profile": "andaman"
+  },
+  "andaman-honeymoon": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bestTime": "October to May",
+    "sources": [
+      "https://www.andamantourism.gov.in/faq.php"
+    ],
+    "basis": "Official island travel season; ferries and water activities depend on sea conditions.",
+    "note": "",
+    "profile": "andaman"
+  },
+  "andaman-grand-island-tour": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "bestTime": "October to May",
+    "sources": [
+      "https://www.andamantourism.gov.in/faq.php"
+    ],
+    "basis": "Official island travel season; ferries and water activities depend on sea conditions.",
+    "note": "",
+    "profile": "andaman"
+  },
+  "amritsar-golden-temple-wagah": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/punjab/amritsar"
+    ],
+    "basis": "Amritsar sightseeing window applied to the nearby Anandpur Sahib extension.",
+    "note": "",
+    "profile": "punjab"
+  },
+  "amritsar-anandpur-sahib": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/punjab/amritsar"
+    ],
+    "basis": "Amritsar sightseeing window applied to the nearby Anandpur Sahib extension.",
+    "note": "",
+    "profile": "punjab"
+  },
+  "corporate-amritsar-retreat": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/punjab/amritsar"
+    ],
+    "basis": "Amritsar sightseeing window applied to the nearby Anandpur Sahib extension.",
+    "note": "",
+    "profile": "punjab"
+  },
+  "kerala-munnar-thekkady-alleppey": {
+    "months": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "November to February",
+    "sources": [
+      "https://www.keralatourism.org/faq/what-should-you-know-before-going-on-vacation-to-kerala"
+    ],
+    "basis": "Preferred peak weather window for the whole hills, backwaters and coastal circuit; not merely Munnar.",
+    "note": "",
+    "profile": "kerala"
+  },
+  "kerala-honeymoon": {
+    "months": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "November to February",
+    "sources": [
+      "https://www.keralatourism.org/faq/what-should-you-know-before-going-on-vacation-to-kerala"
+    ],
+    "basis": "Preferred peak weather window for the whole hills, backwaters and coastal circuit; not merely Munnar.",
+    "note": "",
+    "profile": "kerala"
+  },
+  "kerala-grand-tour": {
+    "months": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "November to February",
+    "sources": [
+      "https://www.keralatourism.org/faq/what-should-you-know-before-going-on-vacation-to-kerala"
+    ],
+    "basis": "Preferred peak weather window for the whole hills, backwaters and coastal circuit; not merely Munnar.",
+    "note": "",
+    "profile": "kerala"
+  },
+  "corporate-kerala-kochi-munnar": {
+    "months": [
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "November to February",
+    "sources": [
+      "https://www.keralatourism.org/faq/what-should-you-know-before-going-on-vacation-to-kerala"
+    ],
+    "basis": "Preferred peak weather window for the whole hills, backwaters and coastal circuit; not merely Munnar.",
+    "note": "",
+    "profile": "kerala"
+  },
+  "goa-classic-holiday": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://goa-tourism.com/weather-of-goa/"
+    ],
+    "basis": "Official clear-weather, normal-sea-condition tourist window for North and South Goa.",
+    "note": "",
+    "profile": "goa"
+  },
+  "goa-honeymoon": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://goa-tourism.com/weather-of-goa/"
+    ],
+    "basis": "Official clear-weather, normal-sea-condition tourist window for North and South Goa.",
+    "note": "",
+    "profile": "goa"
+  },
+  "corporate-goa-offsite": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://goa-tourism.com/weather-of-goa/"
+    ],
+    "basis": "Official clear-weather, normal-sea-condition tourist window for North and South Goa.",
+    "note": "",
+    "profile": "goa"
+  },
+  "goa-weekend-vibe-escape": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://goa-tourism.com/weather-of-goa/"
+    ],
+    "basis": "Official clear-weather, normal-sea-condition tourist window for North and South Goa.",
+    "note": "",
+    "profile": "goa"
+  },
+  "mumbai-city-tour": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "October to February",
+    "sources": [
+      "https://maharashtratourism.gov.in/districts/mumbai-city/"
+    ],
+    "basis": "City sightseeing season; summer humidity and heavy monsoon excluded.",
+    "note": "",
+    "profile": "mumbai"
+  },
+  "shirdi-nashik": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "October to February",
+    "sources": [
+      "https://maharashtratourism.gov.in/faq/",
+      "https://maharashtratourism.gov.in/districts/chhattrapati-sambhaji-nagar/"
+    ],
+    "basis": "Route recommendation: cool, dry weather for temple visits and outdoor cave walks.",
+    "note": "",
+    "profile": "maharashtra-temples"
+  },
+  "ajanta-ellora-aurangabad": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "October to February",
+    "sources": [
+      "https://maharashtratourism.gov.in/faq/",
+      "https://maharashtratourism.gov.in/districts/chhattrapati-sambhaji-nagar/"
+    ],
+    "basis": "Route recommendation: cool, dry weather for temple visits and outdoor cave walks.",
+    "note": "",
+    "profile": "maharashtra-temples"
+  },
+  "lonavala-khandala-weekend": {
+    "months": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "June to September for greenery; October to February for sightseeing",
+    "sources": [
+      "https://maharashtratourism.gov.in/nature/lonavala/",
+      "https://maharashtratourism.gov.in/faq/"
+    ],
+    "basis": "Separates waterfall and greenery season from dry-weather sightseeing; monsoon access restrictions still apply.",
+    "note": "",
+    "profile": "lonavala"
+  },
+  "ujjain-omkareshwar": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/madhya-pradesh/khajuraho",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Route recommendation: cool months for temples and the Khajuraho–Orchha heritage circuit.",
+    "note": "",
+    "profile": "mp-heritage"
+  },
+  "khajuraho-orchha": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/madhya-pradesh/khajuraho",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Route recommendation: cool months for temples and the Khajuraho–Orchha heritage circuit.",
+    "note": "",
+    "profile": "mp-heritage"
+  },
+  "kanha-bandhavgarh": {
+    "months": [
+      11,
+      12,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "bestTime": "November to March for comfort; April to June for tiger viewing",
+    "sources": [
+      "https://www.mptourism.com/bandhavgarh-beyond-tigers.html",
+      "https://www.incredibleindia.gov.in/en/madhya-pradesh/jabalpur/kanha-national-park"
+    ],
+    "basis": "Winter comfort and hot-season sighting opportunities shown separately; no wildlife guarantee.",
+    "note": "Safari zones must be open on the booked dates.",
+    "profile": "mp-safari"
+  },
+  "gangtok-tsomgo": {
+    "months": [
+      3,
+      4,
+      5,
+      10,
+      11,
+      12
+    ],
+    "bestTime": "March to May; October to mid-December",
+    "sources": [
+      "https://sikkimtourism.gov.in/about/weather",
+      "https://www.nsws.gov.in/s3fs/2022-12/Sikkim%20Film%20Policy%202021.pdf"
+    ],
+    "basis": "Official Sikkim window narrowed to avoid the main wet season.",
+    "note": "Tsomgo access is subject to permits and road conditions.",
+    "profile": "gangtok"
+  },
+  "gangtok-lachen-lachung": {
+    "months": [
+      4,
+      5,
+      10,
+      11
+    ],
+    "bestTime": "April to May; October to November",
+    "sources": [
+      "https://sikkimtourism.gov.in/about/weather",
+      "https://www.sikkimtourism.gov.in/rap"
+    ],
+    "basis": "Conservative full-route recommendation for Lachen, Lachung and Yumthang; avoids winter snow and main monsoon.",
+    "note": "North Sikkim travel requires current road clearance and permits.",
+    "profile": "north-sikkim"
+  },
+  "darjeeling-kalimpong": {
+    "months": [
+      3,
+      4,
+      5,
+      10,
+      11
+    ],
+    "bestTime": "March to May; October to November",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/west-bengal/darjeeling/observatory-hill",
+      "https://darjeeling.gov.in/adventures/"
+    ],
+    "basis": "Combined sightseeing recommendation: spring and clear post-monsoon mountain views, avoiding the main monsoon.",
+    "note": "",
+    "profile": "darjeeling"
+  },
+  "sundarbans-wildlife": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.sundarbanaffairswb.in/home/howto_reach_sundarban"
+    ],
+    "basis": "Official West Bengal Sundarban travel season.",
+    "note": "",
+    "profile": "sundarbans"
+  },
+  "kaziranga-shillong": {
+    "months": [
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "bestTime": "November to April",
+    "sources": [
+      "https://publications.assamtourism.gov.in/publications/files/Kaziranga.pdf",
+      "https://rc-www.meghalayatourism.in/wp-content/uploads/2025/05/Meghalaya-Brochure.pdf"
+    ],
+    "basis": "Intersection of the Kaziranga safari season and Meghalaya dry-season exploration.",
+    "note": "Kaziranga safaris depend on the announced park opening and flood conditions.",
+    "profile": "kaziranga-meghalaya"
+  },
+  "guwahati-shillong-cherrapunji": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "bestTime": "October to April",
+    "sources": [
+      "https://rc-www.meghalayatourism.in/wp-content/uploads/2025/05/Meghalaya-Brochure.pdf",
+      "https://www.incredibleindia.gov.in/en/meghalaya/shillong"
+    ],
+    "basis": "Dry-season route recommendation for Dawki, village walks and Shillong; waterfall flow is stronger in monsoon.",
+    "note": "",
+    "profile": "meghalaya"
+  },
+  "bangalore-mysore-coorg": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/karnataka/coorg",
+      "https://karnatakatourism.org/en/destinations/hampi/"
+    ],
+    "basis": "Official destination windows suit both the Coorg circuit and exposed Hampi heritage walks.",
+    "note": "",
+    "profile": "karnataka"
+  },
+  "hampi-heritage": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/karnataka/coorg",
+      "https://karnatakatourism.org/en/destinations/hampi/"
+    ],
+    "basis": "Official destination windows suit both the Coorg circuit and exposed Hampi heritage walks.",
+    "note": "",
+    "profile": "karnataka"
+  },
+  "madurai-rameswaram-kanyakumari": {
+    "months": [
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "December to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather",
+      "https://storage.investingintamilnadu.com/Guidance/Uploads/Others/np4.pdf"
+    ],
+    "basis": "Conservative circuit recommendation: cooler months after the main northeast monsoon, including coastal temple stops.",
+    "note": "",
+    "profile": "tamil-temples"
+  },
+  "tamil-nadu-temple-tour": {
+    "months": [
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "December to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather",
+      "https://storage.investingintamilnadu.com/Guidance/Uploads/Others/np4.pdf"
+    ],
+    "basis": "Conservative circuit recommendation: cooler months after the main northeast monsoon, including coastal temple stops.",
+    "note": "",
+    "profile": "tamil-temples"
+  },
+  "ooty-kodaikanal": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      12,
+      1,
+      2
+    ],
+    "bestTime": "March to June; December to February",
+    "sources": [
+      "https://sd2.tourism.gov.in/DocumentRepoFiles/MasterPlan/MP0be32c91-3ab3-4834-9b52-376118a2d75b.pdf",
+      "https://www.tnurbantree.tn.gov.in/kodaikanal/wp-content/uploads/sites/40/2021/03/Kodaikanal_MasterPlan.pdf"
+    ],
+    "basis": "Combined hill-route recommendation: summer and winter; excludes the main October–November northeast-monsoon spell affecting Kodaikanal.",
+    "note": "",
+    "profile": "nilgiri-palani"
+  },
+  "tirupati-tirumala": {
+    "months": [
+      12,
+      1,
+      2
+    ],
+    "bestTime": "December to February",
+    "sources": [
+      "https://apmsmeone.ap.gov.in/Downloads/MSE_CDP/Printing%20Cluster-Tirupati%20Final%20DPR.pdf"
+    ],
+    "basis": "Climate-based recommendation: cooler, generally drier months after the main northeast monsoon; darshan slots are separate.",
+    "note": "",
+    "profile": "tirupati"
+  },
+  "vizag-araku-valley": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://visakhapatnam.ap.gov.in/demography/",
+      "https://www.incredibleindia.gov.in/en/andhra-pradesh/srikakulam",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Climate-based full-route recommendation: cooler coastal and valley sightseeing; October–November storms can affect travel.",
+    "note": "",
+    "profile": "andhra-coast"
+  },
+  "vijayawada-amaravati": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://visakhapatnam.ap.gov.in/demography/",
+      "https://www.incredibleindia.gov.in/en/andhra-pradesh/srikakulam",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Climate-based full-route recommendation: cooler coastal and valley sightseeing; October–November storms can affect travel.",
+    "note": "",
+    "profile": "andhra-coast"
+  },
+  "leh-nubra-pangong-classic": {
+    "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "May to September",
+    "sources": [
+      "https://tourism.ladakh.gov.in/"
+    ],
+    "basis": "Official Ladakh summer season suits the listed Leh-based circuits; mountain passes remain weather-dependent.",
+    "note": "High-pass roads and lake excursions are subject to local clearance.",
+    "profile": "ladakh"
+  },
+  "ladakh-grand-tour": {
+    "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "May to September",
+    "sources": [
+      "https://tourism.ladakh.gov.in/"
+    ],
+    "basis": "Official Ladakh summer season suits the listed Leh-based circuits; mountain passes remain weather-dependent.",
+    "note": "High-pass roads and lake excursions are subject to local clearance.",
+    "profile": "ladakh"
+  },
+  "ladakh-complete-road-trip": {
+    "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "May to September",
+    "sources": [
+      "https://tourism.ladakh.gov.in/"
+    ],
+    "basis": "Official Ladakh summer season suits the listed Leh-based circuits; mountain passes remain weather-dependent.",
+    "note": "High-pass roads and lake excursions are subject to local clearance.",
+    "profile": "ladakh"
+  },
+  "ladakh-honeymoon": {
+    "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "May to September",
+    "sources": [
+      "https://tourism.ladakh.gov.in/"
+    ],
+    "basis": "Official Ladakh summer season suits the listed Leh-based circuits; mountain passes remain weather-dependent.",
+    "note": "High-pass roads and lake excursions are subject to local clearance.",
+    "profile": "ladakh"
+  },
+  "corporate-ladakh-offsite": {
+    "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "May to September",
+    "sources": [
+      "https://tourism.ladakh.gov.in/"
+    ],
+    "basis": "Official Ladakh summer season suits the listed Leh-based circuits; mountain passes remain weather-dependent.",
+    "note": "High-pass roads and lake excursions are subject to local clearance.",
+    "profile": "ladakh"
+  },
+  "kasol-manikaran-2n3d": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "manali-solang-valley": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "shimla-manali": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "dharamshala-dalhousie-khajjiar": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "spiti-valley-road-trip": {
+    "months": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "Late June to September",
+    "sources": [
+      "https://hpforest.gov.in/storage/files/4/aboutus/wildlifefile15-07-2023-1689415282.pdf",
+      "https://himachaltourism.gov.in/destination/spiti-valley/"
+    ],
+    "basis": "Full-circuit recommendation constrained by the Chandratal and onward Manali legs, not the broader Shimla–Kaza travel window.",
+    "note": "Chandratal–Manali roads and camps must be open.",
+    "profile": "spiti"
+  },
+  "kasol-manali": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "manali-honeymoon": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "tirthan-valley-jibhi": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "kasol-tosh-parvati-valley": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "corporate-shimla-kufri-offsite": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "corporate-manali-offsite": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "kashmir-classic-srinagar-gulmarg-pahalgam-sonmarg": {
+    "months": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "bestTime": "April to October",
+    "sources": [
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Peak sightseeing recommendation for the listed valley circuits; snow holidays have their own package.",
+    "note": "Higher excursions depend on road and weather conditions.",
+    "profile": "kashmir-sightseeing"
+  },
+  "srinagar-gulmarg-pahalgam": {
+    "months": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "bestTime": "April to October",
+    "sources": [
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Peak sightseeing recommendation for the listed valley circuits; snow holidays have their own package.",
+    "note": "Higher excursions depend on road and weather conditions.",
+    "profile": "kashmir-sightseeing"
+  },
+  "kashmir-honeymoon": {
+    "months": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "bestTime": "April to October",
+    "sources": [
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Peak sightseeing recommendation for the listed valley circuits; snow holidays have their own package.",
+    "note": "Higher excursions depend on road and weather conditions.",
+    "profile": "kashmir-sightseeing"
+  },
+  "kashmir-winter-snow": {
+    "months": [
+      12,
+      1,
+      2
+    ],
+    "bestTime": "December to February",
+    "sources": [
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Winter snow experience rather than summer sightseeing.",
+    "note": "Snowfall and road access vary with weather.",
+    "profile": "kashmir-snow"
+  },
+  "kashmir-tulip-season": {
+    "months": [
+      3,
+      4
+    ],
+    "bestTime": "March to April (during the tulip bloom)",
+    "sources": [
+      "https://indiacinehub.gov.in/location/tulip-garden-1",
+      "https://srinagar.nic.in/tourist-place/tulip-garden/"
+    ],
+    "basis": "Seasonal flower window; do not imply the garden operates throughout both months.",
+    "note": "Visit dates must match the announced garden opening.",
+    "profile": "tulip"
+  },
+  "kashmir-offbeat-gurez-doodhpathri": {
+    "months": [
+      6,
+      7,
+      8,
+      9
+    ],
+    "bestTime": "June to September",
+    "sources": [
+      "https://gogurez.com/",
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Conservative summer road-trip recommendation for Gurez after the variable spring road reopening, checked against local operator guidance.",
+    "note": "Gurez travel is subject to Razdan Pass clearance.",
+    "profile": "gurez"
+  },
+  "kashmir-grand-tour": {
+    "months": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "bestTime": "April to October",
+    "sources": [
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Peak sightseeing recommendation for the listed valley circuits; snow holidays have their own package.",
+    "note": "Higher excursions depend on road and weather conditions.",
+    "profile": "kashmir-sightseeing"
+  },
+  "amarnath-yatra-kashmir": {
+    "months": [
+      7,
+      8
+    ],
+    "bestTime": "July to August (only during the notified Yatra period)",
+    "sources": [
+      "https://jksasb.nic.in/Yatra%202026/Guidelines/advance_guidelines.pdf",
+      "https://amarnathyatra.org/"
+    ],
+    "basis": "2026 official Yatra runs 3 July–28 August. Future departure dates must follow each year’s Shrine Board announcement.",
+    "note": "Annual dates, registration and route opening must be confirmed.",
+    "profile": "amarnath"
+  },
+  "corporate-kashmir-srinagar-gulmarg": {
+    "months": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "bestTime": "April to October",
+    "sources": [
+      "https://srinagar.nic.in/plan-your-visit/"
+    ],
+    "basis": "Peak sightseeing recommendation for the listed valley circuits; snow holidays have their own package.",
+    "note": "Higher excursions depend on road and weather conditions.",
+    "profile": "kashmir-sightseeing"
+  },
+  "vaishno-devi-group-yatra": {
+    "months": [
+      3,
+      4,
+      5,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to May; September to November",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather",
+      "https://www.maavaishnodevi.org/"
+    ],
+    "basis": "Comfort-based Katra trek recommendation avoiding midsummer heat, main monsoon and the coldest winter months; shrine operates year-round.",
+    "note": "",
+    "profile": "vaishno"
+  },
+  "varanasi-ayodhya-prayagraj-gaya-bodh-gaya": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "varanasi-ayodhya-prayagraj-gaya-bodh-gaya-deoghar": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "delhi-agra-jaipur-golden-triangle": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
+  },
+  "jibhi-weekend-group-tour": {
+    "months": [
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "April to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/nature-parks/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Conservative full-route recommendation for Jalori Pass and the Serolsar walking trail; excludes winter snow closure.",
+    "note": "Jalori Pass and trails must be open and safe.",
+    "profile": "jalori"
+  },
+  "kasol-weekend-group-tour": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "kanatal-weekend-group-tour": {
+    "months": [
+      3,
+      4,
+      5,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to May; September to November",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/explore/haridwar",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Full-route comfort recommendation covering lower river towns and hill sightseeing, outside the main monsoon.",
+    "note": "",
+    "profile": "garhwalsightseeing"
+  },
+  "mcleodganj-weekend-group-tour": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://himachaltourism.gov.in/destination/shimla/",
+      "https://himachaltourism.gov.in/destination/dharamshala/",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "General sightseeing and valley-walk recommendation: pleasant spring/summer and post-monsoon; winter snow is an alternate experience, not the best full-route window.",
+    "note": "",
+    "profile": "himachal-hills"
+  },
+  "udaipur-weekend-group-tour": {
+    "months": [
+      9,
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "September to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/rajasthan/udaipur"
+    ],
+    "basis": "Udaipur window also suits the Mount Abu extension; September may retain showers.",
+    "note": "",
+    "profile": "udaipur"
+  },
+  "nainital-weekend-group-tour": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttarakhand/nainital",
+      "https://uttarakhandtourism.gov.in/assets/media/Tourist-Map-Uttarakhand-UK.pdf"
+    ],
+    "basis": "Official spring/summer window plus post-monsoon Kumaon hill sightseeing.",
+    "note": "",
+    "profile": "nainital"
+  },
+  "varanasi-prayagraj-ayodhya": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "ayodhya-ram-mandir": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "varanasi-kashi": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "mathura-vrindavan-barsana": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "agra-taj-mahal-weekend": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "lucknow-nawabi-heritage": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "buddhist-circuit-sarnath-kushinagar": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "corporate-agra-offsite": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "corporate-mathura-vrindavan-retreat": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Cool-season route recommendation for plains temple and heritage circuits, including Gaya/Bodh Gaya and Deoghar extensions.",
+    "note": "",
+    "profile": "up-bihar"
+  },
+  "char-dham-yatra": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham",
+      "https://www.incredibleindia.gov.in/en/uttarakhand/badrinath/badrinath-the-complete-travel-guide"
+    ],
+    "basis": "Darshan-constrained circuit recommendation. Auli–Badrinath cannot use the Auli winter skiing season while Badrinath is closed.",
+    "note": "Travel only within the announced temple opening dates.",
+    "profile": "char-dham"
+  },
+  "kedarnath-badrinath-do-dham": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham",
+      "https://www.incredibleindia.gov.in/en/uttarakhand/badrinath/badrinath-the-complete-travel-guide"
+    ],
+    "basis": "Darshan-constrained circuit recommendation. Auli–Badrinath cannot use the Auli winter skiing season while Badrinath is closed.",
+    "note": "Travel only within the announced temple opening dates.",
+    "profile": "char-dham"
+  },
+  "kedarnath-yatra": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham",
+      "https://www.incredibleindia.gov.in/en/uttarakhand/badrinath/badrinath-the-complete-travel-guide"
+    ],
+    "basis": "Darshan-constrained circuit recommendation. Auli–Badrinath cannot use the Auli winter skiing season while Badrinath is closed.",
+    "note": "Travel only within the announced temple opening dates.",
+    "profile": "char-dham"
+  },
+  "badrinath-yatra": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham",
+      "https://www.incredibleindia.gov.in/en/uttarakhand/badrinath/badrinath-the-complete-travel-guide"
+    ],
+    "basis": "Darshan-constrained circuit recommendation. Auli–Badrinath cannot use the Auli winter skiing season while Badrinath is closed.",
+    "note": "Travel only within the announced temple opening dates.",
+    "profile": "char-dham"
+  },
+  "haridwar-rishikesh-mussoorie": {
+    "months": [
+      3,
+      4,
+      5,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to May; September to November",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/explore/haridwar",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Full-route comfort recommendation covering lower river towns and hill sightseeing, outside the main monsoon.",
+    "note": "",
+    "profile": "garhwalsightseeing"
+  },
+  "chopta-tungnath": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/treks-details/Chopta-Chandrashila%20Trek",
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham"
+    ],
+    "basis": "Conservative darshan and Chandrashila trekking recommendation; spring snow and seasonal temple dates restrict earlier visits.",
+    "note": "Tungnath darshan and the summit trek require seasonal opening and safe access.",
+    "profile": "tungnath"
+  },
+  "chopta-tungnath-weekend-group-tour": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/treks-details/Chopta-Chandrashila%20Trek",
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham"
+    ],
+    "basis": "Conservative darshan and Chandrashila trekking recommendation; spring snow and seasonal temple dates restrict earlier visits.",
+    "note": "Tungnath darshan and the summit trek require seasonal opening and safe access.",
+    "profile": "tungnath"
+  },
+  "madhyamaheshwar-yatra": {
+    "months": [
+      5,
+      6,
+      9
+    ],
+    "bestTime": "May to June; September",
+    "sources": [
+      "https://uttarakhandtourism.gov.in/destination/madhyamaheshwar/"
+    ],
+    "basis": "Within the official May–September destination window, avoiding the main wet-season trekking months.",
+    "note": "Temple opening and safe trekking conditions must be confirmed.",
+    "profile": "madhyamaheshwar"
+  },
+  "nainital-bhimtal-kainchi-dham": {
+    "months": [
+      3,
+      4,
+      5,
+      6,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to June; September to November",
+    "sources": [
+      "https://www.incredibleindia.gov.in/en/uttarakhand/nainital",
+      "https://uttarakhandtourism.gov.in/assets/media/Tourist-Map-Uttarakhand-UK.pdf"
+    ],
+    "basis": "Official spring/summer window plus post-monsoon Kumaon hill sightseeing.",
+    "note": "",
+    "profile": "nainital"
+  },
+  "jim-corbett-weekend": {
+    "months": [
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+    ],
+    "bestTime": "Mid-November to April",
+    "sources": [
+      "https://corbettonline.uk.gov.in/",
+      "https://uttarakhandtourism.gov.in/assets/media/Tourist-Map-Uttarakhand-UK.pdf"
+    ],
+    "basis": "Winter comfort plus spring wildlife viewing; the November start accounts for seasonal zones.",
+    "note": "Zone opening dates and safari permits must be confirmed.",
+    "profile": "corbett"
+  },
+  "auli-joshimath-badrinath": {
+    "months": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "bestTime": "May to June; September to October",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/experiences/char-dham",
+      "https://www.incredibleindia.gov.in/en/uttarakhand/badrinath/badrinath-the-complete-travel-guide"
+    ],
+    "basis": "Darshan-constrained circuit recommendation. Auli–Badrinath cannot use the Auli winter skiing season while Badrinath is closed.",
+    "note": "Travel only within the announced temple opening dates.",
+    "profile": "char-dham"
+  },
+  "corporate-rishikesh-offsite": {
+    "months": [
+      3,
+      4,
+      5,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to May; mid-September to November",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/explore/haridwar",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Comfort and outdoor offsite recommendation; Shivpuri water activities remain subject to seasonal operating permission.",
+    "note": "",
+    "profile": "rishikesh"
+  },
+  "corporate-mussoorie-retreat": {
+    "months": [
+      3,
+      4,
+      5,
+      9,
+      10,
+      11
+    ],
+    "bestTime": "March to May; September to November",
+    "sources": [
+      "https://www.uttarakhandtourism.gov.in/explore/haridwar",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Full-route comfort recommendation covering lower river towns and hill sightseeing, outside the main monsoon.",
+    "note": "",
+    "profile": "garhwalsightseeing"
+  }
+}
