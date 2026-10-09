@@ -43,18 +43,6 @@ type Props = {
 const clean = (items: string[] = []) =>
   items.filter(Boolean);
 
-function experience(day: ItineraryDay) {
-  if (day.description) return day.description;
-  const acts = clean([...day.morning, ...day.afternoon, ...day.evening]);
-  if (/arrival|check.?in/i.test(day.title)) {
-    return `Arrival and settling-in day. ${acts.length ? `The scheduled experience includes ${acts.slice(0, 4).join(", ")}.` : "The pace is intentionally comfortable after the journey."}`;
-  }
-  if (/departure|return|drop/i.test(day.title)) {
-    return `A departure-focused day following the published route. ${acts.length ? `The planned stops and transfer details are ${acts.slice(0, 3).join(", ")}.` : "Checkout and transfer follow the confirmed departure timing."}`;
-  }
-  return `Today is built around ${day.title}. ${acts.length ? `The itinerary specifically includes ${acts.slice(0, 5).join(", ")}.` : "Sightseeing follows the confirmed route."}`;
-}
-
 function escapeHtml(value: string) {
   return String(value ?? "").replace(/[&<>\"]/g, (char) => ({
     "&": "&amp;",
@@ -100,8 +88,6 @@ function buildItineraryHtml(itinerary: ItineraryDay[]) {
   return itinerary.map((day, index) => `
     <section class="day">
       <div class="day-title">${escapeHtml(formatItineraryDay(day.day, index + 1))} — ${escapeHtml(day.title || "Travel & Sightseeing")}</div>
-      ${day.itineraryId ? `<p class="meta">Itinerary ID: ${escapeHtml(day.itineraryId)}</p>` : ""}
-      ${day.description ? `<p>${escapeHtml(day.description)}</p>` : ""}
       ${day.attractions?.length ? `<h4>Planned attractions & experiences</h4>${listHtml(day.attractions)}` : ""}
       <div class="cols">
         <div><h4>Morning</h4>${clean(day.morning).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No morning activity listed.</p>"}</div>
@@ -318,12 +304,10 @@ export default function ItineraryAccordion({
                 <div>
                   <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">{formatItineraryDay(day.day, index + 1)}</p>
                   <h3 className="mt-1 text-xl font-extrabold text-slate-900">{day.title}</h3>
-                  <p className="mt-2 text-sm text-slate-500">{experience(day)}</p>
                 </div>
                 <span className="shrink-0 text-3xl font-light text-orange-500">{isOpen ? "−" : "+"}</span>
               </button>
               {isOpen && <div className="space-y-4 border-t bg-slate-50 p-5">
-                {day.itineraryId && <p className="break-words text-xs text-slate-500">Itinerary ID: {day.itineraryId}</p>}
                 {day.attractions?.length ? <ActivityBlock title="Planned attractions & experiences" items={day.attractions} /> : null}
                 <div className="grid gap-4 md:grid-cols-3"><ActivityBlock title="Morning" items={day.morning} /><ActivityBlock title="Afternoon" items={day.afternoon} /><ActivityBlock title="Evening" items={day.evening} /></div>
                 <dl className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm md:grid-cols-2">

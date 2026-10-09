@@ -1,3 +1,4 @@
+import { buildPackageFaqs } from "@/data/packageCustomerCopy";
 import GroupTourTerms from "@/components/package/GroupTourTerms";
 import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
@@ -137,16 +138,6 @@ function relatedTravelLinks(pkg: PackageItem) {
   }
 
   return links;
-}
-
-function faqItems(pkg: PackageItem, state: StateDetails) {
-  return [
-    { question: `What is included in the ${pkg.title} package?`, answer: "The exact inclusions and exclusions are listed in the Tour Inclusions & Exclusions section on this page." },
-    { question: `What is the best time to travel to ${state.name}?`, answer: `The recommended travel period is shown in the Best Time field above. Weather and local operating conditions can affect the ideal travel dates.` },
-    { question: `Can this ${pkg.title} itinerary be customised?`, answer: "Yes. Travel dates, group size, accommodation preferences, sightseeing pace and other requirements can be discussed with Only Road Trip before booking." },
-    { question: "Is this package suitable for families and groups?", answer: "Suitability depends on the published itinerary, walking requirements, travel duration and group needs. Families and groups can request suitable customisation before confirmation." },
-    { question: "What should I check before booking?", answer: "Please review the day-wise itinerary, inclusions, exclusions, hotel category, meals, travel dates and any seasonal or local restrictions before confirming the booking." },
-  ];
 }
 
 function packageStructuredData(
@@ -309,7 +300,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const price = numberField(pkg, "price");
   const rating = numberField(pkg, "rating");
   const reviews = numberField(pkg, "reviews");
-  const faqs = faqItems(pkg, state);
+  const faqs = buildPackageFaqs(pkg);
   const planningNotes = travelPlanningNotes(state);
   const relatedLinks = relatedTravelLinks(pkg);
   const isSpiritualTriangle = /kashi|varanasi/i.test(cleanText(pkg.title)) && /ayodhya|prayagraj|allahabad/i.test(cleanText(pkg.destination));
