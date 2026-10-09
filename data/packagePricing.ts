@@ -1,3 +1,4 @@
+import { isWeekendEscape, getWeekendEscapeSharingRates } from "./weekendEscape";
 import { addGSTToRate } from "./priceTax";
 
 const destinationMultiplier: Record<string, number> = {
@@ -63,6 +64,16 @@ const rateFor = (state: string, title: string, nights: number, pax: number) => {
 };
 
 export const makePackageRates = (pkg: any) => {
+  if (isWeekendEscape(pkg)) {
+    const sharingRates = getWeekendEscapeSharingRates();
+    const lowestRate = sharingRates[0].price;
+    return {
+      2: lowestRate, 4: lowestRate, 6: lowestRate, 12: lowestRate,
+      16: lowestRate, 20: lowestRate, 25: lowestRate, 30: lowestRate,
+      "30+": lowestRate, sharingRates,
+    };
+  }
+
   // Fixed per-person rates for the 2N/3D Weekend / Group Tour inventory.
   // Goa has its own rate card; all other qualifying 2N/3D group/weekend packages use the Himachal/Uttarakhand rate card.
   if (isFixedWeekendGroup(pkg)) {

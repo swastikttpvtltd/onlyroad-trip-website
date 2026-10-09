@@ -1,3 +1,4 @@
+import { isWeekendEscape, getWeekendEscapeSharingRates } from "./weekendEscape";
 import { addGSTToRate } from "./priceTax";
 
 export type GroupSharingRate = {
@@ -6,11 +7,13 @@ export type GroupSharingRate = {
 };
 
 export function isGroupTourPackage(pkg: any) {
+  if (isWeekendEscape(pkg)) return true;
   const text = `${pkg?.packageId ?? ""} ${pkg?.title ?? ""} ${pkg?.category ?? ""} ${pkg?.duration ?? ""} ${(pkg?.themes ?? []).join(" ")}`.toLowerCase();
   return text.includes("group tour") || text.includes("group-tour") || text.includes("group") || (text.includes("weekend") && text.includes("2 nights / 3 days"));
 }
 
 export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
+  if (isWeekendEscape(pkg)) return getWeekendEscapeSharingRates();
   if (!isGroupTourPackage(pkg)) return null;
 
   const text = `${pkg?.title ?? ""} ${pkg?.packageId ?? ""}`.toLowerCase();

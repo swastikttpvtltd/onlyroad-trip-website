@@ -1,3 +1,4 @@
+import { isWeekendEscape } from "./weekendEscape";
 import gujaratPackages from "./packages/gujarat/gujarat-packages";
 import rajasthanPackages from "./packages/rajasthan/rajasthan-packages";
 import uttarakhandPackages from "./packages/uttarakhand/uttarakhand-packages";
@@ -235,20 +236,21 @@ const overnightWeekendSlugs = new Set([
 ]);
 
 export const packages = rawPackages.map((original) => {
+  const isEscape = isWeekendEscape(original);
   const isOvernightWeekend = overnightWeekendSlugs.has(String(original.slug));
 
   const packageId = makePackageId(original.id, original.slug, original.title);
   const pkg = {
     ...original,
     ...(isOvernightWeekend ? {
-      hotels: [{ name: "3-Star Hotel / Similar — 1 night (Night 2)", category: "3-Star", star: "3-Star Hotel" }],
-      meals: ["1 dinner at hotel on Day 2", "1 breakfast at hotel on Day 3"],
+      hotels: [{ name: isEscape ? "3-Star Hotel / Similar — 2 nights (Nights 2 & 3)" : "3-Star Hotel / Similar — 1 night (Night 2)", category: "3-Star", star: "3-Star Hotel" }],
+      meals: isEscape ? ["2 dinners at hotel on Days 2 & 3", "2 breakfasts at hotel on Days 3 & 4"] : ["1 dinner at hotel on Day 2", "1 breakfast at hotel on Day 3"],
       quickFacts: {
         ...original.quickFacts,
         pickup: "Delhi",
         drop: original.quickFacts?.drop || "Delhi",
-        meals: "1 dinner (Day 2) & 1 breakfast (Day 3)",
-        hotelCategory: "3-Star Hotel / Similar — 1 night (Night 2)",
+        meals: isEscape ? "2 dinners (Days 2 & 3) & 2 breakfasts (Days 3 & 4)" : "1 dinner (Day 2) & 1 breakfast (Day 3)",
+        hotelCategory: isEscape ? "3-Star Hotel / Similar — 2 nights (Nights 2 & 3)" : "3-Star Hotel / Similar — 1 night (Night 2)",
       },
     } : {}),
     itinerary: getDetailedItinerary(original.slug, packageId, original.itinerary ?? []),
@@ -273,7 +275,9 @@ export const packages = rawPackages.map((original) => {
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,
-    priceBasis: isOvernightWeekend
+    priceBasis: isEscape
+      ? "Per Person | 5% GST Included | 2 hotel nights (Nights 2 & 3) | 2 Dinners & 2 Breakfasts | Standard Transport & Sightseeing"
+      : isOvernightWeekend
       ? "Per Person | 5% GST Included | 1 hotel night (Night 2) | 1 Dinner & 1 Breakfast | Standard Transport & Sightseeing"
       : "Per Person | 5% GST Included | 3-Star Hotel / Similar | Breakfast & Dinner | Standard Transport & Sightseeing",
     image: cover,
@@ -287,7 +291,7 @@ export const packages = rawPackages.map((original) => {
     hotels: isOvernightWeekend ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
     meals: isOvernightWeekend ? pkg.meals : [...standardMeals],
     exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
-      ? "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included"
+      ? (isEscape ? "Arrival breakfast, all lunches, journey meals and refreshments; only hotel dinners on Days 2 & 3 and hotel breakfasts on Days 3 & 4 are included" : "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included")
       : "Lunch and any meals other than the included breakfast and dinner"],
     inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.inclusions : [
       ...defaultPackageInclusions,
@@ -296,10 +300,10 @@ export const packages = rawPackages.map((original) => {
       ...(/\b(?:Prayagraj|Allahabad)\b/i.test(String(pkg.destination ?? ""))
         ? ["Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions."] : []),
       isOvernightWeekend
-        ? "1 night in a 3-Star Hotel / Similar on Night 2; Night 1 is the overnight road journey from Delhi"
+        ? (isEscape ? "2 nights in a 3-Star Hotel / Similar on Nights 2 & 3; Night 1 is the overnight road journey from Delhi" : "1 night in a 3-Star Hotel / Similar on Night 2; Night 1 is the overnight road journey from Delhi")
         : "Accommodation in 3-Star Hotels / Similar",
       isOvernightWeekend
-        ? "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy"
+        ? (isEscape ? "2 hotel dinners on Days 2 & 3 and 2 hotel breakfasts on Days 3 & 4; service subject to hotel policy and occupancy" : "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy")
         : "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
     ],
   };
