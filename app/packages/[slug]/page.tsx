@@ -141,10 +141,6 @@ function relatedTravelLinks(pkg: PackageItem) {
 
 function faqItems(pkg: PackageItem, state: StateDetails) {
   return [
-    ...(pkg.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya" ? [
-      { question: "Where are the five overnight hotel stays?", answer: "Varanasi has 3 nights (Days 1, 3 and 5), Ayodhya 1 night (Day 2), and Bodh Gaya 1 night (Day 4). Prayagraj is a Day 3 sightseeing stop on the route from Ayodhya to Varanasi, with no overnight stay. Gaya is visited on Day 5 before returning to Varanasi. Arrival and departure are in Varanasi." },
-      { question: "How should I plan the longer travel days?", answer: "Day 3 combines Ayodhya to Prayagraj sightseeing with the onward drive to Varanasi. Day 4 is the Varanasi to Bodh Gaya transfer. Day 5 combines Gaya / Bodh Gaya sightseeing and the drive back to Varanasi. Start early, keep visits focused and allow for queues, traffic and a possible late arrival; extended rituals or additional visits need prior scheduling." },
-    ] : []),
     { question: `What is included in the ${pkg.title} package?`, answer: "The exact inclusions and exclusions are listed in the Tour Inclusions & Exclusions section on this page." },
     { question: `What is the best time to travel to ${state.name}?`, answer: `The recommended travel period is shown in the Best Time field above. Weather and local operating conditions can affect the ideal travel dates.` },
     { question: `Can this ${pkg.title} itinerary be customised?`, answer: "Yes. Travel dates, group size, accommodation preferences, sightseeing pace and other requirements can be discussed with Only Road Trip before booking." },
