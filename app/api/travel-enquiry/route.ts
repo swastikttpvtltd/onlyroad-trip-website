@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const context = await getCloudflareContext({ async: true });
     const cloudflareEnv = (context?.env ?? {}) as Record<string, unknown>;
     const db = cloudflareEnv.DB as
-      | { prepare: (query: string) => { bind: (...values: unknown[]) => { run: () => Promise<unknown> } } }
+      | { prepare: (query: string) => { bind: (...values: unknown[]) => { run: () => Promise<{ success: boolean }> } } }
       | undefined;
 
     if (!db) {
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
     const leadId = `ORT-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
     const sourcePage = request.headers.get("referer") || new URL(request.url).origin;
 
-    await db
+    const saved = await db
       .prepare(`
         INSERT INTO leads (
           lead_id, full_name, mobile, email, destination, travel_date,
@@ -73,6 +73,20 @@ export async function POST(request: Request) {
         sourcePage,
       )
       .run();
+
+    if (!saved.success) {
+      throw new Error("Lead database insert was not confirmed.");
+    }
+
+    // Notification errors must never invalidate a lead already saved in D1.
+    const recordNotification = async (status: string, error: string | null) => {
+      try {
+        await db.prepare("UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
+          .bind(status, error, leadId).run();
+      } catch (statusError) {
+        console.error("Unable to record enquiry notification status:", statusError);
+      }
+    };
 
     const readEnv = (...names: string[]) => {
       for (const name of names) {
@@ -105,21 +119,15 @@ export async function POST(request: Request) {
 
     if (missing.length > 0) {
       console.error("Travel enquiry email configuration missing:", missing);
-      await db
-        .prepare("UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
-        .bind("FAILED", "Email configuration unavailable", leadId)
-        .run();
+      await recordNotification("FAILED", "Email configuration unavailable");
       return NextResponse.json({ success: true, leadId, notificationPending: true });
     }
 
-    const transporter = nodemailer.createTransport({
-      host,
-      port,
-      secure,
-      auth: { user, pass },
-    });
-
     try {
+      const transporter = nodemailer.createTransport({
+        host, port, secure, auth: { user, pass },
+        connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 15000,
+      });
       await transporter.sendMail({
       from,
       to,
@@ -171,18 +179,12 @@ export async function POST(request: Request) {
       `,
       });
 
-      await db
-        .prepare("UPDATE leads SET email_status = ?, email_error = NULL, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
-        .bind("SENT", leadId)
-        .run();
+      await recordNotification("SENT", null);
 
       return NextResponse.json({ success: true, leadId });
     } catch (emailError) {
       console.error("Travel enquiry email failed:", emailError);
-      await db
-        .prepare("UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
-        .bind("FAILED", "Email delivery failed", leadId)
-        .run();
+      await recordNotification("FAILED", "Email delivery failed");
       return NextResponse.json({ success: true, leadId, notificationPending: true });
     }
   } catch (error) {

@@ -1,4 +1,5 @@
 "use client";
+import { usePartialLeadCapture } from "@/hooks/usePartialLeadCapture";
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -56,6 +57,7 @@ export default function PlanYourTripClient() {
   }, []);
 
   const selectedCountry = countryOptions.find((item) => item.iso2 === phoneCountry) ?? countryOptions[0];
+  usePartialLeadCapture("plan-your-trip", { fullName, mobile, countryCode: `+${selectedCountry.callingCode}`, email, destination, travelDate });
 
   const filteredDestinations = useMemo(() => {
     const query = destination.trim().toLowerCase();
@@ -87,6 +89,7 @@ export default function PlanYourTripClient() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitMessage("");
 
@@ -110,7 +113,10 @@ export default function PlanYourTripClient() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to send enquiry.");
+      if (!response.ok || data.success !== true || !data.leadId) throw new Error(data.error || "Unable to send enquiry.");
+      const analyticsWindow = window as typeof window & { dataLayer?: Record<string, unknown>[] };
+      analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+      analyticsWindow.dataLayer.push({ event: "generate_lead", lead_id: data.leadId, form_id: "travel-enquiry" });
 
       setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
       setFullName("");

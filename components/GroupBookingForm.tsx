@@ -1,4 +1,5 @@
 "use client";
+import { usePartialLeadCapture } from "@/hooks/usePartialLeadCapture";
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -27,6 +28,8 @@ export default function GroupBookingForm({ packageTitle, packageId, packageDurat
   const [travelDate, setTravelDate] = useState(defaultDate); const [sharing, setSharing] = useState<Sharing>("double"); const [travellers, setTravellers] = useState(1); const [name, setName] = useState(""); const [phone, setPhone] = useState(""); const [email, setEmail] = useState(""); const [message, setMessage] = useState(""); const [accepted, setAccepted] = useState(false); const [submitting, setSubmitting] = useState(false);
   const selectedRate = rates[sharing]; const total = selectedRate === null ? 0 : selectedRate * travellers; const advanceEligible = departureLeadDays(travelDate) >= 30; const advance = selectedRate === null ? 0 : advanceEligible ? Math.ceil(total * 0.3) : total; const balance = total - advance;
   const selectedMonth = useMemo(() => travelDate.slice(0, 7), [travelDate]); const visibleSlots = useMemo(() => dates.filter((date) => date.startsWith(selectedMonth)), [dates, selectedMonth]); const months = useMemo(() => Array.from(new Set(dates.map((date) => date.slice(0, 7)))), [dates]); const decision = getDepartureDecision(travelDate, packageDuration);
+
+  usePartialLeadCapture("group-booking", { fullName: name, mobile: phone, countryCode: "+91", email, destination: packageTitle, travelDate });
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
