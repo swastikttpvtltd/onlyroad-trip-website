@@ -13,6 +13,13 @@
     "enabled": true,
     "head_sampling_rate": 1
   },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "onlyroadtrip-leads",
+      "database_id": "cc019517-ce09-4437-9ade-b7f5967da204"
+    }
+  ],
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"

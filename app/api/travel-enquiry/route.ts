@@ -35,12 +35,63 @@ export async function POST(request: Request) {
     }
 
     const context = await getCloudflareContext({ async: true });
-    const cloudflareEnv = (context?.env ?? {}) as Record<string, string | undefined>;
+    const cloudflareEnv = (context?.env ?? {}) as Record<string, unknown>;
+    const db = cloudflareEnv.DB as
+      | { prepare: (query: string) => { bind: (...values: unknown[]) => { run: () => Promise<{ success: boolean }> } } }
+      | undefined;
+
+    if (!db) {
+      console.error("Travel enquiry database binding is unavailable.");
+      return NextResponse.json(
+        { error: "Enquiry service is temporarily unavailable." },
+        { status: 503 },
+      );
+    }
+
+    const leadId = `ORT-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+    const sourcePage = request.headers.get("referer") || new URL(request.url).origin;
+
+    const saved = await db
+      .prepare(`
+        INSERT INTO leads (
+          lead_id, full_name, mobile, email, destination, travel_date,
+          travellers, travel_type, budget, message, source, source_page
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `)
+      .bind(
+        leadId,
+        String(fullName),
+        String(mobile),
+        email ? String(email) : null,
+        String(destination),
+        String(travelDate),
+        String(travellers),
+        String(travelType),
+        budget ? String(budget) : null,
+        String(message),
+        "website",
+        sourcePage,
+      )
+      .run();
+
+    if (!saved.success) {
+      throw new Error("Lead database insert was not confirmed.");
+    }
+
+    // Notification errors must never invalidate a lead already saved in D1.
+    const recordNotification = async (status: string, error: string | null) => {
+      try {
+        await db.prepare("UPDATE leads SET email_status = ?, email_error = ?, updated_at = CURRENT_TIMESTAMP WHERE lead_id = ?")
+          .bind(status, error, leadId).run();
+      } catch (statusError) {
+        console.error("Unable to record enquiry notification status:", statusError);
+      }
+    };
 
     const readEnv = (...names: string[]) => {
       for (const name of names) {
         const runtimeValue = cloudflareEnv[name];
-        if (runtimeValue) return runtimeValue;
+        if (typeof runtimeValue === "string" && runtimeValue) return runtimeValue;
 
         const processValue = process.env[name];
         if (processValue) return processValue;
@@ -48,33 +99,28 @@ export async function POST(request: Request) {
       return undefined;
     };
 
-    // Gmail SMTP configuration. Values can be supplied through Cloudflare
-    // environment variables; safe defaults are provided for the public settings.
-    const host = readEnv("SMTP_HOST") || "smtp.gmail.com";
-    const port = Number(readEnv("SMTP_PORT") || "465");
+    // Support both the current SMTP_* names and the existing Zoho variable
+    // names already used by the Cloudflare deployment/environment template.
+    const host = readEnv("SMTP_HOST", "ZOHO_SMTP_HOST") || "smtp.zoho.in";
+    const port = Number(readEnv("SMTP_PORT", "ZOHO_SMTP_PORT") || "465");
     const secure = String(readEnv("SMTP_SECURE") ?? (port === 465)).toLowerCase() === "true";
-    const user = readEnv("SMTP_USER") || "swastikttpvtltd@gmail.com";
-    const pass = readEnv("SMTP_PASSWORD");
-    const from = readEnv("SMTP_FROM") || user;
-    const to = readEnv("SMTP_TO") || "swastikttpvtltd@gmail.com";
+    const user = readEnv("SMTP_USER", "ZOHO_SMTP_USER");
+    const pass = readEnv("SMTP_PASSWORD", "ZOHO_SMTP_PASSWORD");
+    const from = readEnv("SMTP_FROM", "ENQUIRY_TO_EMAIL", "ZOHO_FROM_EMAIL") || user;
+    const to = readEnv("SMTP_TO", "ENQUIRY_TO_EMAIL", "TRAVEL_ENQUIRY_TO") || "info@onlyroadtrip.com";
     const cc = readEnv("SMTP_CC", "ENQUIRY_CC_EMAIL", "TRAVEL_ENQUIRY_CC") || undefined;
 
     const missing: string[] = [];
-    if (!host) missing.push("SMTP_HOST");
-    if (!port) missing.push("SMTP_PORT");
-    if (!user) missing.push("SMTP_USER");
-    if (!pass) missing.push("SMTP_PASSWORD (Gmail App Password)");
-    if (!from) missing.push("SMTP_FROM");
+    if (!host) missing.push("SMTP_HOST / ZOHO_SMTP_HOST");
+    if (!port) missing.push("SMTP_PORT / ZOHO_SMTP_PORT");
+    if (!user) missing.push("SMTP_USER / ZOHO_SMTP_USER");
+    if (!pass) missing.push("SMTP_PASSWORD / ZOHO_SMTP_PASSWORD");
+    if (!from) missing.push("SMTP_FROM / ZOHO_FROM_EMAIL");
 
     if (missing.length > 0) {
       console.error("Travel enquiry email configuration missing:", missing);
-      return NextResponse.json(
-        {
-          error: "Email service is not configured yet.",
-          missing,
-        },
-        { status: 500 },
-      );
+      await recordNotification("FAILED", "Email configuration unavailable");
+      return NextResponse.json({ success: true, leadId, notificationPending: true });
     }
 
     const transporter = nodemailer.createTransport({
@@ -84,7 +130,8 @@ export async function POST(request: Request) {
       auth: { user, pass },
     });
 
-    await transporter.sendMail({
+    try {
+      await transporter.sendMail({
       from,
       to,
       cc,
@@ -133,11 +180,18 @@ export async function POST(request: Request) {
           </div>
         </div>
       `,
-    });
+      });
 
-    return NextResponse.json({ success: true });
+      await recordNotification("SENT", null);
+
+      return NextResponse.json({ success: true, leadId });
+    } catch (emailError) {
+      console.error("Travel enquiry email failed:", emailError);
+      await recordNotification("FAILED", "Email delivery failed");
+      return NextResponse.json({ success: true, leadId, notificationPending: true });
+    }
   } catch (error) {
-    console.error("Travel enquiry email failed:", error);
+    console.error("Travel enquiry processing failed:", error);
     return NextResponse.json(
       { error: "Unable to send the enquiry right now. Please try again or contact us directly." },
       { status: 500 },

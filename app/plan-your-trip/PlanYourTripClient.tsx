@@ -87,6 +87,7 @@ export default function PlanYourTripClient() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitMessage("");
 
@@ -110,7 +111,11 @@ export default function PlanYourTripClient() {
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Unable to send enquiry.");
+      if (!response.ok || data.success !== true || !data.leadId) throw new Error(data.error || "Unable to send enquiry.");
+
+      const analyticsWindow = window as typeof window & { dataLayer?: Record<string, unknown>[] };
+      analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
+      analyticsWindow.dataLayer.push({ event: "generate_lead", lead_id: data.leadId, form_id: "travel-enquiry" });
 
       setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
       setFullName("");
