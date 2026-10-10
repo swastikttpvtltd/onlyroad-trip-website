@@ -4013,139 +4013,134 @@
     "itinerary": [
       {
         "day": "Day 1",
-        "title": "Arrival Varanasi",
+        "title": "Varanasi",
         "morning": [
-          "Meet the driver at the confirmed arrival gateway / pickup point according to the confirmed arrival schedule and transfer to the booked accommodation; check-in follows hotel policy."
+          "Arrival in Varanasi and transfer to the hotel."
         ],
         "afternoon": [
-          "Visit Kashi Vishwanath Temple for darshan, subject to temple arrangements; explore the adjoining old-city and ghat area."
+          "Visit Kashi Vishwanath Temple and the ghats, depending on arrival time."
         ],
         "evening": [
-          "Ganga Aarti and dinner. The visit follows the site's opening, queue and access arrangements; special rituals or priority entry are not implied."
+          "Attend Ganga Aarti, followed by dinner and overnight stay in Varanasi."
         ],
         "attractions": [
-          "Visit Kashi Vishwanath Temple for darshan, subject to temple arrangements; explore the adjoining old-city and ghat area."
+          "Kashi Vishwanath Temple",
+          "Varanasi ghats",
+          "Ganga Aarti"
         ],
-        "notes": [
-          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included."
-        ],
+        "notes": [],
         "meals": "Dinner at the booked accommodation; breakfast on arrival is included only if stated in the confirmed booking. Lunch is not included.",
         "overnightStay": "Varanasi",
-        "description": "Arrival Varanasi. The day covers Visit Kashi Vishwanath Temple for darshan, subject to temple arrangements; explore the adjoining old-city and ghat area. Night halt: Varanasi.",
+        "description": "Varanasi",
         "optionalActivities": []
       },
       {
         "day": "Day 2",
         "title": "Varanasi – Ayodhya",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Visit the Kashi Vishwanath and ghat area according to temple arrangements and the onward transfer schedule; Varanasi boat-ride charges are included, subject to river conditions and local permissions; special puja is separately arranged."
+          "Breakfast and checkout in Varanasi; drive to Ayodhya."
         ],
         "afternoon": [
-          "Drive to Ayodhya. Follow the published route, with timings depending on traffic, weather and local access."
+          "Visit Ram Mandir in Ayodhya, subject to temple timings and queues."
         ],
         "evening": [
-          "Check-in and dinner. Room availability follows the accommodation's standard check-in policy."
+          "Check in at the Ayodhya hotel; dinner and overnight stay."
         ],
-        "attractions": [],
+        "attractions": [
+          "Ram Mandir, Ayodhya"
+        ],
         "notes": [],
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
         "overnightStay": "Ayodhya",
-        "description": "Varanasi – Ayodhya. Follow the transfer, local experience or leisure programme below. Night halt: Ayodhya.",
+        "description": "Varanasi – Ayodhya",
         "optionalActivities": []
       },
       {
         "day": "Day 3",
-        "title": "Ayodhya – Prayagraj",
+        "title": "Ayodhya – Prayagraj – Varanasi",
         "morning": [
-          "Ram Mandir and key Ayodhya darshan. Darshan follows the official temple queue and security arrangements; no special access is implied.",
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings."
+          "Breakfast and checkout in Ayodhya; leave early for Prayagraj."
         ],
         "afternoon": [
-          "Drive to Prayagraj. Follow the published route, with timings depending on traffic, weather and local access."
+          "Visit Triveni Sangam in Prayagraj. Boat-ride charges are included, subject to river conditions and local permissions.",
+          "Continue to Varanasi after sightseeing."
         ],
         "evening": [
-          "Spend time near the Triveni Sangam riverfront as arrival permits, then continue to the booked accommodation for dinner; Prayagraj boat-ride charges are included, subject to river conditions and local permissions."
+          "Check in at the Varanasi hotel; dinner and overnight stay."
         ],
         "attractions": [
-          "Ram Mandir and key Ayodhya darshan."
+          "Triveni Sangam, Prayagraj"
         ],
-        "notes": [
-          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included."
-        ],
+        "notes": [],
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Prayagraj",
-        "description": "Ayodhya – Prayagraj. The day covers Ram Mandir and key Ayodhya darshan. Night halt: Prayagraj.",
+        "overnightStay": "Varanasi",
+        "description": "Ayodhya – Prayagraj – Varanasi",
         "optionalActivities": []
       },
       {
         "day": "Day 4",
-        "title": "Prayagraj – Gaya",
+        "title": "Varanasi – Bodhgaya",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Triveni Sangam visit. Allow time to experience the river confluence area in Prayagraj; boat-ride charges are included, subject to river conditions and local permissions."
+          "Breakfast and checkout in Varanasi; drive to Bodhgaya."
         ],
         "afternoon": [
-          "Drive to Gaya. Follow the published route, with timings depending on traffic, weather and local access."
+          "Continue the road journey to Bodhgaya with comfort stops."
         ],
         "evening": [
-          "Check-in and dinner. Room availability follows the accommodation's standard check-in policy."
+          "Check in at the Bodhgaya hotel; dinner and overnight stay."
         ],
-        "attractions": [
-          "Triveni Sangam visit."
-        ],
+        "attractions": [],
         "notes": [],
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Gaya",
-        "description": "Prayagraj – Gaya. The day covers Triveni Sangam visit. Night halt: Gaya.",
+        "overnightStay": "Bodhgaya",
+        "description": "Varanasi – Bodhgaya",
         "optionalActivities": []
       },
       {
         "day": "Day 5",
-        "title": "Gaya & Bodh Gaya",
+        "title": "Bodhgaya – Gaya – Varanasi",
         "morning": [
-          "Vishnupad/Gaya pilgrimage visits. Allow time to experience the pilgrimage temple in Gaya; follow visitor access and any conditions stated above.",
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings."
+          "Breakfast and checkout in Bodhgaya. Visit Mahabodhi Temple and the Bodhi Tree area, subject to visitor timings."
         ],
         "afternoon": [
-          "Bodh Gaya and Mahabodhi Temple area. Allow time to experience the Buddhist temple complex in Bodh Gaya; follow visitor access and any conditions stated above."
+          "Proceed to Gaya and visit Vishnupad Temple, subject to visitor access and temple timings.",
+          "Drive back to Varanasi after sightseeing."
         ],
         "evening": [
-          "Return to the booked accommodation for dinner and overnight rest."
+          "Arrive at the Varanasi hotel; dinner and overnight stay."
         ],
         "attractions": [
-          "Vishnupad/Gaya pilgrimage visits.",
-          "Bodh Gaya and Mahabodhi Temple area."
+          "Mahabodhi Temple and Bodhi Tree, Bodhgaya",
+          "Vishnupad Temple, Gaya"
         ],
-        "notes": [
-          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included."
-        ],
+        "notes": [],
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Gaya / Bodh Gaya as booked",
-        "description": "Gaya & Bodh Gaya. The day covers Vishnupad/Gaya pilgrimage visits. Bodh Gaya and Mahabodhi Temple area. Night halt: Gaya / Bodh Gaya as booked.",
+        "overnightStay": "Varanasi",
+        "description": "Bodhgaya – Gaya – Varanasi",
         "optionalActivities": []
       },
       {
         "day": "Day 6",
-        "title": "Departure",
+        "title": "Varanasi – Departure",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings."
+          "Breakfast and checkout at the Varanasi hotel."
         ],
         "afternoon": [
-          "Transfer to the confirmed departure gateway / drop point at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation."
+          "Transfer to Varanasi Airport / Railway Station according to the confirmed departure time."
         ],
         "evening": [
-          "The booked tour concludes at the stated drop point; onward tickets and any additional services follow your separate arrangements."
+          "Tour concludes in Varanasi."
         ],
         "attractions": [],
         "notes": [],
         "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
         "overnightStay": "No overnight stay — tour concludes",
-        "description": "Departure. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "description": "Varanasi – Departure",
         "optionalActivities": []
       }
     ]
   },
+
   "varanasi-ayodhya-prayagraj-gaya-bodh-gaya-deoghar": {
     "sources": [
       "https://www.incredibleindia.gov.in/en/uttar-pradesh",
