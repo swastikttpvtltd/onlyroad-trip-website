@@ -27,11 +27,9 @@ jobs:
         run: node scripts/check-travel-tools.mjs
       - name: Scope, performance payload and enquiry validation
         run: node scripts/check-search-completion.cjs
-      - name: TypeScript check
-        run: npx tsc --noEmit --incremental false
       - name: Visible slider behavior and cleanup
         run: node scripts/check-visible-autoscroll.cjs
-      - name: Confirm TypeScript after behavior checks
+      - name: TypeScript check
         run: npx tsc --noEmit --incremental false
       - name: Production Next.js build
         run: npm run build
