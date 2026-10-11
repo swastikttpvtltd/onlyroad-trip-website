@@ -1,11 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
+import { ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
 import type { PackageCardSummary } from "@/lib/packageCardSummary";
-import { startVisibleAutoscroll } from "@/lib/visibleAutoscroll";
+import ThemeSliderControls from "./ThemeSliderControls";
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
 const sections = [
@@ -21,27 +18,6 @@ const sections = [
 type Tour = PackageCardSummary;
 
 function PackageSlider({ title, description, href, trips, index }: { title: string; description: string; href: string; trips: Tour[]; index: number }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
-
-  function move(direction: number) {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-theme-card]");
-    if (!card) return;
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 20;
-    const visibleCards = Math.max(1, Math.round((track.clientWidth + gap) / (card.offsetWidth + gap)));
-    const amount = (card.offsetWidth + gap) * visibleCards;
-    const end = track.scrollWidth - track.clientWidth;
-    const next = track.scrollLeft + direction * amount;
-    track.scrollTo({ left: next > end + 2 ? 0 : next < -2 ? end : Math.max(0, Math.min(end, next)), behavior: "smooth" });
-  }
-
-  useEffect(() => {
-    if (paused || trips.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    return startVisibleAutoscroll(trackRef.current, () => move(1), 5000 + index * 350);
-  }, [paused, trips.length, index]);
-
   if (!trips.length) return null;
 
   return <section className={index % 2 ? "bg-slate-50 py-10 md:py-12" : "bg-white py-10 md:py-12"} aria-label={`${title} packages`}>
@@ -50,9 +26,7 @@ function PackageSlider({ title, description, href, trips, index }: { title: stri
         <div><span className="inline-flex rounded-full bg-blue-100 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-blue-800">Explore India</span><h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">{title}</h2><p className="mt-2 text-sm text-slate-600 md:text-base">{description}</p></div>
         <Link href={href} className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-800 hover:border-blue-600 hover:text-blue-800">View All <ArrowRight size={16} /></Link>
       </div>
-      <div className="relative md:px-12" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocusCapture={() => setPaused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}>
-        {trips.length > 1 && <><button type="button" aria-label={`Previous ${title} packages`} onClick={() => move(-1)} className="absolute left-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-800 shadow-lg transition hover:border-blue-700 hover:text-blue-800 md:flex"><ArrowLeft size={27} /></button><button type="button" aria-label={`Next ${title} packages`} onClick={() => move(1)} className="absolute right-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blue-800 text-white shadow-lg transition hover:bg-blue-900 md:flex"><ArrowRight size={27} /></button></>}
-        <div ref={trackRef} className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <ThemeSliderControls title={title} count={trips.length} index={index}>
           {trips.map((pkg) => <article key={pkg.slug} data-theme-card className="group min-w-0 flex-[0_0_86%] snap-start overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_7px_25px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.13)] sm:flex-[0_0_calc((100%-20px)/2)] lg:flex-[0_0_calc((100%-40px)/3)]">
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
               <Image src={pkg.image} alt={pkg.title} fill sizes="(max-width: 640px) 86vw, (max-width: 1024px) 48vw, 33vw" loading="lazy" className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
@@ -70,9 +44,7 @@ function PackageSlider({ title, description, href, trips, index }: { title: stri
               </div>
             </div>
           </article>)}
-        </div>
-        {trips.length > 1 && <div className="mt-4 flex justify-between md:hidden"><button type="button" onClick={() => move(-1)} aria-label={`Previous ${title} packages`} className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white shadow"><ArrowLeft size={21} /></button><button type="button" onClick={() => move(1)} aria-label={`Next ${title} packages`} className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white shadow"><ArrowRight size={21} /></button></div>}
-      </div>
+      </ThemeSliderControls>
     </div>
   </section>;
 }
