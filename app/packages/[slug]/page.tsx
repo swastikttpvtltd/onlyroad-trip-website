@@ -13,8 +13,10 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { packages } from "@/data/packages";
 import { packageMedia } from "@/data/packageMedia";
+import { absoluteImageUrl, packageDescription, packageSearchIntents, serializeJsonLd } from "@/lib/siteSeo";
+import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
-type PackageItem = any;
+type PackageItem = (typeof packages)[number];
 type PageProps = { params: Promise<{ slug: string }> };
 type StateDetails = { name: string; famousFor: string };
 
@@ -77,21 +79,6 @@ function cleanText(value: unknown): string {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
-function metadataDescription(pkg: PackageItem, state: StateDetails): string {
-  const overview = cleanText(pkg?.overview);
-  const destination = cleanText(pkg?.destination);
-  const duration = cleanText(pkg?.duration);
-  const title = cleanText(pkg?.title);
-
-  const source = overview || `Explore ${title || "this journey"} with Only Road Trip across ${destination || state.name}.`;
-  const suffix = `${duration ? ` ${duration}.` : ""} Thoughtfully planned travel across India with Only Road Trip.`;
-  const combined = `${source}${suffix}`;
-
-  if (combined.length <= 160) return combined;
-  const shortened = combined.slice(0, 157).replace(/\s+\S*$/, "").trim();
-  return `${shortened}...`;
-}
-
 function travelPlanningNotes(state: StateDetails) {
   return [
     `Check the published duration, Best Time, difficulty and group-size information before choosing dates for this ${state.name} journey.`,
@@ -151,7 +138,7 @@ function packageStructuredData(
   const image = heroImage(pkg);
 
   const itineraryItems = Array.isArray(pkg.itinerary)
-    ? pkg.itinerary.map((item: any, index: number) => ({
+    ? pkg.itinerary.map((item, index: number) => ({
         "@type": "ListItem",
         position: index + 1,
         name:
@@ -176,15 +163,8 @@ function packageStructuredData(
     name: cleanText(pkg.title),
     description: cleanText(pkg.overview),
     url: canonicalUrl,
-    image: `${baseUrl}${image.startsWith("/") ? image : `/${image}`}`,
-    touristType: [
-      "Pilgrimage",
-      "Domestic Travel",
-      "India Travel",
-      "Senior Citizens",
-      "Family",
-      "Solo Travelers",
-    ],
+    image: absoluteImageUrl(image),
+    touristType: cleanText(pkg.category) ? [cleanText(pkg.category)] : undefined,
     provider: {
       "@type": "TravelAgency",
       "@id": `${baseUrl}/#organization`,
@@ -205,7 +185,7 @@ function packageStructuredData(
     },
   };
 
-  if (pkg.price) {
+  if (pkg.price && !isGroupTourBookingPaused(normalizedSlug)) {
     const numericPrice = String(pkg.price).replace(/[^0-9.]/g, "");
 
     if (numericPrice) {
@@ -213,7 +193,6 @@ function packageStructuredData(
         "@type": "Offer",
         priceCurrency: "INR",
         price: numericPrice,
-        availability: "https://schema.org/InStock",
         url: canonicalUrl,
       };
     }
@@ -222,7 +201,13 @@ function packageStructuredData(
   return schema;
 }
 
-export const dynamic = "force-dynamic";
+// Catalogue details change through deployments. Build these public pages once
+// rather than rendering the same itinerary for every request on the Worker.
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return packages.map((pkg) => ({ slug: normalizeSlug(pkg.slug) }));
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -237,19 +222,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const title = cleanText(pkg.title) || "India Tour Package";
-  const state = getStateDetails(cleanText(pkg.state));
-  const description = metadataDescription(pkg, state);
+  const description = packageDescription(pkg);
   const canonicalPath = `/packages/${encodeURIComponent(normalizedSlug)}`;
   const canonicalUrl = `${baseUrl}${canonicalPath}`;
   const image = heroImage(pkg);
-  const seoKeywords: string[] = Array.isArray(pkg.seoKeywords)
-    ? pkg.seoKeywords.map((value: unknown) => cleanText(value)).filter(Boolean)
-    : [title, cleanText(pkg.destination), cleanText(pkg.state)].filter(Boolean);
-
   return {
     title,
     description,
-    keywords: seoKeywords.length ? seoKeywords : undefined,
+    keywords: packageSearchIntents(pkg),
     alternates: {
       canonical: canonicalPath,
     },
@@ -298,8 +278,6 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const state = getStateDetails(cleanText(pkg.state));
   const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
-  const rating = numberField(pkg, "rating");
-  const reviews = numberField(pkg, "reviews");
   const faqs = buildPackageFaqs(pkg);
   const planningNotes = travelPlanningNotes(state);
   const relatedLinks = relatedTravelLinks(pkg);
@@ -321,8 +299,8 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
   return (
     <main className="bg-slate-50 text-slate-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqStructuredData) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredData) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqStructuredData) }} />
       <section className="relative h-[430px] overflow-hidden"><Image src={heroImage(pkg)} alt={pkg.title} fill priority sizes="100vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" /><div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="flex h-full items-end pb-10 sm:pb-12"><div className="max-w-4xl text-white"><div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div><p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p></div></div></div></section>
       <div className="sticky top-0 z-30 border-b bg-white shadow-sm"><div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto px-5 py-4 text-sm font-bold md:px-8">{[['overview', 'Overview'], ['gallery', 'Gallery'], ['itinerary', 'Itinerary'], ['inclusions', 'Inclusions'], ['hotels', 'Stay & Meals'], ...(isGroupTerms ? [['group-tour-terms', 'Terms & Conditions']] : []), ['faqs', 'FAQ']].map(([id, label]) => <a key={id} href={`#${id}`} className="whitespace-nowrap hover:text-orange-600">{label}</a>)}</div></div>
       <section className="mx-auto grid max-w-7xl gap-7 px-5 py-8 md:px-8 lg:grid-cols-[1fr_350px]"><div className="space-y-7">
@@ -332,12 +310,12 @@ export default async function PackageDetailsPage({ params }: PageProps) {
         <ContentCard id="itinerary" title="Day-wise Itinerary"><ItineraryAccordion isGroupTerms={isGroupTerms} itinerary={Array.isArray(pkg.itinerary) ? pkg.itinerary : []} destination={String(pkg.destination ?? "")} category={String(pkg.category ?? "Tour")} vibeHook={pkg.vibeHook} packageTitle={String(pkg.title ?? "")} packageId={String(pkg.packageId ?? "")} duration={String(pkg.duration ?? "")} overview={String(pkg.overview ?? "")} highlights={Array.isArray(pkg.highlights) ? pkg.highlights : []} inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} groupRates={pkg.groupRates} sharingRates={Array.isArray(pkg.groupRates?.sharingRates) ? pkg.groupRates.sharingRates : []} bestTime={String(pkg.bestTime ?? "")} hotels={Array.isArray(pkg.hotels) ? pkg.hotels : []} meals={Array.isArray(pkg.meals) ? pkg.meals : []} /></ContentCard>
         {isSpiritualTriangle ? <ContentCard id="recommended-stays" title="Recommended 3★ Night Stays"><p className="mb-5 text-sm leading-6 text-slate-600">Recommended stay options are shown for the overnight destinations in this itinerary. Final hotel allocation remains subject to availability and confirmation.</p><div className="grid gap-6 md:grid-cols-2"><HotelCard {...recommendedHotels.varanasi} /><HotelCard {...recommendedHotels.prayagraj} /><HotelCard {...recommendedHotels.ayodhya} /></div></ContentCard> : null}
         <ContentCard id="inclusions" title="Tour Inclusions & Exclusions"><InclusionsExclusions inclusions={Array.isArray(pkg.inclusions) ? pkg.inclusions : []} exclusions={Array.isArray(pkg.exclusions) ? pkg.exclusions : []} /></ContentCard>
-        <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel: any) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
+        <ContentCard id="hotels" title="Stay & Meals"><div className="grid gap-6 md:grid-cols-2"><InfoColumn title="Hotels">{Array.isArray(pkg.hotels) && pkg.hotels.length ? pkg.hotels.map((hotel) => <div key={hotel.name} className="rounded-xl bg-slate-50 p-4"><p className="font-bold">{hotel.name}</p></div>) : <p className="text-sm text-slate-500">Accommodation details will be confirmed before booking.</p>}</InfoColumn><InfoColumn title="Meals">{Array.isArray(pkg.meals) && pkg.meals.length ? pkg.meals.map((meal: string) => <div key={meal} className="rounded-xl bg-slate-50 p-4 text-sm text-slate-700">{meal}</div>) : <p className="text-sm text-slate-500">Meal plan is as per the selected package.</p>}</InfoColumn></div></ContentCard>
         {isGroupTerms ? <GroupTourTerms /> : null}
         <ContentCard id="faqs" title="Frequently Asked Questions"><div className="space-y-3">{faqs.map((faq) => <details key={faq.question} className="rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-slate-900">{faq.question}</summary><p className="mt-3 leading-7 text-slate-600">{faq.answer}</p></details>)}</div></ContentCard>
         <ContentCard title="Travel Planning Notes"><div className="space-y-3">{planningNotes.map((note) => <div key={note} className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">{note}</div>)}</div></ContentCard>
         {relatedLinks.length > 0 ? <ContentCard title="Explore Related Travel"><div className="flex flex-wrap gap-x-5 gap-y-3 text-sm font-semibold"><span className="text-slate-500">Related journeys:</span>{relatedLinks.map((link) => <Link key={link.href} href={link.href} className="text-blue-800 hover:text-orange-600 hover:underline">{link.label}</Link>)}</div></ContentCard> : null}
-      </div><aside className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
+      </div><aside id="booking" className="lg:sticky lg:top-24 lg:h-fit"><BookingSummaryCard pkg={pkg} price={price} /></aside></section>
     </main>
   );
 }

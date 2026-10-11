@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
-export const metadata: Metadata = { title: "Traveller Terms & Conditions | Only Road Trip", description: "Group tour booking terms, traveller conduct, women and solo traveller safety, payments and support.", alternates: { canonical: "https://onlyroadtrip.com/traveller-terms-and-conditions" } };
+export const metadata: Metadata = { title: "Traveller Terms & Conditions", description: "Group tour booking terms, traveller conduct, women and solo traveller safety, payments and support.", alternates: { canonical: "https://www.onlyroadtrip.com/traveller-terms-and-conditions" } };
 
 export default function TravellerTermsPage() {
   return (

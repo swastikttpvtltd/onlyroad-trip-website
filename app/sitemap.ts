@@ -1,136 +1,16 @@
 import type { MetadataRoute } from "next";
 import packages from "@/data/packages";
 import { seoPages } from "@/data/seo-pages";
-
-const baseUrl = "https://www.onlyroadtrip.com";
-
-export const revalidate = 3600;
-
-const staticPages = [
-  "",
-  "about",
-  "contact",
-  "destinations",
-  "packages",
-  "corporate-travel",
-  "door-to-door-travel",
-  "corporate-mice-travel",
-  "solo-women-travel-packages",
-  "char-dham-yatra-package",
-  "kedarnath-yatra-package",
-  "kashi-yatra-package",
-  "ayodhya-yatra-package",
-  "jyotirlinga-yatra",
-  "plan-your-trip",
-  "booking-policy",
-  "cancellation-policy",
-  "refund-policy",
-  "privacy-policy",
-  "cookie-policy",
-  "disclaimer",
-  "terms-and-conditions",
-] as const;
-
-const destinationSlugs = [
-  "andaman-nicobar",
-  "andhra-pradesh",
-  "assam",
-  "goa",
-  "gujarat",
-  "himachal-pradesh",
-  "jammu-kashmir",
-  "karnataka",
-  "kedarnath",
-  "kerala",
-  "ladakh",
-  "lakshadweep",
-  "maharashtra",
-  "madhya-pradesh",
-  "meghalaya",
-  "odisha",
-  "punjab",
-  "rajasthan",
-  "sikkim",
-  "tamil-nadu",
-  "uttar-pradesh",
-  "uttarakhand",
-  "west-bengal",
-];
-
-const legalPages = new Set([
-  "privacy-policy",
-  "cookie-policy",
-  "disclaimer",
-  "terms-and-conditions",
-]);
-
-function normalizeSlug(value: unknown): string {
-  return String(value ?? "").trim().toLowerCase();
-}
-
-function makePage(
-  path: string,
-  priority: number,
-  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "weekly",
-): MetadataRoute.Sitemap[number] {
-  const normalizedPath = path
-    .split("/")
-    .map((segment) => normalizeSlug(segment))
-    .filter(Boolean)
-    .join("/");
-
-  return {
-    url: normalizedPath ? `${baseUrl}/${normalizedPath}` : `${baseUrl}/`,
-    lastModified: new Date(),
-    changeFrequency,
-    priority,
-  };
-}
+import { publicSeoPaths } from "@/data/publicSeoPaths";
+import { siteUrl } from "@/lib/siteSeo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticEntries = staticPages.map((path) => {
-    if (path === "") return makePage(path, 1, "weekly");
-    if (legalPages.has(path)) return makePage(path, 0.2, "yearly");
-    if (path === "packages") return makePage(path, 0.9, "daily");
-    if (path === "corporate-travel") return makePage(path, 0.9, "weekly");
-    if (
-      [
-        "char-dham-yatra-package",
-        "kedarnath-yatra-package",
-        "kashi-yatra-package",
-        "ayodhya-yatra-package",
-      ].includes(path)
-    ) {
-      return makePage(path, 0.95, "weekly");
-    }
-    return makePage(path, 0.8, "weekly");
-  });
-
-  const destinationEntries = destinationSlugs
-    .map((slug) => normalizeSlug(slug))
-    .filter(Boolean)
-    .map((slug) => makePage(`destinations/${slug}`, 0.85, "weekly"));
-
-  const packageEntries = packages
-    .map((pkg) => normalizeSlug(pkg?.slug))
-    .filter(Boolean)
-    .map((slug) => makePage(`packages/${slug}`, 0.9, "weekly"));
-
-  const seoEntries = Object.keys(seoPages)
-    .map((slug) => normalizeSlug(slug))
-    .filter(Boolean)
-    .map((slug) => makePage(slug, 0.9, "weekly"));
-
-  // Keep every public URL only once.
-  const unique = new Map<string, MetadataRoute.Sitemap[number]>();
-  for (const entry of [
-    ...staticEntries,
-    ...destinationEntries,
-    ...packageEntries,
-    ...seoEntries,
-  ]) {
-    if (!unique.has(entry.url)) unique.set(entry.url, entry);
-  }
-
-  return Array.from(unique.values());
+  const paths = new Set<string>([
+    ...publicSeoPaths,
+    ...Object.keys(seoPages),
+    ...packages.map(pkg => "packages/" + pkg.slug),
+  ]);
+  // Omit lastModified until real per-page modification dates are available.
+  // A request timestamp must not claim that every page's content just changed.
+  return [...paths].sort().map(path => ({ url: path ? siteUrl + "/" + path : siteUrl + "/" }));
 }
