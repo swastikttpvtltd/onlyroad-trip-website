@@ -1,9 +1,9 @@
 import type { NextConfig } from "next";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 
 // Required so `next dev` initializes the OpenNext Cloudflare dev runtime.
 // This prevents getCloudflareContext() errors during local development.
-initOpenNextCloudflareForDev();
 
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
@@ -19,10 +19,8 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   poweredByHeader: false,
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   async headers() {
     return [
       {
@@ -39,4 +37,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default async function configuration(phase: string): Promise<NextConfig> {
+  if (phase === PHASE_DEVELOPMENT_SERVER && process.env.ONLYROADTRIP_PREVIEW_NO_BINDINGS !== "1") {
+    await initOpenNextCloudflareForDev();
+  }
+  return nextConfig;
+}

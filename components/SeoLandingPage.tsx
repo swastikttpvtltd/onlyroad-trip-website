@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/siteSeo";
 
 export type SeoFaq = {
   question: string;
@@ -32,8 +33,7 @@ const baseUrl = "https://www.onlyroadtrip.com";
 export function buildSeoMetadata(config: SeoPageConfig): Metadata {
   const url = `${baseUrl}/${config.slug}`;
   return {
-    title: config.title,
-    description: config.description ?? config.intro,
+    ...pageMetadata(config.title, config.description ?? config.intro, `/${config.slug}`),
     keywords: config.keywords,
     alternates: { canonical: url },
     openGraph: {

@@ -1,16 +1,16 @@
 import HeroSearch from "./HeroSearch";
 
 const heroImages = [
-  "/images/hero/hero.png",
-  "/images/hero/hero-2.png",
-  "/images/hero/hero-3.png",
-  "/images/hero/hero-4.png",
-  "/images/hero/hero-5.png",
-  "/images/hero/hero-6.png",
-  "/images/hero/hero-7.png",
-  "/images/hero/hero-8.png",
-  "/images/hero/hero-9.png",
-  "/images/hero/hero-10.png",
+  "/images/hero/hero.webp",
+  "/images/hero/hero-2.webp",
+  "/images/hero/hero-3.webp",
+  "/images/hero/hero-4.webp",
+  "/images/hero/hero-5.webp",
+  "/images/hero/hero-6.webp",
+  "/images/hero/hero-7.webp",
+  "/images/hero/hero-8.webp",
+  "/images/hero/hero-9.webp",
+  "/images/hero/hero-10.webp",
 ];
 
 export default function Hero() {

@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import DoorToDoorClient from "./DoorToDoorClient";
 
 const pageUrl = "https://www.onlyroadtrip.com/door-to-door-travel";
-const pageTitle = "Door-to-Door Travel Planning in India";
+const pageTitle = "Door-to-Door Travel Across India | Home Pickup Planning";
 const pageDescription =
-  "Personalised door-to-door travel planning in India with coordinated pickups, transfers, stays and trip support for families, senior travellers, women and visitors.";
+  "Plan personalised door-to-door travel across India with home pickup coordination, transfers, stays and trip support. Confirm inclusions in your written quotation.";
 const socialImage = "https://www.onlyroadtrip.com/images/door-to-door-travel-social.png";
 
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
+  keywords: ["door-to-door travel across India", "India home pickup travel planning", "senior traveller door-to-door India journeys", "NRI India holiday transfer planning", "family holidays with coordinated India transfers"],
   alternates: { canonical: pageUrl },
   openGraph: {
     type: "website",

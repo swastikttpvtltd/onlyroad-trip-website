@@ -93,15 +93,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DestinationsPage({
+export default async function DestinationsPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const destination = searchParams.destination ?? "";
-  const category = searchParams.category ?? "";
-  const state = searchParams.state ?? "";
-  const sort = searchParams.sort ?? "";
+  const query = await searchParams;
+  const destination = query.destination ?? "";
+  const category = query.category ?? "";
+  const state = query.state ?? "";
+  const sort = query.sort ?? "";
 
   const completePackages = packages.filter(isCompletePackage) as Package[];
   let filteredPackages: Package[] = completePackages;

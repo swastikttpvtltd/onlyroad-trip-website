@@ -49,7 +49,7 @@ const themeOptions = [["spiritual", "Spiritual & Pilgrimage"], ["family", "Famil
 const durationOptions = [["1-3", "1–3 Days"], ["4-6", "4–6 Days"], ["7+", "7+ Days"]];
 function durationMatches(duration: string, filter: string) { const numbers = duration.match(/\d+/g)?.map(Number) ?? []; const days = numbers.length ? Math.max(...numbers) + (duration.toLowerCase().includes("night") ? 1 : 0) : 0; if (filter === "1-3") return days > 0 && days <= 3; if (filter === "4-6") return days >= 4 && days <= 6; return days >= 7; }
 
-export default async function PackagesPage({ searchParams }: { searchParams: Promise<SearchParams> | SearchParams }) {
+export default async function PackagesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const sp = await Promise.resolve(searchParams); const query = sp?.q?.trim().toLowerCase() ?? ""; const activeCategory = sp?.category; const activeState = sp?.state; const activeTheme = sp?.theme; const sort = sp?.sort; const minPrice = Number(sp?.minPrice || 0); const maxPrice = Number(sp?.maxPrice || 0); const duration = sp?.duration;
   let filteredPackages = packageList;
   if (query) filteredPackages = filteredPackages.filter((p) => p.rawSearch.includes(query));

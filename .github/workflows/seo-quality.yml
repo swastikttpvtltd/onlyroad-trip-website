@@ -1,0 +1,28 @@
+name: SEO and production preview checks
+on:
+  pull_request:
+    branches: [feature/hotel-cards-preview, main]
+  push:
+    branches: [preview/door-to-door-seo-20261011]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Generate optimized hero assets
+        run: node scripts/generate-hero-images.mjs
+      - name: SEO, metadata and structured-data checks
+        run: node scripts/check-seo.cjs
+      - name: Existing pricing checks
+        run: node scripts/check-group-rate-matrix.cjs
+      - name: TypeScript check
+        run: npx tsc --noEmit --incremental false
+      - name: Production Next.js build
+        run: npm run build
+      - name: Cloudflare adapter build
+        run: npx opennextjs-cloudflare build --skipNextBuild

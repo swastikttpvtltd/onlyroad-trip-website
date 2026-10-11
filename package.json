@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
+    "predev": "node scripts/generate-hero-images.mjs && node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
     "dev": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs && next dev",
-    "prebuild": "node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
+    "prebuild": "node scripts/generate-hero-images.mjs && node scripts/generate-package-thumbnails.mjs && node scripts/generate-package-media.mjs",
     "build": "next build",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",

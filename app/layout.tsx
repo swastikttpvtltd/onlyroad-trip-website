@@ -4,6 +4,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { serializeJsonLd } from "@/lib/siteSeo";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -19,14 +20,13 @@ export const metadata: Metadata = {
     template: "%s | Only Road Trip",
   },
   description:
-    "Explore India with Only Road Trip through thoughtfully curated pilgrimage tours, domestic holidays, road trips, corporate travel, family vacations and customized travel packages.",
+    "Plan India tours, pilgrimage journeys and holidays with Only Road Trip. Ask about personalised door-to-door travel planning and pickup coordination across India.",
   authors: [{ name: "Swastik Tour And Travels Private Limited" }],
   creator: "Only Road Trip",
   publisher: "Swastik Tour And Travels Private Limited",
   applicationName: "Only Road Trip",
   category: "Travel",
   formatDetection: { email: false, address: false, telephone: false },
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_IN",
@@ -95,7 +95,7 @@ const ultraPremiumSchema = {
         "propertyID": "CIN",
         "value": "U52291HR2025PTC132225"
       },
-      "description": "Only Road Trip is a premium travel brand operated by Swastik Tour And Travels Private Limited, providing domestic travel, pilgrimage tours, customized journeys, road trips, corporate travel and MICE services across India.",
+      "description": "Only Road Trip is a travel brand operated by Swastik Tour And Travels Private Limited, providing India tours, pilgrimage journeys, corporate travel and personalised door-to-door travel planning across India.",
       "brand": {
         "@type": "Brand",
         "name": "Only Road Trip"
@@ -151,7 +151,8 @@ const ultraPremiumSchema = {
         "Accessible and Inclusive Travel",
         "Corporate Travel Management",
         "MICE Travel",
-        "Customized Travel Planning"
+        "Customized Travel Planning",
+        "Door-to-Door Travel Planning Across India"
       ],
       "areaServed": {
         "@type": "Country",
@@ -253,7 +254,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(ultraPremiumSchema)
+            __html: serializeJsonLd(ultraPremiumSchema)
           }}
         />
       </head>
