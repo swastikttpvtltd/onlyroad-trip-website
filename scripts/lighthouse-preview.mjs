@@ -15,7 +15,19 @@ try {
   for(const [name,route] of pages) {
     const output='lighthouse-results/'+name+'.json';
     const blocked=['*googletagmanager.com*','*google-analytics.com*','*clarity.ms*','*facebook.net*','*facebook.com*','*doubleclick.net*','*bing.com*'];
-    const result=spawnSync('npx',['--yes','--package=lighthouse','lighthouse','http://127.0.0.1:3020'+route,'--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage','--only-categories=performance,accessibility,best-practices,seo',...blocked.map(pattern=>'--blocked-url-patterns='+pattern),'--no-enable-error-reporting','--output=json','--output-path='+output,'--quiet'],{stdio:'inherit',timeout:120000});
+    let result;
+    for (let attempt=0;attempt<2;attempt++) {
+      fs.rmSync(output,{force:true});
+      result=spawnSync('npx',['--yes','--package=lighthouse','lighthouse','http://127.0.0.1:3020'+route,'--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage','--only-categories=performance,accessibility,best-practices,seo',...blocked.map(pattern=>'--blocked-url-patterns='+pattern),'--no-enable-error-reporting','--output=json','--output-path='+output,'--quiet'],{encoding:'utf8',timeout:120000});
+      if(result.stdout) process.stdout.write(result.stdout);
+      if(result.stderr) process.stderr.write(result.stderr);
+      const runtimeCode=fs.existsSync(output)?JSON.parse(fs.readFileSync(output,'utf8')).runtimeError?.code:undefined;
+      if(result.status!==0 && attempt===0 && (runtimeCode==='NO_NAVSTART' || /\(NO_NAVSTART\)/.test(result.stderr??''))) {
+        console.warn('Retrying '+name+' once after Chrome trace recording failure; no score-based retry.');
+        continue;
+      }
+      break;
+    }
     if(result.status!==0) throw new Error('Lighthouse failed for '+name);
     const report=JSON.parse(fs.readFileSync(output,'utf8'));
     if(report.runtimeError) throw new Error(report.runtimeError.message);

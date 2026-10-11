@@ -1,5 +1,6 @@
 import { buildPackageFaqs } from "@/data/packageCustomerCopy";
 import GroupTourTerms from "@/components/package/GroupTourTerms";
+import { travellerTermsUrl, travellerSafetyFaqs } from "@/lib/travellerTermsSeo";
 import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
 import BookingSummaryCard from "@/components/package/BookingSummaryCard";
@@ -277,6 +278,8 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const gallery = galleryImages(pkg);
   const price = numberField(pkg, "price");
   const faqs = buildPackageFaqs(pkg);
+  const promoteTravellerTerms = isGroupTerms && !isExcludedSeoPath(normalizedSlug);
+  if (promoteTravellerTerms) faqs.push(...travellerSafetyFaqs);
   const planningNotes = travelPlanningNotes(state);
   const relatedLinks = relatedTravelLinks(pkg);
   const isSpiritualTriangle = /kashi|varanasi/i.test(cleanText(pkg.title)) && /ayodhya|prayagraj|allahabad/i.test(cleanText(pkg.destination));
@@ -294,6 +297,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
     isPartOf: { "@id": `${baseUrl}/#website` },
     publisher: { "@id": `${baseUrl}/#organization` },
     mainEntity: { "@id": `${canonicalUrl}#tourist-trip` },
+    ...(promoteTravellerTerms ? { relatedLink: travellerTermsUrl, mentions: { "@id": `${travellerTermsUrl}#webpage` } } : {}),
     primaryImageOfPage: {
       "@type": "ImageObject",
       url: absoluteImageUrl(heroImage(pkg)),

@@ -64,11 +64,13 @@ async function checkRenderedPackages(){
     assert.equal(metadata.alternates.canonical,'/packages/'+pkg.slug);
     const element=await page.default(props);
     let headings=0, bookingAnchor=false, trip=null, webpage=null, faqPage=null;
+    const visibleFaqs=[];
     function walk(node){
       if(Array.isArray(node)){node.forEach(walk);return;}
       if(!node||typeof node!=='object'||!node.props)return;
       if(node.type==='h1')headings++;
       if(node.props.id==='booking')bookingAnchor=true;
+      if(node.type==='details' && Array.isArray(node.props.children) && node.props.children[0]?.type==='summary' && node.props.children[1]?.type==='p') visibleFaqs.push({question:node.props.children[0].props.children,answer:node.props.children[1].props.children});
       if(node.type==='script'&&node.props.type==='application/ld+json'){
         const value=JSON.parse(node.props.dangerouslySetInnerHTML.__html);
         if(value['@type']==='TouristTrip')trip=value;
@@ -92,7 +94,13 @@ async function checkRenderedPackages(){
     assert.ok(webpage.hasPart.some(part=>part['@id']==='https://www.onlyroadtrip.com/#header'));
     assert.ok(webpage.hasPart.some(part=>part['@id']==='https://www.onlyroadtrip.com/#footer'));
     const {buildPackageFaqs}=require(path.join(root,'data/packageCustomerCopy.ts'));
-    assert.deepEqual(faqPage.mainEntity.map(question=>({question:question.name,answer:question.acceptedAnswer.text})),buildPackageFaqs(pkg));
+    const {travellerSafetyFaqs,travellerTermsUrl}=require(path.join(root,'lib/travellerTermsSeo.ts'));
+    const {isExcludedSeoPath}=require(path.join(root,'lib/seoWorkScope.ts'));
+    const groupTerms=pkg.themes?.some(theme=>theme.toLowerCase()==='group tour') || pkg.category?.toLowerCase()==='weekend';
+    const expectedFaqs=[...buildPackageFaqs(pkg),...(groupTerms&&!isExcludedSeoPath(pkg.slug)?travellerSafetyFaqs:[])];
+    assert.deepEqual(visibleFaqs,expectedFaqs,pkg.slug+' visible FAQs and scoped safety facts');
+    assert.deepEqual(faqPage.mainEntity.map(question=>({question:question.name,answer:question.acceptedAnswer.text})),visibleFaqs,pkg.slug+' schema matches visible answers');
+    assert.equal(webpage.relatedLink,groupTerms&&!isExcludedSeoPath(pkg.slug)?travellerTermsUrl:undefined,pkg.slug+' group terms link scope');
     assert.deepEqual(trip.touristType,pkg.category?[pkg.category]:undefined);
     assert.equal(trip.offers?.availability,undefined,'unconfirmed inventory');
     if(isGroupTourBookingPaused(pkg.slug))assert.equal(trip.offers,undefined,'paused offer');
