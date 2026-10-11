@@ -4,7 +4,7 @@ import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#071325] text-white">
+    <footer itemScope itemType="https://schema.org/WPFooter" itemID="https://www.onlyroadtrip.com/#footer" className="relative overflow-hidden border-t border-white/10 bg-[#071325] text-white">
       <div className="absolute inset-0">
         <div className="absolute -top-40 -left-32 h-80 w-80 rounded-full bg-cyan-500/10 blur-[140px]" />
         <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-blue-500/10 blur-[160px]" />

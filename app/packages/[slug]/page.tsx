@@ -280,9 +280,34 @@ export default async function PackageDetailsPage({ params }: PageProps) {
   const isSpiritualTriangle = /kashi|varanasi/i.test(cleanText(pkg.title)) && /ayodhya|prayagraj|allahabad/i.test(cleanText(pkg.destination));
 
   const structuredData = packageStructuredData(pkg, state, normalizedSlug);
+  const canonicalUrl = `${baseUrl}/packages/${encodeURIComponent(normalizedSlug)}`;
+  const webpageStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: cleanText(pkg.title),
+    description: cleanText(pkg.overview),
+    inLanguage: "en-IN",
+    isPartOf: { "@id": `${baseUrl}/#website` },
+    publisher: { "@id": `${baseUrl}/#organization` },
+    mainEntity: { "@id": `${canonicalUrl}#tourist-trip` },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: absoluteImageUrl(heroImage(pkg)),
+      caption: cleanText(pkg.title),
+    },
+    hasPart: [
+      { "@id": `${baseUrl}/#header` },
+      { "@id": `${baseUrl}/#footer` },
+      { "@id": `${canonicalUrl}#faqs` },
+    ],
+  };
   const faqStructuredData = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "@id": `${canonicalUrl}#faqs`,
+    isPartOf: { "@id": `${canonicalUrl}#webpage` },
     mainEntity: faqs.map((faq) => ({
       "@type": "Question",
       name: faq.question,
@@ -295,6 +320,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
   return (
     <main className="bg-slate-50 text-slate-900">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(webpageStructuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredData) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqStructuredData) }} />
       <section className="relative h-[430px] overflow-hidden"><Image src={heroImage(pkg)} alt={pkg.title} fill priority sizes="100vw" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/20" /><div className="absolute inset-0 mx-auto max-w-7xl px-5 md:px-8"><div className="flex h-full items-end pb-10 sm:pb-12"><div className="max-w-4xl text-white"><div className="mb-3 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-wide"><span className="rounded bg-orange-500 px-3 py-1.5">{pkg.category}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">{state.name}</span><span className="rounded bg-white/20 px-3 py-1.5 backdrop-blur">Package ID: {pkg.packageId}</span></div><p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">{state.name}</p><h1 className="text-4xl font-extrabold leading-tight md:text-5xl">{pkg.title}</h1><p className="mt-4 max-w-4xl text-base leading-7 text-white/90 md:text-lg">{pkg.vibeHook ?? state.famousFor}</p><p className="mt-3 text-sm font-semibold text-white/75">{pkg.duration} • {pkg.destination}</p></div></div></div></section>
