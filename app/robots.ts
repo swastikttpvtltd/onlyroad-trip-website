@@ -14,6 +14,12 @@ const crawlerRules: MetadataRoute.Robots["rules"] = [
     disallow: ["/api/", "/admin/"],
   },
   {
+    // Search discovery is independent of GPTBot's existing training policy.
+    userAgent: ["OAI-SearchBot", "Claude-SearchBot", "Claude-User", "Perplexity-User"],
+    allow: "/",
+    disallow: ["/api/", "/admin/"],
+  },
+  {
     userAgent: "GPTBot",
     allow: "/",
     disallow: ["/api/", "/admin/"],
@@ -47,5 +53,3 @@ export default function robots(): MetadataRoute.Robots {
     host: baseUrl,
   };
 }
-
-// Keep the current production branch deployment in sync with the latest fixed package-page source.

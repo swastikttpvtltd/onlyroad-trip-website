@@ -39,6 +39,23 @@ assert.ok(!fs.readFileSync(path.join(root,'app/layout.tsx'),'utf8').includes('al
 for(const folder of ['book/[slug]','payment','payment-cancelled'])assert.match(fs.readFileSync(path.join(root,'app',folder,'layout.tsx'),'utf8'),/index: false/);
 for(const file of fs.readdirSync(path.join(root,'public/images/hero')).filter(file=>/^hero(?:-\d+)?\.png$/.test(file)))assert.ok(fs.existsSync(path.join(root,'public/images/hero',file.replace('.png','.webp'))));
 async function checkRenderedPackages(){
+  const robots=require(path.join(root,'app/robots.ts')).default();
+  for(const agent of ['OAI-SearchBot','Claude-SearchBot','Claude-User','PerplexityBot','Perplexity-User']){
+    const rule=robots.rules.find(rule=>[rule.userAgent].flat().includes(agent));
+    assert.ok(rule,agent+' search access rule');
+    assert.equal(rule.allow,'/');
+    assert.ok(rule.disallow.includes('/api/')&&rule.disallow.includes('/admin/'));
+  }
+  assert.equal(robots.sitemap,'https://www.onlyroadtrip.com/sitemap.xml');
+  const indexResponse=require(path.join(root,'app/llms.txt/route.ts')).GET();
+  assert.equal(indexResponse.status,200);
+  assert.equal(indexResponse.headers.get('content-type'),'text/plain; charset=utf-8');
+  const index=await indexResponse.text();
+  const indexLinks=[...index.matchAll(/\]\((https:\/\/[^)]+)\)/g)].map(match=>match[1]);
+  assert.equal(new Set(indexLinks).size,indexLinks.length);
+  for(const url of indexLinks)assert.ok(urls.has(url)||url==='https://www.onlyroadtrip.com/sitemap.xml',url+' discovery URL');
+  for(const pkg of packages)assert.ok(indexLinks.includes('https://www.onlyroadtrip.com/packages/'+pkg.slug));
+  assert.ok(index.includes('across India')&&index.includes('quotation'));
   const page=require(path.join(root,'app/packages/[slug]/page.tsx'));
   const {isGroupTourBookingPaused}=require(path.join(root,'data/groupTourBookingPause.ts'));
   for(const pkg of packages){
@@ -70,4 +87,3 @@ async function checkRenderedPackages(){
   console.log('PASS: '+packages.length+' rendered package H1s, metadata and schema; '+sitemap.length+' sitemap URLs; transaction noindex, JSON-LD escaping and generated hero assets.');
 }
 checkRenderedPackages().catch(error=>{console.error(error);process.exitCode=1});
-
