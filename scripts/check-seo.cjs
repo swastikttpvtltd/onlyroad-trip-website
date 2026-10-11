@@ -63,7 +63,7 @@ async function checkRenderedPackages(){
     const metadata=await page.generateMetadata(props);
     assert.equal(metadata.alternates.canonical,'/packages/'+pkg.slug);
     const element=await page.default(props);
-    let headings=0, bookingAnchor=false, trip=null;
+    let headings=0, bookingAnchor=false, trip=null, webpage=null, faqPage=null;
     function walk(node){
       if(Array.isArray(node)){node.forEach(walk);return;}
       if(!node||typeof node!=='object'||!node.props)return;
@@ -72,6 +72,8 @@ async function checkRenderedPackages(){
       if(node.type==='script'&&node.props.type==='application/ld+json'){
         const value=JSON.parse(node.props.dangerouslySetInnerHTML.__html);
         if(value['@type']==='TouristTrip')trip=value;
+        if(value['@type']==='WebPage')webpage=value;
+        if(value['@type']==='FAQPage')faqPage=value;
       }
       walk(node.props.children);
     }
@@ -79,11 +81,27 @@ async function checkRenderedPackages(){
     assert.equal(headings,1,pkg.slug+' H1 count');
     assert.ok(bookingAnchor,pkg.slug+' booking anchor');
     assert.equal(trip.name,pkg.title);
+    const canonical='https://www.onlyroadtrip.com/packages/'+pkg.slug;
+    assert.equal(webpage.url,canonical,pkg.slug+' landing URL');
+    assert.equal(webpage.name,pkg.title);
+    assert.equal(webpage.description,pkg.overview.replace(/\s+/g,' ').trim());
+    assert.equal(webpage.mainEntity['@id'],trip['@id']);
+    assert.equal(webpage.isPartOf['@id'],'https://www.onlyroadtrip.com/#website');
+    assert.equal(faqPage.isPartOf['@id'],webpage['@id']);
+    assert.ok(webpage.hasPart.some(part=>part['@id']===faqPage['@id']));
+    assert.ok(webpage.hasPart.some(part=>part['@id']==='https://www.onlyroadtrip.com/#header'));
+    assert.ok(webpage.hasPart.some(part=>part['@id']==='https://www.onlyroadtrip.com/#footer'));
+    const {buildPackageFaqs}=require(path.join(root,'data/packageCustomerCopy.ts'));
+    assert.deepEqual(faqPage.mainEntity.map(question=>({question:question.name,answer:question.acceptedAnswer.text})),buildPackageFaqs(pkg));
     assert.deepEqual(trip.touristType,pkg.category?[pkg.category]:undefined);
     assert.equal(trip.offers?.availability,undefined,'unconfirmed inventory');
     if(isGroupTourBookingPaused(pkg.slug))assert.equal(trip.offers,undefined,'paused offer');
     else assert.equal(Number(trip.offers.price),pkg.price,pkg.slug+' schema price');
   }
-  console.log('PASS: '+packages.length+' rendered package H1s, metadata and schema; '+sitemap.length+' sitemap URLs; transaction noindex, JSON-LD escaping and generated hero assets.');
+  for(const [file,type,id] of [['Header.tsx','WPHeader','header'],['Footer.tsx','WPFooter','footer']]){
+    const source=fs.readFileSync(path.join(root,'components',file),'utf8');
+    assert.ok(source.includes('itemScope itemType="https://schema.org/'+type+'" itemID="https://www.onlyroadtrip.com/#'+id+'"'));
+  }
+  console.log('PASS: '+packages.length+' rendered package landing pages, H1s, metadata, linked WebPage/trip/FAQ/header/footer schema; '+sitemap.length+' sitemap URLs; transaction noindex, JSON-LD escaping and generated hero assets.');
 }
 checkRenderedPackages().catch(error=>{console.error(error);process.exitCode=1});

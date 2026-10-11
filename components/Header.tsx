@@ -100,14 +100,14 @@ export default function Header() {
   const nav = `group relative text-[15px] font-bold tracking-[0.01em] transition-colors duration-300 ${overLight ? "text-slate-950 hover:text-blue-700" : "text-white hover:text-cyan-200 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"}`;
 
   return (
-    <header ref={headerRef} className="fixed inset-x-0 top-3 z-50 px-3 sm:px-4">
+    <header ref={headerRef} itemScope itemType="https://schema.org/WPHeader" itemID="https://www.onlyroadtrip.com/#header" className="fixed inset-x-0 top-3 z-50 px-3 sm:px-4">
       <div className={`relative mx-auto max-w-7xl rounded-2xl border shadow-[0_10px_35px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-all duration-300 ${overLight ? "border-slate-300/80 bg-white/65" : "border-white/45 bg-slate-950/35"}`}>
         <div className="flex h-[60px] items-center justify-between px-3 sm:h-[68px] sm:px-6 lg:px-8">
           <Link href="/" className="-ml-2 flex max-w-[180px] shrink-0 items-center sm:-ml-5 sm:max-w-[210px] lg:-ml-7">
             <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={150} height={40} priority className="h-10 w-auto max-w-full rounded-md object-contain sm:h-12" />
           </Link>
 
-          <nav className="hidden items-center gap-5 xl:flex">
+          <nav aria-label="Main navigation" className="hidden items-center gap-5 xl:flex">
             <Link href="/" className={nav}>Home</Link>
             <Link href="/about" className={nav}>About Us</Link>
             <div className="group/experiences relative flex h-[68px] items-center">
