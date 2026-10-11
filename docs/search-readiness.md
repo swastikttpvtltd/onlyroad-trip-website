@@ -21,7 +21,7 @@ Target: onlyroad-trip-website, https://www.onlyroadtrip.com. Production deployme
 
 `node scripts/indexnow.mjs https://www.onlyroadtrip.com/packages/char-dham-yatra` previews public URLs without network requests.
 
-After owner approval, create an 8–128 character alphanumeric/dash ownership key, place its exact value in `public/KEY.txt`, deploy the key file, then set `INDEXNOW_KEY` and use `--submit`. The script verifies the live key and live public sitemap before contacting IndexNow. Private, transactional, foreign-origin and query-string URLs are rejected. Public URLs submitted to IndexNow are shared among participating search engines. Receipt does not mean indexed.
+An ownership key and matching public text file are prepared in this branch. This protocol key is a public domain-verification marker, not an account credential. After owner-approved deployment, use `--submit` only with explicit approval to notify participating engines of the selected public URLs. `INDEXNOW_KEY` can override the bundled key if a matching key file is deployed. The script verifies the live key and live public sitemap before contacting IndexNow. Private, transactional, foreign-origin and query-string URLs are rejected. Public URLs submitted to IndexNow are shared among participating search engines. Receipt does not mean indexed.
 
 ## Search account verification
 

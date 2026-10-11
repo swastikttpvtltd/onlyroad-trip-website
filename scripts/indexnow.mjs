@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const submit = args.includes('--submit');
-const key = process.env.INDEXNOW_KEY || '';
+const key = process.env.INDEXNOW_KEY || JSON.parse(fs.readFileSync(path.join(root, 'scripts/indexnow-config.json'), 'utf8')).key;
 const urls = args.filter(arg => !arg.startsWith('--'));
 if (!urls.length) throw new Error('Provide changed public canonical URLs. Dry run is the default.');
 for (const value of urls) {
