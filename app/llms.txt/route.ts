@@ -24,6 +24,7 @@ export function GET(): Response {
     `- [Door-to-door travel across India](${siteUrl}/door-to-door-travel): Pickup, transfers and tailored journey planning.`,
     `- [Tour packages](${siteUrl}/packages): Published package catalogue.`,
     `- [About Only Road Trip](${siteUrl}/about): Brand and company information.`,
+    `- [Traveller Terms & Conditions](${siteUrl}/traveller-terms-and-conditions): Published group-tour booking, room-sharing consent, 24/7 assistance and staff misconduct response. Clause 20 commits to initial contact/protective measures within one hour; serious misconduct reasonably established ends the tour assignment immediately at that location. Read the full policy and confirmed package conditions.`,
     `- [Contact](${siteUrl}/contact): Public travel enquiry channels.`,
     "",
     "## Published packages",

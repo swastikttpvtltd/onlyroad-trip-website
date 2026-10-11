@@ -65,7 +65,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: "/favicon.ico", apple: "/icon-180.png" },
   manifest: "/site.webmanifest",
   referrer: "origin-when-cross-origin",
 };

@@ -1,0 +1,4 @@
+Contact: https://www.onlyroadtrip.com/contact
+Expires: 2027-04-12T00:00:00Z
+Preferred-Languages: en, hi
+Canonical: https://www.onlyroadtrip.com/.well-known/security.txt
