@@ -1976,7 +1976,7 @@
         ],
         "afternoon": [
           "Reach Uttarkashi. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Kashi Vishwanath Temple. Allow time to experience the Shiva temple in Varanasi; darshan follows temple security and queue arrangements; follow visitor access and any conditions stated above."
+          "Visit Kashi Vishwanath Temple in Uttarkashi; darshan follows local opening, security and queue arrangements."
         ],
         "evening": [
           "Return to the booked accommodation for dinner and overnight rest."
@@ -2147,16 +2147,41 @@
           "Return drive via Rishikesh. Follow the published route, with timings depending on traffic, weather and local access."
         ],
         "evening": [
-          "Haridwar drop; tour concludes. Spend time at the listed stop according to the day's route and available visitor access."
+          "Check in at the booked Haridwar accommodation after the return drive.",
+          "Visit Har Ki Pauri for Ganga Aarti if arrival time and local arrangements permit.",
+          "Dinner and overnight stay in Haridwar."
         ],
-        "attractions": [],
+        "attractions": [
+          "Har Ki Pauri Ganga Aarti — subject to arrival time and local arrangements"
+        ],
         "notes": [
           "Walking or trail sections depend on fitness, weather and local access; discuss assistance needs before booking.",
           "Pilgrimage operation depends on seasonal shrine opening and local route arrangements; required registration and any separately booked transport must be confirmed before travel."
         ],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
+        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
+        "overnightStay": "Haridwar — Night 10",
+        "description": "Return from Rudraprayag via Rishikesh to Haridwar. Check in, attend Ganga Aarti if timing permits, and stay overnight before departure on Day 11.",
+        "optionalActivities": []
+      },
+      {
+        "day": "Day 11",
+        "title": "Haridwar – Departure",
+        "morning": [
+          "Breakfast at the booked accommodation, then complete checkout and collect luggage."
+        ],
+        "afternoon": [
+          "Departure transfer within Haridwar at the place and time stated in the confirmed booking; arrange onward travel around checkout and transfer timings."
+        ],
+        "evening": [
+          "Tour concludes at the confirmed Haridwar drop; no further accommodation is included."
+        ],
+        "attractions": [],
+        "notes": [
+          "Early departure or breakfast service follows the confirmed hotel and transport arrangements."
+        ],
+        "meals": "Breakfast included as per the confirmed stay meal plan; lunch, dinner and onward journey meals are not included.",
         "overnightStay": "No overnight stay — tour concludes",
-        "description": "Rudraprayag – Haridwar. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "description": "Breakfast, hotel checkout and the confirmed Haridwar departure transfer complete the 10 Nights / 11 Days Char Dham Yatra.",
         "optionalActivities": []
       }
     ]
