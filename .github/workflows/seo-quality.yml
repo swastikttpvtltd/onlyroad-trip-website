@@ -21,7 +21,7 @@ jobs:
       - name: Existing pricing checks
         run: node scripts/check-group-rate-matrix.cjs
       - name: Public AI tools and IndexNow privacy checks
-        run: node scripts/check-travel-tools.cjs
+        run: node scripts/check-travel-tools.mjs
       - name: TypeScript check
         run: npx tsc --noEmit --incremental false
       - name: Production Next.js build

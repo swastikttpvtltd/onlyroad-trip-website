@@ -1,9 +1,10 @@
-const fs = require('node:fs');
-const vm = require('node:vm');
-const assert = require('node:assert/strict');
-const { execFileSync } = require('node:child_process');
-const path = require('node:path');
-const root = path.resolve(__dirname, '..');
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = fs.readFileSync(path.join(root, 'public/travel-tools.js'), 'utf8');
 const registered = [];
 const anchors = [
