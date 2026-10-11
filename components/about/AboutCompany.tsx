@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutCompany() {
   return (
@@ -36,7 +37,7 @@ export default function AboutCompany() {
               <strong> Swastik Tour And Travels Private Limited</strong>,
               established with a vision to redefine the way people explore
               India. We believe that every journey is more than just reaching
-              a destination—it's about creating unforgettable memories,
+              a destination—it&apos;s about creating unforgettable memories,
               discovering diverse cultures, and experiencing the incredible
               beauty, heritage, and spirituality that India has to offer.
             </p>
@@ -45,7 +46,7 @@ export default function AboutCompany() {
               We specialize in thoughtfully curated road trips, pilgrimage
               tours, family vacations, group departures, corporate travel,
               luxury holidays, and fully customized travel experiences across
-              India. Whether it's a spiritual retreat to Kedarnath, an
+              India. Whether it&apos;s a spiritual retreat to Kedarnath, an
               adventure through the Himalayas, a relaxing holiday in Kerala,
               or a corporate offsite, every itinerary is carefully planned to
               provide the perfect balance of comfort, convenience, and
@@ -60,10 +61,12 @@ export default function AboutCompany() {
               memorable. From the moment you book until you return home, our
               dedicated support team works to provide a hassle-free travel
               experience with transparent pricing and personalized assistance.
+              {" "}Read our <Link href="/traveller-terms-and-conditions" className="font-semibold text-cyan-600 underline">Traveller Terms &amp; Conditions</Link> for
+              group-tour room-sharing consent, 24/7 safety assistance, and the complaint-response process.
             </p>
 
             <p className="mt-6 text-lg leading-9 text-slate-600">
-              We understand that every traveler has unique needs. That's why
+              We understand that every traveler has unique needs. That&apos;s why
               we also offer <strong>selected travel packages specially
               designed for senior citizens and differently-abled
               travelers</strong>. These carefully curated itineraries focus on
@@ -76,7 +79,7 @@ export default function AboutCompany() {
               Driven by innovation and a passion for travel, we continuously
               expand our destinations, strengthen our partnerships, and
               improve our services to meet the evolving expectations of modern
-              travelers. Whether you're planning a family holiday, a spiritual
+              travelers. Whether you&apos;re planning a family holiday, a spiritual
               journey, a romantic getaway, a corporate trip, or a customized
               road trip, our experienced team is committed to delivering
               exceptional service and unforgettable experiences.
