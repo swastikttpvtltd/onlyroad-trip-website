@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
-import { packages } from "@/data/packages";
+import type { PackageCardSummary } from "@/lib/packageCardSummary";
 
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
-export default function GroupToursSlider() {
+export default function GroupToursSlider({ packages }: { packages: PackageCardSummary[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const groupPackages = packages.filter((pkg: any) => {
+  const groupPackages = packages.filter((pkg) => {
     const themes = Array.isArray(pkg.themes) ? pkg.themes.map((x: unknown) => String(x).toLowerCase()) : [];
     return themes.includes("group tour") || String(pkg.category ?? "").toLowerCase() === "weekend";
   });
@@ -50,7 +50,7 @@ export default function GroupToursSlider() {
           <button type="button" aria-label="Next group tour" onClick={() => scrollByCard(1)} className="absolute right-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blue-800 text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)] transition hover:scale-105 hover:bg-blue-900 md:flex"><ArrowRight size={27} strokeWidth={2.5} /></button>
 
           <div ref={trackRef} className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {groupPackages.map((pkg: any) => {
+            {groupPackages.map((pkg) => {
               const displayPrice = pkg.price;
               return <article key={pkg.slug} data-group-tour-card className="group min-w-[86%] snap-start overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_7px_25px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.13)] sm:min-w-[48%] lg:min-w-[calc((100%-40px)/3)]">
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">

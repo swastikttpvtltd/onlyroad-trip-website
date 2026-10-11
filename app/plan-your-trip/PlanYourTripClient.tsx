@@ -1,5 +1,6 @@
 "use client";
 import { usePartialLeadCapture } from "@/hooks/usePartialLeadCapture";
+import { reportConversion } from "@/lib/conversionEvents";
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -32,14 +33,14 @@ const countryOptions = getCountries()
   })
   .sort((a, b) => a.displayCode.localeCompare(b.displayCode));
 
-export default function PlanYourTripClient() {
+export default function PlanYourTripClient({ initialDestination = "", initialTravelDate = "" }: { initialDestination?: string; initialTravelDate?: string } = {}) {
   const [fullName, setFullName] = useState("");
   const [mobile, setMobile] = useState("");
   const [phoneCountry, setPhoneCountry] = useState("IN");
   const [showCountryCodes, setShowCountryCodes] = useState(false);
   const [email, setEmail] = useState("");
-  const [destination, setDestination] = useState("");
-  const [travelDate, setTravelDate] = useState("");
+  const [destination, setDestination] = useState(initialDestination);
+  const [travelDate, setTravelDate] = useState(initialTravelDate);
   const [travelType, setTravelType] = useState("");
   const [budget, setBudget] = useState("");
   const [message, setMessage] = useState("");
@@ -114,9 +115,7 @@ export default function PlanYourTripClient() {
 
       const data = await response.json();
       if (!response.ok || data.success !== true || !data.leadId) throw new Error(data.error || "Unable to send enquiry.");
-      const analyticsWindow = window as typeof window & { dataLayer?: Record<string, unknown>[] };
-      analyticsWindow.dataLayer = analyticsWindow.dataLayer || [];
-      analyticsWindow.dataLayer.push({ event: "generate_lead", lead_id: data.leadId, form_id: "travel-enquiry" });
+      reportConversion("generate_lead", "travel-enquiry");
 
       setSubmitMessage("Thank you! Your travel enquiry has been sent. Our team will contact you shortly.");
       setFullName("");

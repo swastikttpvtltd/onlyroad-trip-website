@@ -15,6 +15,7 @@ import { packages } from "@/data/packages";
 import { packageMedia } from "@/data/packageMedia";
 import { absoluteImageUrl, packageDescription, packageSearchIntents, serializeJsonLd } from "@/lib/siteSeo";
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
+import { isExcludedSeoPath } from "@/lib/seoWorkScope";
 
 type PackageItem = (typeof packages)[number];
 type PageProps = { params: Promise<{ slug: string }> };
@@ -228,6 +229,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords: packageSearchIntents(pkg),
     alternates: {
       canonical: canonicalPath,
+      ...(!isExcludedSeoPath(canonicalPath) ? { languages: { en: canonicalUrl, "x-default": canonicalUrl } } : {}),
     },
     openGraph: {
       type: "website",

@@ -22,9 +22,21 @@ jobs:
         run: node scripts/check-group-rate-matrix.cjs
       - name: Public AI tools and IndexNow privacy checks
         run: node scripts/check-travel-tools.mjs
+      - name: Scope, performance payload and enquiry validation
+        run: node scripts/check-search-completion.cjs
       - name: TypeScript check
         run: npx tsc --noEmit --incremental false
       - name: Production Next.js build
         run: npm run build
       - name: Cloudflare adapter build
         run: npx opennextjs-cloudflare build --skipNextBuild
+      - name: Mobile Lighthouse preview measurements
+        run: node scripts/lighthouse-preview.mjs
+        timeout-minutes: 12
+      - name: Save public preview measurement reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-preview
+          path: lighthouse-results/
+          if-no-files-found: ignore

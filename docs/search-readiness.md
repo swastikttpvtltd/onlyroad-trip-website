@@ -19,7 +19,7 @@ Target: onlyroad-trip-website, https://www.onlyroadtrip.com. Production deployme
 
 ## IndexNow
 
-`node scripts/indexnow.mjs https://www.onlyroadtrip.com/packages/char-dham-yatra` previews public URLs without network requests.
+`node scripts/indexnow.mjs https://www.onlyroadtrip.com/packages/goa-honeymoon` previews public URLs without network requests.
 
 An ownership key and matching public text file are prepared in this branch. This protocol key is a public domain-verification marker, not an account credential. After owner-approved deployment, use `--submit` only with explicit approval to notify participating engines of the selected public URLs. `INDEXNOW_KEY` can override the bundled key if a matching key file is deployed. The script verifies the live key and live public sitemap before contacting IndexNow. Private, transactional, foreign-origin and query-string URLs are rejected. Public URLs submitted to IndexNow are shared among participating search engines. Receipt does not mean indexed.
 
@@ -34,5 +34,15 @@ Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and/or `NEXT_PUBLIC_BING_SITE_VERIFIC
 ## UCP
 
 Not enabled. Google merchant onboarding/eligibility, approved access, valid product feeds and a real order/checkout lifecycle are required. Publishing a fake merchant manifest for travel quotes would misrepresent readiness. Assess eligibility and transaction requirements before any separate implementation.
+
+## Current completion scope
+
+Varanasi/Kashi, Char Dham, Do Dham and Gujarat are excluded from new metadata, schema, browser tools, measurement and IndexNow notifications. All 105 package layouts, prices and itinerary data remain unchanged. Preservation checks compare protected metadata/schema and visible component output against the GitHub baseline.
+
+Homepage client components receive card summaries instead of full itinerary/rate records. Serialized card data is 96.8% smaller; this is not a whole-site speed percentage. English pages use their real existing English URL for language discovery; no translated pages are claimed.
+
+Unprotected unavailable-date enquiries open the existing enquiry page using only package title/date. Enquiry input is validated before database access. Unfinished forms require explicit capture consent outside the excluded routes. Conversion and Web Vitals events stay in the browser by default; optional analytics requires both configuration and explicit consent, and excludes contact details.
+
+CI runs mobile Lighthouse against five isolated production-build pages with third-party trackers blocked. Public production checks found Cloudflare resource-limit failures on some routes; this branch does not claim hosting limits or field performance resolved. Private Search Console, Bing and Business Profile accounts are outside the approved scope. Deployment and IndexNow submission require separate owner approval.
 
 Official references: https://www.indexnow.org/documentation ; https://developer.chrome.com/docs/ai/webmcp/imperative-api ; https://developer.chrome.com/docs/ai/webmcp/secure-tools ; https://developers.google.com/search/docs/specialty/international/localized-versions ; https://developers.google.com/merchant/ucp/guides/overview .

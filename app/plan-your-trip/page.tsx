@@ -8,10 +8,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.onlyroadtrip.com/plan-your-trip" },
 };
 
-export default function PlanYourTripPage() {
+export default async function PlanYourTripPage({ searchParams }: { searchParams: Promise<{ destination?: string; travelDate?: string }> }) {
+  const params = await searchParams;
+  const initialDestination = typeof params.destination === "string" ? params.destination.slice(0, 250) : "";
+  const initialTravelDate = typeof params.travelDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(params.travelDate) ? params.travelDate : "";
   return (
     <main className="min-h-screen bg-white text-slate-900">
-      <PlanYourTripClient />
+      <PlanYourTripClient initialDestination={initialDestination} initialTravelDate={initialTravelDate} />
     </main>
   );
 }

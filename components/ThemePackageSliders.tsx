@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
-import { packages } from "@/data/packages";
+import type { PackageCardSummary } from "@/lib/packageCardSummary";
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
 const sections = [
@@ -17,7 +17,7 @@ const sections = [
   { title: "Rajasthan Trips", state: "rajasthan", href: "/packages?state=Rajasthan", description: "Explore Rajasthan's royal cities, deserts and heritage." },
 ] as const;
 
-type Tour = (typeof packages)[number];
+type Tour = PackageCardSummary;
 
 function PackageSlider({ title, description, href, trips, index }: { title: string; description: string; href: string; trips: Tour[]; index: number }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -77,7 +77,7 @@ function PackageSlider({ title, description, href, trips, index }: { title: stri
   </section>;
 }
 
-export default function ThemePackageSliders() {
+export default function ThemePackageSliders({ packages }: { packages: PackageCardSummary[] }) {
   return <>{sections.map((section, index) => {
     const trips = packages.filter((pkg) => pkg.image && pkg.image !== "/images/package-placeholder.jpg" && ("state" in section ? pkg.state?.toLowerCase() === section.state : pkg.themes?.some((theme: string) => section.tags.some((tag: string) => theme.toLowerCase() === tag))));
     return <PackageSlider key={section.title} {...section} trips={trips} index={index} />;

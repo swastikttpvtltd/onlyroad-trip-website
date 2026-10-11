@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isExcludedSeoPath } from "./seoWorkScope";
 
 export const siteUrl = "https://www.onlyroadtrip.com";
 
@@ -21,7 +22,7 @@ export function pageMetadata(title: string, description: string, path: string): 
   return {
     title: name,
     description,
-    alternates: { canonical: url },
+    alternates: { canonical: url, ...(!isExcludedSeoPath(path) ? { languages: { en: url, "x-default": url } } : {}) },
     openGraph: { type: "website", locale: "en_IN", siteName: "Only Road Trip", title: socialTitle, description, url },
     twitter: { card: "summary_large_image", title: socialTitle, description },
   };

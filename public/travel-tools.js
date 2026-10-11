@@ -1,5 +1,7 @@
 // Progressive enhancement: public page information only; no accounts, forms or payments.
 (() => {
+  const excluded = /(?:varanasi|kashi|char-dham|do-dham|gujarat|dwarka-somnath|gir-national-park|rann-utsav|saputara|statue-of-unity)/i;
+  if (excluded.test(location.pathname) || /^\/(?:book|payment|api|admin)(?:\/|-|$)/.test(location.pathname)) return;
   const context = document.modelContext;
   if (!context || typeof context.registerTool !== 'function') return;
   const controller = new AbortController();
@@ -20,8 +22,8 @@
       for (const anchor of document.querySelectorAll('a[href]')) {
         if (!anchor.getClientRects().length || anchor.closest('[hidden], [aria-hidden="true"]')) continue;
         const url = new URL(anchor.getAttribute('href'), location.href);
-        if (url.origin !== location.origin || !/^\/packages\/[a-z0-9-]+\/?$/.test(url.pathname)) continue;
-        const title = (anchor.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 100);
+        if (url.origin !== location.origin || !/^\/packages\/[a-z0-9-]+\/?$/.test(url.pathname) || excluded.test(url.pathname)) continue;
+        const title = (anchor.closest('article')?.querySelector('h3')?.textContent || anchor.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 100);
         if ((title + ' ' + url.pathname).toLowerCase().includes(query)) links.set(url.pathname, { title, url: location.origin + url.pathname });
         if (links.size === 5) break;
       }

@@ -10,6 +10,7 @@ const urls = args.filter(arg => !arg.startsWith('--'));
 if (!urls.length) throw new Error('Provide changed public canonical URLs. Dry run is the default.');
 for (const value of urls) {
   const url = new URL(value);
+  if (/(?:varanasi|kashi|char-dham|do-dham|gujarat|dwarka-somnath|gir-national-park|rann-utsav|saputara|statue-of-unity)/i.test(url.pathname)) throw new Error('This URL is excluded by the owner from the current optimization scope.');
   if (url.origin !== 'https://www.onlyroadtrip.com' || url.search || url.hash || /\/(api|admin|book|payment|google-ads)(\/|-|$)/.test(url.pathname)) throw new Error('Only public canonical URLs without query strings are allowed.');
 }
 if (urls.length > 10000) throw new Error('IndexNow accepts at most 10,000 URLs per batch.');

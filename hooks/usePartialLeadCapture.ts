@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { normalizeLeadContact } from "@/lib/lead-contact";
+import { isExcludedSeoPath } from "@/lib/seoWorkScope";
 
-type Details = { fullName?: string; mobile?: string; countryCode?: string; email?: string; destination?: string; travelDate?: string };
+type Details = { fullName?: string; mobile?: string; countryCode?: string; email?: string; destination?: string; travelDate?: string; captureConsent?: boolean };
 
 export function usePartialLeadCapture(formKey: string, details: Details) {
   const latest = useRef(details);
@@ -11,6 +12,11 @@ export function usePartialLeadCapture(formKey: string, details: Details) {
   useEffect(() => { latest.current = details; });
 
   useEffect(() => {
+    const excluded = isExcludedSeoPath(window.location.pathname);
+    const allowed = () => excluded || latest.current.captureConsent === true;
+    // Do not transmit an unfinished form without explicit capture consent.
+    // Owner-excluded package routes retain their existing behavior.
+    if (!allowed()) return;
     const state = queue.current;
     const key = `ort-capture:${formKey}:${window.location.pathname}`;
     try { state.id = sessionStorage.getItem(key) || crypto.randomUUID(); sessionStorage.setItem(key, state.id); }
@@ -18,7 +24,7 @@ export function usePartialLeadCapture(formKey: string, details: Details) {
     let stopped = false;
     let retry: ReturnType<typeof setTimeout> | undefined;
     async function send() {
-      if (stopped || state.busy || !state.payload || state.payload === state.saved) return;
+      if (!allowed() || stopped || state.busy || !state.payload || state.payload === state.saved) return;
       state.busy = true;
       const payload = state.payload;
       try {
@@ -36,6 +42,7 @@ export function usePartialLeadCapture(formKey: string, details: Details) {
       }
     }
     const update = () => {
+      if (!allowed()) return;
       const data = latest.current;
       const contact = normalizeLeadContact(data.mobile, data.countryCode, data.email);
       if (!contact.mobile && !contact.email) return;
@@ -45,7 +52,7 @@ export function usePartialLeadCapture(formKey: string, details: Details) {
     };
     const flush = () => {
       update();
-      if (state.payload && state.payload !== state.saved) {
+      if (allowed() && state.payload && state.payload !== state.saved) {
         // Same capture ID makes a retry/beacon an update rather than a duplicate lead.
         navigator.sendBeacon?.("/api/partial-lead", new Blob([state.payload], { type: "application/json" }));
       }
@@ -55,7 +62,7 @@ export function usePartialLeadCapture(formKey: string, details: Details) {
     window.addEventListener("online", update);
     window.addEventListener("pagehide", flush);
     return () => { flush(); stopped = true; if (retry) clearTimeout(retry); window.removeEventListener("online", update); window.removeEventListener("pagehide", flush); };
-  }, [formKey]);
+  }, [formKey, details.captureConsent]);
 
   useEffect(() => { trigger.current(); }, [details.fullName, details.mobile, details.countryCode, details.email, details.destination, details.travelDate]);
 }
