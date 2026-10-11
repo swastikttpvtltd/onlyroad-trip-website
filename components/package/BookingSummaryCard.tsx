@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import GroupRateTable from "./GroupRateTable";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -24,7 +25,7 @@ type Props = {
     themes?: string[];
     packageId?: string;
     sharingRates?: SharingRate[];
-    groupRates?: { sharingRates?: SharingRate[] };
+    groupRates?: { [pax: number]: number; sharingRates?: SharingRate[] };
     price?: number;
     displayPriceBasis?: string;
     itinerary?: ItineraryDay[];
@@ -77,6 +78,7 @@ function PrintItinerary({ pkg, finalTitle, finalDuration, finalDestination, disp
       <div className="itinerary-print-header"><div><p className="itinerary-print-brand">ONLY ROAD TRIP</p><h1>{finalTitle}</h1><p>{finalDestination} • {finalDuration}</p></div><div className="itinerary-print-price">₹{displayPrice.toLocaleString("en-IN")}<span> / person</span></div></div>
       <section className="itinerary-print-section"><h2>Day-wise Itinerary</h2>{itinerary.length ? itinerary.map((day, index) => { const periods: Array<[string, string[]]> = [["Morning", Array.isArray(day.morning) ? day.morning : []], ["Afternoon", Array.isArray(day.afternoon) ? day.afternoon : []], ["Evening", Array.isArray(day.evening) ? day.evening : []]]; return <article className="itinerary-print-day" key={`${day.day ?? index}-${index}`}><h3>{formatItineraryDay(day.day, index + 1)}: {day.title ?? "Travel & Sightseeing"}</h3>{day.attractions?.length ? <div><strong>Planned attractions & experiences</strong><ul>{day.attractions.map((item, i) => <li key={i}>{item}</li>)}</ul></div> : null}{periods.map(([label, items]) => items.length > 0 && <div className="itinerary-print-period" key={label}><strong>{label}</strong><ul>{items.map((item, itemIndex) => <li key={`${item}-${itemIndex}`}>{item}</li>)}</ul></div>)}{day.overnightStay && <p><strong>Night halt:</strong> {day.overnightStay}</p>}{day.meals && <p><strong>Meal plan:</strong> {day.meals}</p>}{day.distance && <p><strong>Approximate distance:</strong> {day.distance}</p>}{day.driveTime && <p><strong>Approximate drive time:</strong> {day.driveTime}</p>}{day.optionalActivities?.length ? <div><strong>Optional / separately confirmed activities</strong><ul>{day.optionalActivities.map((item, i) => <li key={i}>{item}</li>)}</ul></div> : null}{day.notes?.length ? <div><strong>Important details</strong><ul>{day.notes.map((item, i) => <li key={i}>{item}</li>)}</ul></div> : null}</article>; }) : <p>No day-wise itinerary is available for this package.</p>}</section>
       <section className="itinerary-print-section"><h2>Costing / Package Price</h2><table className="itinerary-print-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>{sharingRates.length > 0 ? sharingRates.map((rate) => <tr key={rate.type}><td>{rate.type}</td><td>₹{rate.price.toLocaleString("en-IN")}/-</td></tr>) : <tr><td>Package Price</td><td>₹{displayPrice.toLocaleString("en-IN")}/- per person</td></tr>}</tbody></table><p className="itinerary-print-note">Final costing is subject to the confirmed quotation, availability, applicable taxes and package-specific booking terms.</p></section>
+      <GroupRateTable rates={pkg?.groupRates} fixedSharing={sharingRates.length > 0} />
       <section className="itinerary-print-section"><h2>Inclusions</h2>{inclusions.length ? <ul>{inclusions.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul> : <p>Refer to the package inclusions shown on the website/quotation.</p>}</section>
       <section className="itinerary-print-section"><h2>Exclusions</h2>{exclusions.length ? <ul>{exclusions.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ul> : <p>Refer to the package exclusions shown on the website/quotation.</p>}</section>
       <section className="itinerary-print-section"><h2>Terms & Conditions</h2><ol>{terms.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)}</ol></section>
@@ -121,6 +123,8 @@ export default function BookingSummaryCard({ pkg, slug, title, price, duration, 
           </div>
 
           {sharingRates.length > 0 && <div className="border-t border-slate-200 bg-white px-5 py-5"><div className="mb-3"><h3 className="text-lg font-extrabold text-slate-900">Group Tour Package Pricing</h3><p className="mt-1 text-xs text-slate-500">Fixed per person • GST @ 5% included • Select your room sharing</p></div><div className="overflow-hidden rounded-xl border border-slate-200"><table className="w-full text-sm"><thead className="bg-slate-50"><tr><th className="px-3 py-3 text-left font-bold text-slate-600">Room Sharing</th><th className="px-3 py-3 text-right font-bold text-slate-600">Cost (per person)</th></tr></thead><tbody>{sharingRates.map((rate) => <tr key={rate.type} className="border-t border-slate-200"><td className="px-3 py-3 font-bold text-slate-800">{rate.type}</td><td className="px-3 py-3 text-right font-extrabold text-[#153e75]">₹{rate.price.toLocaleString("en-IN")}/-</td></tr>)}</tbody></table></div></div>}
+
+          <GroupRateTable rates={pkg?.groupRates} fixedSharing={sharingRates.length > 0} />
 
           <DepartureCalendar duration={finalDuration} isGroup={isGroup} selectedDate={selectedDate} onSelect={(date) => setSelectedDate(date)} />
 

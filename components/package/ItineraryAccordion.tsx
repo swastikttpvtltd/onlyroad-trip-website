@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { groupRateRows } from "@/data/groupRateMatrix";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
 import { formatItineraryDay } from "@/data/itineraryDay";
 import type { DetailedItineraryDay } from "@/data/itineraryDetails";
@@ -7,18 +8,7 @@ import type { DetailedItineraryDay } from "@/data/itineraryDetails";
 type ItineraryDay = DetailedItineraryDay;
 
 type SharingRate = { type: string; price: number };
-type GroupRates = {
-  2?: number;
-  4?: number;
-  6?: number;
-  12?: number;
-  16?: number;
-  20?: number;
-  25?: number;
-  30?: number;
-  "30+"?: number;
-  sharingRates?: SharingRate[];
-};
+type GroupRates = { [pax: number]: number; sharingRates?: SharingRate[] };
 
 type Props = {
   isGroupTerms?: boolean;
@@ -60,28 +50,14 @@ function listHtml(items: string[]) {
 }
 
 function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates) {
-  if (sharingRates.length) {
-    return `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${sharingRates
-      .map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`)
-      .join("")}</tbody></table>`;
-  }
-
-  const slabs: Array<[string, number]> = [
-    ["Up to 2 Travellers", groupRates?.[2]],
-    ["Up to 4 Travellers", groupRates?.[4]],
-    ["Up to 6 Travellers", groupRates?.[6]],
-    ["Up to 12 Travellers", groupRates?.[12]],
-    ["Up to 16 Travellers", groupRates?.[16]],
-    ["Up to 20 Travellers", groupRates?.[20]],
-    ["Up to 25 Travellers", groupRates?.[25]],
-    ["Up to 30 Travellers", groupRates?.[30]],
-    ["30+ Travellers", groupRates?.["30+"]],
-  ].filter((entry): entry is [string, number] => typeof entry[1] === "number");
-
-  if (!slabs.length) return `<p class="muted">Price will be shared in the confirmed quotation.</p>`;
-  return `<table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${slabs
-    .map(([label, price]) => `<tr><td>${escapeHtml(label)}</td><td>₹${Number(price).toLocaleString("en-IN")}/-</td></tr>`)
-    .join("")}</tbody></table>`;
+  const sharingTable = sharingRates.length
+    ? `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${sharingRates.map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`).join("")}</tbody></table>`
+    : "";
+  const rows = groupRateRows(groupRates);
+  const groupTable = rows.length
+    ? `<p>Double / twin sharing • 5% GST included</p><table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${rows.map(({ pax, price }) => `<tr><td>${pax} Travellers</td><td>₹${price.toLocaleString("en-IN")}/-</td></tr>`).join("")}</tbody></table>`
+    : "";
+  return sharingTable + groupTable || `<p class="muted">Price will be shared in the confirmed quotation.</p>`;
 }
 
 function buildItineraryHtml(itinerary: ItineraryDay[]) {

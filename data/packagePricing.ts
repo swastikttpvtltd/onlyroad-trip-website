@@ -1,5 +1,6 @@
-import { isWeekendEscape, getWeekendEscapeSharingRates } from "./weekendEscape";
 import { addGSTToRate } from "./priceTax";
+import { GROUP_SIZES, type PackageGroupRates } from "./groupRateMatrix";
+import { getGroupSharingRates } from "./groupTourPricing";
 
 const destinationMultiplier: Record<string, number> = {
   Gujarat: 1,
@@ -51,80 +52,64 @@ const specialCost = (state: string, title: string, nights: number) => {
   return cost;
 };
 
-const rateFor = (state: string, title: string, nights: number, pax: number) => {
+// Reuse the existing transport estimates, adding enough vehicles for every group.
+const vehicleOptions = [
+  { seats: 4, factor: 1 }, { seats: 6, factor: 1.15 },
+  { seats: 12, factor: 1.9 }, { seats: 16, factor: 2.25 },
+  { seats: 20, factor: 2.6 }, { seats: 25, factor: 3 },
+  { seats: 30, factor: 3.35 },
+];
+export function transportFactorFor(pax: number) {
+  const costs = Array<number>(Math.ceil(pax) + 1).fill(0);
+  for (let count = 1; count <= pax; count++) {
+    costs[count] = Math.min(...vehicleOptions.map(({ seats, factor }) =>
+      factor + costs[Math.max(0, count - seats)]));
+  }
+  return costs[Math.ceil(pax)];
+}
+
+export const TARGET_MARGIN = 0.18;
+// User's approved ₹32,000 → ₹25,000 boundary is a total reduction, never compounded.
+export const MAX_GROUP_DISCOUNT = 7 / 32;
+
+export function estimatedCostFor(state: string, title: string, nights: number, pax: number) {
   const multiplier = destinationMultiplier[state] ?? 1;
   const roomDiscount = pax <= 4 ? 1 : pax <= 6 ? 0.96 : pax <= 12 ? 0.91 : pax <= 20 ? 0.87 : 0.84;
   const hotel = nights * 3200 * multiplier * roomDiscount / 2;
-  const days = nights + 1;
-  const transportPool = days * (3900 * multiplier + 500);
-  const vehicles = pax <= 4 ? 1 : pax <= 6 ? 1.15 : pax <= 12 ? 1.9 : pax <= 16 ? 2.25 : pax <= 20 ? 2.6 : pax <= 25 ? 3 : 3.35;
-  const transport = transportPool * vehicles / pax;
-  const estimatedCost = hotel + transport + specialCost(state, title, nights) + 650 + 120 * nights;
-  return Math.ceil((estimatedCost / 0.82) / 500) * 500;
-};
+  const transportPool = (nights + 1) * (3900 * multiplier + 500);
+  const transport = transportPool * transportFactorFor(pax) / pax;
+  return hotel + transport + specialCost(state, title, nights) + 650 + 120 * nights;
+}
 
-export const makePackageRates = (pkg: any) => {
-  if (isWeekendEscape(pkg)) {
-    const sharingRates = getWeekendEscapeSharingRates();
-    const lowestRate = sharingRates[0].price;
-    return {
-      2: lowestRate, 4: lowestRate, 6: lowestRate, 12: lowestRate,
-      16: lowestRate, 20: lowestRate, 25: lowestRate, 30: lowestRate,
-      "30+": lowestRate, sharingRates,
-    };
-  }
-
-  // Fixed per-person rates for the 2N/3D Weekend / Group Tour inventory.
-  // Goa has its own rate card; all other qualifying 2N/3D group/weekend packages use the Himachal/Uttarakhand rate card.
-  if (isFixedWeekendGroup(pkg)) {
-    const isGoa = String(pkg?.state ?? "").toLowerCase() === "goa" || /goa/i.test(String(pkg?.title ?? ""));
-    const sharingRates = (isGoa
-      ? [
-          { type: "Quad Sharing", price: 9999 },
-          { type: "Triple Sharing", price: 11599 },
-          { type: "Double Sharing", price: 12599 },
-        ]
-      : [
-          { type: "Quad Sharing", price: 7499 },
-          { type: "Triple Sharing", price: 7999 },
-          { type: "Double Sharing", price: 8499 },
-        ]).map((rate) => ({ ...rate, price: addGSTToRate(rate.price) }));
-
-    const lowestRate = sharingRates[0].price;
-    return {
-      2: lowestRate,
-      4: lowestRate,
-      6: lowestRate,
-      12: lowestRate,
-      16: lowestRate,
-      20: lowestRate,
-      25: lowestRate,
-      30: lowestRate,
-      "30+": lowestRate,
-      sharingRates,
-    };
+export const makePackageRates = (pkg: any): PackageGroupRates => {
+  // Published sharing cards remain fixed rates; do not invent supplier costs for them.
+  const sharingRates = getGroupSharingRates(pkg) ?? (
+    isFixedWeekendGroup(pkg)
+      ? (String(pkg?.state ?? "").toLowerCase() === "goa" || /goa/i.test(String(pkg?.title ?? ""))
+          ? [{ type: "Quad Sharing", price: 9999 }, { type: "Triple Sharing", price: 11599 }, { type: "Double Sharing", price: 12599 }]
+          : [{ type: "Quad Sharing", price: 7499 }, { type: "Triple Sharing", price: 7999 }, { type: "Double Sharing", price: 8499 }])
+        .map((rate) => ({ ...rate, price: addGSTToRate(rate.price) }))
+      : []);
+  if (sharingRates.length) {
+    // The group matrix uses double sharing, consistent with the displayed package price.
+    const fixedRate = sharingRates.find((rate) => rate.type === "Double Sharing")?.price
+      ?? Math.max(...sharingRates.map((rate) => rate.price));
+    return { ...Object.fromEntries(GROUP_SIZES.map((pax) => [pax, fixedRate])), sharingRates };
   }
 
   const state = String(pkg.state ?? "");
   const title = String(pkg.title ?? "");
   const nights = nightsFromDuration(pkg.duration);
-  const rates = {
-    2: rateFor(state, title, nights, 2),
-    4: rateFor(state, title, nights, 4),
-    6: rateFor(state, title, nights, 6),
-    12: rateFor(state, title, nights, 12),
-    16: rateFor(state, title, nights, 16),
-    20: rateFor(state, title, nights, 20),
-    25: rateFor(state, title, nights, 25),
-    30: rateFor(state, title, nights, 30),
-  };
-  return {
-    // This circuit's 2-traveller per-person card and booking price is ₹30,000 inclusive of 5% GST.
-    2: String(pkg.slug ?? "") === "varanasi-prayagraj-ayodhya" ? addGSTToRate(28571) : addGSTToRate(rates[2]),
-    4: addGSTToRate(rates[4]), 6: addGSTToRate(rates[6]),
-    12: addGSTToRate(rates[12]), 16: addGSTToRate(rates[16]), 20: addGSTToRate(rates[20]),
-    25: addGSTToRate(rates[25]), 30: addGSTToRate(rates[30]),
-    "30+": addGSTToRate(Math.max(500, Math.floor(rates[30] * 0.96 / 500) * 500)),
-    sharingRates: [],
-  };
+  const baseCost = estimatedCostFor(state, title, nights, 2);
+  const baseBeforeGST = String(pkg.slug ?? "") === "varanasi-prayagraj-ayodhya"
+    ? 28571 : Math.ceil(baseCost / (1 - TARGET_MARGIN) / 500) * 500;
+  // Preserve existing 2-person prices. Carry their rounding/override allowance into every tier.
+  const allowance = Math.max(0, baseBeforeGST * (1 - TARGET_MARGIN) - baseCost);
+  const rates = Object.fromEntries(GROUP_SIZES.map((pax) => {
+    const cost = estimatedCostFor(state, title, nights, pax) + allowance;
+    const beforeGST = pax === 2 ? baseBeforeGST : Math.ceil(cost / (1 - TARGET_MARGIN) / 500) * 500;
+    const minimumPublishedRate = Math.ceil(addGSTToRate(baseBeforeGST) * (1 - MAX_GROUP_DISCOUNT));
+    return [pax, Math.max(minimumPublishedRate, addGSTToRate(beforeGST))];
+  }));
+  return { ...rates, sharingRates: [] };
 };
