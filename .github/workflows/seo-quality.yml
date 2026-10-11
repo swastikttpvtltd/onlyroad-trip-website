@@ -20,6 +20,8 @@ jobs:
         run: node scripts/check-seo.cjs
       - name: Existing pricing checks
         run: node scripts/check-group-rate-matrix.cjs
+      - name: Public AI tools and IndexNow privacy checks
+        run: node scripts/check-travel-tools.cjs
       - name: TypeScript check
         run: npx tsc --noEmit --incremental false
       - name: Production Next.js build

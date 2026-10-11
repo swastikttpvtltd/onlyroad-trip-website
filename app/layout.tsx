@@ -26,6 +26,10 @@ export const metadata: Metadata = {
   publisher: "Swastik Tour And Travels Private Limited",
   applicationName: "Only Road Trip",
   category: "Travel",
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } } : {}),
+  },
   formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     type: "website",
@@ -239,6 +243,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <script src="/travel-tools.js" defer />
         <meta name="p:domain_verify" content="e69d8f969be01f0e5597ae44e796e43d" />
         <script
           dangerouslySetInnerHTML={{

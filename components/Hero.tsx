@@ -16,6 +16,7 @@ const heroImages = [
 export default function Hero() {
   return (
     <>
+      <link rel="preload" as="image" href={heroImages[0]} fetchPriority="high" />
       <section className="relative overflow-hidden bg-slate-950">
         {heroImages.map((image, index) => (
           <div
