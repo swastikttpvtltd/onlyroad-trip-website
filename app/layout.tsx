@@ -91,6 +91,7 @@ const ultraPremiumSchema = {
       "image": `${baseUrl}${socialImage}`,
       "telephone": "+91-9211796168",
       "email": "info@onlyroadtrip.com",
+      "openingHours": "Mo-Su",
       "priceRange": "₹₹₹",
       "currenciesAccepted": "INR",
       "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking, Cash",

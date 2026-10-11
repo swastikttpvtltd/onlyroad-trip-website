@@ -89,7 +89,7 @@ export default function Footer() {
             <div className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Registered Office</p><p className="mt-1 text-xs leading-5 text-gray-400">F163, Phase-1<br />New Palam Vihar<br />Gurugram, Haryana 122001</p></div></div>
             <div className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Call Us</p><a href="tel:+919211796168" className="text-xs text-gray-300 hover:text-cyan-400">+91 92117 96168</a></div></div>
             <div className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Email</p><a href="mailto:info@onlyroadtrip.com" className="text-xs text-gray-300 hover:text-cyan-400">info@onlyroadtrip.com</a></div></div>
-            <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sat<br />10:00 AM – 7:00 PM</p></div></div>
+            <div className="flex gap-2"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" /><div><p className="text-xs font-semibold">Office Hours</p><p className="text-xs leading-5 text-gray-300">Mon – Sun<br />Open 24 hours</p></div></div>
           </div>
         </div>
 
