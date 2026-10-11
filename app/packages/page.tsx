@@ -31,7 +31,7 @@ const categories = [...new Set(packageList.map((p) => p.category).filter(Boolean
 const suggestions = [...new Set(packageList.flatMap((p) => [p.title, p.state, p.destination, p.category, ...p.themes].flatMap((value) => String(value || "").split(/[•,|/]/).map((part) => part.trim()).filter(Boolean))))].sort((a, b) => a.localeCompare(b));
 
 export const metadata: Metadata = {
-  title: "Tour Packages | Only Road Trip",
+  title: { absolute: "Tour Packages | Only Road Trip" },
   description: "Explore premium India tour packages, pilgrimage tours, road trips and curated travel experiences at Only Road Trip.",
   alternates: { canonical: "https://www.onlyroadtrip.com/packages" }, robots: { index: true, follow: true },
 };

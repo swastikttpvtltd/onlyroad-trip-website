@@ -6,7 +6,7 @@ const phone = "+919211796168";
 const whatsapp = "https://wa.me/919217259457";
 
 export const metadata: Metadata = {
-  title: "India Tour Packages | Only Road Trip",
+  title: { absolute: "India Tour Packages | Only Road Trip" },
   description:
     "Book customized India tour packages with Only Road Trip. Pilgrimage tours, Kashmir, Himachal, Uttarakhand, Goa, Kerala, Rajasthan, family holidays and corporate travel.",
   keywords: [

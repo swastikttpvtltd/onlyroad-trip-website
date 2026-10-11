@@ -4,7 +4,7 @@ const baseUrl = "https://www.onlyroadtrip.com";
 const socialImage = "/images/logo/only-road-trip-logo.jpeg";
 
 export const metadata: Metadata = {
-  title: "Corporate Travel Agency in Gurugram | Only Road Trip",
+  title: { absolute: "Corporate Travel Agency in Gurugram | Only Road Trip" },
   description: "Only Road Trip provides corporate travel management, business travel, MICE, corporate offsites, flights, hotels, ground transportation and group travel solutions across India.",
   keywords: ["Corporate Travel Agency Gurgaon", "Corporate Travel Agency Gurugram", "Corporate Travel Management India", "Business Travel Agency Gurgaon", "Corporate Travel Services Delhi NCR", "MICE Travel India", "Corporate Offsite Packages", "Business Travel Management", "Corporate Hotel Booking", "Corporate Flight Booking"],
   alternates: { canonical: `${baseUrl}/corporate-travel` },

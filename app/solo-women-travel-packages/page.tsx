@@ -4,7 +4,7 @@ import NicheLandingPage from "@/components/NicheLandingPage";
 const baseUrl = "https://www.onlyroadtrip.com";
 
 export const metadata: Metadata = {
-  title: "Solo Women Travel Packages in India | Only Road Trip",
+  title: { absolute: "Solo Women Travel Packages in India | Only Road Trip" },
   description: "Customized solo women travel packages in India and international destinations with practical itineraries, accommodation planning, transport and travel support.",
   keywords: ["Solo Women Travel Packages", "Solo Female Travel India", "Women Solo Travel Packages India", "Solo Women Tour Packages", "Solo Travel Packages India", "Women Travel Packages"],
   alternates: { canonical: `${baseUrl}/solo-women-travel-packages` },

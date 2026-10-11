@@ -7,7 +7,7 @@ import { hotels } from "@/data/hotels";
 const baseUrl = "https://www.onlyroadtrip.com";
 
 export const metadata: Metadata = {
-  title: "Ayodhya Yatra Package from Delhi | Ram Mandir Tour | Only Road Trip",
+  title: { absolute: "Ayodhya Yatra Package from Delhi | Ram Mandir Tour | Only Road Trip" },
   description: "Book customized Ayodhya Yatra packages from Delhi with Ram Mandir, Ayodhya sightseeing, Saryu, comfortable transport and hotel coordination.",
   keywords: ["Ayodhya Yatra Package", "Ayodhya Yatra Package from Delhi", "Ayodhya Tour Package", "Ram Mandir Tour Package", "Ayodhya Yatra Booking", "Ayodhya Kashi Yatra Package"],
   alternates: { canonical: `${baseUrl}/ayodhya-yatra-package` },
