@@ -59,13 +59,16 @@ const vehicleOptions = [
   { seats: 20, factor: 2.6 }, { seats: 25, factor: 3 },
   { seats: 30, factor: 3.35 },
 ];
+// All packages use the same capacity estimates. Extend this cache once per worker,
+// rather than rebuilding the fleet calculation for every package and every tier.
+const transportCosts = [0];
 export function transportFactorFor(pax: number) {
-  const costs = Array<number>(Math.ceil(pax) + 1).fill(0);
-  for (let count = 1; count <= pax; count++) {
-    costs[count] = Math.min(...vehicleOptions.map(({ seats, factor }) =>
-      factor + costs[Math.max(0, count - seats)]));
+  const target = Math.ceil(pax);
+  for (let count = transportCosts.length; count <= target; count++) {
+    transportCosts[count] = Math.min(...vehicleOptions.map(({ seats, factor }) =>
+      factor + transportCosts[Math.max(0, count - seats)]));
   }
-  return costs[Math.ceil(pax)];
+  return transportCosts[target];
 }
 
 export const TARGET_MARGIN = 0.18;
