@@ -15,5 +15,8 @@ for (const file of files) {
   await sharp(source).rotate().resize({ width: 1920, withoutEnlargement: true })
     .webp({ quality: 90, effort: 5 }).toFile(target);
   after += (await fs.stat(target)).size;
+  // Same photograph/crop on phones, without downloading the desktop width.
+  await sharp(source).rotate().resize({ width: 900, withoutEnlargement: true })
+    .webp({ quality: 85, effort: 5 }).toFile(target.replace(/\.webp$/, "-mobile.webp"));
 }
 console.log(`Hero images: ${files.length}; original ${before} bytes; optimized ${after} bytes; reduction ${((1-after/before)*100).toFixed(1)}%.`);

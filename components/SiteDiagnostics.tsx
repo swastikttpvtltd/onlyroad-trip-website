@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useReportWebVitals } from "next/web-vitals";
+import { usePathname } from "next/navigation";
 import { isExcludedSeoPath } from "@/lib/seoWorkScope";
 import { reportConversion } from "@/lib/conversionEvents";
 
@@ -14,6 +15,7 @@ const reportVitals: Parameters<typeof useReportWebVitals>[0] = metric => {
 };
 
 export default function SiteDiagnostics() {
+  const pathname = usePathname();
   useReportWebVitals(reportVitals);
   useEffect(() => {
     const view = () => {
@@ -30,6 +32,6 @@ export default function SiteDiagnostics() {
     };
     document.addEventListener("click", clicked);
     return () => document.removeEventListener("click", clicked);
-  }, []);
+  }, [pathname]);
   return null;
 }
