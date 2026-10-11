@@ -201,13 +201,9 @@ function packageStructuredData(
   return schema;
 }
 
-// Catalogue details change through deployments. Build these public pages once
-// rather than rendering the same itinerary for every request on the Worker.
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return packages.map((pkg) => ({ slug: normalizeSlug(pkg.slug) }));
-}
+// The deployed OpenNext configuration uses a dummy incremental cache. Keep
+// package routes rendered on request so existing slugs remain available.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -331,3 +327,4 @@ function ContentCard({ id, title, children }: { id?: string; title: string; chil
 function InfoColumn({ title, children }: { title: string; children: ReactNode }) {
   return <div><h3 className="mb-3 text-lg font-bold text-slate-900">{title}</h3><div className="space-y-3">{children}</div></div>;
 }
+

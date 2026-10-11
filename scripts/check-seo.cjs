@@ -41,7 +41,6 @@ for(const file of fs.readdirSync(path.join(root,'public/images/hero')).filter(fi
 async function checkRenderedPackages(){
   const page=require(path.join(root,'app/packages/[slug]/page.tsx'));
   const {isGroupTourBookingPaused}=require(path.join(root,'data/groupTourBookingPause.ts'));
-  assert.deepEqual(page.generateStaticParams().map(item=>item.slug).sort(),packages.map(pkg=>pkg.slug).sort());
   for(const pkg of packages){
     const props={params:Promise.resolve({slug:pkg.slug})};
     const metadata=await page.generateMetadata(props);
@@ -71,3 +70,4 @@ async function checkRenderedPackages(){
   console.log('PASS: '+packages.length+' rendered package H1s, metadata and schema; '+sitemap.length+' sitemap URLs; transaction noindex, JSON-LD escaping and generated hero assets.');
 }
 checkRenderedPackages().catch(error=>{console.error(error);process.exitCode=1});
+
