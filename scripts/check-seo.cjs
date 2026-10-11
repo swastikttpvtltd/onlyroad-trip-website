@@ -21,6 +21,8 @@ for(const entry of sitemap){
 }
 for(const pkg of packages){
   assert.ok(urls.has('https://www.onlyroadtrip.com/packages/'+pkg.slug),pkg.slug);
+  const imageEntry=sitemap.find(entry=>entry.url==='https://www.onlyroadtrip.com/packages/'+pkg.slug);
+  assert.deepEqual(imageEntry.images,['https://www.onlyroadtrip.com'+pkg.image]);
   const description=packageDescription(pkg);
   assert.ok(description.includes(pkg.title)&&description.includes(pkg.duration));
   assert.ok(description.includes('door-to-door travel planning across India'));
