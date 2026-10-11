@@ -48,6 +48,7 @@ async function checkRenderedPackages(){
   }
   assert.equal(robots.sitemap,'https://www.onlyroadtrip.com/sitemap.xml');
   const indexResponse=require(path.join(root,'app/llms.txt/route.ts')).GET();
+  assert.equal(fs.existsSync(path.join(root,'public/llms.txt')),false,'active discovery route must not conflict with a public file');
   assert.equal(indexResponse.status,200);
   assert.equal(indexResponse.headers.get('content-type'),'text/plain; charset=utf-8');
   const index=await indexResponse.text();

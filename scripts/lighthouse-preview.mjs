@@ -11,6 +11,11 @@ try {
     await new Promise(resolve=>setTimeout(resolve,1000));
   }
   if(!ready) throw new Error('Preview server did not start');
+  for(const route of ['/llms.txt','/site.webmanifest','/.well-known/security.txt','/icon-180.png','/icon-192.png','/icon-512.png']) {
+    const response=await fetch('http://127.0.0.1:3020'+route,{signal:AbortSignal.timeout(15000)});
+    if(!response.ok) throw new Error('Public support route failed: '+route+' '+response.status);
+    if(route==='/llms.txt' && !(await response.text()).includes('/traveller-terms-and-conditions')) throw new Error('Traveller terms missing from active discovery route');
+  }
   const rows=[];
   for(const [name,route] of pages) {
     const output='lighthouse-results/'+name+'.json';
