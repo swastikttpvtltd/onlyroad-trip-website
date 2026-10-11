@@ -118,6 +118,18 @@ const ultraPremiumSchema = {
         "postalCode": "122001",
         "addressCountry": "IN"
       },
+      "location": {
+        "@type": "Place",
+        "name": "Only Road Trip office location",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Gurugram",
+          "addressRegion": "Haryana",
+          "postalCode": "122017",
+          "addressCountry": "IN"
+        },
+        "hasMap": "https://share.google/FVOLie1cWjmdKX98c"
+      },
       "contactPoint": [
         {
           "@type": "ContactPoint",
@@ -135,7 +147,8 @@ const ultraPremiumSchema = {
         "https://www.facebook.com/profile.php?id=61587958079412",
         "https://www.instagram.com/onlyroadtrip.official",
         "https://www.linkedin.com/company/only-road-trip/",
-        "https://in.pinterest.com/onlyroadtrip/"
+        "https://in.pinterest.com/onlyroadtrip/",
+        "https://share.google/FVOLie1cWjmdKX98c"
       ],
       "knowsAbout": [
         "Travel Agency Services",
