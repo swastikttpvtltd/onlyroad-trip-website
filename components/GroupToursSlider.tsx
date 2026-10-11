@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
 import type { PackageCardSummary } from "@/lib/packageCardSummary";
+import { startVisibleAutoscroll } from "@/lib/visibleAutoscroll";
 
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
@@ -16,8 +17,7 @@ export default function GroupToursSlider({ packages }: { packages: PackageCardSu
   });
 
   useEffect(() => {
-    const timer = window.setInterval(() => scrollByCard(1), 4500);
-    return () => window.clearInterval(timer);
+    return startVisibleAutoscroll(trackRef.current, () => scrollByCard(1), 4500);
   }, []);
 
   function scrollByCard(direction: number) {

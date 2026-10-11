@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
 import type { PackageCardSummary } from "@/lib/packageCardSummary";
+import { startVisibleAutoscroll } from "@/lib/visibleAutoscroll";
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
 const sections = [
@@ -38,8 +39,7 @@ function PackageSlider({ title, description, href, trips, index }: { title: stri
 
   useEffect(() => {
     if (paused || trips.length < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(() => { if (!document.hidden) move(1); }, 5000 + index * 350);
-    return () => window.clearInterval(timer);
+    return startVisibleAutoscroll(trackRef.current, () => move(1), 5000 + index * 350);
   }, [paused, trips.length, index]);
 
   if (!trips.length) return null;
