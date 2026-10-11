@@ -10,7 +10,8 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:instagram": "node scripts/deploy-instagram.mjs"
   },
   "dependencies": {
     "i18n-iso-countries": "^7.14.0",
