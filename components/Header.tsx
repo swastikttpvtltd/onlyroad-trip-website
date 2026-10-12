@@ -64,6 +64,11 @@ export default function Header() {
         if (!headerRef.current) return;
         const r = headerRef.current.getBoundingClientRect();
         const y = Math.max(1, Math.min(innerHeight - 1, Math.round(r.top + r.height / 2)));
+        if (pathname === "/customer" || pathname.startsWith("/customer/")) {
+          const banner = document.querySelector("[data-portal-header]");
+          setOverLight(!banner || banner.getBoundingClientRect().bottom < y);
+          return;
+        }
         const xs = [0.34, 0.5, 0.66].map((q) => Math.round(innerWidth * q));
         const v = headerRef.current.style.visibility;
         headerRef.current.style.visibility = "hidden";
@@ -79,7 +84,7 @@ export default function Header() {
     addEventListener("scroll", detect, { passive: true });
     addEventListener("resize", detect);
     return () => { cancelAnimationFrame(frame); clearTimeout(timer); removeEventListener("scroll", detect); removeEventListener("resize", detect); };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
