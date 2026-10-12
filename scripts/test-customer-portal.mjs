@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
-import { createHash, createHmac } from 'node:crypto';
+import { createDecipheriv, createHash, createHmac } from 'node:crypto';
 import { createRequire } from 'node:module';
 import ts from 'typescript';
 const require = createRequire(import.meta.url);
@@ -21,6 +21,7 @@ for (const overrides of [{ policy: null }, { acknowledgedAt: null }, { supplierP
 assert.equal(refundQuote({ ...base, supplierPaise: 4000000 }).refundPaise, 0);
 const sqlite = new DatabaseSync(':memory:');
 sqlite.exec(readFileSync(new URL('../migrations/0001_customer_portal.sql', import.meta.url), 'utf8'));
+sqlite.exec(readFileSync(new URL('../migrations/0002_optional_identity_and_traveller_category.sql', import.meta.url), 'utf8'));
 const db = { prepare(sql) { const query = sqlite.prepare(sql); let values = []; const statement = { bind(...args) { values = args; return statement; }, async first() { return query.get(...values) ?? null; }, async all() { return { results: query.all(...values) }; }, async run() { const result = query.run(...values); return { meta: { changes: Number(result.changes) } }; } }; return statement; }, async batch(statements) { sqlite.exec('BEGIN'); try { const results = []; for (const statement of statements) results.push(await statement.run()); sqlite.exec('COMMIT'); return results; } catch (error) { sqlite.exec('ROLLBACK'); throw error; } } };
 const env = { PORTAL_ENABLED: 'true', PORTAL_DB: db, PORTAL_ORIGIN: 'https://staging.example.test', PORTAL_OTP_SECRET: 'test-only-secret-that-is-longer-than-32-characters', PORTAL_EMAIL_API_KEY: 'test-only', PORTAL_EMAIL_FROM: 'test@example.test' };
 globalThis.__portalTestEnv = env;
@@ -54,6 +55,32 @@ assert.equal((await call('admin/cancellations', 'alice')).status, 403);
 assert.equal((await call('profile', 'alice', { name: 'Alice' }, 'https://evil.example')).status, 403);
 assert.equal((await call('profile', 'alice', { name: 'Alice', role: 'admin' })).status, 200);
 assert.equal(sqlite.prepare('SELECT role FROM portal_customers WHERE id=?').get('alice').role, 'customer');
+// IDs are optional for every category, and sensitive numbers are encrypted and never returned.
+for (const category of ['adult','child','infant']) {
+  const added = await call('travellers','alice',{name:`Test ${category}`,relation:'Family',category});
+  assert.equal(added.status,201);
+  const saved=sqlite.prepare('SELECT category,identity_ciphertext FROM portal_travellers WHERE id=?').get((await added.json()).id);
+  assert.equal(saved.category,category); assert.equal(saved.identity_ciphertext,null);
+}
+assert.equal((await call('travellers','alice',{name:'Test',relation:'Family',category:'unknown'})).status,400);
+assert.equal((await call('travellers','alice',{name:'Test',relation:'Family',category:'child',identityType:'Other government ID',identityNumber:'SAMPLE1234'})).status,503);
+env.PORTAL_IDENTITY_KEY=Buffer.alloc(32,7).toString('base64');
+assert.equal((await call('travellers','alice',{name:'Test',relation:'Family',category:'adult',identityType:'Aadhaar',identityNumber:'123'})).status,400);
+const added=await call('travellers','alice',{name:'Sample ID traveller',relation:'Family',category:'child',identityType:'Other government ID',identityNumber:'SAMPLE1234'});
+assert.equal(added.status,201);
+const identityId=(await added.json()).id;
+const savedId=sqlite.prepare('SELECT identity_ciphertext,identity_mask FROM portal_travellers WHERE id=?').get(identityId);
+assert.equal(savedId.identity_mask,'•••• 1234'); assert.ok(!savedId.identity_ciphertext.includes('SAMPLE1234'));
+const encrypted=JSON.parse(savedId.identity_ciphertext);
+const decipher=createDecipheriv('aes-256-gcm',Buffer.from(env.PORTAL_IDENTITY_KEY,'base64'),Buffer.from(encrypted.nonce,'base64'));
+decipher.setAAD(Buffer.from(`portal-identity:v1:${identityId}:Other government ID`)); decipher.setAuthTag(Buffer.from(encrypted.tag,'base64'));
+assert.equal(Buffer.concat([decipher.update(Buffer.from(encrypted.data,'base64')),decipher.final()]).toString(),'SAMPLE1234');
+assert.equal((await call('profile','alice',{name:'Alice',identityType:'Other government ID',identityNumber:'SAMPLE5678'})).status,200);
+assert.equal((await call('profile','alice',{name:'Alice updated',identityNumber:''})).status,200);
+const safeOverview=await (await call('overview','alice')).json();
+assert.equal(safeOverview.customer.identity_mask,'•••• 5678');
+assert.ok(!JSON.stringify(safeOverview).includes('SAMPLE')); assert.ok(!JSON.stringify(safeOverview).includes('identity_ciphertext'));
+const foreignTravellers=await (await call('overview','bob')).json(); assert.equal(foreignTravellers.travellers.length,0);
 assert.equal((await (await call('bookings/booking-alice/cancellation', 'alice')).json()).available, false);
 assert.equal((await call('bookings/booking-alice/cancellation', 'alice', { reason: 'Plans have changed', confirm: true })).status, 201);
 assert.equal((await call('bookings/booking-alice/cancellation', 'alice', { reason: 'Plans have changed', confirm: true })).status, 409);
@@ -74,4 +101,4 @@ for (let i = 0; i < 6; i++) assert.equal((await call('auth/email/verify', null, 
 assert.equal(sqlite.prepare('SELECT attempts FROM portal_challenges WHERE id=?').get('limit-test').attempts, 5);
 globalThis.__portalTestEnv = {}; assert.equal((await call('overview', 'alice')).status, 503);
 sqlite.close();
-console.log('PASS: policy boundaries, missing data, refund caps, migration, ownership isolation, admin role, CSRF, duplicate requests, approval workflow, OTP replay/limits, secure cookies, disabled configuration. No external provider calls.');
+console.log('PASS: policy boundaries, missing data, refund caps, migrations, ownership isolation, admin role, CSRF, duplicate requests, approval workflow, OTP replay/limits, secure cookies, optional IDs, Adult/Child/Infant categories, authenticated ID encryption, masked responses, disabled configuration. No external provider calls.');

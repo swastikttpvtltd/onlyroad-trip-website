@@ -1,12 +1,12 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextRequest, NextResponse } from "next/server";
-import { createHash, createHmac, randomBytes, randomInt } from "node:crypto";
+import { createCipheriv, createHash, createHmac, randomBytes, randomInt } from "node:crypto";
 import { refundQuote, type Policy } from "./policy";
 
 type Statement = { bind(...values: unknown[]): Statement; first<T>(): Promise<T | null>; all<T>(): Promise<{ results: T[] }>; run(): Promise<{ meta: { changes: number } }> };
 type Database = { prepare(sql: string): Statement; batch(statements: Statement[]): Promise<unknown> };
-type Env = { PORTAL_ENABLED?: string; PORTAL_DB?: Database; PORTAL_ORIGIN?: string; PORTAL_OTP_SECRET?: string; PORTAL_EMAIL_API_KEY?: string; PORTAL_EMAIL_FROM?: string; PORTAL_DOCUMENTS?: { get(key: string): Promise<{ body: ReadableStream } | null> } };
-type Customer = { id: string; email: string; name: string; phone: string; role: string };
+type Env = { PORTAL_ENABLED?: string; PORTAL_DB?: Database; PORTAL_ORIGIN?: string; PORTAL_OTP_SECRET?: string; PORTAL_EMAIL_API_KEY?: string; PORTAL_EMAIL_FROM?: string; PORTAL_IDENTITY_KEY?: string; PORTAL_DOCUMENTS?: { get(key: string): Promise<{ body: ReadableStream } | null> } };
+type Customer = { id: string; email: string; name: string; phone: string; role: string; identity_type: string | null; identity_mask: string | null };
 type Booking = { id: string; customer_id: string; total_paise: number; paid_paise: number; supplier_paise: number | null; departure: string; policy_version: string | null; status: string };
 class PortalError extends Error { constructor(message: string, public status: number) { super(message); } }
 const hash = (value: string) => createHash("sha256").update(value).digest("hex");
@@ -29,10 +29,25 @@ async function body(request: NextRequest): Promise<Record<string, unknown>> {
   try { const value = JSON.parse(raw); if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error(); return value; } catch { throw new PortalError("Invalid request.", 400); }
 }
 function text(value: unknown, max = 200): string { return typeof value === "string" ? value.trim().slice(0, max) : ""; }
+function optionalIdentity(input: Record<string, unknown>, secret: string | undefined, owner: string) {
+  if (input.identityNumber === undefined || input.identityNumber === "") return null;
+  if (typeof input.identityNumber !== "string" || input.identityNumber.length > 64) throw new PortalError("Enter a valid ID number.", 400);
+  const number = input.identityNumber.trim().replace(/[\s-]/g, "").toUpperCase();
+  if (!number) return null;
+  const type = text(input.identityType, 40);
+  if (!["Aadhaar", "PAN", "Passport", "Driving licence", "Voter ID", "Other government ID"].includes(type) || !/^[A-Z0-9]{4,32}$/.test(number) || (type === "Aadhaar" && !/^[2-9][0-9]{11}$/.test(number)) || (type === "PAN" && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(number))) throw new PortalError("Enter a valid number for the selected ID type, or leave it blank.", 400);
+  if (!secret || !/^[A-Za-z0-9+/]{43}=$/.test(secret)) throw new PortalError("Secure ID storage is awaiting configuration. You can save without an ID number.", 503);
+  const key = Buffer.from(secret, "base64");
+  if (key.length !== 32) throw new PortalError("Secure ID storage is unavailable. You can save without an ID number.", 503);
+  const nonce = randomBytes(12), cipher = createCipheriv("aes-256-gcm", key, nonce);
+  cipher.setAAD(Buffer.from(`portal-identity:v1:${owner}:${type}`));
+  const ciphertext = Buffer.concat([cipher.update(number, "utf8"), cipher.final()]);
+  return { type, mask: `•••• ${number.slice(-4)}`, ciphertext: JSON.stringify({ v: 1, nonce: nonce.toString("base64"), tag: cipher.getAuthTag().toString("base64"), data: ciphertext.toString("base64") }) };
+}
 async function customer(request: NextRequest, db: Database): Promise<Customer> {
   const token = request.cookies.get(cookieName)?.value;
   if (!token || !/^[a-f0-9]{64}$/.test(token)) throw new PortalError("Please sign in to continue.", 401);
-  const user = await db.prepare("SELECT c.id,c.email,c.name,c.phone,c.role FROM portal_sessions s JOIN portal_customers c ON c.id=s.customer_id WHERE s.token_hash=? AND s.expires_at>?").bind(hash(token), Date.now()).first<Customer>();
+  const user = await db.prepare("SELECT c.id,c.email,c.name,c.phone,c.role,c.identity_type,c.identity_mask FROM portal_sessions s JOIN portal_customers c ON c.id=s.customer_id WHERE s.token_hash=? AND s.expires_at>?").bind(hash(token), Date.now()).first<Customer>();
   if (!user) throw new PortalError("Your session has expired. Please sign in again.", 401);
   return user;
 }
@@ -98,7 +113,7 @@ export async function portalHandler(request: NextRequest, path: string[]) {
     if (action === "overview" && request.method === "GET") {
       const [bookings, travellers, payments, documents, cancellations] = await Promise.all([
         db.prepare("SELECT * FROM portal_bookings WHERE customer_id=? ORDER BY departure DESC").bind(user.id).all(),
-        db.prepare("SELECT id,name,relation FROM portal_travellers WHERE customer_id=?").bind(user.id).all(),
+        db.prepare("SELECT id,name,relation,category,identity_type,identity_mask FROM portal_travellers WHERE customer_id=?").bind(user.id).all(),
         db.prepare("SELECT p.* FROM portal_payments p JOIN portal_bookings b ON b.id=p.booking_id WHERE b.customer_id=?").bind(user.id).all(),
         db.prepare("SELECT d.id,d.name,d.kind,d.released_at,d.booking_id FROM portal_documents d JOIN portal_bookings b ON b.id=d.booking_id WHERE b.customer_id=?").bind(user.id).all(),
         db.prepare("SELECT id,booking_id,status,requested_at,acknowledged_at,quote_json,review_note FROM portal_cancellations WHERE customer_id=?").bind(user.id).all(),
@@ -108,13 +123,18 @@ export async function portalHandler(request: NextRequest, path: string[]) {
     if (action === "profile" && request.method === "POST") {
       const input = await body(request), name = text(input.name, 100), phone = text(input.phone, 20);
       if (!name || (phone && !/^\+?[0-9]{7,15}$/.test(phone))) throw new PortalError("Enter your name and a valid mobile number.", 400);
-      await db.batch([db.prepare("UPDATE portal_customers SET name=?,phone=? WHERE id=?").bind(name, phone, user.id), audit(db, user.id, "profile_updated", user.id)]); return json({ success: true });
+      const identity = optionalIdentity(input, env.PORTAL_IDENTITY_KEY, user.id);
+      const update = identity ? db.prepare("UPDATE portal_customers SET name=?,phone=?,identity_type=?,identity_mask=?,identity_ciphertext=? WHERE id=?").bind(name, phone, identity.type, identity.mask, identity.ciphertext, user.id) : db.prepare("UPDATE portal_customers SET name=?,phone=? WHERE id=?").bind(name, phone, user.id);
+      await db.batch([update, audit(db, user.id, "profile_updated", user.id)]); return json({ success: true });
     }
     if (action === "travellers" && request.method === "POST") {
       const input = await body(request), name = text(input.name, 100), relation = text(input.relation, 40);
       if (!name || !relation) throw new PortalError("Traveller name and relationship are required.", 400);
+      const category = input.category === undefined ? "adult" : text(input.category, 20);
+      if (!["adult", "child", "infant"].includes(category)) throw new PortalError("Select Adult, Child or Infant.", 400);
       const id = crypto.randomUUID();
-      await db.batch([db.prepare("INSERT INTO portal_travellers(id,customer_id,name,relation) VALUES(?,?,?,?)").bind(id, user.id, name, relation), audit(db, user.id, "traveller_added", id)]); return json({ id }, 201);
+      const identity = optionalIdentity(input, env.PORTAL_IDENTITY_KEY, id);
+      await db.batch([db.prepare("INSERT INTO portal_travellers(id,customer_id,name,relation,category,identity_type,identity_mask,identity_ciphertext) VALUES(?,?,?,?,?,?,?,?)").bind(id, user.id, name, relation, category, identity?.type ?? null, identity?.mask ?? null, identity?.ciphertext ?? null), audit(db, user.id, "traveller_added", id)]); return json({ id }, 201);
     }
     if (path[0] === "documents" && path.length === 2 && request.method === "GET") {
       const doc = await db.prepare("SELECT d.object_key,d.name,d.content_type FROM portal_documents d JOIN portal_bookings b ON b.id=d.booking_id WHERE d.id=? AND b.customer_id=? AND d.released_at IS NOT NULL").bind(path[1], user.id).first<{ object_key: string; name: string; content_type: string }>();
