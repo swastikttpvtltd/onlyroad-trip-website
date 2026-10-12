@@ -103,6 +103,7 @@ export default function Header() {
   }, [pathname]);
 
   const nav = `group relative text-[15px] font-bold tracking-[0.01em] transition-colors duration-300 ${overLight ? "text-slate-950 hover:text-blue-700" : "text-white hover:text-cyan-200 [text-shadow:0_1px_3px_rgba(0,0,0,0.9)]"}`;
+  const portalNavStyle = pathname === "/customer" || pathname.startsWith("/customer/") ? { color: overLight ? "#020617" : "#ffffff" } : undefined;
 
   return (
     <header ref={headerRef} className="fixed inset-x-0 top-3 z-50 px-3 sm:px-4">
@@ -113,27 +114,27 @@ export default function Header() {
           </Link>
 
           <nav className="hidden items-center gap-7 lg:flex">
-            <Link href="/" className={nav}>Home</Link>
+            <Link href="/" style={portalNavStyle} className={nav}>Home</Link>
             <div className="group/experiences relative flex h-[68px] items-center">
-              <Link href="/packages" className={`${nav} flex items-center gap-1.5`}>Experiences ⌄</Link>
+              <Link href="/packages" style={portalNavStyle} className={`${nav} flex items-center gap-1.5`}>Experiences ⌄</Link>
               <div className="invisible absolute left-1/2 top-[62px] w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover/experiences:visible group-hover/experiences:translate-y-0 group-hover/experiences:opacity-100">
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-4 text-white"><p className="text-lg font-bold">Explore by Experience</p></div><div className="grid grid-cols-4 gap-2 p-4">{experienceThemes.map((t) => <Link key={t.name} href={`/packages?theme=${encodeURIComponent(t.query)}`} className="rounded-xl p-3 hover:bg-blue-50"><b className="block text-sm text-slate-900">{t.name}</b><span className="text-[11px] text-slate-500">{t.description}</span></Link>)}</div></div>
               </div>
             </div>
             <div className="group/packages relative flex h-[68px] items-center">
-              <Link href="/packages" className={`${nav} flex items-center gap-1.5`}>Packages ⌄</Link>
+              <Link href="/packages" style={portalNavStyle} className={`${nav} flex items-center gap-1.5`}>Packages ⌄</Link>
               <div className="invisible absolute left-1/2 top-[62px] w-[780px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover/packages:visible group-hover/packages:translate-y-0 group-hover/packages:opacity-100">
                 <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="flex items-center justify-between bg-gradient-to-r from-blue-700 to-cyan-600 px-6 py-4 text-white"><div><p className="text-lg font-bold">Explore Packages by State</p><p className="text-xs text-blue-100">Select a state to view all available tour packages</p></div><Link href="/packages" className="rounded-full border border-white/40 bg-white/15 px-4 py-2 text-xs font-bold hover:bg-white/25">View All</Link></div><div className="grid max-h-[430px] grid-cols-3 gap-2 overflow-y-auto p-4">{packageStates.map((state) => <Link key={state} href={`/packages?state=${encodeURIComponent(state)}`} className="group/state flex items-center justify-between rounded-xl border border-transparent px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"><span>{state}</span><span className="translate-x-0 text-blue-500 opacity-0 transition group-hover/state:translate-x-1 group-hover/state:opacity-100">→</span></Link>)}</div></div>
               </div>
             </div>
-            <Link href="/corporate-travel" className={nav}>Corporate Travel</Link>
-            <Link href="/village-immersion" className={`${nav} whitespace-nowrap`}>Village Immersion <span className="ml-1 rounded-full bg-cyan-400/20 px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-cyan-300">New</span></Link>
-            <Link href="/about" className={nav}>About Us</Link>
-            <Link href="/contact" className={nav}>Contact</Link>
+            <Link href="/corporate-travel" style={portalNavStyle} className={nav}>Corporate Travel</Link>
+            <Link href="/village-immersion" style={portalNavStyle} className={`${nav} whitespace-nowrap`}>Village Immersion <span className="ml-1 rounded-full bg-cyan-400/20 px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-cyan-300">New</span></Link>
+            <Link href="/about" style={portalNavStyle} className={nav}>About Us</Link>
+            <Link href="/contact" style={portalNavStyle} className={nav}>Contact</Link>
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link href="/plan-your-trip" className={`hidden rounded-full border px-4 py-2 text-sm font-bold sm:inline-flex sm:px-6 sm:py-2.5 ${overLight ? "border-slate-500/70 bg-white/55 text-slate-950" : "border-white/80 bg-white/15 text-white"}`}>Plan Your Trip</Link>
+            <Link href="/plan-your-trip" style={portalNavStyle} className={`hidden rounded-full border px-4 py-2 text-sm font-bold sm:inline-flex sm:px-6 sm:py-2.5 ${overLight ? "border-slate-500/70 bg-white/55 text-slate-950" : "border-white/80 bg-white/15 text-white"}`}>Plan Your Trip</Link>
             <button type="button" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} onClick={() => setMobileOpen((v) => !v)} className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border lg:hidden ${overLight ? "border-slate-400 bg-white/70 text-slate-900" : "border-white/60 bg-white/15 text-white"}`}><span className="sr-only">Menu</span><span className="flex flex-col gap-1.5"><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "translate-y-2 rotate-45" : ""} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-opacity ${mobileOpen ? "opacity-0" : "opacity-100"} bg-current`} /><span className={`h-0.5 w-5 rounded-full transition-transform ${mobileOpen ? "-translate-y-2 -rotate-45" : ""} bg-current`} /></span></button>
           </div>
         </div>
