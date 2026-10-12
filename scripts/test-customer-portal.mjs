@@ -22,6 +22,7 @@ assert.equal(refundQuote({ ...base, supplierPaise: 4000000 }).refundPaise, 0);
 const sqlite = new DatabaseSync(':memory:');
 sqlite.exec(readFileSync(new URL('../migrations/0001_customer_portal.sql', import.meta.url), 'utf8'));
 sqlite.exec(readFileSync(new URL('../migrations/0002_optional_identity_and_traveller_category.sql', import.meta.url), 'utf8'));
+sqlite.exec(readFileSync(new URL('../migrations/0003_optional_travel_support.sql', import.meta.url), 'utf8'));
 const db = { prepare(sql) { const query = sqlite.prepare(sql); let values = []; const statement = { bind(...args) { values = args; return statement; }, async first() { return query.get(...values) ?? null; }, async all() { return { results: query.all(...values) }; }, async run() { const result = query.run(...values); return { meta: { changes: Number(result.changes) } }; } }; return statement; }, async batch(statements) { sqlite.exec('BEGIN'); try { const results = []; for (const statement of statements) results.push(await statement.run()); sqlite.exec('COMMIT'); return results; } catch (error) { sqlite.exec('ROLLBACK'); throw error; } } };
 const env = { PORTAL_ENABLED: 'true', PORTAL_DB: db, PORTAL_ORIGIN: 'https://staging.example.test', PORTAL_OTP_SECRET: 'test-only-secret-that-is-longer-than-32-characters', PORTAL_EMAIL_API_KEY: 'test-only', PORTAL_EMAIL_FROM: 'test@example.test' };
 globalThis.__portalTestEnv = env;
@@ -81,6 +82,17 @@ const safeOverview=await (await call('overview','alice')).json();
 assert.equal(safeOverview.customer.identity_mask,'•••• 5678');
 assert.ok(!JSON.stringify(safeOverview).includes('SAMPLE')); assert.ok(!JSON.stringify(safeOverview).includes('identity_ciphertext'));
 const foreignTravellers=await (await call('overview','bob')).json(); assert.equal(foreignTravellers.travellers.length,0);
+for (const supportRequest of ['none','wheelchair','assistance','both']) {
+  const response=await call('travellers','alice',{name:'Support test',relation:'Family',category:'adult',supportRequest});
+  assert.equal(response.status,201);
+  assert.equal(sqlite.prepare('SELECT support_request FROM portal_travellers WHERE id=?').get((await response.json()).id).support_request,supportRequest);
+}
+assert.equal((await call('travellers','alice',{name:'Support test',relation:'Family',supportRequest:'invalid'})).status,400);
+assert.equal((await call('profile','alice',{name:'Alice',supportRequest:'both'})).status,200);
+assert.equal((await call('profile','alice',{name:'Alice',supportRequest:'invalid'})).status,400);
+assert.equal((await call('profile','alice',{name:'Alice'})).status,200);
+assert.equal((await (await call('overview','alice')).json()).customer.support_request,'both');
+assert.equal((await call('profile','alice',{name:'Alice',supportRequest:'none'})).status,200);
 assert.equal((await (await call('bookings/booking-alice/cancellation', 'alice')).json()).available, false);
 assert.equal((await call('bookings/booking-alice/cancellation', 'alice', { reason: 'Plans have changed', confirm: true })).status, 201);
 assert.equal((await call('bookings/booking-alice/cancellation', 'alice', { reason: 'Plans have changed', confirm: true })).status, 409);
@@ -101,4 +113,4 @@ for (let i = 0; i < 6; i++) assert.equal((await call('auth/email/verify', null, 
 assert.equal(sqlite.prepare('SELECT attempts FROM portal_challenges WHERE id=?').get('limit-test').attempts, 5);
 globalThis.__portalTestEnv = {}; assert.equal((await call('overview', 'alice')).status, 503);
 sqlite.close();
-console.log('PASS: policy boundaries, missing data, refund caps, migrations, ownership isolation, admin role, CSRF, duplicate requests, approval workflow, OTP replay/limits, secure cookies, optional IDs, Adult/Child/Infant categories, authenticated ID encryption, masked responses, disabled configuration. No external provider calls.');
+console.log('PASS: policy boundaries, missing data, refund caps, migrations, ownership isolation, admin role, CSRF, duplicate requests, approval workflow, OTP replay/limits, secure cookies, optional IDs, Adult/Child/Infant categories, ID encryption, masked responses, optional wheelchair/assistance preferences, disabled configuration. No external provider calls.');
