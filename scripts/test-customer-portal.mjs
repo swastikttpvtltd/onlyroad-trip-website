@@ -81,7 +81,8 @@ assert.equal((await call('profile','alice',{name:'Alice updated',identityNumber:
 const safeOverview=await (await call('overview','alice')).json();
 assert.equal(safeOverview.customer.identity_mask,'•••• 5678');
 assert.ok(!JSON.stringify(safeOverview).includes('SAMPLE')); assert.ok(!JSON.stringify(safeOverview).includes('identity_ciphertext'));
-const foreignTravellers=await (await call('overview','bob')).json(); assert.equal(foreignTravellers.travellers.length,0);
+const foreignTravellers=await (await call('overview','bob')).json(); assert.equal(foreignTravellers.travellers.filter(t=>!t.is_account_holder).length,0);
+assert.equal(foreignTravellers.travellers[0].is_account_holder,true);
 for (const supportRequest of ['none','wheelchair','assistance','both']) {
   const response=await call('travellers','alice',{name:'Support test',relation:'Family',category:'adult',supportRequest});
   assert.equal(response.status,201);
@@ -93,6 +94,15 @@ assert.equal((await call('profile','alice',{name:'Alice',supportRequest:'invalid
 assert.equal((await call('profile','alice',{name:'Alice'})).status,200);
 assert.equal((await (await call('overview','alice')).json()).customer.support_request,'both');
 assert.equal((await call('profile','alice',{name:'Alice',supportRequest:'none'})).status,200);
+assert.equal((await call('travellers/account-holder:alice/delete','alice',{confirm:true})).status,403);
+assert.equal((await call(`travellers/${identityId}/delete`,'bob',{confirm:true})).status,404);
+assert.equal((await call(`travellers/${identityId}/delete`,'alice',{confirm:false})).status,400);
+assert.equal((await call(`travellers/${identityId}/delete`,'alice',{confirm:true},'https://evil.example')).status,403);
+assert.equal((await call(`travellers/${identityId}/delete`,'alice',{confirm:true})).status,200);
+assert.equal(sqlite.prepare('SELECT id FROM portal_travellers WHERE id=?').get(identityId),undefined);
+assert.equal((await call(`travellers/${identityId}/delete`,'alice',{confirm:true})).status,404);
+assert.equal((await (await call('overview','alice')).json()).travellers[0].is_account_holder,true);
+assert.equal(sqlite.prepare('SELECT COUNT(*) AS count FROM portal_bookings').get().count,1);
 assert.equal((await (await call('bookings/booking-alice/cancellation', 'alice')).json()).available, false);
 assert.equal((await call('bookings/booking-alice/cancellation', 'alice', { reason: 'Plans have changed', confirm: true })).status, 201);
 assert.equal((await call('bookings/booking-alice/cancellation', 'alice', { reason: 'Plans have changed', confirm: true })).status, 409);
@@ -113,4 +123,4 @@ for (let i = 0; i < 6; i++) assert.equal((await call('auth/email/verify', null, 
 assert.equal(sqlite.prepare('SELECT attempts FROM portal_challenges WHERE id=?').get('limit-test').attempts, 5);
 globalThis.__portalTestEnv = {}; assert.equal((await call('overview', 'alice')).status, 503);
 sqlite.close();
-console.log('PASS: policy boundaries, missing data, refund caps, migrations, ownership isolation, admin role, CSRF, duplicate requests, approval workflow, OTP replay/limits, secure cookies, optional IDs, Adult/Child/Infant categories, ID encryption, masked responses, optional wheelchair/assistance preferences, disabled configuration. No external provider calls.');
+console.log('PASS: policy boundaries, migrations, ownership isolation, admin role, CSRF, cancellation review, OTP replay/limits, optional encrypted IDs, traveller categories/support, confirmed traveller deletion, account-holder deletion blocked, bookings preserved, disabled configuration. No external provider calls.');

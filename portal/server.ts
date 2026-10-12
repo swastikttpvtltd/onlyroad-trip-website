@@ -123,7 +123,8 @@ export async function portalHandler(request: NextRequest, path: string[]) {
         db.prepare("SELECT d.id,d.name,d.kind,d.released_at,d.booking_id FROM portal_documents d JOIN portal_bookings b ON b.id=d.booking_id WHERE b.customer_id=?").bind(user.id).all(),
         db.prepare("SELECT id,booking_id,status,requested_at,acknowledged_at,quote_json,review_note FROM portal_cancellations WHERE customer_id=?").bind(user.id).all(),
       ]);
-      return json({ customer: user, bookings: bookings.results, travellers: travellers.results, payments: payments.results, documents: documents.results, cancellations: cancellations.results });
+      const holder = { id: `account-holder:${user.id}`, name: user.name || "Account holder", relation: "Account holder", identity_type: user.identity_type, identity_mask: user.identity_mask, support_request: user.support_request, is_account_holder: true };
+      return json({ customer: user, bookings: bookings.results, travellers: [holder, ...travellers.results.map(row => ({ ...(row as Record<string, unknown>), is_account_holder: false }))], payments: payments.results, documents: documents.results, cancellations: cancellations.results });
     }
     if (action === "profile" && request.method === "POST") {
       const input = await body(request), name = text(input.name, 100), phone = text(input.phone, 20);
@@ -142,6 +143,15 @@ export async function portalHandler(request: NextRequest, path: string[]) {
       const identity = optionalIdentity(input, env.PORTAL_IDENTITY_KEY, id);
       const support = travelSupport(input.supportRequest);
       await db.batch([db.prepare("INSERT INTO portal_travellers(id,customer_id,name,relation,category,identity_type,identity_mask,identity_ciphertext,support_request) VALUES(?,?,?,?,?,?,?,?,?)").bind(id, user.id, name, relation, category, identity?.type ?? null, identity?.mask ?? null, identity?.ciphertext ?? null, support), audit(db, user.id, "traveller_added", id)]); return json({ id }, 201);
+    }
+    if (path[0] === "travellers" && path[2] === "delete" && path.length === 3 && request.method === "POST") {
+      if (path[1].startsWith("account-holder:")) throw new PortalError("The account holder cannot be deleted.", 403);
+      const input = await body(request);
+      if (input.confirm !== true) throw new PortalError("Confirm that you want to delete this saved traveller.", 400);
+      const traveller = await db.prepare("SELECT id FROM portal_travellers WHERE id=? AND customer_id=?").bind(path[1], user.id).first<{ id: string }>();
+      if (!traveller) throw new PortalError("Traveller not found.", 404);
+      await db.batch([db.prepare("DELETE FROM portal_travellers WHERE id=? AND customer_id=?").bind(traveller.id, user.id), audit(db, user.id, "traveller_deleted", traveller.id)]);
+      return json({ success: true });
     }
     if (path[0] === "documents" && path.length === 2 && request.method === "GET") {
       const doc = await db.prepare("SELECT d.object_key,d.name,d.content_type FROM portal_documents d JOIN portal_bookings b ON b.id=d.booking_id WHERE d.id=? AND b.customer_id=? AND d.released_at IS NOT NULL").bind(path[1], user.id).first<{ object_key: string; name: string; content_type: string }>();
