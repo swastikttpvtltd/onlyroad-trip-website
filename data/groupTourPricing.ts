@@ -14,6 +14,14 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
   const text = `${pkg?.title ?? ""} ${pkg?.packageId ?? ""}`.toLowerCase();
   const state = String(pkg?.state ?? "").toLowerCase();
 
+  if (text.includes("jaipur-weekend") && /2 nights\s*\/\s*3 days/i.test(String(pkg?.duration ?? ""))) {
+    return [
+      { type: "Quad Sharing", price: 7499 },
+      { type: "Triple Sharing", price: 7999 },
+      { type: "Double Sharing", price: 8499 },
+    ];
+  }
+
   if (text.includes("goa") || state === "goa") {
     return [
       { type: "Quad Sharing", price: 9999 },
