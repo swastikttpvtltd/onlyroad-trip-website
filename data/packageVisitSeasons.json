@@ -1846,5 +1846,23 @@
     "basis": "Full-route comfort recommendation covering lower river towns and hill sightseeing, outside the main monsoon.",
     "note": "",
     "profile": "garhwalsightseeing"
+  },
+  "jaipur-weekend-group-tour": {
+    "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+    ],
+    "bestTime": "October to March",
+    "sources": [
+      "https://www.rtdc.tourism.rajasthan.gov.in/Pages/Besttimetovisit.aspx",
+      "https://www.incredibleindia.gov.in/en/plan-your-trip/weather"
+    ],
+    "basis": "Circuit recommendation: cooler months for forts, cities and the Thar desert; summer heat excluded.",
+    "note": "",
+    "profile": "rajasthan"
   }
 }
