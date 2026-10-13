@@ -1,3 +1,4 @@
+import jaipurWeekendGroup from "./jaipur-weekend-group-tour";
 import jaipurHeritage from "./jaipur-heritage";
 import jodhpurJaisalmer from "./jodhpur-jaisalmer";
 import udaipurMountAbu from "./udaipur-mount-abu";
@@ -6,6 +7,7 @@ import jaipurJodhpurUdaipur from "./jaipur-jodhpur-udaipur";
 import rajasthanGrandTour from "./rajasthan-grand-tour";
 
 const rajasthanPackages = [
+  jaipurWeekendGroup,
   jaipurHeritage,
   jodhpurJaisalmer,
   udaipurMountAbu,

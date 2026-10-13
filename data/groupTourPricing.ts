@@ -19,6 +19,16 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
   const text = `${pkg?.title ?? ""} ${pkg?.packageId ?? ""}`.toLowerCase();
   const state = String(pkg?.state ?? "").toLowerCase();
 
+  // Jaipur's approved final rates include GST and apply only to this weekend tour.
+  if (pkg?.slug === "jaipur-weekend-group-tour" || (text.includes("jaipur") && text.includes("weekend"))) {
+    return [
+      { type: "Double Sharing", price: 8499 },
+      { type: "Triple Sharing", price: 7999 },
+      { type: "Quad Sharing", price: 7499 },
+    ];
+  }
+
+
   if (text.includes("goa") || state === "goa") {
     return [
       { type: "Quad Sharing", price: addGSTToRate(9999) },

@@ -95,6 +95,7 @@ const packageStateFolders: Record<string, string> = {
 };
 
 const getPackageImageFolder = (pkg: any) => {
+  if (pkg.slug === "jaipur-weekend-group-tour") return "rajasthan/jaipur-heritage";
   // Reuse the existing Chopta photos without duplicating image files.
   if (pkg.slug === "chopta-tungnath-weekend-group-tour") return "uttarakhand/chopta-tungnath";
   const stateFolder = packageStateFolders[String(pkg.state ?? "").trim()];
@@ -225,12 +226,12 @@ export const packages = rawPackages.map((original) => {
     },
     overview: detailedDescription,
     gallery,
-    hotels: isOvernightWeekend ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
-    meals: isOvernightWeekend ? pkg.meals : [...standardMeals],
-    exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
+    hotels: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
+    meals: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.meals : [...standardMeals],
+    exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
       ? (isEscape ? "Arrival breakfast, all lunches, journey meals and refreshments; only hotel dinners on Days 2 & 3 and hotel breakfasts on Days 3 & 4 are included" : "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included")
       : "Lunch and any meals other than the included breakfast and dinner"],
-    inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.inclusions : [
+    inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.inclusions : [
       ...defaultPackageInclusions,
       ...(/\b(?:Varanasi|Kashi)\b/i.test(String(pkg.destination ?? ""))
         ? ["Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions."] : []),
