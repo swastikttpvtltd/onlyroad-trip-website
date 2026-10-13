@@ -49,7 +49,19 @@ function listHtml(items: string[]) {
     : `<p class="muted">Not specified for this package.</p>`;
 }
 
-function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates) {
+function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates, isWeekendGroup = false) {
+  // Weekend PDFs use the package's own sharing rates, without passenger matrices.
+  if (isWeekendGroup) {
+    const available = sharingRates.length ? sharingRates : (groupRates?.sharingRates ?? []);
+    const order = ["Double Sharing", "Triple Sharing", "Quad Sharing"];
+    const weekendRates = order
+      .map((type) => available.find((rate) => rate.type === type))
+      .filter((rate): rate is SharingRate => rate !== undefined && Number.isFinite(rate.price));
+    if (!weekendRates.length) return `<p class="muted">Room-sharing rates will be shared in the confirmed quotation.</p>`;
+    return `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${weekendRates
+      .map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`)
+      .join("")}</tbody></table>`;
+  }
   const sharingTable = sharingRates.length
     ? `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${sharingRates.map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`).join("")}</tbody></table>`
     : "";
@@ -186,7 +198,7 @@ function downloadItinerary({
 
   <h2>Pricing</h2>
   <div class="info-card">
-    ${pricingHtml(safeSharingRates, groupRates)}
+    ${pricingHtml(safeSharingRates, groupRates, /weekend/i.test(`${packageTitle} ${category}`))}
     <p class="muted" style="margin-top:8px">Final pricing is subject to the confirmed quotation, availability, applicable taxes and package-specific terms.</p>
   </div>
 
