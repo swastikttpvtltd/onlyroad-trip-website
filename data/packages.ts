@@ -280,7 +280,7 @@ export const packages = rawPackages.map((original) => {
     },
     overview: detailedDescription,
     gallery,
-    hotels: isOvernightWeekend ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
+    hotels: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
     meals: isOvernightWeekend ? pkg.meals : [...standardMeals],
     exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
       ? "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included"
