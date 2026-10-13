@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
-export const metadata: Metadata = { title: "Traveller Terms & Conditions", description: "Group tour booking terms, traveller conduct, women and solo traveller safety, payments and support.", alternates: { canonical: "https://www.onlyroadtrip.com/traveller-terms-and-conditions" } };
+import { pageMetadata, serializeJsonLd } from "@/lib/siteSeo";
+import { travellerTermsSchema } from "@/lib/travellerTermsSeo";
+export const metadata: Metadata = pageMetadata("Traveller Terms & Conditions", "Read Only Road Trip group-tour booking terms, room-sharing consent, 24/7 safety assistance, women and solo traveller support, payments and complaint-response conditions.", "/traveller-terms-and-conditions");
 
 export default function TravellerTermsPage() {
   return (
     <main className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(travellerTermsSchema()) }} />
 
       {/* Hero Section */}
 
@@ -80,7 +83,7 @@ export default function TravellerTermsPage() {
       </section>
 
       <section className="py-20"><div className="mx-auto max-w-6xl px-6 lg:px-10"><div className="space-y-16">
-      {groupTourTerms.map(([title, text], index) => <section key={title}><h2 className="text-3xl font-bold text-blue-700">{index + 1}. {title}</h2><p className="mt-6 text-lg leading-8 text-slate-700">{text}</p></section>)}
+      {groupTourTerms.map(([title, text], index) => <section id={`clause-${index + 1}`} key={title}><h2 className="text-3xl font-bold text-blue-700">{index + 1}. {title}</h2><p className="mt-6 text-lg leading-8 text-slate-700">{text}</p></section>)}
             <section className="rounded-3xl border border-blue-100 bg-blue-50 p-10">
 
               <h2 className="text-3xl font-bold text-blue-700">

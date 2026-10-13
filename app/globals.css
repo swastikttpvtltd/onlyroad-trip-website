@@ -186,6 +186,9 @@ p[role="status"]::after {
 }
 
 .hero-slide { opacity: 0; animation-name: heroImageSlider; animation-duration: 50s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-fill-mode: both; background-size: cover; background-position: center center; }
+@media (max-width: 767px) {
+  .hero-slide { background-image: var(--hero-mobile) !important; }
+}
 @keyframes heroImageSlider {
   0% { opacity: 0; } 4% { opacity: 1; } 10% { opacity: 1; } 14% { opacity: 0; } 100% { opacity: 0; }
 }

@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Heart, Clock3, ArrowRight } from "lucide-react";
-import { packages } from "@/data/packages";
+import type { PackageCardSummary } from "@/lib/packageCardSummary";
 
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
-export default function FeaturedDestinations() {
+export default function FeaturedDestinations({ packages }: { packages: PackageCardSummary[] }) {
   const featuredPackages = packages
     .filter((pkg) => pkg.image && pkg.image !== "/images/package-placeholder.jpg")
     .slice(0, 6);

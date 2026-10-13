@@ -55,7 +55,7 @@ function isCompletePackage(pkg: unknown): pkg is Package {
 }
 
 export const metadata: Metadata = {
-  title: "Destinations | Only Road Trip",
+  title: { absolute: "Destinations | Only Road Trip" },
   description:
     "Browse our India destinations and find the best pilgrimage tours, luxury road trips, and holiday packages at Only Road Trip.",
   keywords: [

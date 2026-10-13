@@ -6,6 +6,7 @@ import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
 // This prevents getCloudflareContext() errors during local development.
 
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: "base-uri 'self'; object-src 'none'; frame-ancestors 'self'; upgrade-insecure-requests" },
   { key: "X-DNS-Prefetch-Control", value: "on" },
   { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },

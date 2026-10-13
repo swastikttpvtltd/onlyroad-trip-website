@@ -1,0 +1,18 @@
+import { groupTourTerms } from "@/components/package/GroupTourTerms";
+import { siteUrl } from "./siteSeo";
+
+export const travellerTermsUrl = `${siteUrl}/traveller-terms-and-conditions`;
+export const travellerSafetyFaqs = [
+  { question: "What action is taken if an employee, coordinator, guide or driver mistreats a traveller?", answer: "Employees and representatives receive no exemption from the published conduct rules. Contact Only Road Trip's 24/7 support team on +91 92117 96168. The company commits to contacting the complainant and initiating appropriate protective measures within one hour of receiving a safety or harassment complaint, with earlier intervention wherever possible. Measures may include separation, suspension from duties or replacement of personnel while assessment is underway. Where serious misconduct is reasonably established, the employee's or representative's tour assignment is terminated immediately at that location. Service-provider personnel may be removed from the assignment or referred to their employer for replacement and further action. Final resolution and further employment or contractual action follow the applicable process. Travellers may contact authorities directly without company approval; retaliation against complainants is prohibited. See Clause 20 of the Traveller Terms & Conditions." },
+  { question: "What consent and safety rules apply to room sharing?", answer: "Individual travellers must expressly agree to the confirmed sharing arrangement. Unrelated male and female travellers will not be allocated a shared room without express consent. Harassment, unwanted contact, privacy violations and retaliation are prohibited. See the Traveller Terms & Conditions linked in the group-tour terms section for the complete conditions." },
+] as const;
+
+export function travellerTermsSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebPage", "@id": `${travellerTermsUrl}#webpage`, url: travellerTermsUrl, name: "Traveller Terms & Conditions", description: "Published group-tour booking, room-sharing consent, safety assistance and complaint-response conditions.", inLanguage: "en-IN", datePublished: "2026-07-20", dateModified: "2026-10-01", publisher: { "@id": `${siteUrl}/#organization` }, isPartOf: { "@id": `${siteUrl}/#website` }, hasPart: groupTourTerms.map(([name], index) => ({ "@type": "WebPageElement", "@id": `${travellerTermsUrl}#clause-${index + 1}`, name })) },
+      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: siteUrl }, { "@type": "ListItem", position: 2, name: "Traveller Terms & Conditions", item: travellerTermsUrl }] },
+    ],
+  };
+}

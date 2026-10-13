@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { pageMetadata } from "@/lib/siteSeo";
+import { pageMetadata, serializeJsonLd } from "@/lib/siteSeo";
+import { isExcludedSeoPath } from "@/lib/seoWorkScope";
 
 export type SeoFaq = {
   question: string;
@@ -35,7 +36,7 @@ export function buildSeoMetadata(config: SeoPageConfig): Metadata {
   return {
     ...pageMetadata(config.title, config.description ?? config.intro, `/${config.slug}`),
     keywords: config.keywords,
-    alternates: { canonical: url },
+    alternates: { canonical: url, ...(!isExcludedSeoPath(url) ? { languages: { en: url, "x-default": url } } : {}) },
     openGraph: {
       title: config.title,
       description: config.description ?? config.intro,
@@ -163,6 +164,23 @@ function buildPageSchema(config: SeoPageConfig, url: string, faqs: SeoFaq[]) {
     });
   }
 
+  if (!isExcludedSeoPath(url)) {
+    graph[0]["@id"] = `${url}#breadcrumb`;
+    // A published starting price does not confirm live travel inventory.
+    for (const item of graph) {
+      if (item["@type"] === "Offer") delete item.availability;
+      if (item["@type"] === "FAQPage") item.isPartOf = { "@id": `${url}#webpage` };
+    }
+    graph.unshift({
+      "@type": "WebPage", "@id": `${url}#webpage`, url,
+      name: config.title, description: config.description ?? config.intro,
+      inLanguage: "en-IN", isPartOf: { "@id": `${baseUrl}/#website` },
+      publisher: { "@id": `${baseUrl}/#organization` },
+      breadcrumb: { "@id": `${url}#breadcrumb` },
+      mainEntity: { "@id": `${url}#service` },
+      hasPart: [{ "@id": `${baseUrl}/#header` }, { "@id": `${baseUrl}/#footer` }],
+    });
+  }
   return { "@context": "https://schema.org", "@graph": graph };
 }
 
@@ -173,7 +191,7 @@ export default function SeoLandingPage({ config }: { config: SeoPageConfig }) {
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: isExcludedSeoPath(url) ? JSON.stringify(pageSchema) : serializeJsonLd(pageSchema) }} />
 
       <section className="relative overflow-hidden border-b border-slate-100 bg-white">
         <div className="absolute -right-32 -top-20 h-[520px] w-[520px] rounded-full bg-blue-50 blur-3xl" />

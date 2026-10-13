@@ -1,36 +1,16 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { ArrowLeft, ArrowRight, Clock3, Heart, MapPin } from "lucide-react";
-import { packages } from "@/data/packages";
+import { Clock3, Heart, MapPin } from "lucide-react";
+import type { PackageCardSummary } from "@/lib/packageCardSummary";
+import GroupSliderControls from "./GroupSliderControls";
 
 import { isGroupTourBookingPaused } from "@/data/groupTourBookingPause";
 
-export default function GroupToursSlider() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const groupPackages = packages.filter((pkg: any) => {
+export default function GroupToursSlider({ packages }: { packages: PackageCardSummary[] }) {
+  const groupPackages = packages.filter((pkg) => {
     const themes = Array.isArray(pkg.themes) ? pkg.themes.map((x: unknown) => String(x).toLowerCase()) : [];
     return themes.includes("group tour") || String(pkg.category ?? "").toLowerCase() === "weekend";
   });
-
-  useEffect(() => {
-    const timer = window.setInterval(() => scrollByCard(1), 4500);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  function scrollByCard(direction: number) {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>("[data-group-tour-card]");
-    const amount = card ? card.offsetWidth + 20 : track.clientWidth * 0.85;
-    const max = track.scrollWidth - track.clientWidth;
-    const next = Math.max(0, Math.min(max, track.scrollLeft + amount * direction));
-    if (direction < 0 && track.scrollLeft <= 5) track.scrollTo({ left: max, behavior: "smooth" });
-    else if (direction > 0 && track.scrollLeft >= max - 5) track.scrollTo({ left: 0, behavior: "smooth" });
-    else track.scrollTo({ left: next, behavior: "smooth" });
-  }
 
   if (!groupPackages.length) return null;
 
@@ -45,12 +25,8 @@ export default function GroupToursSlider() {
           </div>
         </div>
 
-        <div className="relative px-0 md:px-12">
-          <button type="button" aria-label="Previous group tour" onClick={() => scrollByCard(-1)} className="absolute left-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-800 shadow-[0_8px_24px_rgba(15,23,42,0.16)] transition hover:scale-105 hover:border-blue-700 hover:text-blue-800 md:flex"><ArrowLeft size={27} strokeWidth={2.5} /></button>
-          <button type="button" aria-label="Next group tour" onClick={() => scrollByCard(1)} className="absolute right-0 top-1/2 z-20 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-blue-800 text-white shadow-[0_8px_24px_rgba(15,23,42,0.18)] transition hover:scale-105 hover:bg-blue-900 md:flex"><ArrowRight size={27} strokeWidth={2.5} /></button>
-
-          <div ref={trackRef} className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {groupPackages.map((pkg: any) => {
+        <GroupSliderControls>
+            {groupPackages.map((pkg) => {
               const displayPrice = pkg.price;
               return <article key={pkg.slug} data-group-tour-card className="group min-w-[86%] snap-start overflow-hidden rounded-[22px] border border-slate-200 bg-white shadow-[0_7px_25px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_35px_rgba(15,23,42,0.13)] sm:min-w-[48%] lg:min-w-[calc((100%-40px)/3)]">
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
@@ -71,10 +47,7 @@ export default function GroupToursSlider() {
                 </div>
               </article>;
             })}
-          </div>
-
-          <div className="mt-4 flex justify-between md:hidden"><button type="button" onClick={() => scrollByCard(-1)} aria-label="Previous group tour" className="flex h-11 w-11 items-center justify-center rounded-full border border-slate-300 bg-white shadow"><ArrowLeft size={21}/></button><button type="button" onClick={() => scrollByCard(1)} aria-label="Next group tour" className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-800 text-white shadow"><ArrowRight size={21}/></button></div>
-        </div>
+        </GroupSliderControls>
       </div>
     </section>
   );

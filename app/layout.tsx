@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import SiteDiagnostics from "@/components/SiteDiagnostics";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -26,6 +27,10 @@ export const metadata: Metadata = {
   publisher: "Swastik Tour And Travels Private Limited",
   applicationName: "Only Road Trip",
   category: "Travel",
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } } : {}),
+  },
   formatDetection: { email: false, address: false, telephone: false },
   openGraph: {
     type: "website",
@@ -60,7 +65,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: "/favicon.ico", apple: "/icon-180.png" },
   manifest: "/site.webmanifest",
   referrer: "origin-when-cross-origin",
 };
@@ -86,6 +91,7 @@ const ultraPremiumSchema = {
       "image": `${baseUrl}${socialImage}`,
       "telephone": "+91-9211796168",
       "email": "info@onlyroadtrip.com",
+      "openingHours": "Mo-Su",
       "priceRange": "₹₹₹",
       "currenciesAccepted": "INR",
       "paymentAccepted": "UPI, Credit Card, Debit Card, Net Banking, Cash",
@@ -112,6 +118,18 @@ const ultraPremiumSchema = {
         "postalCode": "122001",
         "addressCountry": "IN"
       },
+      "location": {
+        "@type": "Place",
+        "name": "Only Road Trip office location",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Gurugram",
+          "addressRegion": "Haryana",
+          "postalCode": "122017",
+          "addressCountry": "IN"
+        },
+        "hasMap": "https://share.google/FVOLie1cWjmdKX98c"
+      },
       "contactPoint": [
         {
           "@type": "ContactPoint",
@@ -129,7 +147,8 @@ const ultraPremiumSchema = {
         "https://www.facebook.com/profile.php?id=61587958079412",
         "https://www.instagram.com/onlyroadtrip.official",
         "https://www.linkedin.com/company/only-road-trip/",
-        "https://in.pinterest.com/onlyroadtrip/"
+        "https://in.pinterest.com/onlyroadtrip/",
+        "https://share.google/FVOLie1cWjmdKX98c"
       ],
       "knowsAbout": [
         "Travel Agency Services",
@@ -239,6 +258,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
+        <script src="/travel-tools.js" defer />
         <meta name="p:domain_verify" content="e69d8f969be01f0e5597ae44e796e43d" />
         <script
           dangerouslySetInnerHTML={{
@@ -271,6 +291,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <SiteDiagnostics />
       </body>
     </html>
   );

@@ -4,7 +4,7 @@ import NicheLandingPage from "@/components/NicheLandingPage";
 const baseUrl = "https://www.onlyroadtrip.com";
 
 export const metadata: Metadata = {
-  title: "Corporate MICE Travel Company in India | Only Road Trip",
+  title: { absolute: "Corporate MICE Travel Company in India | Only Road Trip" },
   description: "Corporate MICE travel, conferences, incentive trips, offsites and business group travel across India and international destinations with Only Road Trip.",
   keywords: ["Corporate MICE Travel", "MICE Travel Company India", "Corporate MICE Travel Agency", "Corporate Offsite Travel", "Corporate Incentive Travel", "Conference Travel Management", "Business Group Travel India"],
   alternates: { canonical: `${baseUrl}/corporate-mice-travel` },

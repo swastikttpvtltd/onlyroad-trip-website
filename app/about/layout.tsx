@@ -4,7 +4,7 @@ const baseUrl = "https://www.onlyroadtrip.com";
 const socialImage = "/images/logo/only-road-trip-logo.jpeg";
 
 export const metadata: Metadata = {
-  title: "About Only Road Trip | Travel Company in Gurugram",
+  title: { absolute: "About Only Road Trip | Travel Company in Gurugram" },
   description:
     "Learn about Only Road Trip, the travel brand of Swastik Tour And Travels Private Limited, offering pilgrimage tours, domestic holidays, road trips and corporate travel across India.",
   keywords: ["About Only Road Trip", "Only Road Trip Gurugram", "Swastik Tour And Travels Private Limited", "travel company in Gurugram", "travel agency in Gurgaon", "India tour operator"],

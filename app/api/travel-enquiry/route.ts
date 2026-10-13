@@ -1,12 +1,23 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import nodemailer from "nodemailer";
 import { NextResponse } from "next/server";
+import { validateEnquiry } from "@/lib/enquiryValidation";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
+  const origin = request.headers.get("origin");
+  if (origin && origin !== new URL(request.url).origin) return NextResponse.json({ error: "Invalid enquiry origin." }, { status: 403 });
+  let validated;
   try {
-    const body = await request.json();
+    if (Number(request.headers.get("content-length") || 0) > 16384) throw new Error("Enquiry is too large.");
+    const text = await request.text();
+    if (new TextEncoder().encode(text).length > 16384) throw new Error("Enquiry is too large.");
+    validated = validateEnquiry(JSON.parse(text));
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Invalid enquiry." }, { status: 400 });
+  }
+  try {
     const {
       fullName,
       mobile,
@@ -17,7 +28,7 @@ export async function POST(request: Request) {
       travelType,
       budget,
       message,
-    } = body;
+    } = validated;
 
     if (
       !fullName ||
@@ -25,8 +36,7 @@ export async function POST(request: Request) {
       !destination ||
       !travelDate ||
       !travellers ||
-      !travelType ||
-      !message
+      !travelType
     ) {
       return NextResponse.json(
         { error: "Please complete all required travel enquiry fields." },
@@ -49,7 +59,12 @@ export async function POST(request: Request) {
     }
 
     const leadId = `ORT-${Date.now()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
-    const sourcePage = request.headers.get("referer") || new URL(request.url).origin;
+    // Keep only a same-origin public path; never store query-string form data.
+    let sourcePage = new URL(request.url).origin;
+    try {
+      const referer = new URL(request.headers.get("referer") || sourcePage);
+      if (referer.origin === sourcePage) sourcePage += referer.pathname;
+    } catch { /* Unknown referrer does not block the enquiry. */ }
 
     const saved = await db
       .prepare(`
