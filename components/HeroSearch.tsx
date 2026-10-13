@@ -3,36 +3,19 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Search, Users } from "lucide-react";
-import { packages } from "@/data/packages";
 
 const todayIso = () => {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 };
 
-const cleanPlace = (value: string) => value.trim().replace(/\s+/g, " ");
-
-export default function HeroSearch() {
+export default function HeroSearch({ destinations }: { destinations: string[] }) {
   const router = useRouter();
   const [destination, setDestination] = useState("");
   const [travelDate, setTravelDate] = useState("");
   const [travellers, setTravellers] = useState(2);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  const destinations = useMemo(() => {
-    const places = new Set<string>();
-    packages.forEach((pkg: any) => {
-      if (pkg.destination) {
-        String(pkg.destination)
-          .split(/•|,|\||–|—|\//)
-          .map(cleanPlace)
-          .filter(Boolean)
-          .forEach((p: string) => places.add(p));
-      }
-      if (pkg.state) places.add(cleanPlace(String(pkg.state)));
-    });
-    return Array.from(places).sort((a, b) => a.localeCompare(b));
-  }, []);
 
   const suggestions = useMemo(() => {
     const q = destination.trim().toLowerCase();
@@ -72,6 +55,7 @@ export default function HeroSearch() {
           </div>
           <input
             type="text"
+            aria-label="Destination"
             value={destination}
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => window.setTimeout(() => setShowSuggestions(false), 300)}
@@ -124,7 +108,7 @@ export default function HeroSearch() {
             <Calendar className="h-5 w-5 font-bold text-blue-800" strokeWidth={2.5} />
             <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Travel Date</span>
           </div>
-          <input type="date" min={todayIso()} value={travelDate} onChange={(e) => setTravelDate(e.target.value)} className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none" />
+          <input type="date" aria-label="Travel date" min={todayIso()} value={travelDate} onChange={(e) => setTravelDate(e.target.value)} className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none" />
         </div>
 
         <div className="rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
@@ -133,9 +117,9 @@ export default function HeroSearch() {
             <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Travellers</span>
           </div>
           <div className="flex items-center justify-between">
-            <button type="button" onClick={() => setTravellers((p) => Math.max(1, p - 1))} className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-50 text-xl font-extrabold leading-none text-slate-900 shadow-sm">−</button>
+            <button type="button" aria-label="Remove one traveller" onClick={() => setTravellers((p) => Math.max(1, p - 1))} className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-50 text-xl font-extrabold leading-none text-slate-900 shadow-sm">−</button>
             <span className="text-2xl font-extrabold text-slate-900">{travellers}</span>
-            <button type="button" onClick={() => setTravellers((p) => p + 1)} className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-50 text-xl font-extrabold leading-none text-slate-900 shadow-sm">+</button>
+            <button type="button" aria-label="Add one traveller" onClick={() => setTravellers((p) => p + 1)} className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 bg-slate-50 text-xl font-extrabold leading-none text-slate-900 shadow-sm">+</button>
           </div>
         </div>
 

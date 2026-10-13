@@ -7,6 +7,10 @@ import ThemePackageSliders from "@/components/ThemePackageSliders";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import type { Metadata } from "next";
+import { packages } from "@/data/packages";
+import { packageCardSummary } from "@/lib/packageCardSummary";
+
+const cardPackages = packages.map(packageCardSummary);
 
 const baseUrl = "https://www.onlyroadtrip.com";
 const socialImage = "/images/logo/only-road-trip-logo.jpeg";
@@ -29,5 +33,5 @@ export const metadata: Metadata = {
 const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: baseUrl }] };
 
 export default function Home() {
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><Categories /><GroupToursSlider /><ThemePackageSliders /><FeaturedDestinations /><WhyChooseUs /><Testimonials /><Stats /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><Categories /><GroupToursSlider packages={cardPackages} /><ThemePackageSliders packages={cardPackages} /><FeaturedDestinations packages={cardPackages} /><WhyChooseUs /><Testimonials /><Stats /></>;
 }

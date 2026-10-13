@@ -21,6 +21,15 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  async redirects() {
+    return [
+      { source: "/door-to-door-travelPosted", destination: "/door-to-door-travel", permanent: true },
+      { source: "/char-dham-yatra-package", destination: "/packages/char-dham-yatra", permanent: true },
+      { source: "/kashi-yatra-package", destination: "/packages/varanasi-kashi", permanent: true },
+      { source: "/kedarnath-yatra-package", destination: "/packages/kedarnath-yatra", permanent: true },
+      { source: "/jyotirlinga-yatra", destination: "/packages?theme=spiritual&q=jyotirlinga", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
