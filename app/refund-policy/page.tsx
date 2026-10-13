@@ -69,7 +69,7 @@ export default function RefundPolicyPage() {
               </p>
 
               <p className="mt-2 font-semibold text-slate-900">
-                14 July, 2026
+                13 October, 2026
               </p>
             </div>
 
@@ -179,17 +179,11 @@ export default function RefundPolicyPage() {
               </h2>
 
               <p className="mt-6 text-lg leading-8 text-slate-700">
-                Once a refund request has been approved, the Company shall
-                initiate the refund process within <strong>7–15 business days</strong>.
-                However, the actual credit timeline may vary depending upon the
-                payment gateway, issuing bank, card network, UPI provider, or
-                financial institution involved.
+                Once a refund request has been approved, the approved refund amount shall be credited to the customer account within <strong>24–48 hours</strong> of approval. This period refers to the money reaching the customer account, not merely the initiation of the refund process.
               </p>
 
               <p className="mt-6 text-lg leading-8 text-slate-700">
-                Delays caused by banks, payment processors, holidays, or
-                third-party service providers shall not be considered the
-                responsibility of the Company.
+                If the approved refund has not reached your account within 48 hours, please contact info@onlyroadtrip.com with your booking reference so the Company can promptly investigate and follow up on the payment.
               </p>
 
             </section>
