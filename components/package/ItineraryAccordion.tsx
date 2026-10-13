@@ -69,7 +69,17 @@ function listHtml(items: string[]) {
     : `<p class="muted">Not specified for this package.</p>`;
 }
 
-function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates) {
+function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates, isWeekendGroup = false) {
+  // Weekend group PDFs must never show the passenger-count (2–30+) matrix.
+  // Fall back to the fixed weekend room-sharing card if upstream sharing data is absent.
+  if (isWeekendGroup && !sharingRates.length) {
+    const fixed = groupRates?.sharingRates ?? [];
+    sharingRates = fixed.length ? fixed : [
+      { type: "Quad Sharing", price: 7499 },
+      { type: "Triple Sharing", price: 7999 },
+      { type: "Double Sharing", price: 8499 },
+    ];
+  }
   if (sharingRates.length) {
     return `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${sharingRates
       .map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`)
@@ -221,7 +231,7 @@ function downloadItinerary({
 
   <h2>Pricing</h2>
   <div class="info-card">
-    ${pricingHtml(safeSharingRates, groupRates)}
+    ${pricingHtml(safeSharingRates, groupRates, /2\\s*nights?\\s*\\/\\s*3\\s*days?/i.test(duration) && /weekend|group/i.test(`${packageTitle} ${category}`))}
     <p class="muted" style="margin-top:8px">Final pricing is subject to the confirmed quotation, availability, applicable taxes and package-specific terms.</p>
   </div>
 
