@@ -95,6 +95,7 @@ const packageStateFolders: Record<string, string> = {
 
 const getPackageImageFolder = (pkg: any) => {
   // Reuse the existing Chopta photos without duplicating image files.
+  if (pkg.slug === "jaipur-weekend-group-tour") return "rajasthan/jaipur-heritage";
   if (pkg.slug === "chopta-tungnath-weekend-group-tour") return "uttarakhand/chopta-tungnath";
   const stateFolder = packageStateFolders[String(pkg.state ?? "").trim()];
   return stateFolder ? `${stateFolder}/${pkg.slug}` : `multi-state/${pkg.slug}`;
