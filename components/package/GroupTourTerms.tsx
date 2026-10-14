@@ -3,7 +3,7 @@ import Link from "next/link";
 export const groupTourTerms = [
   [
     "Group Size & Departure Confirmation",
-    "Each departure requires a minimum of 4 confirmed travellers. Group sizes may range from 4 to 100+ travellers, subject to availability and operational arrangements. Individual travellers may book a seat and join the group. Larger groups may be accommodated across multiple vehicles or hotels, as communicated before departure. If minimum participation is not achieved, travellers will be notified at least 5 days before departure and offered an alternative departure or an applicable refund under our published policies. Any alternative involving additional charges requires the traveller’s prior agreement."
+    "Group tour departures are planned according to the published schedule, confirmed itinerary and applicable booking arrangements. Individual travellers may book a seat and join a group departure. Group capacity and vehicle allocation depend on the route, available transport, accommodation and confirmed arrangements. Travellers will receive the designated reporting point, departure time and essential journey instructions before travel. If unforeseen weather, government restrictions, safety concerns or circumstances beyond reasonable control affect the scheduled journey, Only Road Trip will communicate promptly and offer appropriate assistance, alternative arrangements or applicable refund options under the confirmed booking terms and published policies."
   ],
   [
     "Accommodation",
