@@ -3267,7 +3267,8 @@
   "corporate-mussoorie-retreat": {
     "sources": [
       "https://www.uttarakhandtourism.gov.in/destination/mussoorie",
-      "https://dehradun.nic.in/tourist-place/mussoorie/"
+      "https://dehradun.nic.in/tourist-place/mussoorie/",
+      "https://www.euttaranchal.com/tourism/dalai-hills-mussoorie.php"
     ],
     "itinerary": [
       {
@@ -3301,7 +3302,8 @@
         ],
         "afternoon": [
           "Visit Company Garden for its landscaped gardens and relaxed leisure time; admission and paid activities are extra.",
-          "Optional Gun Hill ropeway visit, subject to operations, queues, weather and traveller comfort; tickets are payable separately."
+          "Visit Dalai Hills / Happy Valley after Company Garden. The hilltop is reached by an approximately 400-metre uphill walk from Shedup Choephelling Tibetan Temple; the climb is optional, with a lower-area visit or rest for travellers who prefer not to climb. Temple access is subject to local opening arrangements.",
+          "Optional Gun Hill ropeway visit, if time permits, subject to operations, queues, weather and traveller comfort; tickets are payable separately."
         ],
         "evening": [
           "Enjoy Mall Road leisure and shopping at your own pace; vehicle access follows local restrictions.",
@@ -3310,17 +3312,20 @@
         "attractions": [
           "Kempty Falls",
           "Company Garden",
+          "Dalai Hills / Happy Valley — hilltop walk optional",
           "Mussoorie Mall Road"
         ],
         "notes": [
           "Sightseeing order and duration depend on traffic, weather and local access. Share mobility needs before booking; step-free access is not assumed.",
-          "Entry fees, ropeway tickets and paid activities are excluded unless explicitly included in your confirmed booking."
+          "Entry fees, ropeway tickets and paid activities are excluded unless explicitly included in your confirmed booking.",
+          "Dalai Hills involves an uphill walk and uneven sections; share assistance needs before travel. The hilltop is not represented as wheelchair accessible."
         ],
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
         "overnightStay": "Mussoorie",
-        "description": "Explore Kempty Falls, Company Garden and Mall Road, with an optional Gun Hill ropeway visit. Return to the hotel for dinner. Night halt: Mussoorie.",
+        "description": "Explore Kempty Falls, Company Garden, Dalai Hills / Happy Valley and Mall Road, with an optional Gun Hill ropeway visit if time permits. The Dalai Hills hilltop walk is optional. Return to the hotel for dinner. Night halt: Mussoorie.",
         "optionalActivities": [
-          "Gun Hill ropeway, subject to operations, weather, queues and traveller comfort; tickets extra."
+          "Gun Hill ropeway, subject to operations, weather, queues and traveller comfort; tickets extra.",
+          "Approximately 400-metre uphill walk from the Tibetan Temple to Dalai Hills hilltop, subject to traveller comfort and local conditions."
         ]
       },
       {
