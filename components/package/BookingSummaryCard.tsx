@@ -73,7 +73,8 @@ function PrintItinerary({ pkg, finalTitle, finalDuration, finalDestination, disp
   const exclusions = Array.isArray(pkg?.exclusions) ? pkg.exclusions : [];
   const customTerms = Array.isArray(pkg?.termsAndConditions) ? pkg.termsAndConditions : Array.isArray(pkg?.terms) ? pkg.terms : [];
   const isGroupTerms = pkg?.themes?.some((theme) => theme.toLowerCase() === "group tour") || pkg?.category?.toLowerCase() === "weekend";
-  const terms = isGroupTerms ? groupTourTerms.map(([heading, body]) => `${heading}: ${body}`) : customTerms.length ? customTerms : DEFAULT_TERMS;
+  const minimumGroupCancellation = /(?:minimum|at least|fewer than|less than|below|not met|insufficient).{0,100}(?:4|four|group size|participants|travellers|travelers).{0,160}(?:cancel|departure|operate|proceed)|(?:cancel|departure|operate|proceed).{0,160}(?:minimum|insufficient|fewer than|less than).{0,100}(?:4|four|group size|participants|travellers|travelers)/i;
+  const terms = (isGroupTerms ? groupTourTerms.map(([heading, body]) => `${heading}: ${body}`) : customTerms.length ? customTerms : DEFAULT_TERMS).filter((term) => !minimumGroupCancellation.test(term));
   return (
     <div className="itinerary-print-sheet">
       <div className="itinerary-print-header"><div><p className="itinerary-print-brand">ONLY ROAD TRIP</p><h1>{finalTitle}</h1><p>{finalDestination} • {finalDuration}</p></div><div className="itinerary-print-price"><CurrencyPrice inr={displayPrice}/><span> / person</span></div></div>
