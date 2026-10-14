@@ -12,7 +12,6 @@ export default function Footer() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 py-8">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/15 bg-white/5 p-3"><span className="text-sm font-semibold">Choose display currency · Checkout in INR</span><CurrencySelector /><a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer" className="text-xs underline">Rates by ExchangeRate-API</a></div>
         <div className="grid gap-6 lg:grid-cols-4">
           <div>
             <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={220} height={60} className="h-12 w-auto" />
@@ -52,12 +51,14 @@ export default function Footer() {
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/packages">Packages</Link></li>
               <li><Link href="/destinations">Destinations</Link></li>
+              <li><Link href="/pricing-and-currencies">Pricing &amp; Currencies</Link></li>
               <li><Link href="/contact">Contact</Link></li>
               <li><Link href="/packages?theme=spiritual">Pilgrimage Tours</Link></li>
               <li><Link href="/packages?theme=wildlife">Wildlife Safaris</Link></li>
               <li><Link href="/packages?theme=women">Women Special</Link></li>
-              <li><Link href="/packages?theme=corporate">Corporate Travel</Link></li>
-              <li><Link href="/packages?theme=family">Family Vacations</Link></li>
+              <li><Link href="/corporate-travel">Corporate Travel</Link></li>
+              <li><Link href="/family-tour-packages">Family Vacations</Link></li>
+              <li><Link href="/road-trip-packages">Road Trip Ideas</Link></li>
               <li><Link href="/door-to-door-travel">Door-to-Door Travel</Link></li>
             </ul>
           </div>
@@ -135,6 +136,10 @@ export default function Footer() {
             <div className="text-center lg:text-left">
               <p className="text-xs font-semibold">© 2026 Only Road Trip. All Rights Reserved.</p>
               <p className="mt-1 text-xs text-gray-400">Operated by Swastik Tour And Travels Private Limited</p>
+            </div>
+            <div className="flex flex-col items-center gap-1" title="Display currency · Checkout in INR">
+              <CurrencySelector compact />
+              <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer" className="text-[10px] text-gray-400 underline hover:text-cyan-400">Rates by ExchangeRate-API</a>
             </div>
             <div className="text-center text-xs text-gray-400 lg:text-right">
               <p>CIN: U52291HR2025PTC132225</p>

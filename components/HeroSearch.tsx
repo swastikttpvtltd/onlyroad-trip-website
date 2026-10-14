@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, MapPin, Search, Users } from "lucide-react";
 
@@ -15,6 +15,19 @@ export default function HeroSearch({ destinations }: { destinations: string[] })
   const [travelDate, setTravelDate] = useState("");
   const [travellers, setTravellers] = useState(2);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const dateRef = useRef<HTMLInputElement>(null);
+
+  const openCalendar = () => {
+    setShowSuggestions(false);
+    const input = dateRef.current;
+    if (!input) return;
+    input.focus();
+    try {
+      input.showPicker?.();
+    } catch {
+      // Keep the native date input usable where programmatic pickers are unavailable.
+    }
+  };
 
 
   const suggestions = useMemo(() => {
@@ -103,12 +116,12 @@ export default function HeroSearch({ destinations }: { destinations: string[] })
           )}
         </div>
 
-        <div className="rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
+        <div onClick={(event) => { if (event.target !== dateRef.current) openCalendar(); }} className="cursor-pointer rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">
           <div className="mb-2 flex items-center gap-2">
             <Calendar className="h-5 w-5 font-bold text-blue-800" strokeWidth={2.5} />
             <span className="text-xs font-extrabold uppercase tracking-widest text-slate-800">Travel Date</span>
           </div>
-          <input type="date" aria-label="Travel date" min={todayIso()} value={travelDate} onChange={(e) => setTravelDate(e.target.value)} className="w-full bg-transparent text-lg font-extrabold text-slate-900 outline-none" />
+          <input ref={dateRef} type="date" aria-label="Travel date" min={todayIso()} value={travelDate} onChange={(e) => setTravelDate(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openCalendar(); } }} className="relative w-full cursor-pointer bg-transparent text-lg font-extrabold text-slate-900 outline-none [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-0" />
         </div>
 
         <div className="rounded-2xl border border-white/50 bg-white/95 p-3.5 backdrop-blur-xl transition-all duration-300 hover:border-blue-300 hover:bg-white hover:shadow-lg">

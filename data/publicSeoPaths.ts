@@ -39,6 +39,7 @@ export const publicSeoPaths = [
   "packages",
   "",
   "plan-your-trip",
+  "pricing-and-currencies",
   "privacy-policy",
   "refund-policy",
   "solo-women-travel-packages",

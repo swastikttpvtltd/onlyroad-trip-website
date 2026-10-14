@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PackageCard from "@/components/PackageCard";
+import DestinationDirectory from "@/components/DestinationDirectory";
 import { packages } from "@/data/packages";
 import type { Metadata } from "next";
 import type { Package } from "@/data/packagesTypes";
@@ -55,7 +56,7 @@ function isCompletePackage(pkg: unknown): pkg is Package {
 }
 
 export const metadata: Metadata = {
-  title: "Destinations | Only Road Trip",
+  title: "Destinations",
   description:
     "Browse our India destinations and find the best pilgrimage tours, luxury road trips, and holiday packages at Only Road Trip.",
   keywords: [
@@ -158,6 +159,7 @@ export default async function DestinationsPage({
           </Link>
         </div>
 
+        <DestinationDirectory />
         <div className="mb-10 rounded-2xl bg-white p-6 shadow">
           <div className="grid gap-4 md:grid-cols-4">
             <div className="rounded-xl border p-4">

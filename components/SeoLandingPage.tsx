@@ -2,6 +2,7 @@ import { CurrencyPrice } from "@/components/CurrencySelector";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/siteSeo";
+import RoadTripIdeas from "@/components/RoadTripIdeas";
 
 export type SeoFaq = {
   question: string;
@@ -247,6 +248,7 @@ export default function SeoLandingPage({ config }: { config: SeoPageConfig }) {
         </div>
       </section>
 
+      {config.slug === "road-trip-packages" && <RoadTripIdeas />}
       {(config.inclusions?.length || config.exclusions?.length) && (
         <section className="bg-slate-50">
           <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">

@@ -1,3 +1,4 @@
+import { currencyFaq } from "./currencyContent";
 type Day = {
   title?: string;
   overnightStay?: string;
@@ -59,5 +60,6 @@ export function buildPackageFaqs(pkg: PackageCopy) {
     { question: "Which meals are included?", answer: meals },
     { question: `When is the best time for ${clean(pkg.title)}?`, answer: clean(pkg.bestTime) || "Confirm the travel season for this route before choosing dates." },
     practicalFaq,
+      currencyFaq,
   ];
 }
