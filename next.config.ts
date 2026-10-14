@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 import { PHASE_DEVELOPMENT_SERVER } from "next/constants";
-import { canonicalHostRedirect } from "./lib/seoRedirects";
 
 // Required so `next dev` initializes the OpenNext Cloudflare dev runtime.
 // This prevents getCloudflareContext() errors during local development.
@@ -24,7 +23,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-      canonicalHostRedirect,
       { source: "/door-to-door-travelPosted", destination: "/door-to-door-travel", permanent: true },
       { source: "/char-dham-yatra-package", destination: "/packages/char-dham-yatra", permanent: true },
       { source: "/kashi-yatra-package", destination: "/packages/varanasi-kashi", permanent: true },
