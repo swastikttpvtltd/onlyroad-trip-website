@@ -3266,11 +3266,8 @@
   },
   "corporate-mussoorie-retreat": {
     "sources": [
-      "https://www.uttarakhandtourism.gov.in/destination/nainital",
-      "https://www.uttarakhandtourism.gov.in/destination/kedarnath",
-      "https://www.uttarakhandtourism.gov.in/destination/yamunotri",
-      "https://uttarakhandtourism.gov.in/destination/madhyamaheshwar/",
-      "https://uttarakhandtourism.gov.in/assets/media/Tourist-Map-Uttarakhand.pdf"
+      "https://www.uttarakhandtourism.gov.in/destination/mussoorie",
+      "https://dehradun.nic.in/tourist-place/mussoorie/"
     ],
     "itinerary": [
       {
@@ -3281,58 +3278,69 @@
         ],
         "afternoon": [
           "Complete check-in at the booked hotel, subject to its standard check-in time; early rooms depend on availability.",
-          "Welcome/meeting session. The activity and duration follow the confirmed corporate agenda and venue arrangements."
+          "Take time to rest after the drive before a relaxed evening outing."
         ],
         "evening": [
-          "Mall Road leisure and group dinner. Follow the published route, with timings depending on traffic, weather and local access."
+          "Enjoy a relaxed Mall Road visit subject to arrival time, followed by dinner at the booked hotel."
         ],
         "attractions": [
-          "Mall Road leisure and group dinner."
+          "Mussoorie Mall Road, subject to arrival time"
         ],
         "notes": [],
         "meals": "Dinner at the booked accommodation; breakfast on arrival is included only if stated in the confirmed booking. Lunch is not included.",
         "overnightStay": "Mussoorie",
-        "description": "Delhi – Mussoorie. The day covers Mall Road leisure and group dinner. Night halt: Mussoorie.",
+        "description": "Travel from Delhi to Mussoorie, check in and unwind. Enjoy Mall Road if arrival time permits, followed by dinner. Night halt: Mussoorie.",
         "optionalActivities": []
       },
       {
         "day": "Day 2",
-        "title": "Conference & Team Day",
+        "title": "Mussoorie Local Sightseeing",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Meeting/team-building block. The activity and duration follow the confirmed corporate agenda and venue arrangements."
+          "Have breakfast at the hotel and depart for local sightseeing.",
+          "Visit Kempty Falls, subject to weather and local access. Descending to the lower waterfall is optional and involves steps; choose a comfortable viewing stop with the coordinator."
         ],
         "afternoon": [
-          "Selected Mussoorie sightseeing or activity block. Spend time at the listed stop according to the day's route and available visitor access."
+          "Visit Company Garden for its landscaped gardens and relaxed leisure time; admission and paid activities are extra.",
+          "Optional Gun Hill ropeway visit, subject to operations, queues, weather and traveller comfort; tickets are payable separately."
         ],
         "evening": [
-          "Awards/networking dinner. Accommodation and meal service follow the confirmed hotel booking."
+          "Enjoy Mall Road leisure and shopping at your own pace; vehicle access follows local restrictions.",
+          "Return to the hotel for dinner and overnight stay in Mussoorie."
         ],
-        "attractions": [],
-        "notes": [],
+        "attractions": [
+          "Kempty Falls",
+          "Company Garden",
+          "Mussoorie Mall Road"
+        ],
+        "notes": [
+          "Sightseeing order and duration depend on traffic, weather and local access. Share mobility needs before booking; step-free access is not assumed.",
+          "Entry fees, ropeway tickets and paid activities are excluded unless explicitly included in your confirmed booking."
+        ],
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
         "overnightStay": "Mussoorie",
-        "description": "Conference & Team Day. Follow the transfer, local experience or leisure programme below. Night halt: Mussoorie.",
-        "optionalActivities": []
+        "description": "Explore Kempty Falls, Company Garden and Mall Road, with an optional Gun Hill ropeway visit. Return to the hotel for dinner. Night halt: Mussoorie.",
+        "optionalActivities": [
+          "Gun Hill ropeway, subject to operations, weather, queues and traveller comfort; tickets extra."
+        ]
       },
       {
         "day": "Day 3",
         "title": "Mussoorie – Delhi",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Closing session. The activity and duration follow the confirmed corporate agenda and venue arrangements."
+          "Have breakfast, complete hotel checkout and collect luggage.",
+          "Begin the return journey to Delhi via Dehradun, with practical comfort stops en route."
         ],
         "afternoon": [
-          "Complete checkout and travel towards Delhi by the booked transport; allow time for traffic and practical comfort stops."
+          "Continue the drive towards Delhi; journey meals and refreshments are payable directly."
         ],
         "evening": [
-          "Transfer to Delhi at the agreed departure time; onward flight or train arrangements must allow for the journey from the accommodation."
+          "Arrive at the confirmed Delhi drop point; arrival may be late depending on traffic and road conditions."
         ],
         "attractions": [],
         "notes": [],
         "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
         "overnightStay": "No overnight stay — tour concludes",
-        "description": "Mussoorie – Delhi. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "description": "After breakfast and checkout, return to Delhi via Dehradun with comfort stops. Tour concludes at the confirmed Delhi drop point; no further hotel night is included.",
         "optionalActivities": []
       }
     ]

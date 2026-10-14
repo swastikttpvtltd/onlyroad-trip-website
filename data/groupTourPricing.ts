@@ -13,6 +13,9 @@ export function isGroupTourPackage(pkg: any) {
 }
 
 export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
+  if (pkg?.slug === "corporate-mussoorie-retreat") {
+    return getWeekendEscapeSharingRates().sort((a, b) => b.price - a.price);
+  }
   if (isWeekendEscape(pkg)) return getWeekendEscapeSharingRates();
   if (!isGroupTourPackage(pkg)) return null;
 
