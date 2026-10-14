@@ -1,3 +1,4 @@
+import { CurrencyPrice } from "@/components/CurrencySelector";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SeoLandingPage, { buildSeoMetadata } from "@/components/SeoLandingPage";
@@ -39,7 +40,7 @@ function PricingSection({ config }: { config: (typeof seoPages)[string] }) {
             Starting from
           </p>
           <p className="mt-1 text-2xl font-extrabold text-slate-950">
-            ₹{config.pricing.price.toLocaleString("en-IN")}
+            <CurrencyPrice inr={config.pricing.price}/>
           </p>
           <p className="mt-1 text-sm font-semibold text-slate-600">
             {config.pricing.duration}

@@ -1,11 +1,12 @@
 "use client";
+import { CurrencyPrice } from "@/components/CurrencySelector";
 
 import { useMemo, useState } from "react";
 import { addGSTToRate } from "@/data/priceTax";
 
 type Props = { packageTitle?: string };
 
-const money = (value: number) => `₹${value.toLocaleString("en-IN")}/-`;
+
 
 function nextFriday(from: Date) {
   const d = new Date(from);
@@ -61,9 +62,9 @@ export default function GroupBookingOptions({ packageTitle }: Props) {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-t"><td className="px-4 py-3 font-bold">Quad Sharing</td><td className="px-4 py-3 text-right font-extrabold">{money(rates.quad)}</td></tr>
-            <tr className="border-t bg-slate-50"><td className="px-4 py-3 font-bold">Triple Sharing</td><td className="px-4 py-3 text-right font-extrabold">{money(rates.triple)}</td></tr>
-            <tr className="border-t"><td className="px-4 py-3 font-bold">Double Sharing</td><td className="px-4 py-3 text-right font-extrabold">{money(rates.double)}</td></tr>
+            <tr className="border-t"><td className="px-4 py-3 font-bold">Quad Sharing</td><td className="px-4 py-3 text-right font-extrabold"><CurrencyPrice inr={rates.quad}/></td></tr>
+            <tr className="border-t bg-slate-50"><td className="px-4 py-3 font-bold">Triple Sharing</td><td className="px-4 py-3 text-right font-extrabold"><CurrencyPrice inr={rates.triple}/></td></tr>
+            <tr className="border-t"><td className="px-4 py-3 font-bold">Double Sharing</td><td className="px-4 py-3 text-right font-extrabold"><CurrencyPrice inr={rates.double}/></td></tr>
           </tbody>
         </table>
       </div>

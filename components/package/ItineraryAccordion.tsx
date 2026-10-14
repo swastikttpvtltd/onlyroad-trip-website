@@ -1,4 +1,5 @@
 "use client";
+import { useCurrency } from "@/components/CurrencySelector";
 import { useState } from "react";
 import { groupRateRows } from "@/data/groupRateMatrix";
 import { groupTourTerms } from "@/components/package/GroupTourTerms";
@@ -49,7 +50,7 @@ function listHtml(items: string[]) {
     : `<p class="muted">Not specified for this package.</p>`;
 }
 
-function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates, isWeekendGroup = false) {
+function pricingHtml(sharingRates: SharingRate[], groupRates: GroupRates | undefined, isWeekendGroup: boolean, format: (inr: number) => string) {
   // Weekend PDFs use the package's own sharing rates, without passenger matrices.
   if (isWeekendGroup) {
     const available = sharingRates.length ? sharingRates : (groupRates?.sharingRates ?? []);
@@ -59,15 +60,15 @@ function pricingHtml(sharingRates: SharingRate[], groupRates?: GroupRates, isWee
       .filter((rate): rate is SharingRate => rate !== undefined && Number.isFinite(rate.price));
     if (!weekendRates.length) return `<p class="muted">Room-sharing rates will be shared in the confirmed quotation.</p>`;
     return `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${weekendRates
-      .map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`)
+      .map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>${escapeHtml(format(rate.price))}</td></tr>`)
       .join("")}</tbody></table>`;
   }
   const sharingTable = sharingRates.length
-    ? `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${sharingRates.map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>₹${Number(rate.price).toLocaleString("en-IN")}/-</td></tr>`).join("")}</tbody></table>`
+    ? `<table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${sharingRates.map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>${escapeHtml(format(rate.price))}</td></tr>`).join("")}</tbody></table>`
     : "";
   const rows = groupRateRows(groupRates);
   const groupTable = rows.length
-    ? `<p>Double / twin sharing • 5% GST included</p><table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${rows.map(({ pax, price }) => `<tr><td>${pax} Travellers</td><td>₹${price.toLocaleString("en-IN")}/-</td></tr>`).join("")}</tbody></table>`
+    ? `<p>Double / twin sharing • 5% GST included</p><table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${rows.map(({ pax, price }) => `<tr><td>${pax} Travellers</td><td>${escapeHtml(format(price))}</td></tr>`).join("")}</tbody></table>`
     : "";
   return sharingTable + groupTable || `<p class="muted">Price will be shared in the confirmed quotation.</p>`;
 }
@@ -109,7 +110,7 @@ function downloadItinerary({
   bestTime,
   hotels,
   meals,
-}: Props) {
+}: Props, format: (inr: number) => string) {
   const title = packageTitle || destination || "Only Road Trip Itinerary";
   const safeItinerary = Array.isArray(itinerary) ? itinerary : [];
   const safeHighlights = Array.isArray(highlights) ? highlights : [];
@@ -198,8 +199,8 @@ function downloadItinerary({
 
   <h2>Pricing</h2>
   <div class="info-card">
-    ${pricingHtml(safeSharingRates, groupRates, /weekend/i.test(`${packageTitle} ${category}`))}
-    <p class="muted" style="margin-top:8px">Final pricing is subject to the confirmed quotation, availability, applicable taxes and package-specific terms.</p>
+    ${pricingHtml(safeSharingRates, groupRates, /weekend/i.test(`${packageTitle} ${category}`), format)}
+    <p class="muted" style="margin-top:8px">Conversions are indicative; checkout and invoices are in INR. Final pricing is subject to the confirmed quotation, availability, applicable taxes and package-specific terms.</p>
   </div>
 
   <h2>Complete Day-wise Itinerary</h2>
@@ -256,6 +257,7 @@ export default function ItineraryAccordion({
   hotels,
   meals,
 }: Props) {
+  const { format } = useCurrency();
   const [openDay, setOpenDay] = useState<number | null>(0);
 
   return (
@@ -267,7 +269,7 @@ export default function ItineraryAccordion({
       <div className="flex justify-end">
         <button
           type="button"
-          onClick={() => downloadItinerary({ isGroupTerms, itinerary, destination, category, vibeHook, packageTitle, packageId, duration, overview, highlights, inclusions, exclusions, groupRates, sharingRates, bestTime, hotels, meals })}
+          onClick={() => downloadItinerary({ isGroupTerms, itinerary, destination, category, vibeHook, packageTitle, packageId, duration, overview, highlights, inclusions, exclusions, groupRates, sharingRates, bestTime, hotels, meals }, format)}
           className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-extrabold text-white shadow-md transition hover:bg-blue-800"
         >
           ↓ Download Complete Itinerary

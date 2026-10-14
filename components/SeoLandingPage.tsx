@@ -1,3 +1,4 @@
+import { CurrencyPrice } from "@/components/CurrencySelector";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/siteSeo";
@@ -215,7 +216,7 @@ export default function SeoLandingPage({ config }: { config: SeoPageConfig }) {
             <div className="mt-4 grid gap-5 md:grid-cols-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Starting Price</p>
-                <p className="mt-2 text-3xl font-extrabold text-slate-950">₹{config.pricing.price.toLocaleString("en-IN")}</p>
+                <p className="mt-2 text-3xl font-extrabold text-slate-950"><CurrencyPrice inr={config.pricing.price}/></p>
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Duration</p>
