@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { CurrencySelector } from "@/components/CurrencySelector";
 import { Phone, Mail, MapPin, Clock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
@@ -11,6 +12,7 @@ export default function Footer() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6 py-8">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/15 bg-white/5 p-3"><span className="text-sm font-semibold">Choose display currency · Checkout in INR</span><CurrencySelector /></div>
         <div className="grid gap-6 lg:grid-cols-4">
           <div>
             <Image src="/images/logo/only-road-trip-logo.jpeg" alt="Only Road Trip" width={220} height={60} className="h-12 w-auto" />
