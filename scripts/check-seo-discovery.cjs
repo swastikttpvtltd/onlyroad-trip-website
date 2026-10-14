@@ -6,10 +6,9 @@ for(const ext of ['.ts','.tsx'])require.extensions[ext]=(module,file)=>module._c
 const {packages}=require('../data/packages.ts');
 const {destinationGuides}=require('../data/destinationGuides.ts');
 const {getDestinationPackages}=require('../lib/destinationPackages.ts');
-const {canonicalHostRedirect}=require('../lib/seoRedirects.ts');
 const {currencyFaq,currencyGuideFaqs}=require('../data/currencyContent.ts');
 const {buildPackageFaqs}=require('../data/packageCustomerCopy.ts');
-const {getRedirectUrl,unstable_getResponseFromNextConfig}=require('next/experimental/testing/server');
+const {unstable_getResponseFromNextConfig}=require('next/experimental/testing/server');
 const React=require('react'),{renderToStaticMarkup}=require('react-dom/server');
 const DestinationLandingPage=require('../components/DestinationLandingPage.tsx').default;
 const directory=require('../components/DestinationDirectory.tsx').default;
@@ -40,12 +39,12 @@ for(const pkg of packages)assert(buildPackageFaqs(pkg).some(faq=>faq.question===
 const currencyHtml=renderToStaticMarkup(React.createElement(require('../app/pricing-and-currencies/page.tsx').default));
 for(const faq of currencyGuideFaqs)assert(currencyHtml.includes(faq.question));
 (async()=>{
- const nextConfig={redirects:async()=>[canonicalHostRedirect]};
+ const nextConfig=await require('../next.config.ts').default(require('next/constants').PHASE_PRODUCTION_BUILD);
  for(const route of ['/','/destinations/uttarakhand','/packages/corporate-mussoorie-retreat','/pricing-and-currencies','/packages?state=Goa&currency=USD','/sitemap.xml']){
    const response=await unstable_getResponseFromNextConfig({url:'https://onlyroadtrip.com'+route,nextConfig});
-   assert.equal(response.status,308,route);assert.equal(getRedirectUrl(response),'https://www.onlyroadtrip.com'+route,route+' query preserved');
+   assert.equal(response.status,200,route+' must not conflict with Cloudflare domain redirects');
  }
  for(const route of ['/api/partial-lead','/api/currency-rates','/api/payment/cashfree/callback','/api/payment/payu/callback','/book/test','/payment','/payment/success','/payment-cancelled','/_next/image','/admin'])assert.equal((await unstable_getResponseFromNextConfig({url:'https://onlyroadtrip.com'+route,nextConfig})).status,200,route+' origin preserved');
  for(const host of ['https://www.onlyroadtrip.com','http://127.0.0.1:3000'])assert.equal((await unstable_getResponseFromNextConfig({url:host+'/packages',nextConfig})).status,200,'No redirect loop or preview redirect');
- console.log('PASS geographic relevance, all regional/city discovery links, truthful empty states, currency FAQ/sitemap consistency, public canonical redirects and unchanged lead/payment origins');
+ console.log('PASS geographic relevance, all regional/city discovery links, truthful empty states, currency FAQ/sitemap consistency, public pages without conflicting host redirects and unchanged lead/payment origins');
 })().catch(error=>{console.error(error);process.exitCode=1});
