@@ -1,12 +1,13 @@
 "use client";
 import { useSyncExternalStore } from "react";
+import { bootstrapRates } from "@/lib/currency-bootstrap";
 import { currencies, formatCurrency, RATE_TTL, validRates, type Currency, type Rates } from "@/lib/currency";
 export type { Currency } from "@/lib/currency";
 
 const key = "onlyroadtrip-currency";
 const ratesKey = "onlyroadtrip-inr-rates";
 type Snapshot = { currency: Currency; rates: Rates | null; at: number; status: "loading" | "ready" | "unavailable" | "stale" };
-const initial: Snapshot = { currency: "INR", rates: null, at: 0, status: "loading" };
+const initial: Snapshot = { currency: "INR", ...bootstrapRates, status: "ready" };
 let snapshot = initial;
 let started = false;
 let pending: Promise<void> | undefined;
@@ -15,9 +16,9 @@ function publish(next: Snapshot) { snapshot = next; listeners.forEach(listener =
 function readCurrency(): Currency {
   try { const value = localStorage.getItem(key); return currencies.includes(value as Currency) ? value as Currency : "INR"; } catch { return snapshot.currency; }
 }
-async function loadRates() {
+async function loadRates(force = false) {
   if (pending) return pending;
-  if (snapshot.rates && Date.now() - snapshot.at < RATE_TTL) return;
+  if (!force && snapshot.status === "ready" && snapshot.rates && Date.now() - snapshot.at < RATE_TTL) return;
   pending = (async () => {
     try {
       const response = await fetch("/api/currency-rates", { signal: AbortSignal.timeout(12000) });
@@ -37,14 +38,16 @@ function subscribe(listener: () => void) {
     started = true;
     let saved: { at: number; rates: Rates } | null = null;
     try { saved = JSON.parse(localStorage.getItem(ratesKey) || "null"); } catch {}
-    const usable = saved && validRates(saved.rates) && Number.isFinite(saved.at) && saved.at > 0 && saved.at <= Date.now() ? saved : null;
-    publish({ ...snapshot, currency: readCurrency(), rates: usable?.rates ?? null, at: usable?.at ?? 0, status: usable ? (Date.now() - usable.at < RATE_TTL ? "ready" : "stale") : "loading" });
+    const usable = saved && validRates(saved.rates) && Number.isFinite(saved.at) && saved.at >= bootstrapRates.at && saved.at <= Date.now() ? saved : null;
+    const available = usable ?? bootstrapRates;
+    publish({ ...snapshot, currency: readCurrency(), ...available, status: Date.now() - available.at < RATE_TTL ? "ready" : "stale" });
     window.addEventListener("storage", event => {
       if (event.key === key || event.key === null) publish({ ...snapshot, currency: readCurrency() });
     });
     window.addEventListener("online", () => { void loadRates(); });
     window.addEventListener("focus", () => { void loadRates(); });
-    void loadRates();
+    // The first visitor already has verified conversions while FX refreshes.
+    void loadRates(!usable);
   }
   return () => { listeners.delete(listener); };
 }

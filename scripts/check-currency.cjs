@@ -9,6 +9,8 @@ Module._resolveFilename = function(name, ...args) { return resolve.call(this, na
 for (const ext of ['.ts', '.tsx']) require.extensions[ext] = (module, file) => module._compile(ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX } }).outputText, file);
 const { validRates, formatCurrency, currencies, RATE_TTL } = require('../lib/currency.ts');
 const rates = { INR: 1, USD: .012, EUR: .011, GBP: .009, CAD: .016, AUD: .018, AED: .044 };
+const { bootstrapRates } = require('../lib/currency-bootstrap.ts');
+assert(validRates(bootstrapRates.rates));
 assert(validRates(rates));
 for (const invalid of [null, {}, { ...rates, INR: 2 }, { ...rates, USD: NaN }, { ...rates, EUR: -1 }, { ...rates, CAD: '0.1' }]) assert(!validRates(invalid));
 for (const currency of currencies) assert.equal(formatCurrency(10000, currency, rates), new Intl.NumberFormat('en-IN', { style: 'currency', currency, maximumFractionDigits: currency === 'INR' ? 0 : 2 }).format(10000 * rates[currency]));
@@ -45,7 +47,15 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
   storage.set('onlyroadtrip-inr-rates', JSON.stringify({ at: Date.now() - RATE_TTL * 2, rates }));
   global.fetch = async () => { throw Error('offline'); };
   mod = fresh(); subscribe(() => {}); await tick();
-  assert.equal(getSnapshot().status, 'stale'); assert.equal(mod.useCurrency().format(10000), 'CA$160.00');
+  assert.equal(getSnapshot().status, 'stale'); assert.equal(mod.useCurrency().format(10000), formatCurrency(10000, 'CAD', bootstrapRates.rates));
+  storage.clear();
+  global.fetch = () => new Promise(() => {}); // FX can be slow or never return.
+  mod = fresh(); subscribe(() => {});
+  for (const currency of currencies) {
+    mod.useCurrency().setCurrency(currency);
+    assert.equal(mod.useCurrency().format(10000), formatCurrency(10000, currency, bootstrapRates.rates), 'First-visit selection updates before FX returns');
+    assert.equal(mod.useCurrency().format(20000), formatCurrency(20000, currency, bootstrapRates.rates), 'Changed booking total uses the same currency immediately');
+  }
   storage.clear(); blocked = true;
   global.fetch = async url => { assert.equal(url, '/api/currency-rates'); return Response.json({ at: Date.now(), rates }); };
   mod = fresh(); subscribe(() => {}); mod.useCurrency().setCurrency('USD'); await tick();
@@ -53,14 +63,17 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
   blocked = false; storage.clear();
   global.fetch = async () => Response.json({ rates: { INR: 1, USD: -1 }, at: Date.now() });
   mod = fresh(); subscribe(() => {}); mod.useCurrency().setCurrency('USD'); await tick();
-  assert.equal(getSnapshot().status, 'unavailable'); assert.equal(mod.useCurrency().format(10000), '₹10,000');
+  assert.equal(getSnapshot().status, 'stale'); assert.equal(mod.useCurrency().format(10000), formatCurrency(10000, 'USD', bootstrapRates.rates));
   global.fetch = async () => Response.json({ result: 'success', base_code: 'INR', rates });
   const route = require('../app/api/currency-rates/route.ts');
   const response = await route.GET(); assert.equal(response.status, 200); assert(validRates((await response.json()).rates));
   global.fetch = async () => { throw Error('Cached server response should avoid another fetch'); };
   assert.equal((await route.GET()).status, 200);
   delete require.cache[require.resolve('../app/api/currency-rates/route.ts')];
-  assert.equal((await require('../app/api/currency-rates/route.ts').GET()).status, 503);
+  const fallback = await require('../app/api/currency-rates/route.ts').GET();
+  assert.equal(fallback.status, 200);
+  const fallbackData = await fallback.json();
+  assert.equal(fallbackData.stale, true); assert.deepEqual(fallbackData.rates, bootstrapRates.rates);
   react.useSyncExternalStore = originalHook;
-  console.log('PASS all currencies, synchronized subscribers, restored cache, cross-tab selection, blocked storage, stale/offline fallback, malformed rates, server cache and 503 fallback');
+  console.log('PASS immediate first-visit changes with stalled FX, all currencies and changed totals, synchronization, cached selection, blocked storage, malformed rates, server cache and verified outage fallback');
 })().catch(error => { console.error(error); process.exitCode = 1; });

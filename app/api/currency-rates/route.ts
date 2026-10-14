@@ -1,4 +1,5 @@
 import { currencies, RATE_TTL, validRates, type Rates } from "@/lib/currency";
+import { bootstrapRates } from "@/lib/currency-bootstrap";
 
 export const dynamic = "force-dynamic";
 let cached: { at: number; rates: Rates } | undefined;
@@ -20,7 +21,7 @@ export async function GET() {
     pending ??= refresh().finally(() => { pending = undefined; });
     try { await pending; } catch { /* Retain verified rates during an outage. */ }
   }
-  if (!cached) return Response.json({ error: "Exchange rates temporarily unavailable" }, { status: 503, headers: { "Cache-Control": "no-store" } });
-  const stale = Date.now() - cached.at >= RATE_TTL;
-  return Response.json({ ...cached, stale }, { headers: { "Cache-Control": stale ? "no-store" : "public, max-age=3600, s-maxage=86400" } });
+  const available = cached ?? bootstrapRates;
+  const stale = !cached || Date.now() - available.at >= RATE_TTL;
+  return Response.json({ ...available, stale }, { headers: { "Cache-Control": stale ? "no-store" : "public, max-age=3600, s-maxage=86400" } });
 }
