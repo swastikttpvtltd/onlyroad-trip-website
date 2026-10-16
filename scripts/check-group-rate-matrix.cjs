@@ -9,10 +9,21 @@ require.extensions[".ts"] = (module, filename) => module._compile(ts.transpileMo
 const { packages } = require(path.join(root, "data/packages.ts"));
 const pricing = require(path.join(root, "data/packagePricing.ts"));
 const { GROUP_SIZES, rateForTravellerCount } = require(path.join(root, "data/groupRateMatrix.ts"));
+const { isGroupTourPackage } = require(path.join(root, "data/groupTourPricing.ts"));
 let checked = 0;
 for (const pkg of packages) {
   const rates = pkg.groupRates;
   const sharing = rates.sharingRates;
+  if (!isGroupTourPackage(pkg)) {
+    assert.deepEqual(Object.keys(rates).filter(key => /^\d+$/.test(key)), ["2"], pkg.slug + ": only two-person pricing");
+    assert.deepEqual(sharing, [], pkg.slug + ": no extra sharing prices");
+    assert.equal(pkg.price, rates[2], pkg.slug + ": per-person display rate");
+    assert(Number.isFinite(rates[2]) && rates[2] > 0);
+    assert.equal(rateForTravellerCount(rates, 4), 0);
+    checked++;
+    continue;
+  }
+
   assert.equal(Object.keys(rates).filter(key => /^\d+$/.test(key)).length, 50, pkg.slug);
   const nights = Number(pkg.duration.match(/(\d+)\s*Nights?/i)?.[1] ?? 0);
   for (const pax of GROUP_SIZES) {

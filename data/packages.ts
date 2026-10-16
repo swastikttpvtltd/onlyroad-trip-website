@@ -24,7 +24,7 @@ import andhraPradeshPackages from "./packages/andhra-pradesh/andhra-pradesh-pack
 import { defaultPackageExclusions } from "./defaultPackageExclusions";
 import { defaultPackageInclusions } from "./defaultPackageInclusions";
 import { makePackageRates } from "./packagePricing";
-import { getGroupSharingRates } from "./groupTourPricing";
+import { isGroupTourPackage, getGroupSharingRates } from "./groupTourPricing";
 import { getBestTime } from "./packageBestTime";
 import { packageMedia } from "./packageMedia";
 import { getDetailedItinerary } from "./itineraryDetails";
@@ -192,7 +192,10 @@ export const packages = rawPackages.map((original) => {
     } : {}),
     itinerary: getDetailedItinerary(original.slug, packageId, original.itinerary ?? []),
   };
-  const groupRates = makePackageRates(pkg);
+  const allRates = makePackageRates(pkg);
+  const groupRates = isGroupTourPackage(pkg)
+    ? allRates
+    : { 2: allRates[2], sharingRates: [] };
   const sharingRates = getGroupSharingRates(pkg) ?? groupRates.sharingRates;
   const displayPrice = sharingRates?.length
     ? Math.max(...sharingRates.map((rate) => rate.price))

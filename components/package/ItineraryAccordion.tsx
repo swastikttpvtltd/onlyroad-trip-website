@@ -68,7 +68,7 @@ function pricingHtml(sharingRates: SharingRate[], groupRates: GroupRates | undef
     : "";
   const rows = groupRateRows(groupRates);
   const groupTable = rows.length
-    ? `<p>Double / twin sharing • 5% GST included</p><table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${rows.map(({ pax, price }) => `<tr><td>${pax} Travellers</td><td>${escapeHtml(format(price))}</td></tr>`).join("")}</tbody></table>`
+    ? `<p>Double / twin sharing • 5% GST included</p><table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${rows.map(({ pax, price }) => `<tr><td>${pax} Travellers${pax === 2 && rows.length === 1 ? " • Double Sharing" : ""}</td><td>${escapeHtml(format(price))}</td></tr>`).join("")}</tbody></table>`
     : "";
   return sharingTable + groupTable || `<p class="muted">Price will be shared in the confirmed quotation.</p>`;
 }
