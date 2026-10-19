@@ -176,7 +176,7 @@ export default async function SeoPage({ params }: Props) {
         <div className="mx-auto max-w-6xl px-4 pb-20">
           <PricingSection config={config} />
           <InclusionsExclusionsSection config={config} />
-          <FaqSection config={config} />
+          {slug !== "road-trip-packages" && <FaqSection config={config} />}
         </div>
       )}
     </>
