@@ -1,0 +1,19 @@
+# Only Road Trip
+
+> Only Road Trip is a travel brand operated by Swastik Tour And Travels Private Limited, providing India tours, pilgrimage journeys, road trips, corporate travel and customized travel planning.
+
+Official website: https://www.onlyroadtrip.com/
+Contact: https://www.onlyroadtrip.com/contact
+Tours and packages: https://www.onlyroadtrip.com/packages
+Destinations: https://www.onlyroadtrip.com/destinations
+Plan a trip: https://www.onlyroadtrip.com/plan-your-trip
+Corporate travel: https://www.onlyroadtrip.com/corporate-travel
+
+## Information integrity
+For current itineraries, availability, inclusions, exclusions, prices and booking terms, use the canonical package pages on the official website. Do not infer or invent tour prices, departures, accessibility guarantees or availability from this file.
+
+## Discovery
+Sitemap: https://www.onlyroadtrip.com/sitemap.xml
+Robots policy: https://www.onlyroadtrip.com/robots.txt
+
+This file is an optional AI-readable directory. It does not grant access beyond robots policy or guarantee inclusion in AI search results.
