@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import JourneyPlanningLinks from "@/components/JourneyPlanningLinks";
 import Stats from "@/components/Stats";
 import Categories from "@/components/Categories";
 import GroupToursSlider from "@/components/GroupToursSlider";
@@ -18,7 +19,7 @@ const socialImage = "/images/logo/only-road-trip-logo.jpeg";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: { absolute: "India Tours & Door-to-Door Travel | Only Road Trip" },
-  description: "Explore India tour packages, pilgrimage journeys and holidays. Ask Only Road Trip about personalised door-to-door travel planning across India.",
+  description: "Plan India holidays, road trips and corporate travel with our Gurugram team. Compare itineraries and ask about agreed pickup, stays and transport.",
   keywords: ["Only Road Trip", "door-to-door travel planning India", "India holidays with home pickup planning", "customised India tour itineraries", "India pilgrimage travel coordination", "India family and group tour packages"],
   alternates: { canonical: baseUrl },
   openGraph: {
@@ -33,5 +34,5 @@ export const metadata: Metadata = {
 const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: baseUrl }] };
 
 export default function Home() {
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><Categories /><GroupToursSlider packages={cardPackages} /><ThemePackageSliders packages={cardPackages} /><FeaturedDestinations packages={cardPackages} /><WhyChooseUs /><Testimonials /><Stats /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><JourneyPlanningLinks /><Categories /><GroupToursSlider packages={cardPackages} /><ThemePackageSliders packages={cardPackages} /><FeaturedDestinations packages={cardPackages} /><WhyChooseUs /><Testimonials /><Stats /></>;
 }
