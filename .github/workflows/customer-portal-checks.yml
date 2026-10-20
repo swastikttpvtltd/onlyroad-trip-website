@@ -1,0 +1,30 @@
+name: Customer Portal Checks
+on:
+  pull_request:
+    paths:
+      - 'portal/**'
+      - 'components/customer/**'
+      - 'components/SiteChrome.tsx'
+      - 'components/Header.tsx'
+      - 'app/customer/**'
+      - 'app/api/customer/**'
+      - 'app/layout.tsx'
+      - 'migrations/**'
+      - 'scripts/test-customer-portal.mjs'
+      - 'tsconfig.customer-portal.json'
+      - '.github/workflows/customer-portal-checks.yml'
+jobs:
+  portal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npx tsc --noEmit --project tsconfig.customer-portal.json
+      - run: node scripts/test-customer-portal.mjs
+      - run: npx eslint portal components/customer components/SiteChrome.tsx app/customer app/api/customer scripts/test-customer-portal.mjs
