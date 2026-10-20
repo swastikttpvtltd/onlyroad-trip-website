@@ -1,0 +1,61 @@
+{
+  "name": "onlyroadtrip-instagram",
+  "account_id": "b5c02dbd8131db0dac38bce86fd5a756",
+  "main": "instagram-worker.js",
+  "compatibility_date": "2026-02-10",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "nodejs_compat_populate_process_env",
+    "global_fetch_strictly_public"
+  ],
+  "workers_dev": true,
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "onlyroadtrip-instagram"
+    },
+    {
+      "binding": "ORIGINAL_SITE",
+      "service": "onlyroad-trip-website"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "www.onlyroadtrip.com/instagram*",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "www.onlyroadtrip.com/sitemap.xml",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "www.onlyroadtrip.com/llms.txt",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "www.onlyroadtrip.com/LLMS.txt",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "onlyroadtrip.com/instagram*",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "onlyroadtrip.com/sitemap.xml",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "onlyroadtrip.com/llms.txt",
+      "zone_name": "onlyroadtrip.com"
+    },
+    {
+      "pattern": "onlyroadtrip.com/LLMS.txt",
+      "zone_name": "onlyroadtrip.com"
+    }
+  ]
+}

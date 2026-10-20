@@ -10,6 +10,7 @@ const staticPages = [
   "contact",
   "destinations",
   "packages",
+  "instagram",
   "corporate-travel",
   "corporate-mice-travel",
   "solo-women-travel-packages",
@@ -61,6 +62,7 @@ function makePage(path: string, priority: number, changeFrequency: MetadataRoute
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries = staticPages.map((path) => {
+    if (path === "instagram") return { ...makePage(path, 0.8, "weekly"), lastModified: new Date("2026-10-08T00:00:00.000Z") };
     if (path === "") return makePage(path, 1, "weekly");
     if (legalPages.has(path)) return makePage(path, 0.2, "yearly");
     if (path === "jyotirlinga-yatra") return makePage(path, 0.9, "weekly");

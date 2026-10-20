@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/InstagramSafeLink";
 import { usePathname, useRouter } from "next/navigation";
 
 const experienceThemes = [
@@ -53,6 +53,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const isInstagramPage = pathname === "/instagram";
 
   const isPackagePage = pathname === "/packages" || pathname.startsWith("/packages/") || pathname.startsWith("/book/");
 
@@ -122,7 +123,7 @@ export default function Header() {
               </div>
             </div>
             <Link href="/corporate-travel" className={nav}>Corporate Travel</Link>
-            <Link href="/village-immersion" className={`${nav} whitespace-nowrap`}>Village Immersion <span className="ml-1 rounded-full bg-cyan-400/20 px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-cyan-300">New</span></Link>
+            {!isInstagramPage && <Link href="/village-immersion" className={`${nav} whitespace-nowrap`}>Village Immersion <span className="ml-1 rounded-full bg-cyan-400/20 px-1.5 py-0.5 text-[8px] font-extrabold uppercase tracking-wider text-cyan-300">New</span></Link>}
             <Link href="/about" className={nav}>About Us</Link>
             <Link href="/contact" className={nav}>Contact</Link>
           </nav>
@@ -133,7 +134,7 @@ export default function Header() {
           </div>
         </div>
 
-        {mobileOpen && <div className="border-t border-slate-200 bg-white p-3 lg:hidden"><div className="grid gap-1">{[["Home", "/"], ["Experiences", "/packages"], ["Packages", "/packages"], ["Corporate Travel", "/corporate-travel"], ["Village Immersion", "/village-immersion"], ["About Us", "/about"], ["Contact", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>)}<Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link></div></div>}
+        {mobileOpen && <div className="border-t border-slate-200 bg-white p-3 lg:hidden"><div className="grid gap-1">{[["Home", "/"], ["Experiences", "/packages"], ["Packages", "/packages"], ["Corporate Travel", "/corporate-travel"], ["Village Immersion", "/village-immersion"], ["About Us", "/about"], ["Contact", "/contact" ]].filter(([, href]) => !isInstagramPage || href !== "/village-immersion").map(([label, href]) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>)}<Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link></div></div>}
 
         {isPackagePage && <button onClick={() => { if (window.history.length > 1) router.back(); else router.push("/packages"); }} className={`absolute left-0 top-[74px] z-[70] inline-flex items-center gap-2 rounded-xl border border-white/50 bg-slate-950/40 px-3 py-2 text-xs font-extrabold text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:bg-slate-950/55 sm:top-[82px] sm:px-4 sm:py-2.5 sm:text-sm ${showBackButton ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-3 opacity-0 pointer-events-none"}`}><span>←</span> Back to Packages</button>}
       </div>
