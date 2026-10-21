@@ -65,7 +65,7 @@ export default function BookingPolicyPage() {
                 Last Updated
               </p>
               <p className="mt-2 font-semibold text-slate-900">
-                14 July, 2026
+                21 October, 2026
               </p>
             </div>
 
@@ -120,6 +120,7 @@ export default function BookingPolicyPage() {
                 transportation, flights, activities, permits, and other travel
                 services. Confirmation will be provided only after successful
                 verification and receipt of the required booking amount.
+                A payment receipt alone is not final booking confirmation.
               </p>
 
               <ul className="mt-6 list-disc space-y-4 pl-6 text-lg leading-8 text-slate-700">
@@ -151,9 +152,9 @@ export default function BookingPolicyPage() {
                 </h3>
 
                 <ul className="mt-4 list-disc space-y-3 pl-6 text-lg leading-8 text-slate-700">
-                  <li>Minimum 30% advance payment to confirm the booking.</li>
-                  <li>Balance amount to be paid before the commencement of the journey.</li>
-                  <li>Certain airlines, luxury hotels, permits, visas, and special events may require 100% advance payment.</li>
+                  <li>30 calendar days or more before departure: 30% booking advance.</li>
+                  <li>Less than 30 calendar days before departure: 100% payment at booking.</li>
+                  <li>Count calendar days in IST, with the booking date as day zero. Supplier-specific full-payment requirements will be disclosed before payment.</li>
                 </ul>
 
               </div>
