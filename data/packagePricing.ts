@@ -114,5 +114,7 @@ export const makePackageRates = (pkg: any): PackageGroupRates => {
     const minimumPublishedRate = Math.ceil(addGSTToRate(baseBeforeGST) * (1 - MAX_GROUP_DISCOUNT));
     return [pax, Math.max(minimumPublishedRate, addGSTToRate(beforeGST))];
   }));
-  return { ...rates, sharingRates: [] };
+  const publishedPrice = pkg.slug === "varanasi-prayagraj-ayodhya" ? 22000
+    : pkg.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya" ? 27000 : rates[2];
+  return { ...rates, 2: publishedPrice, sharingRates: [] };
 };
