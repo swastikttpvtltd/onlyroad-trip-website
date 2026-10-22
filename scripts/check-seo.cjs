@@ -105,3 +105,5 @@ async function checkRenderedPackages(){
   console.log('PASS: '+packages.length+' rendered package landing pages, H1s, metadata, linked WebPage/trip/FAQ/header/footer schema; '+sitemap.length+' sitemap URLs; transaction noindex, JSON-LD escaping and generated hero assets.');
 }
 checkRenderedPackages().catch(error=>{console.error(error);process.exitCode=1});
+// Keep customer FAQ prices, availability wording and policy summaries in sync.
+require('./check-package-faqs.cjs');

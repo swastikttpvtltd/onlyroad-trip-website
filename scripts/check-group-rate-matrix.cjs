@@ -50,5 +50,6 @@ for (const pkg of packages) {
 }
 assert.equal(pricing.TARGET_MARGIN, .18);
 assert(pricing.transportFactorFor(100) >= 3 * pricing.transportFactorFor(30), "Large groups require more transport");
-assert.equal(packages.find(pkg => pkg.slug === "varanasi-prayagraj-ayodhya").groupRates[2], 30000);
+assert.equal(packages.find(pkg => pkg.slug === "varanasi-prayagraj-ayodhya").groupRates[2], 22000);
+assert.equal(packages.find(pkg => pkg.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya").groupRates[2], 27000);
 console.log("PASS: " + packages.length + " packages, " + checked + " rates; booking lookup, discount limit, margin floor and vehicle scaling.");
