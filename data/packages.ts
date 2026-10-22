@@ -1,4 +1,5 @@
 import { buildCustomerOverview } from "./packageCustomerCopy";
+import { customerTransportLabel, clarifyServiceInclusions } from "./packageServiceDetails";
 import { isWeekendEscape } from "./weekendEscape";
 import gujaratPackages from "./packages/gujarat/gujarat-packages";
 import rajasthanPackages from "./packages/rajasthan/rajasthan-packages";
@@ -212,7 +213,7 @@ export const packages = rawPackages.map((original) => {
     price: displayPrice,
     displayPriceBasis: sharingRates?.length ? "Double Sharing" : "2 Travellers",
     groupRates,
-    quickFacts: { ...pkg.quickFacts, bestSeason: getBestTime(pkg) },
+    quickFacts: { ...pkg.quickFacts, transport: customerTransportLabel(pkg), bestSeason: getBestTime(pkg) },
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,
@@ -235,7 +236,7 @@ export const packages = rawPackages.map((original) => {
       ? (isEscape ? "Arrival breakfast, all lunches, journey meals and refreshments; only hotel dinners on Days 2 & 3 and hotel breakfasts on Days 3 & 4 are included" : "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included")
       : "Lunch and any meals other than the included breakfast and dinner"],
     inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.inclusions : [
-      ...defaultPackageInclusions,
+      ...clarifyServiceInclusions(pkg, defaultPackageInclusions, Boolean(sharingRates?.length)),
       ...(/\b(?:Varanasi|Kashi)\b/i.test(String(pkg.destination ?? ""))
         ? ["Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions."] : []),
       ...(/\b(?:Prayagraj|Allahabad)\b/i.test(String(pkg.destination ?? ""))

@@ -1,7 +1,7 @@
 export const defaultPackageExclusions = [
   "All entrance fees of the sightseeing places mentioned in the itinerary.",
   "Cost of Rail or Airfare to and from the meeting and dropping place of the tour except Airport to Airport Tours / specifically mentioned in the tour itinerary.",
-  "Cost of any individual Airport / Railway station transfer.",
+  "Individual Airport / Railway station transfers outside the pickup and drop arrangements expressly included in the confirmed itinerary. Confirm the meeting point, reporting window and any additional transfer charge before payment.",
   "Any Increase in the Airfare / Hotel tariff charges.",
   "Any Increase in the fuel surcharge or any kind of taxes levied by the respective government or statutory bodies.",
   "Cost of extension of the validity or deviation from the route of the tour in case of Airport to Airport tours.",
