@@ -160,7 +160,10 @@ const getPackageSeoAliases = (pkg: any) => {
 
 const buildDetailedPackageDescription = buildCustomerOverview;
 
-// These weekends count the outbound road journey as Night 1 and only one hotel night.
+// Daytime weekends keep both published nights in the hotel, starting on Day 1.
+const daytimeWeekendSlugs = new Set(["jaipur-weekend-group-tour", "nainital-weekend-group-tour", "corporate-mussoorie-retreat"]);
+
+// Other overnight weekends retain their existing road-night and hotel-night allocation.
 const overnightWeekendSlugs = new Set([
   "jibhi-weekend-group-tour",
   "kasol-weekend-group-tour",
@@ -174,12 +177,21 @@ const overnightWeekendSlugs = new Set([
 
 export const packages = rawPackages.map((original) => {
   const isEscape = isWeekendEscape(original);
-  const isOvernightWeekend = overnightWeekendSlugs.has(String(original.slug));
+  const isDaytimeWeekend = daytimeWeekendSlugs.has(String(original.slug));
+  const isOvernightWeekend = !isDaytimeWeekend && overnightWeekendSlugs.has(String(original.slug));
 
   const packageId = makePackageId(original.id, original.slug, original.title);
   const pkg = {
     ...original,
-    ...(isOvernightWeekend ? {
+    ...(isDaytimeWeekend ? {
+      hotels: [{ name: "3-Star Hotel / Similar — 2 hotel nights (Nights 1 & 2)", category: "3-Star", star: "3-Star Hotel" }],
+      meals: ["2 dinners at hotel on Days 1 & 2", "2 breakfasts at hotel on Days 2 & 3"],
+      quickFacts: {
+        ...original.quickFacts,
+        meals: "2 dinners (Days 1 & 2) & 2 breakfasts (Days 2 & 3)",
+        hotelCategory: "3-Star Hotel / Similar — 2 hotel nights (Nights 1 & 2)",
+      },
+    } : isOvernightWeekend ? {
       hotels: [{ name: isEscape ? "3-Star Hotel / Similar — 2 nights (Nights 2 & 3)" : "3-Star Hotel / Similar — 1 night (Night 2)", category: "3-Star", star: "3-Star Hotel" }],
       meals: isEscape ? ["2 dinners at hotel on Days 2 & 3", "2 breakfasts at hotel on Days 3 & 4"] : ["1 dinner at hotel on Day 2", "1 breakfast at hotel on Day 3"],
       quickFacts: {
@@ -216,7 +228,9 @@ export const packages = rawPackages.map((original) => {
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,
-    priceBasis: isEscape
+    priceBasis: isDaytimeWeekend
+      ? "Per Person | 5% GST Included | 2 hotel nights (Nights 1 & 2) | 2 Dinners & 2 Breakfasts | Standard Transport & Sightseeing"
+      : isEscape
       ? "Per Person | 5% GST Included | 2 hotel nights (Nights 2 & 3) | 2 Dinners & 2 Breakfasts | Standard Transport & Sightseeing"
       : isOvernightWeekend
       ? "Per Person | 5% GST Included | 1 hotel night (Night 2) | 1 Dinner & 1 Breakfast | Standard Transport & Sightseeing"
@@ -229,9 +243,11 @@ export const packages = rawPackages.map((original) => {
     },
     overview: detailedDescription,
     gallery,
-    hotels: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
-    meals: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.meals : [...standardMeals],
-    exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
+    hotels: isDaytimeWeekend || isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
+    meals: isDaytimeWeekend || isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.meals : [...standardMeals],
+    exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isDaytimeWeekend
+      ? "Day 1 journey meals, all lunches and personal refreshments; only hotel dinners on Days 1 & 2 and hotel breakfasts on Days 2 & 3 are included"
+      : isOvernightWeekend
       ? (isEscape ? "Arrival breakfast, all lunches, journey meals and refreshments; only hotel dinners on Days 2 & 3 and hotel breakfasts on Days 3 & 4 are included" : "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included")
       : "Lunch and any meals other than the included breakfast and dinner"],
     inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.inclusions : [
@@ -240,10 +256,14 @@ export const packages = rawPackages.map((original) => {
         ? ["Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions."] : []),
       ...(/\b(?:Prayagraj|Allahabad)\b/i.test(String(pkg.destination ?? ""))
         ? ["Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions."] : []),
-      isOvernightWeekend
+      isDaytimeWeekend
+        ? "2 hotel nights in a 3-Star Hotel / Similar on Nights 1 & 2; hotel check-in is on Day 1"
+        : isOvernightWeekend
         ? (isEscape ? "2 nights in a 3-Star Hotel / Similar on Nights 2 & 3; Night 1 is the overnight road journey from Delhi" : "1 night in a 3-Star Hotel / Similar on Night 2; Night 1 is the overnight road journey from Delhi")
         : "Accommodation in 3-Star Hotels / Similar",
-      isOvernightWeekend
+      isDaytimeWeekend
+        ? "2 hotel dinners on Days 1 & 2 and 2 hotel breakfasts on Days 2 & 3; service subject to hotel policy and occupancy"
+        : isOvernightWeekend
         ? (isEscape ? "2 hotel dinners on Days 2 & 3 and 2 hotel breakfasts on Days 3 & 4; service subject to hotel policy and occupancy" : "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy")
         : "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
     ],

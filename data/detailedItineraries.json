@@ -3274,82 +3274,87 @@
     "itinerary": [
       {
         "day": "Day 1",
-        "title": "Delhi – Mussoorie",
+        "title": "Delhi to Mussoorie — Daytime Drive & First Hotel Night",
         "morning": [
-          "Meet at Delhi and begin the scheduled arrival or outbound journey for Delhi – Mussoorie; reporting time and exact meeting point follow the booking confirmation."
+          "Depart Delhi around 9:00 AM, or Gurugram around 8:00 AM, from the confirmed pickup point.",
+          "Use the Delhi–Dehradun Expressway route where operationally suitable, allowing for the approach to the expressway and the final Dehradun–Mussoorie hill drive."
         ],
         "afternoon": [
-          "Complete check-in at the booked hotel, subject to its standard check-in time; early rooms depend on availability.",
-          "Take time to rest after the drive before a relaxed evening outing."
+          "Take a lunch / comfort break en route, then continue to the booked Mussoorie hotel.",
+          "Plan check-in around 4:00–6:00 PM. A 12:00 noon departure would mean a later arrival, approximately 5:00–7:00 PM from Delhi or 6:00–8:00 PM from Gurugram, and is not the standard early-evening-arrival schedule."
         ],
         "evening": [
-          "Enjoy a relaxed Mall Road visit subject to arrival time, followed by dinner at the booked hotel."
+          "Rest after check-in. A short Mall Road visit is optional only if the arrival time, traffic and traveller comfort allow.",
+          "Dinner and the first hotel night in Mussoorie."
         ],
-        "attractions": [
-          "Mussoorie Mall Road, subject to arrival time"
+        "overnightStay": "Mussoorie hotel — Night 1 of 2",
+        "meals": "Hotel dinner on Day 1; breakfast, lunch and refreshments during the outward journey are payable directly.",
+        "description": "Delhi to Mussoorie — Daytime Drive & First Hotel Night",
+        "attractions": [],
+        "optionalActivities": [],
+        "notes": [
+          "Times are planning windows, not guaranteed arrival times. Confirm the exact pickup point, vehicle, route and hotel location before departure; traffic, weather and comfort stops may change timings.",
+          "Reserve the hotel from the Day 1 arrival date for Nights 1 and 2. Confirm the property check-in policy, room hold, reception and dinner arrangements for the expected arrival window; pre-dawn arrival or early check-in is not part of this schedule."
         ],
-        "notes": [],
-        "meals": "Dinner at the booked accommodation; breakfast on arrival is included only if stated in the confirmed booking. Lunch is not included.",
-        "overnightStay": "Mussoorie",
-        "description": "Travel from Delhi to Mussoorie, check in and unwind. Enjoy Mall Road if arrival time permits, followed by dinner. Night halt: Mussoorie.",
-        "optionalActivities": []
+        "distance": "Approx. 250–330 km, depending on pickup, hotel and selected route",
+        "driveTime": "Allow expressway access, comfort stops, Dehradun traffic and the final hill approach; do not treat the Delhi–Dehradun corridor time as the full hotel transfer"
       },
       {
         "day": "Day 2",
-        "title": "Mussoorie Local Sightseeing",
+        "title": "Mussoorie Local Sightseeing — Second Hotel Night",
         "morning": [
-          "Have breakfast at the hotel and depart for local sightseeing.",
-          "Visit Kempty Falls, subject to weather and local access. Descending to the lower waterfall is optional and involves steps; choose a comfortable viewing stop with the coordinator."
+          "Breakfast at the hotel and leave around 8:00–8:30 AM.",
+          "Visit Kempty Falls first, subject to weather and local access. Descending to the lower waterfall is optional and involves steps; a comfortable viewing stop can be chosen."
         ],
         "afternoon": [
-          "Visit Company Garden for its landscaped gardens and relaxed leisure time; admission and paid activities are extra.",
-          "Visit Dalai Hills / Happy Valley after Company Garden. The hilltop is reached by an approximately 400-metre uphill walk from Shedup Choephelling Tibetan Temple; the climb is optional, with a lower-area visit or rest for travellers who prefer not to climb. Temple access is subject to local opening arrangements.",
-          "Optional Gun Hill ropeway visit only if time permits before the Lal Tibba sunset visit, subject to operations, queues, weather and traveller comfort; tickets are payable separately."
+          "Visit Company Garden and allow a lunch break at own expense.",
+          "Continue to Dalai Hills / Happy Valley. The approximately 400-metre uphill walk from the Tibetan Temple is optional; a lower-area visit or rest is available.",
+          "Proceed towards Landour / Lal Tibba in time for the daylight viewing window. Gun Hill ropeway is optional only if queues and the remaining schedule permit; it must not delay the Lal Tibba visit."
         ],
         "evening": [
-          "Visit Lal Tibba in Landour for sunset views, arriving before sunset where the day's traffic and sightseeing schedule permit. Sunset visibility depends on weather; vehicle access and the final walking section follow local restrictions.",
-          "Return to the hotel for dinner and overnight stay in Mussoorie."
+          "Lal Tibba sunset views depend on timely arrival, local access and weather; sunset itself is not guaranteed.",
+          "Return to the booked hotel for dinner and the second and final hotel night."
         ],
+        "overnightStay": "Mussoorie hotel — Night 2 of 2",
+        "meals": "Hotel breakfast and dinner on Day 2; lunch, personal refreshments and optional activities are payable directly.",
+        "description": "Mussoorie Local Sightseeing — Second Hotel Night",
         "attractions": [
           "Kempty Falls",
           "Company Garden",
-          "Dalai Hills / Happy Valley — hilltop walk optional",
-          "Mussoorie Mall Road",
-          "Lal Tibba, Landour — sunset views subject to weather and timely arrival"
+          "Dalai Hills / Happy Valley",
+          "Lal Tibba / Landour",
+          "Mall Road, time permitting"
+        ],
+        "optionalActivities": [
+          "Gun Hill ropeway only if operations, queues, weather and the sightseeing schedule allow; tickets extra."
         ],
         "notes": [
-          "Sightseeing order and duration depend on traffic, weather and local access. Share mobility needs before booking; step-free access is not assumed.",
-          "Entry fees, ropeway tickets and paid activities are excluded unless explicitly included in your confirmed booking.",
-          "Dalai Hills involves an uphill walk and uneven sections; share assistance needs before travel. The hilltop is not represented as wheelchair accessible.",
-          "Prioritise timely arrival at Lal Tibba for sunset; Gun Hill remains optional and may be skipped if time is limited. Viewpoint/cafe admission, food and drinks are payable separately unless included in the confirmed booking."
-        ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Mussoorie",
-        "description": "Explore Kempty Falls, Company Garden and Dalai Hills / Happy Valley, followed by an evening Lal Tibba visit for sunset views subject to weather, road access and timely arrival. The Dalai Hills hilltop walk and Gun Hill ropeway are optional. Return to the hotel for dinner. Night halt: Mussoorie.",
-        "optionalActivities": [
-          "Gun Hill ropeway only if time permits before the Lal Tibba sunset visit, subject to operations, weather, queues and traveller comfort; tickets extra.",
-          "Approximately 400-metre uphill walk from the Tibetan Temple to Dalai Hills hilltop, subject to traveller comfort and local conditions."
+          "Monument / garden admission, ropeway tickets and viewpoint / cafe charges remain payable separately unless explicitly included in the confirmed booking.",
+          "Prioritise the main sightseeing route; optional walks and rides must not create a rushed itinerary."
         ]
       },
       {
         "day": "Day 3",
-        "title": "Mussoorie – Delhi",
+        "title": "Mussoorie — Morning Checkout & Delhi Return",
         "morning": [
-          "Have breakfast, complete hotel checkout and collect luggage.",
-          "Begin the return journey to Delhi via Dehradun, with practical comfort stops en route."
+          "Breakfast at the hotel, checkout and collect luggage.",
+          "Depart around 8:30–9:00 AM for Delhi / Gurugram via Dehradun."
         ],
         "afternoon": [
-          "Continue the drive towards Delhi; journey meals and refreshments are payable directly."
+          "Continue the return road transfer with lunch and comfort stops. Haridwar / Rishikesh sightseeing is not part of this standalone weekend return route."
         ],
         "evening": [
-          "Arrive at the confirmed Delhi drop point; arrival may be late depending on traffic and road conditions."
+          "Target Delhi drop around 4:00–6:00 PM, or Gurugram around 5:00–7:00 PM, subject to route and traffic. The tour ends at drop, with no third hotel night."
         ],
+        "overnightStay": "No hotel stay — tour concludes at Delhi / Gurugram drop",
+        "meals": "Hotel breakfast on Day 3; lunch, journey dinner and refreshments are payable directly.",
+        "description": "Mussoorie — Morning Checkout & Delhi Return",
         "attractions": [],
-        "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
-        "overnightStay": "No overnight stay — tour concludes",
-        "description": "After breakfast and checkout, return to Delhi via Dehradun with comfort stops. Tour concludes at the confirmed Delhi drop point; no further hotel night is included.",
-        "optionalActivities": []
+        "optionalActivities": [],
+        "notes": [
+          "Times are planning windows, not guaranteed arrival times. Confirm the exact pickup point, vehicle, route and hotel location before departure; traffic, weather and comfort stops may change timings."
+        ],
+        "driveTime": "Daytime return transfer with meal / comfort stops and city drop"
       }
     ]
   },
@@ -5030,103 +5035,85 @@
     "itinerary": [
       {
         "day": "Day 1",
-        "title": "Overnight Journey — Delhi → Nainital",
-        "morning": [],
-        "afternoon": [],
+        "title": "Delhi to Nainital — Morning Departure & First Hotel Night",
+        "morning": [
+          "Depart Delhi around 7:00 AM, or Gurugram around 6:00 AM, from the confirmed pickup point.",
+          "Continue towards Nainital with breakfast and comfort stops. A noon departure is not offered as a 5:00–6:00 PM arrival schedule."
+        ],
+        "afternoon": [
+          "Allow a lunch break and continue the hill approach to the booked Nainital-area hotel.",
+          "Target hotel arrival and check-in around 4:00–6:00 PM; the exact timing depends on pickup, traffic, parking and hotel access."
+        ],
         "evening": [
-          "Pickup: 8:00 PM from Delhi — Kashmere Gate / Dhaula Kuan. Meet at the place and reporting time stated in your booking; notify the travel coordinator of any arrival delay.",
-          "Board the booked group transport and begin the overnight road journey towards the destination; arrival and hotel check-in are on Day 2."
+          "Rest after check-in. A short Naini Lake / Mall Road walk is optional only if the group arrives with time and energy to spare.",
+          "Dinner and the first hotel night in the Nainital region. Sunset sightseeing is not guaranteed on the arrival day."
         ],
+        "overnightStay": "Nainital region hotel — Night 1 of 2",
+        "meals": "Hotel dinner on Day 1; breakfast, lunch and refreshments during the outward journey are payable directly.",
+        "description": "Delhi to Nainital — Morning Departure & First Hotel Night",
         "attractions": [],
+        "optionalActivities": [],
         "notes": [
-          "The 3 Nights / 4 Days duration includes Night 1 on the outbound road journey and two hotel/resort nights on Nights 2 and 3."
+          "Times are planning windows, not guaranteed arrival times. Confirm the exact pickup point, vehicle, route and hotel location before departure; traffic, weather and comfort stops may change timings.",
+          "Reserve the hotel from the Day 1 arrival date for Nights 1 and 2. Confirm the property check-in policy, room hold, reception and dinner arrangements for the expected arrival window; pre-dawn arrival or early check-in is not part of this schedule."
         ],
-        "meals": "Meals during the overnight journey are payable directly unless the confirmed booking states otherwise.",
-        "overnightStay": "Night 1: Overnight road journey — no hotel stay",
-        "description": "Day 1 evening departure from Delhi for Nainital; Night 1 is spent on the road. Arrival and hotel check-in are on Day 2.",
-        "optionalActivities": []
+        "distance": "Approx. 300–350 km from Delhi / Gurugram, depending on route and pickup",
+        "driveTime": "Allow a full daytime transfer with meal stops, hill traffic and hotel approach; Delhi road reference is approx. 8 hours before additional delays"
       },
       {
         "day": "Day 2",
-        "title": "Nainital — Hills Calling",
+        "title": "Nainital & Bhimtal Sightseeing — Second Hotel Night",
         "morning": [
-          "Arrive in Nainital after the overnight road journey; arrival depends on traffic and road conditions.",
-          "Freshen up when facilities are available; arrival breakfast is payable directly."
+          "Breakfast at the hotel; start sightseeing around 8:30–9:00 AM.",
+          "Explore the Naini Lake surroundings and one accessible Kumaon viewpoint, adjusting stops to local traffic and parking restrictions."
         ],
         "afternoon": [
-          "Hotel/resort check-in around 12 noon, subject to the confirmed property policy and room availability.",
-          "Allow a lunch break during the sightseeing or transfer; lunch is payable directly and is not included in the package.",
-          "Mall Road / lake area walk. Follow the published route, with timings depending on traffic, weather and local access."
+          "Lunch at own expense, followed by the Bhimtal excursion.",
+          "Keep the lake visit unhurried; shorten optional market / viewpoint time if traffic increases. Return towards the booked hotel before the evening meal."
         ],
         "evening": [
-          "Naini Lake sunset atmosphere. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Mall Road leisure. Follow the published route, with timings depending on traffic, weather and local access.",
-          "Return for the booked dinner and scheduled group time; special dining arrangements or entertainment require separate confirmation.",
-          "Night 2: the first of two hotel/resort overnight stays."
+          "Mall Road or local market leisure only if it fits the return route and timing.",
+          "Hotel dinner and the second and final hotel night in the Nainital region."
         ],
+        "overnightStay": "Nainital region hotel — Night 2 of 2",
+        "meals": "Hotel breakfast and dinner on Day 2; lunch, personal refreshments and optional activities are payable directly.",
+        "description": "Nainital & Bhimtal Sightseeing — Second Hotel Night",
         "attractions": [
-          "Mall Road / lake area walk.",
-          "Naini Lake sunset atmosphere."
+          "Naini Lake surroundings",
+          "Accessible Kumaon viewpoint",
+          "Bhimtal",
+          "Mall Road, time permitting"
         ],
-        "notes": [],
-        "meals": "Dinner at the hotel on Day 2; arrival breakfast, lunch and personal refreshments are payable directly.",
-        "overnightStay": "Night 2: Nainital — hotel/resort stay (first of 2 hotel nights)",
-        "description": "Arrival, check-in and local sightseeing in Nainital. Night 2 is the first of two hotel/resort overnight stays.",
-        "optionalActivities": []
+        "optionalActivities": [
+          "Boating and ropeway rides require separate tickets and operating confirmation; they are not automatically included."
+        ],
+        "notes": [
+          "The sightseeing route depends on the booked hotel, traffic, parking and local access. Do not add Kainchi Dham or another lake circuit without allowing the required time."
+        ]
       },
       {
         "day": "Day 3",
-        "title": "Nainital — Sightseeing & Second Hotel Night",
+        "title": "Nainital — Morning Checkout & Delhi Return",
         "morning": [
-          "Breakfast at the hotel before sightseeing; keep the room for the second hotel night.",
-          "Explore the Naini Lake surroundings and accessible Kumaon viewpoints; visibility and road restrictions determine the stops. Ropeway rides are not automatically included. Ride tickets, operating phase and weather clearance require confirmation; the activity is not automatically included in the sightseeing transfer."
+          "Breakfast at the hotel around 7:00 AM, then checkout and collect luggage.",
+          "Begin the return journey to Delhi / Gurugram around 8:00 AM."
         ],
         "afternoon": [
-          "Bhimtal excursion. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Cafe / local market time. Shopping, food and drinks ordered during leisure time are payable directly.",
-          "Final lake walk / coffee. Spend time at the listed stop according to the day's route and available visitor access.",
-          "Lunch at own expense; continue the planned sightseeing or enjoy leisure time as the schedule allows."
+          "Continue the road transfer with lunch and comfort stops. No long sightseeing detour is scheduled on the return day."
         ],
         "evening": [
-          "Return to the booked hotel/resort after sightseeing.",
-          "Dinner at the hotel/resort and the second hotel overnight stay on Night 3."
+          "Plan Delhi drop around 4:00–7:00 PM, or Gurugram drop around 5:00–8:00 PM, depending on road conditions. The tour ends at drop, with no third hotel night."
         ],
-        "attractions": [
-          "Explore the Naini Lake surroundings and accessible Kumaon viewpoints; visibility and road restrictions determine the stops. Ropeway rides are not automatically included.",
-          "Bhimtal excursion.",
-          "Mall Road leisure."
-        ],
-        "notes": [
-          "Rides, boat services and other paid activities are included only where explicitly stated in the confirmed quotation; operation depends on the local operator and conditions."
-        ],
-        "meals": "Breakfast and dinner at the hotel on Day 3; lunch and personal refreshments are payable directly.",
-        "overnightStay": "Night 3: Nainital — hotel/resort stay (second of 2 hotel nights)",
-        "description": "Breakfast followed by the planned Nainital sightseeing, subject to local access and conditions. Return to the booked hotel/resort for dinner and the second hotel night; checkout is on Day 4.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 4",
-        "title": "Nainital — Checkout & Return to Delhi",
-        "morning": [
-          "Breakfast at the hotel, then checkout and collect luggage.",
-          "Any remaining local sightseeing is subject to the confirmed departure schedule and local access."
-        ],
-        "afternoon": [
-          "Begin the return road journey to Delhi after checkout and any scheduled stops; lunch en route is payable directly."
-        ],
-        "evening": [
-          "Delhi drop follows the confirmed transport schedule and traffic; late-night or following-morning arrival is possible.",
-          "Tour concludes at Delhi drop; journey dinner is payable directly. No further hotel night is included."
-        ],
+        "overnightStay": "No hotel stay — tour concludes at Delhi / Gurugram drop",
+        "meals": "Hotel breakfast on Day 3; lunch, journey dinner and refreshments are payable directly.",
+        "description": "Nainital — Morning Checkout & Delhi Return",
         "attractions": [],
+        "optionalActivities": [],
         "notes": [
-          "The package includes two hotel/resort nights on Nights 2 and 3, plus the outbound road journey on Night 1.",
-          "Keep onward travel flexible because the Delhi arrival time depends on road conditions."
+          "Times are planning windows, not guaranteed arrival times. Confirm the exact pickup point, vehicle, route and hotel location before departure; traffic, weather and comfort stops may change timings."
         ],
-        "meals": "Breakfast at the hotel on Day 4; lunch, journey dinner and refreshments are payable directly.",
-        "overnightStay": "No hotel stay — return road journey to Delhi / tour concludes at drop",
-        "description": "Hotel breakfast and checkout, followed by any remaining scheduled local stops and the return road journey to Delhi. No additional hotel accommodation is included.",
-        "optionalActivities": []
+        "distance": "Approx. 300–350 km, depending on the confirmed drop point",
+        "driveTime": "Full daytime return transfer; traffic may extend the evening arrival"
       }
     ]
   },

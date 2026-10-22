@@ -12,9 +12,91 @@ const packageData = {
   highlights: ["2 hotel nights in Jaipur", "Amber Fort", "Jal Mahal", "Hawa Mahal", "City Palace", "Jantar Mantar", "Jaipur Markets"],
   quickFacts: { pickup: "Delhi", drop: "Delhi", transport: "Shared AC Vehicle", meals: "2 breakfasts & 2 dinners", hotelCategory: "3-Star Hotel / Similar — 2 nights in Jaipur", bestSeason: "October – March" },
   itinerary: [
-    { day: "Day 1", title: "Delhi to Jaipur — Pink City Arrival", morning: ["Early morning pickup from Delhi", "Drive to Jaipur with comfort stops"], afternoon: ["Arrive in Jaipur and check in at the hotel", "Visit Patrika Gate and Albert Hall Museum exterior, subject to arrival time"], evening: ["Explore a local Jaipur market", "Dinner and overnight at Jaipur hotel — Night 1"], meals: "Dinner", hotel: "3-Star Hotel / Similar, Jaipur", overnightStay: "Jaipur hotel — Night 1", distance: "Approx. 270–300 km", driveTime: "Approx. 5–7 hours depending on traffic", notes: ["Sightseeing depends on traffic and arrival time"] },
-    { day: "Day 2", title: "Jaipur Heritage Sightseeing", morning: ["Breakfast at hotel", "Visit Amber Fort", "Jal Mahal photo stop"], afternoon: ["Visit City Palace and Jantar Mantar", "Hawa Mahal photo stop", "Lunch at own expense"], evening: ["Leisure time at local markets", "Dinner and overnight at Jaipur hotel — Night 2"], meals: "Breakfast & Dinner", hotel: "3-Star Hotel / Similar, Jaipur", overnightStay: "Jaipur hotel — Night 2", distance: "Local sightseeing", driveTime: "Full-day local tour", notes: ["Monument admission tickets are excluded"] },
-    { day: "Day 3", title: "Jaipur to Delhi — Return", morning: ["Breakfast at hotel and checkout", "Optional brief local shopping stop if time permits"], afternoon: ["Depart Jaipur for Delhi", "Comfort stops en route"], evening: ["Arrival and drop in Delhi; tour concludes"], meals: "Breakfast", hotel: "No stay", overnightStay: "No hotel stay — return to Delhi", distance: "Approx. 270–300 km", driveTime: "Approx. 5–7 hours depending on traffic", notes: ["Return timing depends on traffic; no overnight road stay"] }
+    {
+      "day": "Day 1",
+      "title": "Delhi to Jaipur — Noon Departure & First Hotel Night",
+      "morning": [
+        "Keep the morning free for reporting at the confirmed pickup point; this itinerary does not require an overnight journey."
+      ],
+      "afternoon": [
+        "Depart the confirmed Delhi / Gurugram pickup point at approximately 12:00 noon. Allow a short meal and comfort stop en route.",
+        "Plan hotel arrival at approximately 5:00–7:00 PM from Delhi, or 4:30–6:30 PM from Gurugram, depending on the chosen route and traffic."
+      ],
+      "evening": [
+        "Complete hotel check-in, freshen up and have dinner at the booked property.",
+        "A short nearby market walk is optional only if arrival time and traveller comfort allow. No monument visit is promised on the transfer day."
+      ],
+      "overnightStay": "Jaipur hotel — Night 1 of 2",
+      "meals": "Hotel dinner on Day 1; breakfast, lunch and refreshments during the outward journey are payable directly.",
+      "description": "Delhi to Jaipur — Noon Departure & First Hotel Night",
+      "attractions": [],
+      "optionalActivities": [],
+      "notes": [
+        "Times are planning windows, not guaranteed arrival times. Confirm the exact pickup point, vehicle, route and hotel location before departure; traffic, weather and comfort stops may change timings.",
+        "Reserve the hotel from the Day 1 arrival date for Nights 1 and 2. Confirm the property check-in policy, room hold, reception and dinner arrangements for the expected arrival window; pre-dawn arrival or early check-in is not part of this schedule."
+      ],
+      "distance": "Approx. 270–320 km from Delhi; depends on pickup and route",
+      "driveTime": "Allow approx. 5–7 hours from Delhi / 4.5–6.5 hours from Gurugram, including a short break and hotel approach"
+    },
+    {
+      "day": "Day 2",
+      "title": "Jaipur Heritage Sightseeing — Second Hotel Night",
+      "morning": [
+        "Breakfast at the hotel; leave around 8:30 AM for Amber Fort.",
+        "Continue with a brief Jal Mahal photo stop."
+      ],
+      "afternoon": [
+        "Allow a lunch break at own expense.",
+        "Visit City Palace and Jantar Mantar, arranging the order around opening hours and last-entry times.",
+        "Take a Hawa Mahal exterior photo stop along the city sightseeing route if time permits; otherwise retain it for the next morning."
+      ],
+      "evening": [
+        "Short local market leisure as time permits, then return to the hotel for dinner.",
+        "Overnight at the Jaipur hotel — the second and final hotel night."
+      ],
+      "overnightStay": "Jaipur hotel — Night 2 of 2",
+      "meals": "Hotel breakfast and dinner on Day 2; lunch, personal refreshments and optional activities are payable directly.",
+      "description": "Jaipur Heritage Sightseeing — Second Hotel Night",
+      "attractions": [
+        "Amber Fort",
+        "Jal Mahal photo stop",
+        "City Palace",
+        "Jantar Mantar",
+        "Hawa Mahal exterior photo stop"
+      ],
+      "optionalActivities": [],
+      "notes": [
+        "Monument admission tickets remain excluded. Traffic and opening hours determine the final sightseeing sequence."
+      ],
+      "driveTime": "Full-day local sightseeing with a lunch break"
+    },
+    {
+      "day": "Day 3",
+      "title": "Jaipur Morning Stops — Checkout & Delhi Return",
+      "morning": [
+        "Breakfast at the hotel and pack for checkout.",
+        "Use approximately 8:00–10:00 AM for a short Patrika Gate / Albert Hall exterior route, with a Hawa Mahal photo stop if it was not completed on Day 2. Choose stops to suit the hotel location and return deadline; not every stop is guaranteed.",
+        "Complete checkout and leave Jaipur by approximately 10:30–11:00 AM."
+      ],
+      "afternoon": [
+        "Return towards Delhi / Gurugram with lunch and comfort stops; avoid a further shopping detour after departure."
+      ],
+      "evening": [
+        "Target the confirmed Delhi / Gurugram drop around 5:00–7:00 PM, subject to route and traffic. The tour ends at drop, with no third hotel night."
+      ],
+      "overnightStay": "No hotel stay — tour concludes at Delhi / Gurugram drop",
+      "meals": "Hotel breakfast on Day 3; lunch, journey dinner and refreshments are payable directly.",
+      "description": "Jaipur Morning Stops — Checkout & Delhi Return",
+      "attractions": [
+        "Patrika Gate / Albert Hall exterior, subject to the departure deadline"
+      ],
+      "optionalActivities": [],
+      "notes": [
+        "Times are planning windows, not guaranteed arrival times. Confirm the exact pickup point, vehicle, route and hotel location before departure; traffic, weather and comfort stops may change timings."
+      ],
+      "distance": "Return road transfer; exact distance depends on drop point",
+      "driveTime": "Allow approx. 5–8 hours including breaks and city drop"
+    }
   ],
   hotels: [{ name: "3-Star Hotel / Similar — Jaipur (2 nights)", category: "3-Star", star: "3-Star Hotel" }],
   meals: ["2 Breakfasts", "2 Dinners"],
