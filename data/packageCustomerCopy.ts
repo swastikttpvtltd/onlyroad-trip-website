@@ -1,4 +1,6 @@
 import { currencyFaq } from "./currencyContent";
+import { hotels as recommendedHotels } from "./hotels";
+import { isGroupTourBookingPaused } from "./groupTourBookingPause";
 import { customerTransportLabel, usesSharedTourTransport, type ServicePackage } from "./packageServiceDetails";
 
 type Day = {
@@ -8,6 +10,8 @@ type Day = {
   meals?: string;
   notes?: string[];
   optionalActivities?: string[];
+  distance?: string;
+  driveTime?: string;
   morning?: string[];
   evening?: string[];
 };
@@ -20,12 +24,17 @@ type PackageCopy = ServicePackage & {
   hotels?: { name: string }[];
   meals?: string[];
   bestTime?: string;
+  difficulty?: string;
+  price?: number;
+  displayPriceBasis?: string;
+  priceBasis?: string;
   inclusions?: string[];
   exclusions?: string[];
-  groupRates?: { sharingRates?: { type: string }[] };
+  groupRates?: { sharingRates?: { type: string; price: number }[] };
 };
 
 const clean = (value: string = "") => value.replace(/\s+/g, " ").trim();
+const money = (amount: number) => `INR ${amount.toLocaleString("en-IN")}`;
 const unique = (items: string[]) => [...new Set(items.map(clean).filter(Boolean))];
 
 export function buildCustomerOverview(pkg: PackageCopy): string {
@@ -87,21 +96,50 @@ export function buildPackageFaqs(pkg: PackageCopy) {
   const pickup = clean(pkg.quickFacts?.pickup);
   const drop = clean(pkg.quickFacts?.drop);
 
+  const starts = unique([...(days[0]?.morning ?? []), ...(days[0]?.evening ?? [])])
+    .filter((line) => /pickup|pick.up|report|boarding|arrival|arrive|meet/i.test(line)).slice(0, 2);
+  const lastDay = days[days.length - 1];
+  const ends = unique([...(lastDay?.morning ?? []), ...(lastDay?.evening ?? [])])
+    .filter((line) => /drop|depart|airport|railway|station|tour concludes|return/i.test(line)).slice(0, 2);
+  const arrivalDetails = [...(starts.length ? [`Arrival instructions: ${starts.join("; ")}`] : []), ...(ends.length ? [`Departure instructions: ${ends.join("; ")}`] : [])].join(". ");
+  const longestDrive = days.map((day) => ({ day, hours: Math.max(0, ...(day.driveTime?.match(/\d+(?:\.\d+)?/g) ?? []).map(Number)) }))
+    .filter(({ day, hours }) => Boolean(day.driveTime) && hours > 0 && hours <= 24)
+    .sort((a, b) => b.hours - a.hours)[0]?.day;
+  const drivingDetails = longestDrive
+    ? `One of the longest published driving segments is ${clean(longestDrive.day) || clean(longestDrive.title)}: ${clean(longestDrive.driveTime)}${longestDrive.distance ? ` (${clean(longestDrive.distance)})` : ""}. These are itinerary estimates, not fixed arrival times.`
+    : "The itinerary does not provide a numeric driving-time estimate for every segment; obtain the travel-time and walking plan for your chosen route.";
+  const recommended = /kashi|varanasi/i.test(pkg.title) && /ayodhya|prayagraj|allahabad/i.test(pkg.destination)
+    ? [recommendedHotels.varanasi, recommendedHotels.ayodhya].filter((hotel) => hotel.name && pkg.destination.toLowerCase().includes(hotel.city.split(",")[0].toLowerCase())) : [];
+  const hotelOptions = recommended.length
+    ? ` Recommended options already shown on this page: ${recommended.map((hotel) => `${hotel.city.split(",")[0]} — ${hotel.name}`).join("; ")}. These are recommendations, not confirmed allocations.` : " No named hotel is allocated by the category label alone.";
+  const sharingDetails = sharing.length
+    ? (pkg.groupRates?.sharingRates ?? []).map((rate) => `${rate.type}: ${money(rate.price)} per person`).join("; ")
+    : "";
+  const priceDetails = Number.isFinite(pkg.price) && Number(pkg.price) > 0
+    ? `Displayed package rate: ${money(Number(pkg.price))} per person${pkg.displayPriceBasis ? ` (${pkg.displayPriceBasis === "2 Travellers" ? "two travellers, double sharing" : clean(pkg.displayPriceBasis)})` : ""}.`
+    : "The current package rate needs a written quotation.";
+  const taxDetails = /5% GST Included/i.test(pkg.priceBasis ?? "") || (pkg.inclusions ?? []).some((line) => /5% GST included/i.test(line))
+    ? " The published rate includes 5% GST." : " Check the tax basis in the final quotation.";
+  const exclusionPriorities = [/(?:entrance|entry|admission|monument)/i, /lunch/i, ...(/yatra|kedarnath|badrinath|char.dham|vaishno|amarnath/i.test(`${pkg.slug} ${pkg.title}`) ? [/(?:horse|helicopter|doli|chopper)/i] : []), /(?:optional|add.on)/i, /individual.*transfer/i];
+  const relevantExclusions = unique(exclusionPriorities.flatMap((pattern) => excluded.find((line) => pattern.test(line)) ?? [])).slice(0, 4);
+  const paused = Boolean(pkg.slug && isGroupTourBookingPaused(pkg.slug));
+
+
   return [
     { question: `Which places does ${clean(pkg.title)} cover?`, answer: `${clean(pkg.duration)} covering ${clean(pkg.destination)}.${pkg.highlights?.length ? ` Main visits include ${unique(pkg.highlights).slice(0, 4).join(", ")}.` : ""} Use the day-wise itinerary for the planned route and daily travel.` },
     { question: "Where are the overnight stays, and are any nights spent travelling?", answer: `${accommodation || "Stays follow the night-wise locations listed in the itinerary"}.${journeyNights ? ` ${journeyNights} ${journeyNights === 1 ? "night is" : "nights are"} spent on an overnight road journey, separate from accommodation nights.` : ""}${[...stays.keys()].some((city) => /\/|as booked|confirmed/i.test(city)) ? " Alternative stay locations require confirmation for your booking." : ""} Hotel check-in/check-out times and any early check-in or extra night must be confirmed separately.` },
-    { question: "Which hotel and room will I receive?", answer: `Published accommodation: ${hotels.join("; ") || "property details await confirmation"}. A hotel category or a recommended hotel card is not a final property allocation. Request the night-wise hotel name, room category, location and any proposed alternative before payment. Lift access, heating, hot water and accessible bathrooms require property-specific confirmation.` },
+    { question: "Which hotel and room will I receive?", answer: `Published accommodation: ${hotels.join("; ") || "property details await confirmation"}. ${hotelOptions} The final hotel name, room category and any substitution need written confirmation for your dates before payment. Lift access, heating, hot water and accessible bathrooms require property-specific confirmation.` },
     { question: "Which meals are included on each day?", answer: `${mealSchedule || hotelMeals || "Request the day-wise meal plan before payment"}. Meals outside the published plan, including journey meals or arrival/departure meals not listed, are not automatically included. Buffet service depends on the hotel's service format and occupancy. Confirm vegetarian/Jain food, allergies and any special meal charges in advance.` },
     { question: "Is transport private or shared, and which vehicle will be used?", answer: `${transport ? `Published transport: ${transport}.` : "The vehicle arrangement needs confirmation before payment."} ${usesSharedTourTransport(pkg) ? "Transport is shared with tour participants; a dedicated vehicle per booking or a particular seat/model is not promised." : "Where private transport is listed, it is for your booked party on the scheduled itinerary; a specific model is not promised unless confirmed."} Confirm vehicle category, capacity, luggage allowance, AC restrictions and any chargeable local transport. Scheduled transport does not mean unrestricted 24-hour vehicle use.` },
-    { question: "Where do pickup and drop happen? Are airport or station transfers included?", answer: `${pickup ? `Published pickup: ${pickup}.` : "Pickup location needs confirmation."} ${drop ? ` Published drop: ${drop}.` : " Drop location needs confirmation."} Only the pickup/drop arrangements expressly included in the confirmed itinerary are included; individual transfers outside that scope may cost extra. Confirm the exact meeting point, reporting time, arrival cutoff, late-arrival plan and any extra transfer charge before payment. Allow a road-traffic buffer when booking flights or trains.` },
-    { question: "What does room sharing mean, and what about children or a single room?", answer: `${sharing.length ? `Published sharing choices: ${sharing.join(", ")}. Select the required occupancy when booking.` : "The standard inclusion specifies twin sharing; request a separate quotation for a different occupancy."} Confirm actual beds, extra mattress/bed, child age and meal entitlement, and any single-room supplement before payment. Sharing labels alone do not confirm the bedding arrangement or an accessible room.` },
-    { question: "Which charges are outside the package price?", answer: `${excluded.length ? `Published exclusions include: ${excluded.slice(0, 4).join("; ")}.` : "Request an itemised inclusion/exclusion list before payment."} Read the full Inclusions & Exclusions on this page for the remaining items. Ask for an itemised quote for required permits, local taxis, tickets and activities; a sightseeing place appearing in the itinerary does not itself include its admission fee. Add-ons need a separately agreed price.` },
-    { question: `When is the best time for ${clean(pkg.title)}, and does a selectable date confirm availability?`, answer: `${clean(pkg.bestTime) || "Confirm the operating season for this route"}. Best Time is planning guidance. A date shown in the calendar does not itself confirm hotel, transport, permit or activity inventory; arrangements need separate written confirmation.` },
+    { question: "Where do pickup and drop happen? Are airport or station transfers included?", answer: `${pickup ? `Published pickup: ${pickup}.` : "Pickup location needs confirmation."} ${drop ? `Published drop: ${drop}.` : "Drop location needs confirmation."} ${arrivalDetails ? `${arrivalDetails}.` : "The itinerary does not provide an exact reporting address or time."} Only the pickup/drop arrangements expressly included in the confirmed itinerary are included; individual transfers outside that scope may cost extra. Confirm the exact meeting point, reporting time, arrival cutoff, late-arrival plan and any extra transfer charge before payment. Allow a road-traffic buffer when booking flights or trains.` },
+    { question: "What does room sharing mean, and what about children or a single room?", answer: `${sharing.length ? `Available sharing rates: ${sharingDetails}. These are per-person rates for the selected sharing type, not the total room price.` : "The standard inclusion specifies twin sharing; request a separate quotation for a different occupancy."} Confirm actual beds, extra mattress/bed, child age and meal entitlement, and any single-room supplement before payment. Sharing labels alone do not confirm the bedding arrangement or an accessible room.` },
+    { question: "What is the price basis, and which charges are extra?", answer: `${priceDetails}${taxDetails} ${excluded.length ? `Examples of published exclusions: ${(relevantExclusions.length ? relevantExclusions : excluded.slice(0, 3)).join("; ")}.` : "Request an itemised inclusion/exclusion list before payment."} Read the full Inclusions & Exclusions on this page for the remaining items. Ask for an itemised quote for required permits, local taxis, tickets and activities; a sightseeing place appearing in the itinerary does not itself include its admission fee. Add-ons need a separately agreed price.` },
+    { question: `When is the best time for ${clean(pkg.title)}, and does a selectable date confirm availability?`, answer: `${paused ? "Online booking is currently paused for this package; contact the team about your dates before making payment. " : ""}${clean(pkg.bestTime) || "Confirm the operating season for this route"}. Best Time is planning guidance. A date shown in the calendar does not itself confirm hotel, transport, permit or activity inventory; arrangements need separate written confirmation.` },
     routeConfirmationFaq(pkg, practicalFaq),
-    { question: "Is this trip suitable for seniors, children or travellers needing assistance?", answer: "Review the daily driving, walking, stairs and any trek in the itinerary. Before payment, tell the team about mobility needs, wheelchair size, dietary needs and required assistance. Ask for written confirmation of the actual hotel access, room/bathroom suitability, vehicle access and any additional cost. Wheelchair support, a medical escort or specialist equipment must not be assumed included." },
-    { question: "What happens if weather, closures or traffic change the plan?", answer: "Sightseeing order, access and travel time may change with weather, road conditions, authority restrictions or attraction operations. Ask how route-specific alternatives, extra nights, local transport and any unused service are treated under the confirmed booking terms. A replacement, extra charge or refund must not be assumed without checking the applicable terms." },
-    { question: "Where can I check cancellation, date-change and no-show conditions?", answer: "Read the website's Cancellation Policy, Refund Policy and booking terms, including their date-change and no-show conditions, before payment. Request the applicable deadline, deduction, supplier charges and treatment of non-refundable services for your chosen date. Do not assume a free date change or full refund; retain the terms accepted for your booking." },
-    { question: "Does paying or receiving a receipt mean my booking is finally confirmed?", answer: "Payment alone is not final booking confirmation. Obtain separate written confirmation identifying the itinerary, dates, travellers, hotel/room arrangement, transport, inclusions and agreed extras. Check the Booking Policy and the payment amount shown at checkout before paying; resolve any mismatch with the team first. Retain both the payment receipt and the written booking confirmation." },
+    { question: "Is this trip suitable for seniors, children or travellers needing assistance?", answer: `${pkg.difficulty ? `Published difficulty: ${clean(pkg.difficulty)}. ` : ""}${drivingDetails} Tell the team about mobility needs, wheelchair size, children’s ages and required assistance before payment. Actual walking distances, stairs, accessible bathrooms and vehicle access need route/property-specific confirmation. An “Easy” label alone does not mean step-free access. Wheelchair support, a medical escort or specialist equipment is included only if expressly agreed, with any extra cost disclosed.` },
+    { question: "What happens if weather, closures or traffic change the plan?", answer: "Sightseeing order, access and travel time may change with weather, road conditions, authority restrictions or attraction operations. Ask how route-specific alternatives, extra nights, local transport and any unused service are treated under the confirmed booking terms. A replacement, extra charge or refund must not be assumed without checking the applicable terms. For a booking-specific issue, contact Only Road Trip at +91 92117 96168 or info@onlyroadtrip.com with your booking reference." },
+    { question: "What are the cancellation charges, date-change rules and refund timeline?", answer: "The published indicative package-cancellation table is: 30+ days before departure — 10%; 15–29 days — 25%; 7–14 days — 50%; 3–6 days — 75%; less than 72 hours or no-show — 100% of the total booking amount. These are cancellation charges, not refund percentages. Supplier, hotel, seasonal and package-specific terms may differ, so read the full Cancellation Policy and retain the terms accepted for your booking. Submit cancellation in writing; the policy bases the effective date on the company’s acknowledgement. A date change is not automatically free. The Refund Policy specifies credit within 24–48 hours after refund approval, not after the initial request; applicable deductions and supplier terms govern eligibility. For an approved refund not received within 48 hours, email info@onlyroadtrip.com with your booking reference." },
+    { question: "How much do I pay, and when is my booking finally confirmed?", answer: "The current checkout rule is 30% advance when departure is 30 or more calendar days away, and 100% payment when it is less than 30 calendar days away; calendar days are counted in IST with today as day zero. Check the actual INR amount and any expressly agreed supplier-specific requirement before paying. Payment alone is not final booking confirmation. Obtain separate written confirmation identifying the itinerary, dates, travellers, hotel/room arrangement, transport, inclusions and agreed extras. Check the Booking Policy and the payment amount shown at checkout before paying; resolve any mismatch with the team first. Retain both the payment receipt and the written booking confirmation." },
     currencyFaq,
-  ];
+  ].map((faq) => ({ ...faq, question: clean(faq.question), answer: clean(faq.answer) }));
 }
