@@ -23,14 +23,6 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-      // Consolidate public pages on the canonical www host. Keep API callbacks,
-      // Next assets and Cloudflare endpoints on their existing host.
-      {
-        source: "/:path((?!api(?:/|$)|_next(?:/|$)|cdn-cgi(?:/|$)).*)",
-        has: [{ type: "host", value: "^onlyroadtrip\\.com$" }],
-        destination: "https://www.onlyroadtrip.com/:path*",
-        permanent: true,
-      },
       { source: "/door-to-door-travelPosted", destination: "/door-to-door-travel", permanent: true },
       { source: "/char-dham-yatra-package", destination: "/packages/char-dham-yatra", permanent: true },
       { source: "/kashi-yatra-package", destination: "/packages/varanasi-kashi", permanent: true },
