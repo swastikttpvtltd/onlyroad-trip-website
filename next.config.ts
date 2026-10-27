@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
       // Next assets and Cloudflare endpoints on their existing host.
       {
         source: "/:path((?!api(?:/|$)|_next(?:/|$)|cdn-cgi(?:/|$)).*)",
-        has: [{ type: "host", value: "onlyroadtrip\\.com" }],
+        has: [{ type: "host", value: "^onlyroadtrip\\.com$" }],
         destination: "https://www.onlyroadtrip.com/:path*",
         permanent: true,
       },
