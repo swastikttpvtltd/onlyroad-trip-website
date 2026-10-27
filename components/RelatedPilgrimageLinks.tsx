@@ -8,8 +8,8 @@ const pages: Record<PageKey, { title: string; text: string; href: string }> = {
   kedarnath: { title: "Kedarnath Yatra Package", text: "Plan a practical Kedarnath journey from Delhi or your preferred departure city.", href: "/kedarnath-yatra-package" },
   kashi: { title: "Kashi Yatra Package", text: "Plan Kashi Vishwanath, Varanasi sightseeing and Ganga Aarti in one itinerary.", href: "/kashi-yatra-package" },
   ayodhya: { title: "Ayodhya Yatra Package", text: "Plan Ram Mandir, Saryu and Ayodhya sightseeing around your travel dates.", href: "/ayodhya-yatra-package" },
-  prayagraj: { title: "Prayagraj Yatra Package", text: "Visit Triveni Sangam and important pilgrimage sites with a customized plan.", href: "/prayagraj-yatra-package" },
-  circuit: { title: "Kashi Ayodhya Prayagraj Yatra", text: "Combine three major Uttar Pradesh pilgrimage destinations in one spiritual circuit.", href: "/kashi-ayodhya-prayagraj-yatra-package" },
+  prayagraj: { title: "Prayagraj Yatra Package", text: "Visit Triveni Sangam and important pilgrimage sites with a customized plan.", href: "/packages?state=Uttar%20Pradesh&q=Prayagraj" },
+  circuit: { title: "Kashi Ayodhya Prayagraj Yatra", text: "Combine three major Uttar Pradesh pilgrimage destinations in one spiritual circuit.", href: "/packages/varanasi-prayagraj-ayodhya" },
 };
 
 const groups: Record<PageKey, PageKey[]> = {

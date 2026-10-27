@@ -23,10 +23,20 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
+      // Consolidate public pages on the canonical www host. Keep API callbacks,
+      // Next assets and Cloudflare endpoints on their existing host.
+      {
+        source: "/:path((?!api(?:/|$)|_next(?:/|$)|cdn-cgi(?:/|$)).*)",
+        has: [{ type: "host", value: "onlyroadtrip\\.com" }],
+        destination: "https://www.onlyroadtrip.com/:path*",
+        permanent: true,
+      },
       { source: "/door-to-door-travelPosted", destination: "/door-to-door-travel", permanent: true },
       { source: "/char-dham-yatra-package", destination: "/packages/char-dham-yatra", permanent: true },
       { source: "/kashi-yatra-package", destination: "/packages/varanasi-kashi", permanent: true },
       { source: "/kedarnath-yatra-package", destination: "/packages/kedarnath-yatra", permanent: true },
+      { source: "/kashi-ayodhya-prayagraj-yatra-package", destination: "/packages/varanasi-prayagraj-ayodhya", permanent: true },
+      { source: "/prayagraj-yatra-package", destination: "/packages?state=Uttar%20Pradesh&q=Prayagraj", permanent: true },
       { source: "/jyotirlinga-yatra", destination: "/packages?theme=spiritual&q=jyotirlinga", permanent: true },
     ];
   },
@@ -52,3 +62,4 @@ export default async function configuration(phase: string): Promise<NextConfig> 
   }
   return nextConfig;
 }
+
