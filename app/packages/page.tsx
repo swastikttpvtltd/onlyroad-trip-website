@@ -47,14 +47,29 @@ const aliases: Record<string, string[]> = {
 };
 const themeOptions = [["spiritual", "Spiritual & Pilgrimage"], ["family", "Family"], ["honeymoon", "Honeymoon & Couple"], ["adventure", "Adventure"], ["wildlife", "Wildlife"], ["beach", "Beach & Islands"], ["heritage", "Heritage & Culture"], ["hill", "Hills & Mountains"], ["road", "Road Trips"], ["corporate", "Corporate"]];
 const durationOptions = [["1-3", "1–3 Days"], ["4-6", "4–6 Days"], ["7+", "7+ Days"]];
-function durationMatches(duration: string, filter: string) { const numbers = duration.match(/\d+/g)?.map(Number) ?? []; const days = numbers.length ? Math.max(...numbers) + (duration.toLowerCase().includes("night") ? 1 : 0) : 0; if (filter === "1-3") return days > 0 && days <= 3; if (filter === "4-6") return days >= 4 && days <= 6; return days >= 7; }
+function durationMatches(duration: string, filter: string) {
+  const explicitDays = duration.match(/(\d+)\s*(?:days?|d)\b/i);
+  const nights = duration.match(/(\d+)\s*(?:nights?|n)\b/i);
+  const days = explicitDays ? Number(explicitDays[1]) : nights ? Number(nights[1]) + 1 : 0;
+  if (filter === "1-3") return days > 0 && days <= 3;
+  if (filter === "4-6") return days >= 4 && days <= 6;
+  if (filter === "7+") return days >= 7;
+  return true;
+}
+
+function stateMatches(state: string, selected: string) {
+  const normalize = (value: string) => value.trim().toLowerCase().replace(/\s+/g, " ");
+  const aliases: Record<string, string> = { "kashmir": "jammu & kashmir", "jammu and kashmir": "jammu & kashmir" };
+  const key = (value: string) => aliases[normalize(value)] ?? normalize(value);
+  return key(state) === key(selected);
+}
 
 export default async function PackagesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const sp = await Promise.resolve(searchParams); const query = sp?.q?.trim().toLowerCase() ?? ""; const activeCategory = sp?.category; const activeState = sp?.state; const activeTheme = sp?.theme; const sort = sp?.sort; const minPrice = Number(sp?.minPrice || 0); const maxPrice = Number(sp?.maxPrice || 0); const duration = sp?.duration;
   let filteredPackages = packageList;
   if (query) filteredPackages = filteredPackages.filter((p) => p.rawSearch.includes(query));
   if (activeCategory) filteredPackages = filteredPackages.filter((p) => p.category === activeCategory);
-  if (activeState) filteredPackages = filteredPackages.filter((p) => p.state === activeState);
+  if (activeState) filteredPackages = filteredPackages.filter((p) => stateMatches(p.state, activeState));
   if (activeTheme) { const terms = aliases[activeTheme.toLowerCase()] ?? [activeTheme.toLowerCase()]; filteredPackages = filteredPackages.filter((p) => terms.some((term) => p.rawSearch.includes(term))); }
   if (minPrice > 0) filteredPackages = filteredPackages.filter((p) => p.price >= minPrice);
   if (maxPrice > 0) filteredPackages = filteredPackages.filter((p) => p.price <= maxPrice);
