@@ -1,0 +1,20 @@
+name: Fixed Departures Production Safety Gate
+on:
+  push:
+    branches: [feature/hotel-cards-preview]
+  pull_request:
+    branches: [feature/hotel-cards-preview]
+  workflow_dispatch:
+jobs:
+  fixed-departures-source-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prevent incomplete source from being promoted to production
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f app/page.tsx
+          test -f app/fixed-departures/\[slug\]/page.tsx || { echo "::error::Fixed departure dynamic route missing. Do not deploy this branch to production."; exit 1; }
+          grep -R -q 'Fixed Departures' app/page.tsx components || { echo "::error::Fixed Departures homepage section missing. Do not deploy."; exit 1; }
+          echo "Fixed departures source present. Additional route and booking smoke tests required before production."
