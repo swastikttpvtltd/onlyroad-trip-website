@@ -64,43 +64,43 @@ const charDhamStayHotels = [
     "name": "Barkot — Rigveda Resort or Similar | 3-Star | Nights 1 & 2",
     "category": "3-Star",
     "star": "3-Star Hotel",
-    "description": "2 nights in Barkot. Proposed Yamunotri-route resort with vegetarian dining and attached-bathroom rooms. Final hotel and room allocation remain subject to availability and confirmation."
+    "description": "2 nights in Barkot. Proposed Yamunotri-route resort with vegetarian dining and attached-bathroom rooms. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   },
   {
     "name": "Uttarkashi — Shivlinga Resort / Tourist Complex or Similar | 3-Star | Nights 3 & 4",
     "category": "3-Star",
     "star": "3-Star Hotel",
-    "description": "2 nights in Uttarkashi, Lakheshwar / Gangotri Highway. Proposed base for Gangotri darshan; the property lists a vegetarian restaurant and attached bathrooms. Final allocation remains subject to availability and confirmation."
+    "description": "2 nights in Uttarkashi, Lakheshwar / Gangotri Highway. Proposed base for Gangotri darshan; the property lists a vegetarian restaurant and attached bathrooms. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   },
   {
     "name": "Guptkashi — Kedar Resorts or Similar | 3-Star | Nights 5 & 7",
     "category": "3-Star",
     "star": "3-Star Hotel",
-    "description": "2 separate nights in Guptkashi, before and after the Kedarnath overnight stay. Proposed location: Jakhdhar Temple Road, Rudrapur village. Final room type and allocation remain subject to availability and confirmation."
+    "description": "2 separate nights in Guptkashi, before and after the Kedarnath overnight stay. Proposed location: Jakhdhar Temple Road, Rudrapur village. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   },
   {
     "name": "Kedarnath — GMVN Himlok Tent Colony or Similar | Basic Pilgrim Stay | Night 6",
     "category": "Basic Pilgrim Accommodation",
     "star": "Not a 3-Star Hotel",
-    "description": "1 night at Kedarnath. Proposed basic tent accommodation with ground bedding and common bathrooms, as listed by GMVN. This night is not 3-star accommodation. Bedding, occupancy, meals and the operating property must be confirmed before booking; standard hotel sharing arrangements do not automatically apply here."
+    "description": "1 night at Kedarnath. Proposed basic tent accommodation with ground bedding and common bathrooms, as listed by GMVN. This night is not 3-star accommodation. Bedding, occupancy, meals and the operating property must be confirmed before booking; standard hotel sharing arrangements do not automatically apply here. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   },
   {
     "name": "Badrinath — Hotel Pinnacle Peaks or Similar | 3-Star | Night 8",
     "category": "3-Star",
     "star": "3-Star Hotel",
-    "description": "1 night in Badrinath. Proposed hotel near the temple; its listed Suite Deluxe occupancy is 2–3 persons. Quad sharing requires a different confirmed 3-star property that permits four adults. Final hotel and bedding arrangement remain subject to availability and confirmation."
+    "description": "1 night in Badrinath. Proposed hotel near the temple; its listed Suite Deluxe occupancy is 2–3 persons. Quad sharing requires a different confirmed 3-star property that permits four adults. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   },
   {
     "name": "Rudraprayag — Monal Resort or Similar | 3-Star | Night 9",
     "category": "3-Star",
     "star": "3-Star Hotel",
-    "description": "1 night in Rudraprayag on Main Badrinath Road, as the return halt after Badrinath. Final hotel and room allocation remain subject to availability and confirmation."
+    "description": "1 night in Rudraprayag on Main Badrinath Road, as the return halt after Badrinath. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   },
   {
     "name": "Haridwar — Le ROI Haridwar or Similar | 3-Star | Night 10",
     "category": "3-Star",
     "star": "3-Star Hotel",
-    "description": "1 final night in Haridwar, Station Complex, Devpura, near Haridwar Railway Station. Checkout and departure on Day 11. Final hotel and room allocation remain subject to availability and confirmation."
+    "description": "1 final night in Haridwar, Station Complex, Devpura, near Haridwar Railway Station. Checkout and departure on Day 11. Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."
   }
 ];
 
@@ -286,6 +286,7 @@ export const packages = rawPackages.map((original) => {
       : "Lunch and any meals other than the included breakfast and dinner"],
     inclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.inclusions : [
       ...clarifyServiceInclusions(pkg, defaultPackageInclusions, Boolean(sharingRates?.length)),
+      ...(pkg.slug === "char-dham-yatra" ? ["Guaranteed no downgrade: if the named property is unavailable, accommodation will be provided in the same or a higher category than the confirmed booking. Kedarnath remains basic pilgrim accommodation as separately stated."] : []),
       ...(/\b(?:Varanasi|Kashi)\b/i.test(String(pkg.destination ?? ""))
         ? ["Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions."] : []),
       ...(/\b(?:Prayagraj|Allahabad)\b/i.test(String(pkg.destination ?? ""))
