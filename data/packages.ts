@@ -59,6 +59,51 @@ const rawPackages = [
 ];
 
 const standardHotels = [{ name: "3-Star Hotel / Similar", category: "3-Star", star: "3-Star Hotel" }];
+const charDhamStayHotels = [
+  {
+    "name": "Barkot — Rigveda Resort or Similar | 3-Star | Nights 1 & 2",
+    "category": "3-Star",
+    "star": "3-Star Hotel",
+    "description": "2 nights in Barkot. Proposed Yamunotri-route resort with vegetarian dining and attached-bathroom rooms. Final hotel and room allocation remain subject to availability and confirmation."
+  },
+  {
+    "name": "Uttarkashi — Shivlinga Resort / Tourist Complex or Similar | 3-Star | Nights 3 & 4",
+    "category": "3-Star",
+    "star": "3-Star Hotel",
+    "description": "2 nights in Uttarkashi, Lakheshwar / Gangotri Highway. Proposed base for Gangotri darshan; the property lists a vegetarian restaurant and attached bathrooms. Final allocation remains subject to availability and confirmation."
+  },
+  {
+    "name": "Guptkashi — Kedar Resorts or Similar | 3-Star | Nights 5 & 7",
+    "category": "3-Star",
+    "star": "3-Star Hotel",
+    "description": "2 separate nights in Guptkashi, before and after the Kedarnath overnight stay. Proposed location: Jakhdhar Temple Road, Rudrapur village. Final room type and allocation remain subject to availability and confirmation."
+  },
+  {
+    "name": "Kedarnath — GMVN Himlok Tent Colony or Similar | Basic Pilgrim Stay | Night 6",
+    "category": "Basic Pilgrim Accommodation",
+    "star": "Not a 3-Star Hotel",
+    "description": "1 night at Kedarnath. Proposed basic tent accommodation with ground bedding and common bathrooms, as listed by GMVN. This night is not 3-star accommodation. Bedding, occupancy, meals and the operating property must be confirmed before booking; standard hotel sharing arrangements do not automatically apply here."
+  },
+  {
+    "name": "Badrinath — Hotel Pinnacle Peaks or Similar | 3-Star | Night 8",
+    "category": "3-Star",
+    "star": "3-Star Hotel",
+    "description": "1 night in Badrinath. Proposed hotel near the temple; its listed Suite Deluxe occupancy is 2–3 persons. Quad sharing requires a different confirmed 3-star property that permits four adults. Final hotel and bedding arrangement remain subject to availability and confirmation."
+  },
+  {
+    "name": "Rudraprayag — Monal Resort or Similar | 3-Star | Night 9",
+    "category": "3-Star",
+    "star": "3-Star Hotel",
+    "description": "1 night in Rudraprayag on Main Badrinath Road, as the return halt after Badrinath. Final hotel and room allocation remain subject to availability and confirmation."
+  },
+  {
+    "name": "Haridwar — Le ROI Haridwar or Similar | 3-Star | Night 10",
+    "category": "3-Star",
+    "star": "3-Star Hotel",
+    "description": "1 final night in Haridwar, Station Complex, Devpura, near Haridwar Railway Station. Checkout and departure on Day 11. Final hotel and room allocation remain subject to availability and confirmation."
+  }
+];
+
 const standardMeals = [
   "Buffet Breakfast at hotel (subject to hotel service format and occupancy)",
   "Buffet Dinner at hotel (subject to hotel service format and occupancy)",
@@ -213,11 +258,13 @@ export const packages = rawPackages.map((original) => {
     price: displayPrice,
     displayPriceBasis: sharingRates?.length ? "Double Sharing" : "2 Travellers",
     groupRates,
-    quickFacts: { ...pkg.quickFacts, transport: customerTransportLabel(pkg), bestSeason: getBestTime(pkg) },
+    quickFacts: { ...pkg.quickFacts, ...(pkg.slug === "char-dham-yatra" ? { hotelCategory: "3-Star Hotels / Similar; Kedarnath: basic pilgrim accommodation" } : {}), transport: customerTransportLabel(pkg), bestSeason: getBestTime(pkg) },
     bestTime: getBestTime(pkg),
     bestTimeToVisit: getBestTime(pkg),
     seoKeywords,
-    priceBasis: isEscape
+    priceBasis: pkg.slug === "char-dham-yatra"
+      ? "Per Person | 5% GST Included | 9 nights in 3-Star Hotels / Similar + 1 basic Kedarnath stay | Breakfast & Dinner | Standard Transport & Sightseeing"
+      : isEscape
       ? "Per Person | 5% GST Included | 2 hotel nights (Nights 2 & 3) | 2 Dinners & 2 Breakfasts | Standard Transport & Sightseeing"
       : isOvernightWeekend
       ? "Per Person | 5% GST Included | 1 hotel night (Night 2) | 1 Dinner & 1 Breakfast | Standard Transport & Sightseeing"
@@ -230,7 +277,7 @@ export const packages = rawPackages.map((original) => {
     },
     overview: detailedDescription,
     gallery,
-    hotels: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" || pkg.slug === "vaishno-devi-group-yatra" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
+    hotels: pkg.slug === "char-dham-yatra" ? charDhamStayHotels : isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" || pkg.slug === "vaishno-devi-group-yatra" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
     meals: pkg.slug === "vaishno-devi-group-yatra"
       ? ["2 breakfasts at the hotel", "2 dinners at the hotel"]
       : isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.meals : [...standardMeals],
@@ -245,7 +292,9 @@ export const packages = rawPackages.map((original) => {
         ? ["Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions."] : []),
       isOvernightWeekend
         ? (isEscape ? "2 nights in a 3-Star Hotel / Similar on Nights 2 & 3; Night 1 is the overnight road journey from Delhi" : "1 night in a 3-Star Hotel / Similar on Night 2; Night 1 is the overnight road journey from Delhi")
-        : "Accommodation in 3-Star Hotels / Similar",
+        : pkg.slug === "char-dham-yatra"
+          ? "9 nights in 3-Star Hotels / Similar and 1 night in basic Kedarnath pilgrim accommodation; Kedarnath bedding and bathrooms follow the confirmed booking"
+          : "Accommodation in 3-Star Hotels / Similar",
       isOvernightWeekend
         ? (isEscape ? "2 hotel dinners on Days 2 & 3 and 2 hotel breakfasts on Days 3 & 4; service subject to hotel policy and occupancy" : "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy")
         : pkg.slug === "vaishno-devi-group-yatra"
