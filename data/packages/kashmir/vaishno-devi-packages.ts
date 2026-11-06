@@ -36,12 +36,12 @@ const make = (x: any) => ({
   },
   hotels: [
     {
-      name: "Hotel Vaishno Devi Heights, Katra — or similar",
+      name: "Hotel Vaishno Devi Heights, Katra or Similar",
       category: "3-Star", star: "3-Star Hotel",
-      description: "Railway Road, Katra. AC rooms, Wi-Fi, restaurant, parking, housekeeping and luggage room are listed by the hotel. Proposed option for the 2-night Katra stay; final allocation is subject to availability and written confirmation.",
+      description: "Railway Road, Katra. AC rooms, Wi-Fi, restaurant, parking, housekeeping and luggage room are listed by the hotel. Recommended option for the 2-night Katra stay. Final hotel allocation remains subject to availability and confirmation.",
     },
     {
-      name: "Jai Ma Inn Hotels, Katra — or similar",
+      name: "Jai Ma Inn Hotels, Katra or Similar",
       category: "3-Star", star: "3-Star Hotel",
       description: "Kashmir Road, Katra. Vegetarian restaurant, room service, Wi-Fi and air conditioning are listed. Alternative for the same 2-night stay, not an additional hotel stay. Final allocation is subject to availability and written confirmation.",
     },
