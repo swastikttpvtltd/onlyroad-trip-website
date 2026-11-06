@@ -199,7 +199,7 @@ function downloadItinerary({
 
   <h2>Pricing</h2>
   <div class="info-card">
-    ${pricingHtml(safeSharingRates, groupRates, /weekend/i.test(`${packageTitle} ${category}`), format)}
+    ${pricingHtml(safeSharingRates, groupRates, (/weekend/i.test(`${packageTitle} ${category}`) || /vaishno[ -]devi/i.test(`${packageTitle} ${packageId}`)), format)}
     <p class="muted" style="margin-top:8px">Conversions are indicative; checkout and invoices are in INR. Final pricing is subject to the confirmed quotation, availability, applicable taxes and package-specific terms.</p>
   </div>
 
