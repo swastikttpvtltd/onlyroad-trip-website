@@ -16,7 +16,8 @@ export function getGroupSharingRates(pkg: any): GroupSharingRate[] | null {
   if (pkg?.slug === "corporate-mussoorie-retreat") {
     return getWeekendEscapeSharingRates().sort((a, b) => b.price - a.price);
   }
-  if (isWeekendEscape(pkg)) return getWeekendEscapeSharingRates();
+  // Vaishno Devi uses the same final sharing prices as the Nainital weekend tour.
+  if (isWeekendEscape(pkg) || pkg?.slug === "vaishno-devi-group-yatra") return getWeekendEscapeSharingRates();
   if (!isGroupTourPackage(pkg)) return null;
 
   const text = `${pkg?.title ?? ""} ${pkg?.packageId ?? ""}`.toLowerCase();
