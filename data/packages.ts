@@ -231,7 +231,9 @@ export const packages = rawPackages.map((original) => {
     overview: detailedDescription,
     gallery,
     hotels: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" || pkg.slug === "vaishno-devi-group-yatra" ? pkg.hotels : standardHotels.map((hotel) => ({ ...hotel })),
-    meals: isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.meals : [...standardMeals],
+    meals: pkg.slug === "vaishno-devi-group-yatra"
+      ? ["2 breakfasts at the hotel", "2 dinners at the hotel"]
+      : isOvernightWeekend || pkg.slug === "jaipur-weekend-group-tour" ? pkg.meals : [...standardMeals],
     exclusions: pkg.slug === "chopta-tungnath-weekend-group-tour" || pkg.slug === "jaipur-weekend-group-tour" ? pkg.exclusions : [...defaultPackageExclusions, isOvernightWeekend
       ? (isEscape ? "Arrival breakfast, all lunches, journey meals and refreshments; only hotel dinners on Days 2 & 3 and hotel breakfasts on Days 3 & 4 are included" : "Arrival breakfast, all lunches, journey meals and refreshments; only Day 2 hotel dinner and Day 3 hotel breakfast are included")
       : "Lunch and any meals other than the included breakfast and dinner"],
@@ -246,7 +248,9 @@ export const packages = rawPackages.map((original) => {
         : "Accommodation in 3-Star Hotels / Similar",
       isOvernightWeekend
         ? (isEscape ? "2 hotel dinners on Days 2 & 3 and 2 hotel breakfasts on Days 3 & 4; service subject to hotel policy and occupancy" : "1 hotel dinner on Day 2 and 1 hotel breakfast on Day 3; service subject to hotel policy and occupancy")
-        : "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
+        : pkg.slug === "vaishno-devi-group-yatra"
+          ? "2 breakfasts and 2 dinners at the hotel"
+          : "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy",
     ],
   };
 });
