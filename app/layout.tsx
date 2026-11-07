@@ -240,6 +240,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head>
         <meta name="p:domain_verify" content="e69d8f969be01f0e5597ae44e796e43d" />
+        <meta name="yandex-verification" content="b3b7425bcde3edf2" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
