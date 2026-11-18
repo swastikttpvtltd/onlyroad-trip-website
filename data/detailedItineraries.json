@@ -3561,6 +3561,55 @@
       },
       {
         "day": "Day 2",
+        "title": "Varanasi – Ayodhya Darshan",
+        "morning": [
+          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
+          "Check out and drive from Varanasi directly to Ayodhya."
+        ],
+        "afternoon": [
+          "Ram Mandir. Allow time to experience the Ram Mandir pilgrimage area in Ayodhya; entry follows temple security and darshan arrangements; follow visitor access and any conditions stated above.",
+          "Visit Hanuman Garhi, Kanak Bhawan and Dashrath Mahal according to visitor access."
+        ],
+        "evening": [
+          "Check in and have dinner at the booked accommodation in Ayodhya."
+        ],
+        "attractions": [
+          "Ram Mandir (Ram Lalla Darshan).",
+          "Hanuman Garhi.",
+          "Kanak Bhawan.",
+          "Dashrath Mahal."
+        ],
+        "notes": [],
+        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
+        "overnightStay": "Ayodhya",
+        "description": "Varanasi to Ayodhya for Ram Lalla Darshan, Hanuman Garhi, Kanak Bhawan and Dashrath Mahal. Night halt: Ayodhya.",
+        "optionalActivities": []
+      },
+      {
+        "day": "Day 3",
+        "title": "Ayodhya – Prayagraj – Varanasi",
+        "morning": [
+          "Have breakfast, check out and depart Ayodhya for Prayagraj."
+        ],
+        "afternoon": [
+          "Triveni Sangam and Prayagraj visit. Allow time to experience the river confluence area in Prayagraj; a boat journey is not automatically included; follow visitor access and any conditions stated above.",
+          "Visit Bade Hanuman Mandir in Prayagraj, then continue to Varanasi."
+        ],
+        "evening": [
+          "Check-in and dinner. Room availability follows the accommodation's standard check-in policy."
+        ],
+        "attractions": [
+          "Triveni Sangam.",
+          "Bade Hanuman Mandir."
+        ],
+        "notes": [],
+        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
+        "overnightStay": "Varanasi",
+        "description": "Ayodhya to Varanasi via Prayagraj, with visits to Triveni Sangam and Bade Hanuman Mandir. Night halt: Varanasi.",
+        "optionalActivities": []
+      },
+      {
+        "day": "Day 4",
         "title": "Varanasi & Sarnath",
         "morning": [
           "Temple/ghat experience. The visit follows the site's opening, queue and access arrangements; special rituals or priority entry are not implied.",
@@ -3581,52 +3630,6 @@
         "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
         "overnightStay": "Varanasi",
         "description": "Varanasi & Sarnath. The day covers Sarnath. Night halt: Varanasi.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 3",
-        "title": "Varanasi – Prayagraj – Ayodhya",
-        "morning": [
-          "Have breakfast and prepare for departure on the day's published route; allow time to collect belongings and board the vehicle."
-        ],
-        "afternoon": [
-          "Triveni Sangam and Prayagraj visit. Allow time to experience the river confluence area in Prayagraj; a boat journey is not automatically included; follow visitor access and any conditions stated above.",
-          "Continue Ayodhya. Spend time at the listed stop according to the day's route and available visitor access."
-        ],
-        "evening": [
-          "Check-in and dinner. Room availability follows the accommodation's standard check-in policy."
-        ],
-        "attractions": [
-          "Triveni Sangam and Prayagraj visit."
-        ],
-        "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Ayodhya",
-        "description": "Varanasi – Prayagraj – Ayodhya. The day covers Triveni Sangam and Prayagraj visit. Night halt: Ayodhya.",
-        "optionalActivities": []
-      },
-      {
-        "day": "Day 4",
-        "title": "Ayodhya Darshan",
-        "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Ram Mandir. Allow time to experience the Ram Mandir pilgrimage area in Ayodhya; entry follows temple security and darshan arrangements; follow visitor access and any conditions stated above."
-        ],
-        "afternoon": [
-          "Hanuman Garhi, Kanak Bhawan and selected sites. Allow time to experience the temple approached by steps in Ayodhya; follow visitor access and any conditions stated above."
-        ],
-        "evening": [
-          "Saryu evening and dinner. Accommodation and meal service follow the confirmed hotel booking."
-        ],
-        "attractions": [
-          "Ram Mandir.",
-          "Hanuman Garhi, Kanak Bhawan and selected sites.",
-          "Saryu evening and dinner."
-        ],
-        "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Ayodhya",
-        "description": "Ayodhya Darshan. The day covers Ram Mandir. Hanuman Garhi, Kanak Bhawan and selected sites. Night halt: Ayodhya.",
         "optionalActivities": []
       },
       {
