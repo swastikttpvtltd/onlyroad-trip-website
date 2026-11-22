@@ -8,7 +8,8 @@ export const jodhpurJaisalmerGroupTour = {
   duration: "4 Nights / 5 Days in Rajasthan",
   overallDuration: "6 Nights / 7 Days including Delhi road travel",
   bookingMode: "offline",
-  departureDates: ["2026-12-11", "2026-12-16", "2026-12-23"],
+  departureDates: ["2026-12-15", "2026-12-23"],
+  departureSummary: "15 and 23 December 2026; the first and third Thursday of every month from January 2027.",
   groupRates: { sharingRates: [
     { type: "Triple Sharing", price: 21000 },
     { type: "Double Sharing", price: 23000 },
@@ -119,7 +120,7 @@ export const jodhpurJaisalmerFaqs = [
     { question: "Are Longewala and the actual border included?", paragraphs: ["Tanot Mata is planned. Longewala is a conditional detour, not a guaranteed inclusion, because it adds driving and must fit the Sam sunset programme. The actual international-border visit is not included and requires separate permission and arrangements."] },
   ] },
   { title: "Transport & departures", items: [
-    { question: "Where does the trip start and finish?", paragraphs: ["Delhi to Delhi. Both long-distance legs are overnight road journeys by Volvo coach, bus or Tempo Traveller, allocated according to group size; Rajasthan transfers and sightseeing are by shared bus or Tempo Traveller. Delhi departures are available on 11, 16 and 23 December 2026. The team will provide the boarding point and reporting time when confirming your booking."] },
+    { question: "Where does the trip start and finish?", paragraphs: ["Delhi to Delhi. Both long-distance legs are overnight road journeys by Volvo coach, bus or Tempo Traveller, allocated according to group size; Rajasthan transfers and sightseeing are by shared bus or Tempo Traveller. Delhi departures are available on 15 and 23 December 2026, then on the first and third Thursday of every month from January 2027. The team will provide the boarding point and reporting time when confirming your booking."] },
     { question: "Can I join in Jodhpur instead?", paragraphs: ["Joining directly in Jodhpur needs a separate confirmed quotation and meeting arrangement. Do not assume the Delhi-inclusive price automatically applies or that a private airport transfer is included."] },
   ] },
   { title: "Hotels, meals & sharing", items: [
@@ -129,7 +130,7 @@ export const jodhpurJaisalmerFaqs = [
     { question: "Which sharing options will be offered?", paragraphs: ["Triple sharing is ₹21,000/- and double sharing is ₹23,000/- per person, including 5% GST. Quad sharing is not offered. Triple rooms may use an extra bed or mattress according to the confirmed property’s room arrangement."] },
   ] },
   { title: "Booking & pricing", items: [
-    { question: "Which departures are available, and how do I book?", paragraphs: ["11 December, 16 December and 23 December 2026 are the available Delhi departure dates. Contact the Only Road Trip team to confirm your seats and sharing. This tour is booked offline through the team; online checkout and online payment booking are not offered on this page."] },
+    { question: "Which departures are available, and how do I book?", paragraphs: ["Delhi departures are available on 15 and 23 December 2026. From January 2027, departures run on the first and third Thursday of each month. Contact the Only Road Trip team to confirm your seats and sharing. This tour is booked offline through the team; online checkout and online payment booking are not offered on this page."] },
     { question: "What is the per-person price?", paragraphs: ["Starting from ₹21,000/- per person on triple sharing; double sharing is ₹23,000/- per person. Both rates include 5% GST. The final bill depends on the selected sharing and number of travellers; optional activities and paid entrance tickets remain separate."] },
     { question: "Are desert safaris, camel rides and other activities included?", paragraphs: ["No. Desert and jeep safaris, camel rides, boating, quad biking, parasailing and other recreational activities are not included or arranged by Only Road Trip. If you choose an activity, arrange and pay for it directly with the local provider. The scheduled Sam visit, accommodation and meals listed in the itinerary remain included. Paid monument tickets, private guides and separately ticketed cultural programmes are also extra."] },
   ] },
@@ -154,3 +155,31 @@ export const jodhpurJaisalmerSources = [
 
 
 
+
+// Two departures per month, rather than an endless fortnightly sequence that
+// would occasionally create three departures in a five-Thursday month.
+export function getJodhpurDeparturesForMonth(month: string): string[] {
+  if (!/^\d{4}-\d{2}$/.test(month)) return [];
+  const [year, monthNumber] = month.split("-").map(Number);
+  if (monthNumber < 1 || monthNumber > 12 || month < "2026-12") return [];
+  if (month === "2026-12") return [...jodhpurJaisalmerGroupTour.departureDates];
+  const weekday = new Date(Date.UTC(year, monthNumber - 1, 1)).getUTCDay();
+  const firstThursday = 1 + (4 - weekday + 7) % 7;
+  return [firstThursday, firstThursday + 14].map(day => month + "-" + String(day).padStart(2, "0"));
+}
+
+export type JodhpurDepartureMonth = { month: string; dates: string[] };
+
+export function getJodhpurDepartureCalendar(now = new Date()): JodhpurDepartureMonth[] {
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
+  const start = today.slice(0, 7) < "2026-12" ? "2026-12" : today.slice(0, 7);
+  const [year, month] = start.split("-").map(Number);
+  const calendar: JodhpurDepartureMonth[] = [];
+  for (let offset = 0; calendar.length < 13; offset++) {
+    const cursor = new Date(Date.UTC(year, month - 1 + offset, 1));
+    const key = cursor.toISOString().slice(0, 7);
+    const dates = getJodhpurDeparturesForMonth(key).filter(date => date >= today);
+    if (dates.length) calendar.push({ month: key, dates });
+  }
+  return calendar;
+}

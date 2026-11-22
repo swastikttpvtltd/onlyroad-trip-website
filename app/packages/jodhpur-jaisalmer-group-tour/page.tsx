@@ -1,5 +1,6 @@
+import { connection } from "next/server";
 import type { Metadata } from "next";
-import { jodhpurJaisalmerGroupTour as tour, jodhpurJaisalmerDays, jodhpurJaisalmerFaqs } from "@/data/jodhpurJaisalmerGroupTour";
+import { jodhpurJaisalmerGroupTour as tour, jodhpurJaisalmerDays, jodhpurJaisalmerFaqs, getJodhpurDepartureCalendar } from "@/data/jodhpurJaisalmerGroupTour";
 import ItineraryAccordion from "@/features/jodhpurGroup/components/package/ItineraryAccordion";
 import PackageFaqTabs from "@/features/jodhpurGroup/components/package/PackageFaqTabs";
 import PackageGallerySlider from "@/features/jodhpurGroup/components/package/PackageGallerySlider";
@@ -16,7 +17,9 @@ export const metadata: Metadata = {
 
 const sectionClass = "scroll-mt-40 rounded-2xl bg-white p-6 shadow-sm md:p-7";
 
-export default function Page() {
+export default async function Page() {
+  await connection();
+  const departureCalendar = getJodhpurDepartureCalendar();
   return <main className="bg-slate-50 text-slate-900">
     <style>{`@media (min-width:1024px){img.jodhpur-group-hero-photo{height:100%;width:100%;object-fit:cover;object-position:center 48%}.jodhpur-group-hero-copy{min-height:660px;padding-top:144px;padding-bottom:112px}}`}</style>
     <section className="relative isolate overflow-hidden bg-slate-950 text-white">
@@ -36,12 +39,12 @@ export default function Page() {
         <section id="itinerary" className={sectionClass}>
           <div className="flex flex-wrap items-center justify-between gap-4"><h2 className="text-2xl font-extrabold tracking-tight">Itinerary Description</h2><a href="https://www.google.com/maps/dir/Delhi/Jodhpur/Jaisalmer/Tanot+Mata+Temple/Sam+Sand+Dunes/Jaisalmer/Jodhpur/Delhi" target="_blank" rel="noopener noreferrer" className="rounded-xl border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-bold text-orange-700">View Map ↗</a></div>
           <p className="mt-5 text-sm leading-7 text-slate-600">{tour.route}</p><h3 className="mb-5 mt-7 text-xl font-bold">Day-wise Itinerary</h3>
-          <ItineraryAccordion itinerary={jodhpurJaisalmerDays} destination={tour.destination} category="Group Tour" packageTitle={tour.title} packageId={tour.packageId} duration={`${tour.duration}; ${tour.overallDuration}`} overview={`${tour.overview} Available Delhi departures: 11, 16 and 23 December 2026. Offline booking through the team only; no online checkout.`} highlights={tour.highlights.map(item => `${item.title} — ${item.detail}`)} inclusions={tour.inclusions} exclusions={tour.exclusions} groupRates={tour.groupRates} sharingRates={tour.groupRates.sharingRates} hotels={tour.hotels.map(hotel => ({name:`${hotel.location}: ${hotel.name} · ${hotel.nights} night${hotel.nights === 1 ? "" : "s"}`}))} meals={tour.meals} hidePackageId showDownload isGroupTerms/>
+          <ItineraryAccordion itinerary={jodhpurJaisalmerDays} destination={tour.destination} category="Group Tour" packageTitle={tour.title} packageId={tour.packageId} duration={`${tour.duration}; ${tour.overallDuration}`} overview={`${tour.overview} Available Delhi departures: ${tour.departureSummary} Offline booking through the team only; no online checkout.`} highlights={tour.highlights.map(item => `${item.title} — ${item.detail}`)} inclusions={tour.inclusions} exclusions={tour.exclusions} groupRates={tour.groupRates} sharingRates={tour.groupRates.sharingRates} hotels={tour.hotels.map(hotel => ({name:`${hotel.location}: ${hotel.name} · ${hotel.nights} night${hotel.nights === 1 ? "" : "s"}`}))} meals={tour.meals} hidePackageId showDownload isGroupTerms/>
         </section>
         <section id="inclusions" className={sectionClass}><h2 className="mb-5 text-2xl font-extrabold tracking-tight">What&apos;s Included &amp; What&apos;s Excluded</h2><InclusionsExclusions inclusions={tour.inclusions} exclusions={tour.exclusions} initiallyExpanded/></section>
         <PackageFaqTabs groups={jodhpurJaisalmerFaqs} showTravellerTerms/>
       </div>
-      <BookingSummary/>
+      <BookingSummary departureCalendar={departureCalendar}/>
     </div>
   </main>;
 }
