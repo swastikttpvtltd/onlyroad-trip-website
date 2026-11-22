@@ -60,6 +60,11 @@ const rateFor = (state: string, title: string, nights: number, pax: number) => {
   return Math.ceil((estimatedCost / 0.82) / 500) * 500;
 };
 
+const fixedTwoTravellerRates: Record<string, number> = {
+  "varanasi-prayagraj-ayodhya": 19500,
+  "varanasi-ayodhya-prayagraj-gaya-bodh-gaya": 25500,
+};
+
 export const makePackageRates = (pkg: any) => {
   // Fixed per-person rates for the 2N/3D Weekend / Group Tour inventory.
   // Goa has its own rate card; all other qualifying 2N/3D group/weekend packages use the Himachal/Uttarakhand rate card.
@@ -96,7 +101,7 @@ export const makePackageRates = (pkg: any) => {
   const title = String(pkg.title ?? "");
   const nights = nightsFromDuration(pkg.duration);
   const rates = {
-    2: rateFor(state, title, nights, 2),
+    2: fixedTwoTravellerRates[String(pkg?.slug ?? "")] ?? rateFor(state, title, nights, 2),
     4: rateFor(state, title, nights, 4),
     6: rateFor(state, title, nights, 6),
     12: rateFor(state, title, nights, 12),
