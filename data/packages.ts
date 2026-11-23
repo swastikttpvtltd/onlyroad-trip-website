@@ -1,3 +1,4 @@
+import { kashmirGroupTour } from "@/features/fixedDepartures/data/kashmirGroupTour";
 import { jodhpurJaisalmerGroupTour as jodhpurTour, jodhpurJaisalmerDays } from "./jodhpurJaisalmerGroupTour";
 import { buildCustomerOverview } from "./packageCustomerCopy";
 import { customerTransportLabel, clarifyServiceInclusions } from "./packageServiceDetails";
@@ -320,5 +321,5 @@ export const packages = [...basePackages, {
   itinerary: jodhpurJaisalmerDays, inclusions: jodhpurTour.inclusions, exclusions: jodhpurTour.exclusions,
   meals: jodhpurTour.meals, hotels: jodhpurTour.hotels,
   quickFacts: { pickup:"Delhi", drop:"Delhi", transport:"Volvo coach, bus or Tempo Traveller", meals:"4 breakfasts, 4 lunches & 4 dinners", hotelCategory:"4 hotel/camp nights", bestSeason:"Winter" },
-} as typeof basePackages[number]];
+} as typeof basePackages[number], { ...basePackages.find(pkg => pkg.slug === "kasol-weekend-group-tour")!, ...kashmirGroupTour, quickFacts: { pickup: "Delhi", drop: "Delhi", transport: "Bus / Tempo Traveller", meals: "4 breakfasts, 4 lunches & 4 dinners", hotelCategory: "4 hotel nights", bestSeason: "Winter and spring" }, hero: {image:kashmirGroupTour.image,shortDescription:kashmirGroupTour.short} } as typeof basePackages[number]];
 export default packages;

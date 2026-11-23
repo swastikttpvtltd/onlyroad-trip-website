@@ -14,6 +14,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          node scripts/check-approved-release.cjs
           test -f app/page.tsx
           test -f app/fixed-departures/\[slug\]/page.tsx || { echo "::error::Fixed departure dynamic route missing. Do not deploy this branch to production."; exit 1; }
           grep -R -q 'Fixed Departures' app/page.tsx components || { echo "::error::Fixed Departures homepage section missing. Do not deploy."; exit 1; }

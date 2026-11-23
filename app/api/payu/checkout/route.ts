@@ -1,3 +1,4 @@
+import {validateFixedPayment} from "@/features/fixedDepartures/data/fixedDepartureBooking";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextResponse } from "next/server";
 
@@ -13,6 +14,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const amount = Number(body.amount);
+    try { validateFixedPayment(body.receiptContext && typeof body.receiptContext === "object" ? body.receiptContext : body, amount); } catch(error) { return NextResponse.json({error:error instanceof Error ? error.message : "Invalid fixed departure costing"},{status:400}); }
 
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json({ error: "Enter a valid payment amount." }, { status: 400 });
