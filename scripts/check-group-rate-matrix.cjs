@@ -11,9 +11,18 @@ const pricing = require(path.join(root, "data/packagePricing.ts"));
 const { GROUP_SIZES, rateForTravellerCount } = require(path.join(root, "data/groupRateMatrix.ts"));
 const { isGroupTourPackage } = require(path.join(root, "data/groupTourPricing.ts"));
 let checked = 0;
+const approvedSharing = { "kashmir-valley-group-tour": [16000, 17500], "jodhpur-jaisalmer-group-tour": [21000, 23000] };
 for (const pkg of packages) {
   const rates = pkg.groupRates;
   const sharing = rates.sharingRates;
+  if (approvedSharing[pkg.slug]) {
+    assert.deepEqual(sharing.map(rate => rate.type), ["Triple Sharing", "Double Sharing"], pkg.slug + ": only approved sharing options");
+    assert.deepEqual(sharing.map(rate => rate.price), approvedSharing[pkg.slug], pkg.slug + ": owner-approved per-person prices");
+    assert.equal(rates[2], approvedSharing[pkg.slug][1], pkg.slug + ": double-sharing lookup");
+    assert.equal(pkg.price, approvedSharing[pkg.slug][0], pkg.slug + ": starting triple-sharing price");
+    checked += sharing.length;
+    continue;
+  }
   if (!isGroupTourPackage(pkg)) {
     assert.deepEqual(Object.keys(rates).filter(key => /^\d+$/.test(key)), ["2"], pkg.slug + ": only two-person pricing");
     assert.deepEqual(sharing, [], pkg.slug + ": no extra sharing prices");
@@ -50,6 +59,6 @@ for (const pkg of packages) {
 }
 assert.equal(pricing.TARGET_MARGIN, .18);
 assert(pricing.transportFactorFor(100) >= 3 * pricing.transportFactorFor(30), "Large groups require more transport");
-assert.equal(packages.find(pkg => pkg.slug === "varanasi-prayagraj-ayodhya").groupRates[2], 22000);
-assert.equal(packages.find(pkg => pkg.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya").groupRates[2], 27000);
+assert.equal(packages.find(pkg => pkg.slug === "varanasi-prayagraj-ayodhya").groupRates[2], 19500);
+assert.equal(packages.find(pkg => pkg.slug === "varanasi-ayodhya-prayagraj-gaya-bodh-gaya").groupRates[2], 25500);
 console.log("PASS: " + packages.length + " packages, " + checked + " rates; booking lookup, discount limit, margin floor and vehicle scaling.");

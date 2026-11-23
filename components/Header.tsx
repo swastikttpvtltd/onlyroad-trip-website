@@ -7,6 +7,7 @@ import { CurrencySelector } from "@/components/CurrencySelector";
 import { usePathname, useRouter } from "next/navigation";
 
 const experienceThemes = [
+  { name: "Fixed Departures", query: "Fixed Departures", description: "Trips with scheduled departure dates", href: "/fixed-departures" },
   { name: "Spiritual", query: "Spiritual", description: "Sacred journeys & peaceful escapes" },
   { name: "Pilgrimage", query: "Pilgrimage", description: "Temples, dhams & holy circuits" },
   { name: "Trekking", query: "Trekking", description: "Trails, peaks & Himalayan walks" },
@@ -114,7 +115,7 @@ export default function Header() {
             <div className="group/experiences relative flex h-[68px] items-center">
               <Link href="/packages" className={`${nav} flex items-center gap-1.5`}>Experiences ⌄</Link>
               <div className="invisible absolute left-1/2 top-[62px] w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-hover/experiences:visible group-hover/experiences:translate-y-0 group-hover/experiences:opacity-100">
-                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-4 text-white"><p className="text-lg font-bold">Explore by Experience</p></div><div className="grid grid-cols-4 gap-2 p-4">{experienceThemes.map((t) => <Link key={t.name} href={`/packages?theme=${encodeURIComponent(t.query)}`} className="rounded-xl p-3 hover:bg-blue-50"><b className="block text-sm text-slate-900">{t.name}</b><span className="text-[11px] text-slate-500">{t.description}</span></Link>)}</div></div>
+                <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"><div className="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-4 text-white"><p className="text-lg font-bold">Explore by Experience</p></div><div className="grid grid-cols-4 gap-2 p-4">{experienceThemes.map((t) => <Link key={t.name} href={"href" in t && typeof t.href === "string" ? t.href : `/packages?theme=${encodeURIComponent(t.query)}`} className="rounded-xl p-3 hover:bg-blue-50"><b className="block text-sm text-slate-900">{t.name}</b><span className="text-[11px] text-slate-500">{t.description}</span></Link>)}</div></div>
               </div>
             </div>
             <div className="group/packages relative flex h-[68px] items-center">
@@ -135,7 +136,7 @@ export default function Header() {
           </div>
         </div>
 
-        {mobileOpen && <div className="border-t border-slate-200 bg-white p-3 xl:hidden"><div className="grid gap-1">{[["Home", "/"], ["About Us", "/about"], ["Packages", "/packages"], ["Door-to-Door Travel", "/door-to-door-travel"], ["Corporate Travel", "/corporate-travel"], ["Contact", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>)}<Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link></div></div>}
+        {mobileOpen && <div className="border-t border-slate-200 bg-white p-3 xl:hidden"><div className="grid gap-1">{[["Home", "/"], ["About Us", "/about"], ["Packages", "/packages"], ["Fixed Departures", "/fixed-departures"], ["Door-to-Door Travel", "/door-to-door-travel"], ["Corporate Travel", "/corporate-travel"], ["Contact", "/contact"]].map(([label, href]) => <Link key={href} href={href} onClick={() => setMobileOpen(false)} className="rounded-xl px-4 py-3 text-sm font-bold text-slate-800 hover:bg-blue-50 hover:text-blue-700">{label}</Link>)}<Link href="/plan-your-trip" onClick={() => setMobileOpen(false)} className="mt-2 rounded-xl bg-blue-700 px-4 py-3 text-center text-sm font-extrabold text-white">Plan Your Trip</Link></div></div>}
 
         {isPackagePage && <button onClick={() => { if (window.history.length > 1) router.back(); else router.push("/packages"); }} className={`absolute left-0 top-[74px] z-[70] inline-flex items-center gap-2 rounded-xl border border-white/50 bg-slate-950/40 px-3 py-2 text-xs font-extrabold text-white shadow-xl backdrop-blur-xl transition-all duration-300 hover:bg-slate-950/55 sm:top-[82px] sm:px-4 sm:py-2.5 sm:text-sm ${showBackButton ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-3 opacity-0 pointer-events-none"}`}><span>←</span> Back to Packages</button>}
       </div>

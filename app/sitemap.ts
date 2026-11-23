@@ -1,3 +1,4 @@
+import { fixedDepartureReviews } from "@/features/fixedDepartures/data/fixedDepartureDetails";
 import type { MetadataRoute } from "next";
 import packages from "@/data/packages";
 import { seoPages } from "@/data/seo-pages";
@@ -8,6 +9,8 @@ import { absoluteImageUrl, siteUrl } from "@/lib/siteSeo";
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = new Set<string>([
     ...publicSeoPaths,
+    "fixed-departures",
+    ...fixedDepartureReviews.map(tour => "fixed-departures/" + tour.slug),
     ...internationalMarketSlugs.map(country => `india-tours-from/${country}`),
     ...Object.keys(seoPages),
     ...packages.map(pkg => "packages/" + pkg.slug),

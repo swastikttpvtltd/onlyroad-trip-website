@@ -1,0 +1,370 @@
+"use client";
+import { bookingAdvanceSchedule, bookingPolicyUrl } from "@/features/jodhpurGroup/data/bookingAdvanceSchedule";
+import { cancellationPolicyPath, cancellationRequest, tourCancellationCharges, tourCancellationConditions, tourCancellationTiming } from "@/features/jodhpurGroup/data/cancellationPolicy";
+import { fixedDepartureCalendarHtml, type DeparturePrintSelection } from "@/features/jodhpurGroup/lib/fixedDeparturePrint";
+import { useFixedBooking } from "@/features/jodhpurGroup/components/package/FixedBookingState";
+import { useCurrency } from "@/components/CurrencySelector";
+import { useState } from "react";
+import { groupRateRows } from "@/features/jodhpurGroup/data/groupRateMatrix";
+import { groupTourTerms } from "@/features/jodhpurGroup/components/package/GroupTourTerms";
+import { formatItineraryDay } from "@/features/jodhpurGroup/data/itineraryDay";
+import type { DetailedItineraryDay } from "@/data/itineraryDetails";
+
+import type { RouteSightseeingStop } from "@/features/jodhpurGroup/data/routeSightseeing";
+
+type ItineraryDay = DetailedItineraryDay & { sightseeingOverview?: string; routeSightseeing?: RouteSightseeingStop[] };
+
+type SharingRate = { type: string; price: number };
+type GroupRates = { [pax: number]: number; sharingRates?: SharingRate[] };
+
+type Props = {
+  fixedDepartureSlug?: string;
+  departureSelection?: DeparturePrintSelection;
+  paymentPolicyOverride?: string[];
+  cancellationPolicyOverride?: string[];
+  showDownload?: boolean;
+  hidePackageId?: boolean;
+  isGroupTerms?: boolean;
+  itinerary: ItineraryDay[];
+  destination: string;
+  category: string;
+  vibeHook?: string;
+  packageTitle?: string;
+  packageId?: string;
+  duration?: string;
+  overview?: string;
+  highlights?: string[];
+  inclusions?: string[];
+  exclusions?: string[];
+  groupRates?: GroupRates;
+  sharingRates?: SharingRate[];
+  bestTime?: string;
+  hotels?: { name?: string }[];
+  meals?: string[];
+};
+
+const clean = (items: string[] = []) =>
+  items.filter(Boolean);
+
+function escapeHtml(value: string) {
+  return String(value ?? "").replace(/[&<>\"]/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+  }[char] || char));
+}
+
+function listHtml(items: string[]) {
+  const visible = items.filter(Boolean);
+  return visible.length
+    ? `<ul>${visible.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+    : `<p class="muted">Not specified for this package.</p>`;
+}
+
+function pricingHtml(sharingRates: SharingRate[], groupRates: GroupRates | undefined, isWeekendGroup: boolean, format: (inr: number) => string) {
+  const available = sharingRates.length ? sharingRates : (groupRates?.sharingRates ?? []);
+  if (available.length) {
+    const orderedRates = available.filter((rate) => Number.isFinite(rate.price));
+    return `<p>Per person • 5% GST included</p><table class="pricing-table"><thead><tr><th>Room Sharing</th><th>Cost per Person</th></tr></thead><tbody>${orderedRates
+      .map((rate) => `<tr><td>${escapeHtml(rate.type)}</td><td>${escapeHtml(format(rate.price))}</td></tr>`)
+      .join("")}</tbody></table>`;
+  }
+  if (isWeekendGroup) return `<p class="muted">Room-sharing rates will be shared in the confirmed quotation.</p>`;
+  const rows = groupRateRows(groupRates);
+  if (!rows.length) return `<p class="muted">Price will be shared in the confirmed quotation.</p>`;
+  const twoPersonTotal = rows.length === 1 && rows[0].pax === 2
+    ? `<p>Total for 2 travellers • ${escapeHtml(format(rows[0].price * 2))}</p>`
+    : `<p>Planning rates. Request a group quotation.</p>`;
+  return `<p>Double / twin sharing • 5% GST included</p><table class="pricing-table"><thead><tr><th>Group Size</th><th>Per Person</th></tr></thead><tbody>${rows.map(({ pax, price }) => `<tr><td>${pax} Travellers</td><td>${escapeHtml(format(price))}</td></tr>`).join("")}</tbody></table>${twoPersonTotal}`;
+}
+
+function buildItineraryHtml(itinerary: ItineraryDay[]) {
+  return itinerary.map((day, index) => `
+    <section class="day">
+      <div class="day-title">${escapeHtml(formatItineraryDay(day.day, index + 1))} — ${escapeHtml(day.title || "Travel & Sightseeing")}</div>
+      ${day.sightseeingOverview ? `<p>${escapeHtml(day.sightseeingOverview)}</p>` : ""}
+      ${day.routeSightseeing?.length ? `<h4>Sights and local history</h4>${listHtml(day.routeSightseeing.map(stop => stop.place + " · " + stop.timing + " · " + stop.description))}` : ""}
+      ${day.attractions?.length ? `<h4>Planned attractions & experiences</h4>${listHtml(day.attractions)}` : ""}
+      <div class="cols">
+        <div><h4>Morning</h4>${clean(day.morning).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No morning activity listed.</p>"}</div>
+        <div><h4>Afternoon</h4>${clean(day.afternoon).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No afternoon activity listed.</p>"}</div>
+        <div><h4>Evening</h4>${clean(day.evening).map((x) => `<p>• ${escapeHtml(x)}</p>`).join("") || "<p class=\"muted\">No evening activity listed.</p>"}</div>
+      </div>
+      ${day.overnightStay ? `<p><strong>Night halt:</strong> ${escapeHtml(day.overnightStay)}</p>` : ""}
+      ${day.meals ? `<p><strong>Meal plan:</strong> ${escapeHtml(day.meals)}</p>` : ""}
+      ${day.distance ? `<p><strong>Approximate distance:</strong> ${escapeHtml(day.distance)}</p>` : ""}
+      ${day.driveTime ? `<p><strong>Approximate drive time:</strong> ${escapeHtml(day.driveTime)}</p>` : ""}
+      ${day.optionalActivities?.length ? `<h4>Optional / separately confirmed activities</h4>${listHtml(day.optionalActivities)}` : ""}
+      ${day.notes?.length ? `<h4>Important details</h4>${listHtml(day.notes)}` : ""}
+    </section>
+  `).join("");
+}
+
+function downloadItinerary({
+  fixedDepartureSlug,
+  departureSelection,
+  paymentPolicyOverride,
+  cancellationPolicyOverride,
+  isGroupTerms = false,
+  itinerary,
+  destination,
+  category,
+  packageTitle,
+  packageId,
+  duration,
+  overview,
+  highlights,
+  inclusions,
+  exclusions,
+  groupRates,
+  sharingRates,
+  bestTime,
+  hotels,
+  meals,
+}: Props, format: (inr: number) => string) {
+  const title = packageTitle || destination || "Only Road Trip Itinerary";
+  const safeItinerary = Array.isArray(itinerary) ? itinerary : [];
+  const safeHighlights = Array.isArray(highlights) ? highlights : [];
+  const safeInclusions = Array.isArray(inclusions) ? inclusions : [];
+  const safeExclusions = Array.isArray(exclusions) ? exclusions : [];
+  const safeSharingRates = Array.isArray(sharingRates) ? sharingRates : [];
+  const safeHotels = Array.isArray(hotels) ? hotels.filter((hotel) => hotel?.name) : [];
+  const safeMeals = Array.isArray(meals) ? meals.filter(Boolean) : [];
+
+  const overviewText = overview || "This package follows the published day-wise itinerary and inclusions shown on the Only Road Trip website.";
+  const cancellationPolicy = cancellationPolicyOverride?.length
+    ? listHtml(cancellationPolicyOverride)
+    : `<p>${escapeHtml(tourCancellationTiming)}</p>
+       <table class="pricing-table"><thead><tr><th>Cancellation period</th><th>Charge on total booking</th></tr></thead>
+       <tbody>${tourCancellationCharges.map(([period, charge]) => `<tr><td>${escapeHtml(period)}</td><td>${charge}</td></tr>`).join("")}</tbody></table>
+       <p>${escapeHtml(tourCancellationConditions)}</p><p>${escapeHtml(cancellationRequest)}</p>`;
+
+  const printWindow = window.open("", "_blank", "width=1000,height=900");
+  if (!printWindow) {
+    window.alert("Please allow pop-ups for Only Road Trip to download the itinerary.");
+    return;
+  }
+
+  const hotelText = safeHotels.map((hotel) => String(hotel.name)).join(", ");
+  const mealText = safeMeals.join(" • ");
+
+  printWindow.document.open();
+  printWindow.document.write(`<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${escapeHtml(title)} - Complete Itinerary</title>
+<style>
+  @page { size: A4; margin: 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #172033; margin: 0; background: #fff; font-size: 12px; line-height: 1.55; }
+  h1 { font-size: 25px; line-height: 1.2; margin: 0 0 7px; color: #173f78; }
+  h2 { font-size: 17px; margin: 23px 0 10px; color: #173f78; border-bottom: 2px solid #f59e0b; padding-bottom: 5px; break-after: avoid; }
+  h3 { font-size: 14px; margin: 0 0 7px; color: #173f78; }
+  h4 { font-size: 12px; margin: 0 0 6px; color: #173f78; }
+  p { margin: 4px 0; }
+  ul, ol { margin: 6px 0; padding-left: 20px; }
+  li { margin: 4px 0; }
+  .intro { border: 1px solid #dbe2ea; border-radius: 10px; padding: 14px; margin-bottom: 15px; }
+  .meta { color: #64748b; font-size: 11px; margin-top: 4px; }
+  .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .meta-box { background: #f8fafc; border-radius: 7px; padding: 8px; border: 1px solid #e2e8f0; }
+  .meta-label { display: block; color: #64748b; font-size: 9px; text-transform: uppercase; font-weight: 700; letter-spacing: .06em; }
+  .meta-value { display: block; margin-top: 3px; font-weight: 700; color: #172033; }
+  .day { border: 1px solid #dbe2ea; border-radius: 9px; margin: 0 0 10px; padding: 10px; break-inside: avoid; }
+  .day-title { font-weight: 700; font-size: 14px; margin-bottom: 9px; color: #173f78; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+  .cols > div { background: #f8fafc; padding: 8px; border-radius: 7px; min-height: 48px; }
+  .cols p { margin: 3px 0; }
+  .pricing-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+  .pricing-table th, .pricing-table td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
+  .pricing-table th { background: #f1f5f9; color: #334155; }
+  .pricing-table td:last-child, .pricing-table th:last-child { text-align: right; font-weight: 700; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .info-card { border: 1px solid #dbe2ea; border-radius: 8px; padding: 10px; break-inside: avoid; }
+  .muted { color: #64748b; }
+  .footer-note { margin-top: 25px; padding-top: 9px; border-top: 1px solid #cbd5e1; color: #64748b; font-size: 9px; text-align: center; }
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; overflow-wrap: anywhere; }
+    h1, h2, h3, h4, .day-title { break-after: avoid-page; }
+    body { line-height: 1.4; }
+    h2 { margin: 14px 0 7px; }
+    p, li { orphans: 2; widows: 2; }
+    tr, .intro, .selected-departure { break-inside: avoid-page; }
+    thead { display: table-header-group; break-after: avoid-page; }
+    .day, .info-card, .cols > div { break-inside: auto; }
+    .day, .info-card { box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+    .cols, .two-col { display: block; }
+    .cols > div, .two-col > div { margin-bottom: 5px; }
+    .cols > div { min-height: 0; padding: 4px 8px; }
+    .departure-dates span { display: inline-block; margin-right: 8px; }
+    .footer-note { break-inside: avoid-page; }
+  }
+</style>
+</head>
+<body>
+  <div class="intro">
+    <h1>${escapeHtml(title)}</h1>
+    <div class="meta">${escapeHtml(destination || "India")} • ${escapeHtml(category || "Tour Package")}</div>
+    <div class="meta-grid">
+      <div class="meta-box"><span class="meta-label">Package ID</span><span class="meta-value">${escapeHtml(packageId || "—")}</span></div>
+      <div class="meta-box"><span class="meta-label">Duration</span><span class="meta-value">${escapeHtml(duration || "—")}</span></div>
+      <div class="meta-box"><span class="meta-label">Best Time</span><span class="meta-value">${escapeHtml(bestTime || "As per package")}</span></div>
+    </div>
+  </div>
+
+  <h2>Package Overview</h2>
+  <div class="info-card"><p>${escapeHtml(overviewText).replace(/\n/g, "<br />")}</p>${safeHighlights.length ? `<h3 style="margin-top:12px">Tour Highlights</h3>${listHtml(safeHighlights)}` : ""}</div>
+
+  <h2>Pricing</h2>
+  <div class="info-card">
+    ${pricingHtml(safeSharingRates, groupRates, (/weekend/i.test(`${packageTitle} ${category}`) || /vaishno[ -]devi/i.test(`${packageTitle} ${packageId}`)), format)}
+    <p class="muted" style="margin-top:8px">Conversions are indicative; checkout and invoices are in INR. Final pricing is subject to the confirmed quotation, availability, applicable taxes and package-specific terms.</p>
+  </div>
+
+  <h2>Complete Day-wise Itinerary</h2>
+  ${buildItineraryHtml(safeItinerary) || `<div class="info-card"><p class="muted">No day-wise itinerary is available for this package.</p></div>`}
+
+  <h2>Inclusions</h2>
+  <div class="info-card">${listHtml(safeInclusions)}</div>
+
+  <h2>Exclusions</h2>
+  <div class="info-card">${listHtml(safeExclusions)}</div>
+
+  ${fixedDepartureSlug ? fixedDepartureCalendarHtml(fixedDepartureSlug, departureSelection) : ""}
+
+  <h2>Stay & Meals</h2>
+  <div class="two-col">
+    <div class="info-card"><h3>Accommodation</h3><p>${escapeHtml(hotelText || "3-Star Hotel / Similar")}</p></div>
+    <div class="info-card"><h3>Meals</h3><p>${escapeHtml(mealText || "As per package itinerary")}</p></div>
+  </div>
+
+  ${isGroupTerms ? `<h2>Group Tour Terms &amp; Conditions</h2><ol>${groupTourTerms.map(([heading, body]) => `<li style="margin-bottom:8px"><h4>${escapeHtml(heading)}</h4><p>${escapeHtml(body)}</p></li>`).join("")}</ol>` : ""}
+
+  <h2>Booking &amp; Payment Policy</h2>
+  <div class="info-card">
+    ${listHtml(paymentPolicyOverride?.length ? paymentPolicyOverride : bookingAdvanceSchedule)}
+    <p>Full policy: <a href="${bookingPolicyUrl}">onlyroadtrip.com/booking-policy</a></p>
+  </div>
+
+  <h2>Cancellation Policy</h2>
+  <div class="info-card">${cancellationPolicy}<p>Full policy: <a href="https://www.onlyroadtrip.com${cancellationPolicyPath}">onlyroadtrip.com${cancellationPolicyPath}</a></p></div>
+
+  <div class="footer-note">This document is a package itinerary and pricing reference. Final booking documents, confirmed quotation and applicable supplier terms prevail.</div>
+
+<script>
+  window.addEventListener('load', function () {
+    setTimeout(function () { window.focus(); window.print(); }, 250);
+  });
+</script>
+</body>
+</html>`);
+  printWindow.document.close();
+}
+
+export default function ItineraryAccordion({
+  fixedDepartureSlug,
+  paymentPolicyOverride,
+  cancellationPolicyOverride,
+  showDownload = true,
+  hidePackageId = false,
+  isGroupTerms = false,
+  itinerary,
+  destination,
+  category,
+  vibeHook,
+  packageTitle,
+  packageId,
+  duration,
+  overview,
+  highlights,
+  inclusions,
+  exclusions,
+  groupRates,
+  sharingRates,
+  bestTime,
+  hotels,
+  meals,
+}: Props) {
+  const { format } = useCurrency();
+  const selection = useFixedBooking() ?? undefined;
+  const [openDay, setOpenDay] = useState<number | null>(0);
+
+  return (
+    <div className="space-y-5">
+      <div className="text-sm leading-6 text-slate-600">
+        {!hidePackageId && packageId && <p className="font-semibold text-slate-900">Package ID: {packageId}</p>}
+        <p>Open each day for the planned stops, transfers, meal plan and night halt. Optional activities and conditional visits are identified in the day details. Morning, afternoon and evening are planning blocks; exact reporting times follow the confirmed booking.</p>
+      </div>
+      {showDownload && <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => downloadItinerary({ fixedDepartureSlug, departureSelection: selection, paymentPolicyOverride, cancellationPolicyOverride, isGroupTerms, itinerary, destination, category, vibeHook, packageTitle, packageId, duration, overview, highlights, inclusions, exclusions, groupRates, sharingRates, bestTime, hotels, meals }, format)}
+          className="inline-flex items-center gap-2 rounded-xl bg-blue-700 px-5 py-3 text-sm font-extrabold text-white shadow-md transition hover:bg-blue-800"
+        >
+          ↓ Download Complete Itinerary
+        </button>
+      </div>}
+
+      {vibeHook && (
+        <div className="rounded-2xl border border-orange-100 bg-gradient-to-r from-orange-50 via-white to-sky-50 p-5 shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Only Road Trip • Vibe Check</p>
+          <p className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl">{vibeHook}</p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">Less checklist, more experience. Open each day to see the full plan.</p>
+        </div>
+      )}
+
+      {itinerary.map((day, index) => {
+        const isOpen = openDay === index;
+        return (
+          <div key={`${day.day}-${index}`} className="relative border-l-2 border-orange-300 pl-7">
+            <span aria-hidden="true" className="absolute -left-4 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">{formatItineraryDay(day.day, index + 1).replace(/^Day\s+/i, "")}</span>
+            <div className="overflow-hidden rounded-xl border bg-white">
+              <button type="button" onClick={() => setOpenDay(isOpen ? null : index)} aria-expanded={isOpen} className="flex w-full items-center justify-between gap-5 p-5 text-left hover:bg-slate-50">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">{formatItineraryDay(day.day, index + 1)}</p>
+                  <h3 className="mt-1 text-xl font-extrabold text-slate-900">{day.title}</h3>
+                </div>
+                <span className="shrink-0 text-3xl font-light text-orange-500">{isOpen ? "−" : "+"}</span>
+              </button>
+              <div hidden={!isOpen} className="space-y-4 border-t bg-slate-50 p-5">
+                {day.sightseeingOverview && <p className="rounded-xl border border-orange-100 bg-orange-50 p-4 text-sm leading-7 text-slate-700">{day.sightseeingOverview}</p>}
+                {day.attractions?.length ? <ActivityBlock title="Planned attractions & experiences" items={day.attractions} /> : null}
+                <div className="grid gap-4 md:grid-cols-3">{(!hidePackageId || day.morning.length > 0) && <ActivityBlock title="Morning" items={day.morning} />}{(!hidePackageId || day.afternoon.length > 0) && <ActivityBlock title="Afternoon" items={day.afternoon} />}{(!hidePackageId || day.evening.length > 0) && <ActivityBlock title="Evening" items={day.evening} />}</div>
+                {!!day.routeSightseeing?.length && <div className="rounded-xl border border-orange-100 bg-white p-4">
+                  <h4 className="font-bold text-orange-600">Sights and local history</h4>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">“Nearby” stops and route references need a confirmed time, access and any separate ticket.</p>
+                  <ul className="mt-3 grid gap-3 md:grid-cols-2">
+                    {day.routeSightseeing.map(stop => {
+                      const [name, detail] = stop.description.split(" — ");
+                      return <li key={stop.place + name} data-sightseeing-place={stop.place} className="rounded-lg bg-slate-50 p-3">
+                        <p className="text-xs font-semibold capitalize text-orange-700">{stop.place} · {stop.timing}</p>
+                        <p className="mt-1 font-bold text-slate-900">{name}</p>
+                        <p className="mt-1 text-sm leading-6 text-slate-700">{detail}</p>
+                      </li>;
+                    })}
+                  </ul>
+                </div>}
+                <dl className="grid gap-3 rounded-xl border border-slate-200 bg-white p-4 text-sm md:grid-cols-2">
+                  {day.overnightStay && <div><dt className="font-bold text-orange-600">Night halt</dt><dd className="mt-1 leading-6 text-slate-600">{day.overnightStay}</dd></div>}
+                  {day.meals && <div><dt className="font-bold text-orange-600">Meal plan</dt><dd className="mt-1 leading-6 text-slate-600">{day.meals}</dd></div>}
+                  {day.distance && <div><dt className="font-bold text-orange-600">Approximate distance</dt><dd className="mt-1 text-slate-600">{day.distance}</dd></div>}
+                  {day.driveTime && <div><dt className="font-bold text-orange-600">Approximate drive time</dt><dd className="mt-1 text-slate-600">{day.driveTime}</dd></div>}
+                </dl>
+                {day.optionalActivities?.length ? <ActivityBlock title="Optional / separately confirmed activities" items={day.optionalActivities} /> : null}
+                {day.notes?.length ? <ActivityBlock title="Important details" items={day.notes} /> : null}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ActivityBlock({ title, items }: { title: string; items: string[] }) {
+  const visibleItems = clean(items);
+  return <div className="rounded-xl border border-slate-200 bg-white p-4"><h4 className="font-bold text-orange-600">{title}</h4>{visibleItems.length ? <ul className="mt-3 space-y-2">{visibleItems.map((item, index) => <li key={`${item}-${index}`} className="flex gap-2 text-sm leading-6 text-slate-600"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-500" /><span>{item}</span></li>)}</ul> : <p className="mt-3 text-sm text-slate-400">No activity listed.</p>}</div>;
+}

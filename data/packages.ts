@@ -1,3 +1,5 @@
+import { kashmirGroupTour } from "../features/fixedDepartures/data/kashmirGroupTour";
+import { jodhpurJaisalmerGroupTour as jodhpurTour, jodhpurJaisalmerDays } from "./jodhpurJaisalmerGroupTour";
 import { buildCustomerOverview } from "./packageCustomerCopy";
 import { customerTransportLabel, clarifyServiceInclusions } from "./packageServiceDetails";
 import { isWeekendEscape } from "./weekendEscape";
@@ -218,7 +220,7 @@ const overnightWeekendSlugs = new Set([
   "jim-corbett-weekend"
 ]);
 
-export const packages = rawPackages.map((original) => {
+const basePackages = rawPackages.map((original) => {
   const isEscape = isWeekendEscape(original);
   const isOvernightWeekend = overnightWeekendSlugs.has(String(original.slug));
 
@@ -305,4 +307,19 @@ export const packages = rawPackages.map((original) => {
   };
 });
 
+// This group departure is quoted separately and is booked only through the team.
+export const packages = [...basePackages, {
+  ...basePackages.find(pkg => pkg.slug === "kasol-weekend-group-tour")!,
+  id: "group-jodhpur-jaisalmer-4n5d", slug: jodhpurTour.slug, packageId: jodhpurTour.packageId,
+  title: jodhpurTour.title, state: "Rajasthan", category: "Group Tour", themes: ["Group Tour", "Heritage", "Desert"],
+  duration: jodhpurTour.duration, destination: jodhpurTour.destination,
+  short: jodhpurTour.overview, overview: jodhpurTour.overview,
+  image: jodhpurTour.hero, hero: { image: jodhpurTour.hero, shortDescription: jodhpurTour.overview },
+  price: 21000, displayPriceBasis: "Triple Sharing", groupRates: {2:23000,3:21000,sharingRates:jodhpurTour.groupRates.sharingRates},
+  priceBasis: "Per person | Triple sharing | 5% GST included | Offline booking only",
+  gallery: jodhpurTour.gallery, highlights: jodhpurTour.highlights.map(item=>item.title),
+  itinerary: jodhpurJaisalmerDays.map(day => ({ ...day, day: String(day.day) })), inclusions: jodhpurTour.inclusions, exclusions: jodhpurTour.exclusions,
+  meals: jodhpurTour.meals, hotels: jodhpurTour.hotels,
+  quickFacts: { pickup:"Delhi", drop:"Delhi", transport:"Volvo coach, bus or Tempo Traveller", meals:"4 breakfasts, 4 lunches & 4 dinners", hotelCategory:"4 hotel/camp nights", bestSeason:"Winter" },
+} as typeof basePackages[number], { ...basePackages.find(pkg => pkg.slug === "kasol-weekend-group-tour")!, ...kashmirGroupTour, itinerary: kashmirGroupTour.itinerary.map(day => ({ ...day, day: String(day.day) })), quickFacts: { pickup: "Delhi", drop: "Delhi", transport: "Bus / Tempo Traveller", meals: "4 breakfasts, 4 lunches & 4 dinners", hotelCategory: "4 hotel nights", bestSeason: "Winter and spring" }, hero: {image:kashmirGroupTour.image,shortDescription:kashmirGroupTour.short} } as typeof basePackages[number]];
 export default packages;

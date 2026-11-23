@@ -1,3 +1,4 @@
+import FixedDeparturesShowcase from "@/features/fixedDepartures/components/FixedDeparturesShowcase";
 import Hero from "@/components/Hero";
 import JourneyPlanningLinks from "@/components/JourneyPlanningLinks";
 import Stats from "@/components/Stats";
@@ -34,5 +35,5 @@ export const metadata: Metadata = {
 const breadcrumbSchema = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: baseUrl }] };
 
 export default function Home() {
-  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><JourneyPlanningLinks /><Categories /><GroupToursSlider packages={cardPackages} /><ThemePackageSliders packages={cardPackages} /><FeaturedDestinations packages={cardPackages} /><WhyChooseUs /><Testimonials /><Stats /></>;
+  return <><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} /><Hero /><FixedDeparturesShowcase /><JourneyPlanningLinks /><Categories /><GroupToursSlider packages={cardPackages} /><ThemePackageSliders packages={cardPackages} /><FeaturedDestinations packages={cardPackages} /><WhyChooseUs /><Testimonials /><Stats /></>;
 }

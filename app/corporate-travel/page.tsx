@@ -62,6 +62,11 @@ const benefits = [
   "Travel arrangements for individuals as well as large groups",
 ];
 
+const departureCities = [
+  "Delhi NCR", "Gurugram (Gurgaon)", "Bengaluru (Bangalore)", "Chennai",
+  "Hyderabad", "Pune", "Mumbai", "Other Indian cities",
+];
+
 export default function CorporateTravelPage() {
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -72,12 +77,27 @@ export default function CorporateTravelPage() {
           <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_.9fr]">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-blue-800"><BriefcaseBusiness size={15} />Corporate Travel</div>
-              <h1 className="mt-7 text-5xl font-semibold leading-[1.05] tracking-tight text-slate-950 md:text-6xl lg:text-7xl">Corporate travel booking<span className="block text-blue-800">in Gurugram &amp; Delhi NCR.</span></h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">Our Gurugram (Gurgaon) travel team coordinates business trip bookings for companies across Delhi NCR and India. Plan flights, hotels, transfers, meetings and team offsites around your dates, company travel policy and budget, with one point of contact for the arrangements we manage.</p>
+              <h1 className="mt-7 text-5xl font-semibold leading-[1.05] tracking-tight text-slate-950 md:text-6xl lg:text-7xl">Corporate travel booking<span className="block text-blue-800">across India.</span></h1>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">Our Gurugram (Gurgaon) travel team coordinates corporate travel for companies in Gurugram, Bengaluru (Bangalore), Chennai, Hyderabad, Pune, Mumbai and across Delhi NCR and India. Plan flights, hotels, transfers, meetings and team offsites around your dates, company travel policy and budget, with one point of contact for the arrangements we manage.</p>
               <p className="mt-4 max-w-2xl text-base leading-7 text-slate-500">From flights and hotels to airport transfers, meetings, conferences, employee outings and corporate offsites, we can plan the complete travel requirement around your company&apos;s schedule and budget.</p>
               <div className="mt-9 flex flex-wrap gap-4"><Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-blue-800 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/10 transition hover:bg-blue-900">Discuss Your Requirement<ArrowRight size={18} /></Link><Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-3.5 text-sm font-bold text-slate-800 transition hover:border-blue-200 hover:bg-blue-50">Speak to Our Team</Link></div>
             </div>
             <div className="relative"><div className="rounded-[32px] border border-slate-200 bg-white p-5 shadow-[0_25px_70px_rgba(15,23,42,0.10)]"><div className="rounded-[24px] bg-slate-950 p-7 text-white md:p-9"><p className="text-xs font-bold uppercase tracking-[0.22em] text-blue-300">Corporate Travel Desk</p><h2 className="mt-4 text-3xl font-semibold leading-tight">One team to coordinate your travel.</h2><p className="mt-4 text-sm leading-7 text-slate-300">Whether it is one executive travelling for a meeting or a complete team travelling for an offsite, we keep the different parts of the trip connected.</p><div className="mt-8 space-y-4">{[[CalendarDays,"Planned & last-minute travel"],[MapPinned,"Hotels and transport across India"],[Headphones,"Support when plans change"]].map(([Icon,text])=>{const ItemIcon=Icon as typeof CalendarDays;return <div key={String(text)} className="flex items-center gap-4 border-t border-white/10 pt-4 first:border-t-0 first:pt-0"><div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-blue-300"><ItemIcon size={19}/></div><span className="text-sm font-medium text-slate-200">{String(text)}</span></div>})}</div></div></div></div>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="corporate-city-coverage" className="border-b border-slate-100 bg-blue-50/50 py-14 lg:py-16">
+        <div className="mx-auto grid max-w-7xl gap-9 px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center lg:px-8">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-blue-700">Your city. Your team. Across India.</p>
+            <h2 id="corporate-city-coverage" className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-slate-950 md:text-4xl">Corporate travel from your city, planned together.</h2>
+            <p className="mt-5 leading-7 text-slate-600">Bring flights, hotels, airport transfers, intercity travel and team offsites into one coordinated plan. Whether your colleagues start in one city or several, share their departure points and we will plan around the same business schedule, company travel policy and budget.</p>
+            <Link href="/contact" className="mt-6 inline-flex items-center gap-2 font-semibold text-blue-800 hover:text-blue-950">Discuss corporate travel<ArrowRight size={18} aria-hidden="true" /></Link>
+          </div>
+          <div className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm md:p-8">
+            <div className="flex items-center gap-3"><MapPinned size={23} className="shrink-0 text-blue-800" aria-hidden="true" /><h3 className="text-lg font-semibold text-slate-950">Where is your team travelling from?</h3></div>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2">{departureCities.map((city) => <li key={city} className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-700">{city}</li>)}</ul>
+            <p className="mt-5 text-sm leading-6 text-slate-500">Travelling from another city? Include it in your brief. Departure arrangements, routes and availability are confirmed in your proposal.</p>
           </div>
         </div>
       </section>
