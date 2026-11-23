@@ -1,4 +1,4 @@
-import { kashmirGroupTour } from "@/features/fixedDepartures/data/kashmirGroupTour";
+import { kashmirGroupTour } from "../features/fixedDepartures/data/kashmirGroupTour";
 import { jodhpurJaisalmerGroupTour as jodhpurTour, jodhpurJaisalmerDays } from "./jodhpurJaisalmerGroupTour";
 import { buildCustomerOverview } from "./packageCustomerCopy";
 import { customerTransportLabel, clarifyServiceInclusions } from "./packageServiceDetails";
@@ -318,8 +318,8 @@ export const packages = [...basePackages, {
   price: 21000, displayPriceBasis: "Triple Sharing", groupRates: {2:23000,3:21000,sharingRates:jodhpurTour.groupRates.sharingRates},
   priceBasis: "Per person | Triple sharing | 5% GST included | Offline booking only",
   gallery: jodhpurTour.gallery, highlights: jodhpurTour.highlights.map(item=>item.title),
-  itinerary: jodhpurJaisalmerDays, inclusions: jodhpurTour.inclusions, exclusions: jodhpurTour.exclusions,
+  itinerary: jodhpurJaisalmerDays.map(day => ({ ...day, day: String(day.day) })), inclusions: jodhpurTour.inclusions, exclusions: jodhpurTour.exclusions,
   meals: jodhpurTour.meals, hotels: jodhpurTour.hotels,
   quickFacts: { pickup:"Delhi", drop:"Delhi", transport:"Volvo coach, bus or Tempo Traveller", meals:"4 breakfasts, 4 lunches & 4 dinners", hotelCategory:"4 hotel/camp nights", bestSeason:"Winter" },
-} as typeof basePackages[number], { ...basePackages.find(pkg => pkg.slug === "kasol-weekend-group-tour")!, ...kashmirGroupTour, quickFacts: { pickup: "Delhi", drop: "Delhi", transport: "Bus / Tempo Traveller", meals: "4 breakfasts, 4 lunches & 4 dinners", hotelCategory: "4 hotel nights", bestSeason: "Winter and spring" }, hero: {image:kashmirGroupTour.image,shortDescription:kashmirGroupTour.short} } as typeof basePackages[number]];
+} as typeof basePackages[number], { ...basePackages.find(pkg => pkg.slug === "kasol-weekend-group-tour")!, ...kashmirGroupTour, itinerary: kashmirGroupTour.itinerary.map(day => ({ ...day, day: String(day.day) })), quickFacts: { pickup: "Delhi", drop: "Delhi", transport: "Bus / Tempo Traveller", meals: "4 breakfasts, 4 lunches & 4 dinners", hotelCategory: "4 hotel nights", bestSeason: "Winter and spring" }, hero: {image:kashmirGroupTour.image,shortDescription:kashmirGroupTour.short} } as typeof basePackages[number]];
 export default packages;
