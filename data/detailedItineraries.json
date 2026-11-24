@@ -3355,123 +3355,128 @@
   },
   "varanasi-prayagraj-ayodhya": {
     "sources": [
-      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",
-      "https://www.incredibleindia.gov.in/en/uttar-pradesh/prayagraj",
-      "https://www.incredibleindia.gov.in/en/uttar-pradesh"
+      "https://varanasi.nic.in/temples-of-importance/",
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/ayodhya/hanuman-garhi",
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/ayodhya/kanak-bhawan",
+      "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi/sarnath-museum",
+      "https://prayagraj.nic.in/tourist-place/anand-bhawan/",
+      "https://www.nri.up.gov.in/en/article/museums"
     ],
     "itinerary": [
       {
         "day": "Day 1",
-        "title": "Arrival Varanasi",
+        "title": "Arrival Varanasi — Evening Ganga Aarti",
         "morning": [
-          "Meet at the confirmed arrival gateway / pickup point and begin the scheduled arrival or outbound journey for Arrival Varanasi; reporting time and exact meeting point follow the booking confirmation."
+          "Meet the driver at Varanasi Airport or Railway Station and transfer to the hotel. Check in at the standard time, or leave luggage with the hotel if your room is not ready."
         ],
         "afternoon": [
-          "Kashi sightseeing. Spend time at the listed stop according to the day's route and available visitor access."
+          "Settle into the hotel and rest after your journey. Keep the afternoon free; no temple visits or local sightseeing are scheduled on arrival day. Lunch is at your own expense."
         ],
         "evening": [
-          "Ganga Aarti and dinner. The visit follows the site's opening, queue and access arrangements; special rituals or priority entry are not implied."
+          "Leave with sufficient time to reach Dashashwamedh Ghat, including the final walking stretch through the old city. Watch the Ganga Aarti, an evening ceremony of lamps, chanting and prayer beside the river, from the designated public viewing area.",
+          "Return to the hotel for dinner and your first overnight stay in Varanasi."
         ],
         "attractions": [],
         "notes": [
-          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included."
+          "Choose an arrival time that allows you to reach the hotel and the evening Aarti without rushing. All Varanasi temple sightseeing is scheduled on Day 4."
         ],
-        "meals": "Dinner at the booked accommodation; breakfast on arrival is included only if stated in the confirmed booking. Lunch is not included.",
+        "meals": "Dinner included. Arrival breakfast and lunch are not included.",
         "overnightStay": "Varanasi",
-        "description": "Arrival Varanasi. Meet at the confirmed arrival point, settle into the accommodation and allow time to recover from the journey. Night halt: Varanasi.",
+        "description": "Arrival, hotel rest and evening Ganga Aarti only.",
         "optionalActivities": []
       },
       {
         "day": "Day 2",
-        "title": "Varanasi & Sarnath",
+        "title": "Varanasi to Ayodhya — Ram Mandir and Local Sightseeing",
         "morning": [
-          "Temple/ghat experience. The visit follows the site's opening, queue and access arrangements; special rituals or priority entry are not implied.",
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings."
+          "After an early breakfast, check out and drive directly from Varanasi to Ayodhya with your luggage. Allow roughly 5–6 hours for the road journey, depending on traffic and the final hotel locations, with comfort stops en route."
         ],
         "afternoon": [
-          "Sarnath. Allow time to experience the Buddhist heritage area near Varanasi; follow visitor access and any conditions stated above."
+          "On arrival, check in or leave your luggage at the hotel and take a lunch break at your own expense. Visit Shri Ram Janmabhoomi Mandir for darshan of Ram Lalla; the temple stands at the site revered by devotees as Lord Ram's birthplace. Allow ample time for the security checks, walking and queues.",
+          "Continue to Hanuman Garhi, the prominent temple dedicated to Lord Hanuman approached by steps. Visit Kanak Bhawan, a shrine dedicated to Lord Ram and Sita, known for its decorated sanctum and palace-like setting. The order of these visits may be adjusted around darshan access."
         ],
         "evening": [
-          "Return to the booked accommodation for dinner and overnight rest."
+          "Spend the remaining evening at Ram Ki Paidi and the Saryu riverfront, an important setting for Ayodhya's pilgrimage traditions. Return to the hotel for dinner and overnight stay in Ayodhya."
         ],
-        "attractions": [
-          "Sarnath."
-        ],
+        "attractions": [],
         "notes": [
-          "Visits follow temple opening, queues and security arrangements. Special puja, priority darshan or ritual services are not automatically included."
+          "This day combines a road transfer and temple visits. Start early; darshan queues determine the available time at the later stops. No Prayagraj visit is scheduled today."
         ],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Varanasi",
-        "description": "Varanasi & Sarnath. The day covers Sarnath. Night halt: Varanasi.",
+        "meals": "Breakfast and dinner included; lunch is not included.",
+        "overnightStay": "Ayodhya",
+        "description": "Travel directly to Ayodhya for its principal temples and Saryu riverfront.",
         "optionalActivities": []
       },
       {
         "day": "Day 3",
-        "title": "Varanasi – Prayagraj – Ayodhya",
+        "title": "Ayodhya to Varanasi via Prayagraj — Sangam, Bade Hanuman Mandir and Anand Bhawan",
         "morning": [
-          "Have breakfast and prepare for departure on the day's published route; allow time to collect belongings and board the vehicle."
+          "After an early breakfast, check out with your luggage and drive from Ayodhya towards Prayagraj. This is the route's main transfer-and-sightseeing day, so keep the morning departure early and allow planned refreshment stops."
         ],
         "afternoon": [
-          "Triveni Sangam and Prayagraj visit. Allow time to experience the river confluence area in Prayagraj; boat-ride charges are included, subject to river conditions and local permissions.",
-          "Continue Ayodhya. Spend time at the listed stop according to the day's route and available visitor access."
+          "Visit Triveni Sangam, the confluence of the Ganga and Yamuna and, in Hindu tradition, the unseen Saraswati. The riverfront is a major pilgrimage centre associated with the Kumbh Mela. Take the included standard Sangam boat ride when river conditions and local permissions allow.",
+          "Continue to Bade Hanuman Mandir near the Sangam, known for its reclining image of Lord Hanuman. Allow time for darshan and take a lunch break at your own expense.",
+          "Visit Anand Bhawan, the former Nehru family residence now preserved as a house museum. Its rooms and exhibits connect the family with India’s freedom movement. Complete the visit during opening hours, then drive onwards to Varanasi. Museum admission follows the existing package exclusions."
         ],
         "evening": [
-          "Check-in and dinner. Room availability follows the accommodation's standard check-in policy."
+          "Reach Varanasi, check in and have dinner at the hotel. Keep the rest of the evening free to recover from the road journey; no additional evening sightseeing is scheduled."
         ],
-        "attractions": [
-          "Triveni Sangam and Prayagraj visit."
+        "attractions": [],
+        "notes": [
+          "Allow a full day for Ayodhya–Prayagraj–Varanasi, including darshan, the riverfront visit and road travel. Boat operation and temple access may be affected by river conditions, events and local restrictions.",
+          "Anand Bhawan museum is normally closed on Mondays and gazetted holidays; check access for your date before departure. A closed-day visit does not include entry to the museum galleries."
         ],
-        "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Ayodhya",
-        "description": "Varanasi – Prayagraj – Ayodhya. The day covers Triveni Sangam and Prayagraj visit. Night halt: Ayodhya.",
+        "meals": "Breakfast and dinner included; lunch is not included.",
+        "overnightStay": "Varanasi",
+        "description": "Prayagraj sightseeing at Triveni Sangam, Bade Hanuman Mandir and Anand Bhawan, followed by the drive to Varanasi.",
         "optionalActivities": []
       },
       {
         "day": "Day 4",
-        "title": "Ayodhya Darshan",
+        "title": "Varanasi Local Temples and Sarnath",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings.",
-          "Ram Mandir. Allow time to experience the Ram Mandir pilgrimage area in Ayodhya; entry follows temple security and darshan arrangements; follow visitor access and any conditions stated above."
+          "Start the local sightseeing programme early from the hotel. Visit Kaal Bhairav Temple, whose deity is revered as the guardian, or Kotwal, of Kashi. Continue to Shri Kashi Vishwanath Temple, one of the twelve Jyotirlinga shrines dedicated to Lord Shiva, allowing time for security, walking and darshan queues.",
+          "Visit nearby Annapurna Devi Temple, dedicated to the goddess associated with nourishment. After the old-city circuit and breakfast, continue to Durga Kund Temple and Tulsi Manas Mandir; the latter honours the devotional tradition of Tulsidas and displays verses from the Ramcharitmanas.",
+          "Continue to Sankat Mochan Hanuman Temple, an important centre of Hanuman worship, and the New Vishwanath Temple within Banaras Hindu University, a Shiva temple set in the university campus."
         ],
         "afternoon": [
-          "Hanuman Garhi, Kanak Bhawan and selected sites. Allow time to experience the temple approached by steps in Ayodhya; follow visitor access and any conditions stated above."
+          "After a lunch break at your own expense, drive to Sarnath, where the Buddha is traditionally understood to have delivered his first sermon after enlightenment. Explore the Buddhist heritage area and Dhamek Stupa precinct, an enduring landmark of Sarnath's sacred history.",
+          "Visit the Sarnath Archaeological Museum when open to view sculptures and archaeological finds, including the Lion Capital associated with Ashoka. Museum and monument entry charges follow the package's existing inclusions and exclusions; the museum is closed on Fridays, so the museum stop must be arranged on another available day if your schedule permits."
         ],
         "evening": [
-          "Saryu evening and dinner. Accommodation and meal service follow the confirmed hotel booking."
+          "Return to Varanasi. If sightseeing finishes in time, browse local markets for Banarasi textiles and handicrafts before returning for dinner and your final overnight stay. Purchases are personal expenses."
         ],
-        "attractions": [
-          "Ram Mandir.",
-          "Hanuman Garhi, Kanak Bhawan and selected sites.",
-          "Saryu evening and dinner."
+        "attractions": [],
+        "notes": [
+          "This is a full sightseeing day requiring an early start. Temple queues and city traffic determine the pace; confirm the sequence with the coordinator so that Sarnath is reached within visitor hours. Reconfirm museum closure days for your travel date."
         ],
-        "notes": [],
-        "meals": "Breakfast & Dinner as per the confirmed stay meal plan; lunch is not included.",
-        "overnightStay": "Ayodhya",
-        "description": "Ayodhya Darshan. The day covers Ram Mandir. Hanuman Garhi, Kanak Bhawan and selected sites. Night halt: Ayodhya.",
+        "meals": "Breakfast and dinner included; lunch is not included.",
+        "overnightStay": "Varanasi",
+        "description": "Early-start Varanasi local sightseeing: Kaal Bhairav, Kashi Vishwanath, Annapurna, Durga Kund, Tulsi Manas, Sankat Mochan, BHU and Sarnath.",
         "optionalActivities": []
       },
       {
         "day": "Day 5",
-        "title": "Departure",
+        "title": "Varanasi Departure",
         "morning": [
-          "Have breakfast at the booked accommodation before the day's scheduled movement; service follows the hotel's meal timings."
+          "Have breakfast at the hotel and check out at the standard time. Pack and collect your belongings before the departure transfer; early departures may require a packed breakfast if the hotel can provide one."
         ],
         "afternoon": [
-          "Checkout and drop. Spend time at the listed stop according to the day's route and available visitor access."
+          "Transfer to Varanasi Airport or Railway Station according to your confirmed onward ticket. Allow sufficient time for the road journey and the airline or railway reporting requirements."
         ],
         "evening": [
-          "The booked tour concludes at the stated drop point; onward tickets and any additional services follow your separate arrangements."
+          "The tour concludes at the Varanasi drop point. No additional hotel night or sightseeing is included after the departure transfer."
         ],
         "attractions": [],
         "notes": [],
-        "meals": "Breakfast; lunch and any meal after the tour ends are not included.",
+        "meals": "Breakfast included; lunch and dinner are not included.",
         "overnightStay": "No overnight stay — tour concludes",
-        "description": "Departure. Complete checkout and follow the scheduled return or departure transfer; any short stop remains subject to the onward travel schedule.",
+        "description": "Checkout and departure transfer in Varanasi.",
         "optionalActivities": []
       }
     ]
   },
+
   "ayodhya-ram-mandir": {
     "sources": [
       "https://www.incredibleindia.gov.in/en/uttar-pradesh/varanasi",

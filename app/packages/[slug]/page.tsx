@@ -1,4 +1,5 @@
 import { buildPackageFaqs } from "@/data/packageCustomerCopy";
+import RestoredVaranasiPackage from "@/components/package/varanasi/RestoredPackage";
 import GroupTourTerms from "@/components/package/GroupTourTerms";
 import ItineraryAccordion from "@/components/package/ItineraryAccordion";
 import PackageGallerySlider from "@/components/package/PackageGallerySlider";
@@ -271,6 +272,7 @@ export default async function PackageDetailsPage({ params }: PageProps) {
 
   if (!pkg) notFound();
 
+
   const isGroupTerms = pkg.themes?.some((theme: string) => theme.toLowerCase() === "group tour") || cleanText(pkg.category).toLowerCase() === "weekend";
   const state = getStateDetails(cleanText(pkg.state));
   const stateGuide = destinationGuides.find(guide => guide.title === state.name || (guide.state && guide.state === pkg.state) || guide.matches.some(place => place.toLowerCase() === state.name.toLowerCase()));
@@ -319,6 +321,8 @@ export default async function PackageDetailsPage({ params }: PageProps) {
       },
     })),
   };
+
+  if (normalizedSlug === "varanasi-prayagraj-ayodhya") return <RestoredVaranasiPackage pkg={pkg} schemas={[webpageStructuredData, structuredData]} />;
 
   return (
     <main className="bg-slate-50 text-slate-900">

@@ -1,0 +1,141 @@
+{
+  "title": "Varanasi Prayagraj Ayodhya Spiritual Circuit",
+  "inclusions": [
+    "5% GST included in the package price.",
+    "Two bottles of packaged mineral drinking water per person per day during the tour.",
+    "Accommodation on twin sharing basis for the duration of the tour in the itinerary.",
+    "Complete transfers and daily sightseeing by a private air-conditioned vehicle. The vehicle type (Sedan / SUV / Tempo Traveller / Coach) will be strictly allocated based on the final group size.",
+    "Services of the Tour Manager from the first day of meeting point to the last day dropping point of the tour. (Except for Uttaranchal Chardham Yatra).",
+    "Driver Tips and Guide Tips as per the itinerary.",
+    "City Tax (if applicable) as per the itinerary.",
+    "Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions.",
+    "Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions.",
+    "Accommodation in 3-Star Hotels / Similar",
+    "Breakfast and Dinner at hotel; buffet service subject to hotel policy and occupancy"
+  ],
+  "exclusions": [
+    "All entrance fees of the sightseeing places mentioned in the itinerary.",
+    "Flights and rail tickets to and from the tour’s meeting and drop-off points.",
+    "Individual Airport / Railway station transfers outside the pickup and drop arrangements expressly included in the confirmed itinerary. Confirm the meeting point, reporting window and any additional transfer charge before payment.",
+    "Hotel tariff increases before booking confirmation.",
+    "Any Increase in the fuel surcharge or any kind of taxes levied by the respective government or statutory bodies.",
+    "Porterage (Coolie charges), laundry, wines & alcoholic beverages, telephone charges, shopping, all items of personal nature and food and drinks other than the included meals and two mineral-water bottles per person per day.",
+    "Extra stay pre/post tour.",
+    "Any extra expenses incurred for changing the route due to any unforeseen circumstances, forced majeure instances, natural calamities, political disturbances, strikes etc.",
+    "Extra cost incurred due to illness, accident, hospitalization or any individual unforeseen cost incurring incidence.",
+    "In case of Pilgrimage tours cost of horse back, Doli, Helicopter (unless specifically mentioned), chopper etc.",
+    "Private transfers, additional sightseeing and repeat activities outside the itinerary.",
+    "Fur coats/Jackets to visit snow point or any special attire required to visit any particular sightseeing place.",
+    "Room upgrades.",
+    "Extra photographs clicked other than group photographs.",
+    "Any new or increased government taxes beyond the included 5% GST, if applicable.",
+    "Anything not specifically mentioned in 'Your Tour Price Includes Column'.",
+    "Lunch and any meals other than the included breakfast and dinner"
+  ],
+  "meals": [
+    "Buffet Breakfast at hotel (subject to hotel service format and occupancy)",
+    "Buffet Dinner at hotel (subject to hotel service format and occupancy)"
+  ],
+  "stays": [
+    {
+      "location": "Varanasi",
+      "nights": 3,
+      "property": "The Kashi Villa or similar",
+      "road": false
+    },
+    {
+      "location": "Ayodhya",
+      "nights": 1,
+      "property": "Sawarthia Sewa Sadan or similar",
+      "road": false
+    }
+  ],
+  "gateways": {
+    "start": "Varanasi Airport",
+    "end": "Varanasi Airport",
+    "needsConfirmation": true
+  },
+  "review": {
+    "route": [
+      "Varanasi Airport",
+      "Varanasi",
+      "Prayagraj",
+      "Ayodhya",
+      "Varanasi Airport"
+    ],
+    "dayNotes": [],
+    "confirmations": [
+      "Confirm pickup, drop and any transfer charges before booking."
+    ],
+    "introduction": "",
+    "highlights": [
+      "Old Kashi darshan — Shri Kashi Vishwanath, Maa Annapurna and Kaal Bhairav are grouped into one old-city circuit.",
+      "South Varanasi temple circuit — Tulsi Manas, Sankat Mochan and BHU's New Vishwanath Temple are planned together.",
+      "Dashashwamedh Ghat — These river steps are one of Varanasi's principal gathering places for the evening Ganga Aarti.",
+      "Ram Mandir — The Ayodhya shrine is dedicated to Ram Lalla at the site revered as Rama's birthplace. Follow the temple's entry and security arrangements.",
+      "Kanak Bhawan — This Ayodhya temple is dedicated to Rama and Sita and is also known as the House of Gold."
+    ]
+  },
+  "faqs": [
+    {
+      "question": "Which places does Varanasi Prayagraj Ayodhya Spiritual Circuit cover?",
+      "answer": "4 Nights / 5 Days covering Varanasi • Prayagraj • Ayodhya. Main visits include Kashi Vishwanath, Ganga Aarti, Triveni Sangam, Ayodhya Ram Mandir. Use the day-wise itinerary for the planned route and daily travel."
+    },
+    {
+      "question": "Where are the overnight stays, and are any nights spent travelling?",
+      "answer": "Varanasi: 3 nights; Ayodhya: 1 night. Hotel check-in/check-out times and any early check-in or extra night must be confirmed separately."
+    },
+    {
+      "question": "How is accommodation confirmed for Varanasi and Ayodhya?",
+      "answer": "Check the Hotels table for Varanasi, Ayodhya. We confirm the room category, beds and meal plan for your travel dates. Request any accessibility or bedding requirements with your booking."
+    },
+    {
+      "question": "Which meals are included on each day?",
+      "answer": "Day 1: Dinner included. Arrival breakfast and lunch are not included.; Day 2: Breakfast and dinner included; lunch is not included.; Day 3: Breakfast and dinner included; lunch is not included.; Day 4: Breakfast and dinner included; lunch is not included.; Day 5: Breakfast included; lunch and dinner are not included.. Meals outside the published plan, including journey meals or arrival/departure meals not listed, are not automatically included. Buffet service depends on the hotel's service format and occupancy. Confirm vegetarian/Jain food, allergies and any special meal charges in advance."
+    },
+    {
+      "question": "Is transport private or shared, and which vehicle will be used?",
+      "answer": "Published transport: Private AC Vehicle. Where private transport is listed, it is for your booked party on the scheduled itinerary; a specific model is not promised unless confirmed. Confirm vehicle category, capacity, luggage allowance, AC restrictions and any chargeable local transport. Scheduled transport does not mean unrestricted 24-hour vehicle use."
+    },
+    {
+      "question": "Which transfers should I confirm before booking flights or trains?",
+      "answer": "Arrange your arrival in Varanasi Airport and onward travel from Varanasi Airport after confirming the meeting point and time. Ask for any transfer charges outside the scheduled pickup and drop."
+    },
+    {
+      "question": "How does room sharing work for families or solo travellers?",
+      "answer": "The published estimate is based on double or twin sharing. Tell us the number of adults, children's ages and any extra bed or single-room requirement for a room-specific quote."
+    },
+    {
+      "question": "What is the price basis, and which charges are extra?",
+      "answer": "The package rate is per person for two travellers sharing one room. Booking Summary shows the two-person total. The published rate includes 5% GST. Examples of published exclusions: All entrance fees of the sightseeing places mentioned in the itinerary.; Lunch and any meals other than the included breakfast and dinner; Individual Airport / Railway station transfers outside the pickup and drop arrangements expressly included in the confirmed itinerary. Confirm the meeting point, reporting window and any additional transfer charge before payment.. Read the full Inclusions & Exclusions on this page for the remaining items. Ask for an itemised quote for required permits, local taxis, tickets and activities; a sightseeing place appearing in the itinerary does not itself include its admission fee. Add-ons need a separately agreed price."
+    },
+    {
+      "question": "When is the best time for Varanasi Prayagraj Ayodhya Spiritual Circuit, and does a selectable date confirm availability?",
+      "answer": "October to March. Best Time is planning guidance. A date shown in the calendar does not itself confirm hotel, transport, permit or activity inventory; arrangements need separate written confirmation."
+    },
+    {
+      "question": "Are boat rides and special darshan arrangements included?",
+      "answer": "For the Varanasi Local Temples and Sarnath part of this itinerary, check the following before choosing dates. Boat-ride charges in Varanasi included; operation is subject to river conditions and local permissions. Boat-ride charges at Triveni Sangam, Prayagraj (Allahabad), included; operation is subject to river conditions and local permissions. Confirm the boarding point, shared/private basis and ride duration before payment. Special darshan, ritual or guide services must be expressly confirmed; temple queues and river permissions can affect the itinerary. Request the applicable alternative if an included ride cannot operate."
+    },
+    {
+      "question": "Is this trip suitable for seniors, children or travellers needing assistance?",
+      "answer": "Published difficulty: Easy. The itinerary does not provide a numeric driving-time estimate for every segment; obtain the travel-time and walking plan for your chosen route. Tell the team about mobility needs, wheelchair size, children’s ages and required assistance before payment. Actual walking distances, stairs, accessible bathrooms and vehicle access need route/property-specific confirmation. An “Easy” label alone does not mean step-free access. Wheelchair support, a medical escort or specialist equipment is included only if expressly agreed, with any extra cost disclosed."
+    },
+    {
+      "question": "What happens if weather, closures or traffic change the plan?",
+      "answer": "Sightseeing order, access and travel time may change with weather, road conditions, authority restrictions or attraction operations. Ask how route-specific alternatives, extra nights, local transport and any unused service are treated under the confirmed booking terms. A replacement, extra charge or refund must not be assumed without checking the applicable terms. For a booking-specific issue, contact Only Road Trip at +91 92117 96168 or info@onlyroadtrip.com with your booking reference."
+    },
+    {
+      "question": "What are the cancellation charges, date-change rules and refund timeline?",
+      "answer": "The published indicative package-cancellation table is: 30+ days before departure — 10%; 15–29 days — 25%; 7–14 days — 50%; 3–6 days — 75%; less than 72 hours or no-show — 100% of the total booking amount. These are cancellation charges, not refund percentages. Supplier, hotel, seasonal and package-specific terms may differ, so read the full Cancellation Policy and retain the terms accepted for your booking. Submit cancellation in writing; the policy bases the effective date on the company’s acknowledgement. A date change is not automatically free. The Refund Policy specifies credit within 24–48 hours after refund approval, not after the initial request; applicable deductions and supplier terms govern eligibility. For an approved refund not received within 48 hours, email info@onlyroadtrip.com with your booking reference."
+    },
+    {
+      "question": "How much do I pay, and when is my booking finally confirmed?",
+      "answer": "The current checkout rule is 30% advance when departure is 30 or more calendar days away, and 100% payment when it is less than 30 calendar days away; calendar days are counted in IST with today as day zero. Check the actual INR amount and any expressly agreed supplier-specific requirement before paying. Payment alone is not final booking confirmation. Obtain separate written confirmation identifying the itinerary, dates, travellers, hotel/room arrangement, transport, inclusions and agreed extras. Check the Booking Policy and the payment amount shown at checkout before paying; resolve any mismatch with the team first. Retain both the payment receipt and the written booking confirmation."
+    },
+    {
+      "question": "Can I view tour prices in USD, EUR and other currencies?",
+      "answer": "Yes. Use the display currency selector in the header or footer to view prices and booking totals in INR, USD, EUR, GBP, CAD, AUD, AED. Converted prices are indicative. Room sharing and traveller changes update the displayed total; checkout, confirmed payments and invoices remain in INR. During a rate-service outage, the last verified rates may be shown."
+    }
+  ]
+}
