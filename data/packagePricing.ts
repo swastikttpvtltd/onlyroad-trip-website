@@ -85,6 +85,18 @@ export function estimatedCostFor(state: string, title: string, nights: number, p
 }
 
 export const makePackageRates = (pkg: any): PackageGroupRates => {
+  // Owner-approved per-person rates, including 5% GST, on double/twin sharing.
+  const andamanRates: Record<string, number> = {
+    "andaman-port-blair-havelock": 28000,
+    "andaman-havelock-neil-island": 35000,
+    "andaman-honeymoon": 42000,
+    "andaman-grand-island-tour": 54000,
+  };
+  const approvedAndamanRate = andamanRates[String(pkg.slug ?? "")];
+  if (approvedAndamanRate !== undefined) {
+    return { 2: approvedAndamanRate, sharingRates: [] };
+  }
+
   // Published sharing cards remain fixed rates; do not invent supplier costs for them.
   const sharingRates = getGroupSharingRates(pkg) ?? (
     isFixedWeekendGroup(pkg)
